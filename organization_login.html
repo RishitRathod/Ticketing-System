@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Login</title>
+    <title>Organization Registration</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -16,48 +16,32 @@
                         <h2>Organization Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form  id="registrationForm">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter name">
+                                <input type="text" class="form-control" id="name" name="OrgName" placeholder="Enter name">
                             </div>
-                           
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" autocomplete="email">
                             </div>
-                         
                             <div class="form-group">
                                 <label for="contactNumber">Contact Number</label>
-                                <input type="tel" class="form-control" id="contactNumber" placeholder="Enter contact number">
+                                <input type="tel" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
                             </div>
                             <div class="form-group">
                                 <label for="contactEmail">Contact Email</label>
-                                <input type="email" class="form-control" id="contactEmail" placeholder="Enter contact email">
+                                <input type="email" class="form-control" id="contactEmail" name="contactEmail" placeholder="Enter contact email">
                             </div>
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="Enter address">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Enter address">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter password">
+                                <input type="password" name="password" id="password" class="form-control" autocomplete="current-password">
                             </div>
-                            <div class="form-group">
-                                <label for="password">Confirm Password</label>
-                                <input type="password" class="form-control" id="Confirm Password" placeholder="Confirm Password">
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label for="signup" class="form-label" >New User?</label>
-                                <a href="signup.php" id="signup" name="signup" class="alert-link">Signup</a>
-                                </div>
-                                <div class="mb-3 btn-center">
-                                    <button id="btn"type="submit" name="login" class="btn btn-primary">Login</button>
-                                </div>
-                        
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <input id="btn" type="submit" name="submit" value="submit" class="btn btn-primary">Register</input>
                         </form>
                     </div>
                 </div>
@@ -69,5 +53,38 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector("#registrationForm").addEventListener('submit', function(event) {
+                event.preventDefault(); // prevent the form from submitting normally
+                var name = document.querySelector("#name").value;
+                var email = document.querySelector("#email").value;
+                var contactNumber = document.querySelector("#contactNumber").value;
+                var contactEmail = document.querySelector("#contactEmail").value;
+                var address = document.querySelector("#address").value;
+                var password = document.querySelector("#password").value;
+                var data = {
+                    "Name": name,
+                    "Email": email,
+                    "contactNumber": contactNumber,
+                    "contactEmail": contactEmail,
+                    "Address": address,
+                    "Password": password
+                };
+                fetch("organization_login.php", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
