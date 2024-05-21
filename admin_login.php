@@ -24,14 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'message' => 'Login successful',
                 'data' => $check[0]
             ]);
-
             session_start();
-
             $_SESSION['AdminUsername'] = $check[0]['AdminUsername'];
             $_SESSION['AdminID'] = $check[0]['AdminID'];
-            $_SESSION['AdminEmail'] = $check[0]['AdminEmail'];
-
-
+            $_SESSION['AdminEmail'] = $check[0]['Email'];
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }

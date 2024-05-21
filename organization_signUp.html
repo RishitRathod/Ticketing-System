@@ -42,7 +42,7 @@
                                 <input type="password" name="password" id="password" class="form-control" autocomplete="current-password">
                             </div>
                             <input type="hidden" name="tablename" value="organizations">
-                            <input id="btn" type="submit" name="submit" class="btn btn-primary">Register</input>
+                            <input id="btn" type="submit" name="submit" value="Register" class="btn btn-primary"></input>
                         </form>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     "Password": password,
                     "tablename": tablename
                 };
-                fetch("organization_login.php", {
+                fetch("organization_signUp.php", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
