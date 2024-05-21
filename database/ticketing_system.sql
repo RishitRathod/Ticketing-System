@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 09:17 AM
+-- Generation Time: May 21, 2024 at 02:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,9 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `admins` (
   `AdminID` int(11) NOT NULL,
   `AdminUsername` varchar(50) NOT NULL,
-  `AdminPassword` varchar(50) NOT NULL,
-  `AdminEmail` varchar(100) NOT NULL
+  `Password` varchar(255) NOT NULL,
+  `Email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`AdminID`, `AdminUsername`, `Password`, `Email`) VALUES
+(1, 'aryan', '$2y$10$VjB8.iWew5BURxaT2IMJ8OS8vKm3NgCRJDOXG5sh3zNMOUUTA9xRC', 'aryanmahida2@gmail.com'),
+(2, 'aryan', '$2y$10$7UQoP9lIJD6V2jZK/I1fPe3oWPHZgzwPSjaRNzoNLZR2f5Misct3a', '');
 
 -- --------------------------------------------------------
 
@@ -68,14 +76,24 @@ CREATE TABLE `events` (
 CREATE TABLE `organizations` (
   `OrgID` int(11) NOT NULL,
   `Name` varchar(100) NOT NULL,
-  `Password` varchar(50) NOT NULL,
+  `Password` varchar(255) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `ContactNumber` varchar(20) DEFAULT NULL,
+  `ContactNumber` int(20) DEFAULT NULL,
   `ContactEmail` varchar(100) DEFAULT NULL,
   `Address` varchar(255) DEFAULT NULL,
   `Status` enum('Approved','Pending','Rejected') DEFAULT 'Pending',
   `ReasonofRegection` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `organizations`
+--
+
+INSERT INTO `organizations` (`OrgID`, `Name`, `Password`, `Email`, `ContactNumber`, `ContactEmail`, `Address`, `Status`, `ReasonofRegection`) VALUES
+(1, 'name', 'password', 'email', 1234567890, 'contactEmail', 'address', 'Pending', NULL),
+(2, 'Aryan Jagdishbhai mahida', '1234567890', 'aryan.mahida118299@marwadiuniversity.ac.in', 1234567890, 'aryanmahida2@gmai.com', '\"ARYAN \" st. no.  1 , ambedkarnagar co.op society, op. love temple,  kalavad road, rajkot', 'Pending', NULL),
+(3, 'Rishit', '$2y$10$b0HgDbD5227ORXm0Y4nyp.lWDxL8OTsjyiy8hu/FnWL', 'aryanmahida619@gmail.com', 1234567890, 'aryanmahida619@gmail.com', 'sasti seri probandar ni', 'Pending', NULL),
+(4, 'Aryan Jagdishbhai mahida', '$2y$10$q7aN7j8pu1.YbWp9woPd1uHRFy2TOCA/noVhMB8xvfp/xJEYrKE06', 'chandrasinh.parmar@marwadieducation.edu.in', 1234567890, 'chandrasinh.parmar@marwadieducation.edu.in', '\"ARYAN \" st. no.  1 , ambedkarnagar co.op society, op. love temple,  kalavad road, rajkot', 'Pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -160,10 +178,17 @@ CREATE TABLE `timeusage` (
 CREATE TABLE `users` (
   `UserID` int(11) NOT NULL,
   `Username` varchar(50) NOT NULL,
-  `UserPassword` varchar(50) NOT NULL,
-  `UserEmail` varchar(100) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Email` varchar(100) NOT NULL,
   `UserPhoto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UserID`, `Username`, `Password`, `Email`, `UserPhoto`) VALUES
+(7, 'ary', '$2y$10$9kMCJqDjsJEg0thF.X9l.ubGVwr0AxMBRcMLMVimipzw2YQyXsEY2', 'ar@gamil.com', 'uploads/ary/hitler.jpeg');
 
 --
 -- Indexes for dumped tables
@@ -231,6 +256,64 @@ ALTER TABLE `timeusage`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`UserID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `organizations`
+--
+ALTER TABLE `organizations`
+  MODIFY `OrgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `packages`
+--
+ALTER TABLE `packages`
+  MODIFY `PakageID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ticketsales`
+--
+ALTER TABLE `ticketsales`
+  MODIFY `TicketSalesID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `timeslots`
+--
+ALTER TABLE `timeslots`
+  MODIFY `TimeSlotID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `timeusage`
+--
+ALTER TABLE `timeusage`
+  MODIFY `TimeUsageID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
