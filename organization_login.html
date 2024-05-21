@@ -41,7 +41,8 @@
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" autocomplete="current-password">
                             </div>
-                            <input id="btn" type="submit" name="submit" value="submit" class="btn btn-primary">Register</input>
+                            <input type="hidden" name="tablename" value="organizations">
+                            <input id="btn" type="submit" name="submit" class="btn btn-primary">Register</input>
                         </form>
                     </div>
                 </div>
@@ -63,13 +64,15 @@
                 var contactEmail = document.querySelector("#contactEmail").value;
                 var address = document.querySelector("#address").value;
                 var password = document.querySelector("#password").value;
+                var tablename = document.querySelector("input[name=tablename]").value;
                 var data = {
                     "Name": name,
                     "Email": email,
                     "contactNumber": contactNumber,
                     "contactEmail": contactEmail,
                     "Address": address,
-                    "Password": password
+                    "Password": password,
+                    "tablename": tablename
                 };
                 fetch("organization_login.php", {
                     method: "POST",
