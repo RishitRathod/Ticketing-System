@@ -1,5 +1,5 @@
 <?php
-
+require_once 'checkUser.php';
 require_once 'index.php'; // Ensure this path is correct for including the DB class
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,11 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'message' => 'Login successful',
                 
             ]);
-            session_start();
-            $_SESSION['Username'] = $check[0]['Username'];
-            $_SESSION['UserID'] = $check[0]['UserID'];
-            $_SESSION['UserEmail'] = $check[0]['Email'];
-            $_SESSION['Role'] = 'User';
+            SetUserSession($check[0]['Username'], $check[0]['UserID'],'UserID','user','users');
+
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }

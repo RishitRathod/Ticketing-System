@@ -24,10 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'message' => 'Login successful',
                 'data' => $check[0]
             ]);
-            session_start();
-            $_SESSION['Org_Username'] = $check[0]['Name'];
-            $_SESSION['Org_ID'] = $check[0]['OrgID'];
-            $_SESSION['Org_Email'] = $check[0]['Email'];
+            SetUserSession($check[0]['Name'], $check[0]['OrganizationID'],'OrganizationID','organization','organizations');
 
             header("organization_dashboard.html");
         } else {

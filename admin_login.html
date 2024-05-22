@@ -22,7 +22,7 @@
                         <input type="text"  autocomplete="off" class="form-control" id="AdminUsername" name="AdminUsername" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="AdminPassword" class="form-label">Password</label>
                         <input type="password" class="form-control" id="AdminPassword" name="AdminPassword">
                     </div>
 
@@ -47,7 +47,7 @@
                 "AdminUsername": document.querySelector("#AdminUsername").value,
                 "Password": document.querySelector("#AdminPassword").value,
                 "tablename": document.querySelector("input[name=tablename]").value
-
+                
             };
             fetch("admin_login.php", {
                 method: "POST",
