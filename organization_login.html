@@ -22,7 +22,7 @@
                         <input type="text"  autocomplete="off" class="form-control" id="Username" name="Username" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="Password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="Password" name="Password">
                     </div>
 
@@ -30,7 +30,7 @@
 
                     <br>
                     <div class="mb-3">
-                        <label for="signup" class="form-label" >New User?</label>
+                        <span>New User?</span>
                         <a href="organization_signUp.html" id="signup" name="signup" class="alert-link">Signup</a>
                         </div>
                         
@@ -62,7 +62,16 @@
                 body: JSON.stringify(data),
             })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data.status==="success") {
+                    console.log(data);
+                    window.location.href = "./organization_dashboard.html";
+                } else {
+                    alert("Invalid username or password. Please try again.");
+                }
+            })
+        
+
             .catch((error) => {
                 console.error('Error:', error);
             });

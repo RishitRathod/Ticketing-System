@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['Org_Username'] = $check[0]['Name'];
             $_SESSION['Org_ID'] = $check[0]['OrgID'];
             $_SESSION['Org_Email'] = $check[0]['Email'];
+
+            header("organization_dashboard.html");
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }
