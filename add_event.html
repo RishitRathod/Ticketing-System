@@ -49,18 +49,66 @@
                                     <input type="datetime-local" class="form-control" id="endDate" name="EndDate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="startTime">Start Time</label>
-                                    <input type="time" class="form-control" id="startTime" name="StartTime">
+                                    <label for="timeSlotCount">Number of Time Slots</label>
+                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount" required onchange="generateTimeSlots()">
+                                        <option value="">Select number of time slots</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="endTime">End Time</label>
-                                    <input type="time" class="form-control" id="endTime" name="EndTime">
-                                </div>
+                                <div id="timeSlotsContainer"></div>
                                 <button type="button" class="btn btn-secondary prev-step">Previous</button>
                                 <button type="button" class="btn btn-primary next-step">Next</button>
                             </div>
 
-                            <!-- Step 3: Venue and Capacity -->
+                            <!-- Step 3: Ticket Information -->
+                            <div class="step">
+                                <div id="ticketContainer">
+                                    <div class="ticket-group">
+                                        <div class="form-group">
+                                            <label for="ticketType">Ticket Type</label>
+                                            <select class="form-control" name="TicketType[]" required>
+                                                <option value="VIP">VIP</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Student">Student</option>
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="quantity">Quantity</label>
+                                            <input type="number" class="form-control" name="Quantity[]" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="returnable">Returnable</label>
+                                            <select class="form-control" name="Returnable[]" required>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="limitQuantity">Limit Quantity</label>
+                                            <input type="number" class="form-control" name="LimitQuantity[]" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="discount">Discount</label>
+                                            <input type="number" class="form-control" name="Discount[]" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="price">Price</label>
+                                            <input type="number" class="form-control" name="Price[]" required>
+                                        </div>
+                                        <button type="button" class="btn btn-danger remove-ticket">Remove</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" id="addTicket">Add Ticket Type</button>
+                                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                <button type="button" class="btn btn-primary next-step">Next</button>
+                            </div>
+
+                            <!-- Step 4: Venue and Capacity -->
                             <div class="step">
                                 <div class="form-group">
                                     <label for="capacity">Capacity</label>
@@ -107,42 +155,115 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var currentStep = 0;
-            var steps = document.querySelectorAll('.step');
-            var nextBtns = document.querySelectorAll('.next-step');
-            var prevBtns = document.querySelectorAll('.prev-step');
+        function generateTimeSlots() {
+            const container = document.getElementById('timeSlotsContainer');
+            container.innerHTML = ''; // Clear previous time slots
+            const timeSlotCount = document.getElementById('timeSlotCount').value;
 
-            function showStep(step) {
-                steps.forEach(function(stepEl, index) {
-                    stepEl.classList.toggle('active', index === step);
-                });
+            for (let i = 0; i < timeSlotCount; i++) {
+                const timeSlotDiv = document.createElement('div');
+                timeSlotDiv.classList.add('form-group');
+
+                const startTimeLabel = document.createElement('label');
+                startTimeLabel.textContent = `Start Time Slot ${i + 1}`;
+                timeSlotDiv.appendChild(startTimeLabel);
+
+                const startTimeInput = document.createElement('input');
+                startTimeInput.type = 'time';
+                startTimeInput.className = 'form-control';
+                startTimeInput.name = `StartTimeSlot${i + 1}`;
+                timeSlotDiv.appendChild(startTimeInput);
+
+                const endTimeLabel = document.createElement('label');
+                endTimeLabel.textContent = `End Time Slot ${i + 1}`;
+                timeSlotDiv.appendChild(endTimeLabel);
+
+                const endTimeInput = document.createElement('input');
+                endTimeInput.type = 'time';
+                endTimeInput.className = 'form-control';
+                endTimeInput.name = `EndTimeSlot${i + 1}`;
+                timeSlotDiv.appendChild(endTimeInput);
+
+                container.appendChild(timeSlotDiv);
             }
+        }
 
-            nextBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            const nextBtns = document.querySelectorAll('.next-step');
+            const prevBtns = document.querySelectorAll('.prev-step');
+            const form = document.getElementById('eventForm');
+            const steps = form.querySelectorAll('.step');
+            const addTicketBtn = document.getElementById('addTicket');
+            const ticketContainer = document.getElementById('ticketContainer');
+
+            let currentStep = 0;
+
+            nextBtns.forEach(button => {
+                button.addEventListener('click', () => {
                     if (currentStep < steps.length - 1) {
+                        steps[currentStep].classList.remove('active');
                         currentStep++;
-                        showStep(currentStep);
+                        steps[currentStep].classList.add('active');
                     }
                 });
             });
 
-            prevBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
+            prevBtns.forEach(button => {
+                button.addEventListener('click', () => {
                     if (currentStep > 0) {
+                        steps[currentStep].classList.remove('active');
                         currentStep--;
-                        showStep(currentStep);
+                        steps[currentStep].classList.add('active');
                     }
                 });
             });
 
-            showStep(currentStep);
+            addTicketBtn.addEventListener('click', () => {
+                const ticketGroup = document.createElement('div');
+                ticketGroup.classList.add('ticket-group');
+
+                ticketGroup.innerHTML = `
+                    <div class="form-group">
+                        <label for="ticketType">Ticket Type</label>
+                        <select class="form-control" name="TicketType[]" required>
+                            <option value="VIP">VIP</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Student">Student</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" name="Quantity[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="returnable">Returnable</label>
+                        <select class="form-control" name="Returnable[]" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="limitQuantity">Limit Quantity</label>
+                        <input type="number" class="form-control" name="LimitQuantity[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="discount">Discount</label>
+                        <input type="number" class="form-control" name="Discount[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" name="Price[]" required>
+                    </div>
+                    <button type="button" class="btn btn-danger remove-ticket">Remove</button>
+                `;
+
+                ticketContainer.appendChild(ticketGroup);
+
+                ticketGroup.querySelector('.remove-ticket').addEventListener('click', () => {
+                    ticketGroup.remove();
+                });
+            });
         });
     </script>
 </body>
