@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,99 +24,17 @@
                         <h2>Event Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form id="eventForm" method="post" enctype="multipart/form-data">
+                        <form id="registrationForm" method="post" enctype="multipart/form-data">
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
                                     <label for="eventName">Event Name</label>
-                                    <input type="text" class="form-control" id="eventName" name="EventName" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="Description"></textarea>
-                                </div>
-                                <button type="button" class="btn btn-primary next-step">Next</button>
-                            </div>
-
-                            <!-- Step 2: Date and Time -->
-                            <div class="step">
-                                <div class="form-group">
-                                    <label for="startDate">Start Date</label>
-                                    <input type="datetime-local" class="form-control" id="startDate" name="StartDate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="endDate">End Date</label>
-                                    <input type="datetime-local" class="form-control" id="endDate" name="EndDate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="timeSlotCount">Number of Time Slots</label>
-                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount" required onchange="generateTimeSlots()">
-                                        <option value="">Select number of time slots</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                                <div id="timeSlotsContainer"></div>
-                                <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                                <button type="button" class="btn btn-primary next-step">Next</button>
-                            </div>
-
-                            <!-- Step 3: Ticket Information -->
-                            <div class="step">
-                                <div id="ticketContainer">
-                                    <div class="ticket-group">
-                                        <div class="form-group">
-                                            <label for="ticketType">Ticket Type</label>
-                                            <select class="form-control" name="TicketType[]" required>
-                                                <option value="VIP">VIP</option>
-                                                <option value="Normal">Normal</option>
-                                                <option value="Student">Student</option>
-                                                <!-- Add more options as needed -->
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quantity">Quantity</label>
-                                            <input type="number" class="form-control" name="Quantity[]" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="returnable">Returnable</label>
-                                            <select class="form-control" name="Returnable[]" required>
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="limitQuantity">Limit Quantity</label>
-                                            <input type="number" class="form-control" name="LimitQuantity[]" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="discount">Discount</label>
-                                            <input type="number" class="form-control" name="Discount[]" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="number" class="form-control" name="Price[]" required>
-                                        </div>
-                                        <button type="button" class="btn btn-danger remove-ticket">Remove</button>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-secondary" id="addTicket">Add Ticket Type</button>
-                                <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                                <button type="button" class="btn btn-primary next-step">Next</button>
-                            </div>
-
-                            <!-- Step 4: Venue and Capacity -->
-                            <div class="step">
-                                <div class="form-group">
-                                    <label for="capacity">Capacity</label>
-                                    <input type="number" class="form-control" id="capacity" name="Capacity">
+                                    <input type="text" class="form-control" id="eventName" name="EventName" >
                                 </div>
                                 <div class="form-group">
                                     <label for="eventType">Event Type</label>
-                                    <select class="form-control" id="eventType" name="EventType" required>
+                                    <select class="form-control" id="eventType" name="EventType" >
+                                        <option value="">Select event type</option>
                                         <option value="Beauty">Beauty</option>
                                         <option value="Business">Business</option>
                                         <option value="Comedy">Comedy</option>
@@ -130,12 +48,99 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="eventPoster">Event Poster</label>
-                                    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="Description"></textarea>
                                 </div>
+                                <div class="form-group">
+                                    <label for="capacity">Capacity</label>
+                                    <input type="number" class="form-control" id="capacity" name="Capacity">
+                                </div>
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input type="datetime-local" class="form-control" id="startDate" name="StartDate" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input type="datetime-local" class="form-control" id="endDate" name="EndDate" >
+                                </div>
+                                <button type="button" class="btn btn-primary next-step">Next</button>
+                            </div>
+
+                            <!-- Step 2: Date and Time -->
+                            <div class="step">
+                                <div class="form-group">
+                                    <!-- <label for="timeSlotCount">Number of Time Slots</label> -->
+                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount"  onchange="generateTimeSlots()">
+                                        <option value="">Select number of time slots</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <div id="timeSlotsContainer"></div>
+                                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                <button type="button" class="btn btn-primary next-step">Next</button>
+                            </div>
+
+                            <!-- Step 3: Ticket Information -->
+                            <div class="step">
+                                <div id="ticketContainer">
+                                    <div class="ticket-group">
+                                        <div class="form-group">
+                                            <!-- <label for="ticketType">Ticket Type</label> -->
+                                            <select class="form-control" name="TicketType[]" >
+                                                <option value="">Select ticket type</option>
+                                                <option value="VIP">VIP</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Student">Student</option>
+                                                <option value="Balcony">Balcony</option>
+                                                <option value="Child">Child</option>
+                                                <option value="Senior">Senior</option>
+                                                <option value="LastMinute">Last Minute</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="quantity">Quantity</label> -->
+                                            <input type="number" class="form-control" name="Quantity[]" >
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="returnable">Returnable</label> -->
+                                            <select class="form-control" name="Returnable[]" >
+                                                <option value="">Select returnable option</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="limitQuantity">Limit Quantity</label> -->
+                                            <input type="number" class="form-control" name="LimitQuantity[]" >
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="discount">Discount</label> -->
+                                            <input type="number" class="form-control" name="Discount[]" >
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="price">Price</label> -->
+                                            <input type="number" class="form-control" name="Price[]" >
+                                        </div>
+                                        <button type="button" class="btn btn-danger remove-ticket">Remove</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" id="addTicket">Add Ticket Type</button>
+                                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                <button type="button" class="btn btn-primary next-step">Next</button>
+                            </div>
+
+
+                            <!-- Step 4: Venue and Capacity -->
+                            <div class="step">
                                 <div class="form-group">
                                     <label for="venueAddress">Venue Address</label>
                                     <input type="text" class="form-control" id="venueAddress" name="VenueAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="eventPoster">Event Poster</label>
+                                    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster">
                                 </div>
                                 <div class="form-group">
                                     <label for="venueCascadedDropdown">Venue Cascaded Dropdown</label>
@@ -146,7 +151,8 @@
                                     <input type="text" class="form-control" id="stateCityAddress" name="StateCityAddress">
                                 </div>
                                 <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <!-- <button type="button" onclick="submitForm()">Submit</button> -->
+                                <button type="submit" class="btn btn-primary" onclick="submitForm()">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -192,7 +198,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const nextBtns = document.querySelectorAll('.next-step');
             const prevBtns = document.querySelectorAll('.prev-step');
-            const form = document.getElementById('eventForm');
+            const form = document.getElementById('registrationForm');
             const steps = form.querySelectorAll('.step');
             const addTicketBtn = document.getElementById('addTicket');
             const ticketContainer = document.getElementById('ticketContainer');
@@ -226,7 +232,7 @@
                 ticketGroup.innerHTML = `
                     <div class="form-group">
                         <label for="ticketType">Ticket Type</label>
-                        <select class="form-control" name="TicketType[]" required>
+                        <select class="form-control" name="TicketType[]" >
                             <option value="VIP">VIP</option>
                             <option value="Normal">Normal</option>
                             <option value="Student">Student</option>
@@ -234,26 +240,26 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" name="Quantity[]" required>
+                        <input type="number" class="form-control" name="Quantity[]" >
                     </div>
                     <div class="form-group">
                         <label for="returnable">Returnable</label>
-                        <select class="form-control" name="Returnable[]" required>
+                        <select class="form-control" name="Returnable[]" >
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="limitQuantity">Limit Quantity</label>
-                        <input type="number" class="form-control" name="LimitQuantity[]" required>
+                        <input type="number" class="form-control" name="LimitQuantity[]" >
                     </div>
                     <div class="form-group">
                         <label for="discount">Discount</label>
-                        <input type="number" class="form-control" name="Discount[]" required>
+                        <input type="number" class="form-control" name="Discount[]" >
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" class="form-control" name="Price[]" required>
+                        <input type="number" class="form-control" name="Price[]" >
                     </div>
                     <button type="button" class="btn btn-danger remove-ticket">Remove</button>
                 `;
@@ -264,7 +270,81 @@
                     ticketGroup.remove();
                 });
             });
+
+        
         });
     </script>
+
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // prevent the form from submitting normally
+        // Create an object to hold form data
+        var formData = {
+            "EventName": document.querySelector("#eventName").value,
+            "EventType": document.querySelector("#eventType").value,
+            "Description": document.querySelector("#description").value,
+            "Capacity": document.querySelector("#capacity").value,
+            "StartDate": document.querySelector("#startDate").value,
+            "EndDate": document.querySelector("#endDate").value,
+            "VenueAddress": document.querySelector("#venueAddress").value,
+            "VenueCascadedDropdown": document.querySelector("#venueCascadedDropdown").value,
+            "StateCityAddress": document.querySelector("#stateCityAddress").value,
+            "TimeSlots": [],
+            "Tickets": []
+        };
+
+        // Handling time slots
+        const timeSlotCount = document.querySelector("#timeSlotCount").value;
+        for (let i = 1; i <= timeSlotCount; i++) {
+            formData.TimeSlots.push({
+                "StartTime": document.querySelector(`input[name=StartTimeSlot${i}]`).value,
+                "EndTime": document.querySelector(`input[name=EndTimeSlot${i}]`).value
+            });
+        }
+
+        // Handling tickets
+        const ticketTypes = document.querySelectorAll("select[name='TicketType[]']");
+        const quantities = document.querySelectorAll("input[name='Quantity[]']");
+        const returnables = document.querySelectorAll("select[name='Returnable[]']");
+        const limitQuantities = document.querySelectorAll("input[name='LimitQuantity[]']");
+        const discounts = document.querySelectorAll("input[name='Discount[]']");
+        const prices = document.querySelectorAll("input[name='Price[]']");
+
+        for (let i = 0; i < ticketTypes.length; i++) {
+            formData.Tickets.push({
+                "TicketType": ticketTypes[i].value,
+                "Quantity": quantities[i].value,
+                "Returnable": returnables[i].value,
+                "LimitQuantity": limitQuantities[i].value,
+                "Discount": discounts[i].value,
+                "Price": prices[i].value
+            });
+        }
+
+        // File upload (EventPoster)
+        const eventPoster = document.querySelector("#eventPoster").files[0];
+        const formDataToSend = new FormData();
+        formDataToSend.append("data", JSON.stringify(formData));
+        formDataToSend.append("EventPoster", eventPoster);
+
+        fetch("add_event.php", {
+            method: "POST",
+            body: formDataToSend,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                window.location.href = "./organization_dashboard.html";
+            } else {
+                alert("Failed to submit: " + data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // alert("An error occurred. Please try again.");
+        });
+    }
+</script>
+
 </body>
 </html>
