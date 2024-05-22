@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Organizations</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="selectionButtonGroup" class ="container mt-5">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" aria-selected="true" value="organizations" class="btn btn-primary">Organizations</button>
+            <button type="button" value="events" class="btn btn-primary">Events</button>
+            <button type="button" value="users" class="btn btn-primary">Users</button>
+          </div>
+          
+    </div>
+
+    <div class="container mt-5">
+        <h2>Organizations</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Contact Email</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="orgTableBody">
+                <!-- Organizations will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
+ 
+    <div class="container mt-5">
+
+        <h2>Users</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>User Photo</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Users will be dynamically populated here -->
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="container mt-5">
+        <h2> Events </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Event Name</th>
+                    <th>Event Description</th>
+                    <th>Organization Name</th>
+                    <th>Event Time</th> <!-- both Start date and end date and time slots  -->
+                    <th>Event Location</th>  
+                    <th>Event Capaity</th>
+                    <th>Event type</th>
+                    <th>Event poster</th>
+
+                </tr>
+            </thead>
+            <tbody id="eventTableBody">
+                <!-- Events will be dynamically populated here -->
+            </tbody>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        window.onload = function() {
+            document.querySelector('#eventTableBody').parentElement.parentElement.style.display = 'none';
+            document.querySelector('#userTableBody').parentElement.parentElement.style.display = 'none';
+        };        
+
+        var tablename='';
+        document.querySelectorAll('.btn-group .btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                // Hide all tables
+                document.querySelectorAll('.container .table').forEach((table) => {
+                    table.parentElement.style.display = 'none';
+                });
+        
+                // Show the table that corresponds to the button that was clicked
+                const value = event.target.value;
+                if (value === 'organizations') {
+                    document.querySelector('#orgTableBody').parentElement.parentElement.style.display = 'block';
+                    tablename ='organizations' ;
+                } else if (value === 'events') {
+                    document.querySelector('#eventTableBody').parentElement.parentElement.style.display = 'block';
+                    tablename = 'events';
+                } else if (value === 'users') {
+                    document.querySelector('#userTableBody').parentElement.parentElement.style.display = 'block';
+                    tablename = 'users';
+                }
+            });
+        });
+
+        let currentTableName = '';
+
+        async function fetchData(tableName) {
+            const response = await fetch("admin_dashboard.php", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({tablename: tableName, action: 'fetch'}),
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                return result.data;
+            } else {
+                console.error('Error:', result.message);
+                return [];
+            }
+        }
+
+        document.querySelectorAll('.btn-group .btn').forEach((button) => {
+            button.addEventListener('click', async (event) => {
+                const value = event.target.value;
+                currentTableName = value;
+                const data = await fetchData(value);
+                populateTable(data, value);
+            });
+        });
+
+        function populateTable(data, tableName) { //fetch data from the server and populate the table
+            let tbody;
+            if (tableName === 'organizations') {
+                tbody = document.querySelector('#orgTableBody');
+            } else if (tableName === 'events') {
+                tbody = document.querySelector('#eventTableBody');
+            } else if (tableName === 'users') {
+                tbody = document.querySelector('#userTableBody');
+            }
+
+            if (!Array.isArray(data)) {
+                console.error('Expected an array but got:', data);
+                return;
+            }
+
+            tbody.innerHTML = '';
+            data.forEach((row) => {
+                const tr = document.createElement('tr');
+                if (tableName === 'organizations') {
+                    tr.innerHTML = `
+                        <td>${row.OrgID}</td>
+                        <td>${row.Name}</td>
+                        <td>${row.Email}</td>   
+                        <td>${row.ContactNumber}</td>
+                        <td>${row.ContactEmail}</td>
+                        <td>${row.Address}</td>
+                        <td>${row.Status}</td>
+                        <td>
+                            <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}">Approve</button>
+                            <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}">Reject</button>
+                        </td>
+                    `;
+                } else if (tableName === 'events') {
+                    tr.innerHTML = `
+                        <td>${row.EventID}</td>
+                        <td>${row.EventName}</td>
+                        <td>${row.Description}</td>
+                        <td>${row.OrgID}</td>
+                        <td>${row.StartDate} - ${row.EndDate}</td>
+                        <td>${row.VenueAddress}</td>
+                        <td>${row.Capacity}</td>
+                        <td>${row.EventType}</td>
+                        <td>${row.EventPoster}</td>
+                    `;
+                } else if (tableName === 'users') {
+                    tr.innerHTML = `
+                        <td>${row.UserID}</td>
+                        <td>${row.Username}</td>
+                        <td>${row.Email}</td>
+                        <td><img src="${row.UserPhoto}" alt="User Photo" width="50"></td>
+                    `;
+                }
+                tbody.appendChild(tr);
+            });
+        }
+
+        //now write the code to handle the approve and reject buttons for organizations table 
+        //if we go with reject give the reason of rejection in the prompt box and 
+        //send it to the server to update the status of the organization in the database and
+        // write the reason of rejection in the database as well do this using functions and event listeners
+        document.addEventListener('click', async function(event) {
+            if (event.target.classList.contains('approve-btn')) {
+                const orgID = event.target.getAttribute('data-id');
+                const tableName = event.target.getAttribute('data-table');
+                await approveOrganization(orgID, tableName);
+            } else if (event.target.classList.contains('reject-btn')) {
+                const orgID = event.target.getAttribute('data-id');
+                const tableName = event.target.getAttribute('data-table');
+                await rejectOrganization(orgID, tableName);
+            }
+        });
+        
+        async function approveOrganization(orgID, tableName) {
+            const response = await fetch("admin_dashboard.php", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({tablename: tableName, action: 'approve', 'columnName': "orgID",'columnValue': orgID}),
+            });
+        
+            const result = await response.json();
+            if (result.status === 'success') {
+                // Refresh the table
+                const data = await fetchData(tableName);
+                populateTable(data, tableName);
+            } else {
+                console.error('Error:', result.message);
+            }
+        }
+        
+        async function rejectOrganization(orgID, tableName) {
+            const reason = prompt("Enter reason for rejection:");
+            if (reason) {
+                const response = await fetch("admin_dashboard.php", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({tablename: tableName, action: 'reject','columnName': "orgID",'columnValue': orgID, reason: reason}),
+                });
+        
+                const result = await response.json();
+                if (result.status === 'success') {
+                    // Refresh the table
+                    const data = await fetchData(tableName);
+                    populateTable(data, tableName);
+                } else {
+                    console.error('Error:', result.message);
+                }
+            }
+        }
+        
+
+        
+    </script>
+</body>
+</html>

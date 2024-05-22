@@ -28,14 +28,14 @@ class DB
         return $select->selectBy($conditions);
     }
     
-    static function update($dbname, $table, $data, $id)
+    static function update($dbname, $table, $data, $id , $ColumnName)
     {
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $update = new update($db->connection(), $table);
-        return $update->updateData($data, $id);
+        return $update->updateData($data, $id, $ColumnName);
     }
 
     static function insert($dbname, $table, $data)

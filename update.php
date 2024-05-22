@@ -11,7 +11,7 @@ class update
         $this->table = $table;
     }
 
-    public function updateData($data, $id)
+    public function updateData($data, $id,$columnName)
     {
         try {
             $updateString = "";
@@ -19,7 +19,7 @@ class update
                 $updateString .= "$key = :$key, ";
             }
             $updateString = rtrim($updateString, ", ");
-            $sql = "UPDATE " . $this->table . " SET $updateString WHERE id = :id";
+            $sql = "UPDATE " . $this->table . " SET $updateString WHERE $columnName = :id";
             $stmt = $this->conn->prepare($sql);
             foreach ($data as $key => $value) {
                 $stmt->bindValue(":$key", $value);
@@ -32,4 +32,8 @@ class update
         }
     }
 }
-?>
+
+
+
+
+
