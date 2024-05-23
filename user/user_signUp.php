@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle file upload if exists
     if (isset($_FILES['UserPhoto']) && $_FILES['UserPhoto']['error'] == UPLOAD_ERR_OK) {
-        $uploadDir = 'uploads/' . $data['Username'] . '/';
+        $uploadDir = '../uploads/' . $data['Username'] . '/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }

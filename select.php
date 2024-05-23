@@ -22,23 +22,28 @@ class select
         }
     }
 
-    public function selectBy($conditions)
-    {
-        try {
-            $query = "SELECT * FROM " . $this->table . " WHERE ";
-            foreach ($conditions as $key => $value) {
-                $query .= "$key = :$key AND ";
+    
+    
+public function selectBy($conditions)
+{
+    try {
+        $query = "SELECT * FROM " . $this->table . " WHERE ";
+        foreach ($conditions as $key => $value) {
+            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $key)) {
+                throw new PDOException("Invalid parameter name: $key");
             }
-            $query = rtrim($query, " AND ");
-            $stmt = $this->conn->prepare($query);
-            foreach ($conditions as $key => $value) {
-                $stmt->bindValue(":$key", $value);
-            }
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return "Select by condition failed: " . $e->getMessage();
+            $query .= "$key = :$key ";
         }
+        $stmt = $this->conn->prepare($query);
+        foreach ($conditions as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return "Select by condition failed: " . $e->getMessage();
     }
+}
+
 }
 ?>

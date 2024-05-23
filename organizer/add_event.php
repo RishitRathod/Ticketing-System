@@ -1,77 +1,63 @@
 <?php
-// Handle database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ticketing_system";
 
-// Establishing connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$host = 'localhost';
+$db   = 'ticketing_system';
+$user = 'root';
+$pass = '';
+
+
+// Create connection
+$link = new mysqli($host, $user, $pass, $db);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($link->connect_error) {
+    die("Connection failed: " . $link->connect_error);
 }
 
-// Getting JSON data and decoding it
-$jsonData = $_POST['data'];
-$formData = json_decode($jsonData, true);
 
-// Extracting form data
-$eventName = $formData['EventName'];
-$eventType = $formData['EventType'];
-$description = $formData['Description'];
-$capacity = $formData['Capacity'];
-$startDate = $formData['StartDate'];
-$endDate = $formData['EndDate'];
-$venueAddress = $formData['VenueAddress'];
-$venueCascadedDropdown = $formData['VenueCascadedDropdown'];
-$stateCityAddress = $formData['StateCityAddress'];
-
-// Insert data into table 1 (assuming table name is "events")
-$sql1 = "INSERT INTO events (EventName, EventType, Description, Capacity, StartDate, EndDate, VenueAddress, VenueCascadedDropdown, StateCityAddress)
-VALUES ('$eventName', '$eventType', '$description', '$capacity', '$startDate', '$endDate', '$venueAddress', '$venueCascadedDropdown', '$stateCityAddress')";
-
-if ($conn->query($sql1) === TRUE) {
-    $eventId = $conn->insert_id; // Get the last inserted event ID
-
-    // Insert data into table 2 (assuming table name is "time_slots")
-    foreach ($formData['TimeSlots'] as $timeSlot) {
-        $startTime = $timeSlot['StartTime'];
-        $endTime = $timeSlot['EndTime'];
-
-        $sql2 = "INSERT INTO time_slots (EventID, StartTime, EndTime)
-        VALUES ('$eventId', '$startTime', '$endTime')";
-
-        if ($conn->query($sql2) !== TRUE) {
-            die(json_encode(["status" => "error", "message" => "Error inserting into time_slots table: " . $conn->error]));
-        }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = $_POST;
+    print_r $data;
+    
+    // Check if $data is an array
+    if (!is_array($data)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid data format']);
+        exit;
     }
 
-    // Insert data into table 3 (assuming table name is "tickets")
-    foreach ($formData['Tickets'] as $ticket) {
-        $ticketType = $ticket['TicketType'];
-        $quantity = $ticket['Quantity'];
-        $returnable = $ticket['Returnable'];
-        $limitQuantity = $ticket['LimitQuantity'];
-        $discount = $ticket['Discount'];
-        $price = $ticket['Price'];
+    // Prepare an INSERT statement
+    $sql = "INSERT INTO events (OrgID, EventName, Description, StartDate, EndDate, Capacity, EventType) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $sql3 = "INSERT INTO tickets (EventID, TicketType, Quantity, Returnable, LimitQuantity, Discount, Price)
-        VALUES ('$eventId', '$ticketType', '$quantity', '$returnable', '$limitQuantity', '$discount', '$price')";
+    if($stmt = mysqli_prepare($link, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "issssii", $orgid, $eventName, $description, $startDate, $endDate, $capacity, $eventType);
+        
+        // Set parameter values
+        $orgid = $_POST['orgID'];
+        $eventName = $_POST['eventName'];
+        $description = $_POST['description'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
+        $capacity = $_POST['capacity'];
+        $eventType = $_POST['eventType'];
+        
 
-        if ($conn->query($sql3) !== TRUE) {
-            die(json_encode(["status" => "error", "message" => "Error inserting into tickets table: " . $conn->error]));
+        // Attempt to execute the prepared statement
+        if(mysqli_stmt_execute($stmt)){
+            echo json_encode(array("status" => "success"));
+        } else{
+            echo json_encode(array("status" => "error", "message" => mysqli_error($link)));
         }
     }
-
+     
+    // Close statement
+    mysqli_stmt_close($stmt);
+    
     // Close connection
-    $conn->close();
-
-    // Return success status
-    echo json_encode(["status" => "success"]);
+    mysqli_close($link);
 } else {
-    // If insertion into events table fails, return error status
-    echo json_encode(["status" => "error", "message" => "Error inserting into events table: " . $conn->error]);
+    echo json_encode(array("status" => "error", "message" => "No data received"));
 }
+
 ?>

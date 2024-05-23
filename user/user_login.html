@@ -57,13 +57,26 @@
                 body: JSON.stringify(data),
             })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => {
-                console.error('Error:', error);
+                .then(data => {
+                    console.log("Response data: ", data);
+                    if (data.status === 'success') {
+                          //console.log(data); 
+                          //console.log(data.serverChahe);
+                          setCokkie(data.serverChahe);
+
+                    } else {
+                        // Handle login error
+                        console.error(data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             });
         });
-    });
 
 </script>
+<script src="../script.js"></script>
+    
 </body>
 </html>
