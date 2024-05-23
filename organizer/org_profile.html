@@ -122,7 +122,8 @@
                     </fieldset>
                     <input type="hidden" id="OrgID">
                     <button type="button" id="edit" name="edit" onclick="editProfile()"> Edit </button>
-                    <button type="button" id="submit" name="edit" onclick="insertsubmit()" hidden> Submit </button>
+                    <button type="button" id="submit" name="submit" onclick="insertsubmit()" hidden> Submit </button>
+
                 </form>             
             </div>
         </div>
@@ -145,7 +146,9 @@
     <script>
  document.addEventListener('DOMContentLoaded', async function() {
     const userData = await getUser();
-    if (userData && userData.length > 0) {
+    console.log(userData[0].OrgID);
+    
+    // if (userData && userData.length > 0) {
         // Access the first element of the array and its 'Name' property
         document.getElementById('name').value = userData[0].Name;
         document.getElementById('email').value = userData[0].Email;
@@ -153,17 +156,18 @@
         document.getElementById('co_email').value = userData[0].ContactEmail;
         document.getElementById('co_number').value = userData[0].ContactNumber;
         document.getElementById('co_name').value = userData[0].ContactName;
-    }
+    // }
 });
 
 function editProfile(){
+    document.getElementById('submit').removeAttribute('hidden');
     document.getElementById('name').removeAttribute('disabled');
     document.getElementById('co_email').removeAttribute('disabled');
     document.getElementById('co_number').removeAttribute('disabled');
     document.getElementById('co_name').removeAttribute('disabled');
     document.getElementById('OrgID').value = userData[0].OrgID;
     
-    document.getElementById('submit').removeAttribute('hidden');
+    
 }
 function insertsubmit(){
     document.getElementById('submit').setAttribute('type', 'hidden');
