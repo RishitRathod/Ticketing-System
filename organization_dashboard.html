@@ -16,6 +16,7 @@
 
         .dropdown-menu a:hover {
             background-color: darkblue;
+            color: #fff;
         }
 
         .main-content {
@@ -162,6 +163,7 @@
                         <img src="./img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                        <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">Log Out</a>
                     </div>
                 </div>
@@ -176,11 +178,6 @@
                         <li class="nav-item py-2">
                             <a href="#" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-home"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Home</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
@@ -208,13 +205,29 @@
             </div>
 
 
-            <div class="col p-3">
-                <div class="main-content d-flex justify-content-center align-items-center">
-                    <!-- The Main buttons come here -->
-                    <button class="card createEvent"> <div class="overlay"></div> <img src="./img/addEvent.png" height="50px" class="circle" alt="create_event"><p>Create Event</p> </button>
-                    <button class="card events"> <div class="overlay"></div> <img src="https://cdn.iconscout.com/icon/free/png-256/free-event-processing-calendar-appointment-planner-schedule-reminder-2-5251.png" height="50px" class="circle" alt="my_events"><p> Events </p></button> 
-                    <button class="card log_data"> <div class="overlay"></div> <img src="https://cdn-icons-png.flaticon.com/512/3610/3610380.png" height="50px" class="circle" alt="my_events"> <p>Log Data</p> </button>
-                    <button class="card qr_scanner"> <div class="overlay"></div> <img src="https://icons.veryicon.com/png/o/application/wechat/qr-code-76.png" height="50px" class="circle" alt="my_events"> <p>QR Scanner </p></button>
+            <div class="main-content d-flex flex-wrap justify-content-center">
+                <!-- The Main buttons come here -->
+                <div class="d-flex justify-content-center flex-wrap">
+                    <button class="card createEvent m-2"> 
+                        <div class="overlay"></div> 
+                        <img src="./img/addEvent.png" height="50px" class="circle" alt="create_event">
+                        <p>Create Event</p> 
+                    </button>
+                    <button class="card events m-2"> 
+                        <div class="overlay"></div> 
+                        <img src="https://cdn.iconscout.com/icon/free/png-256/free-event-processing-calendar-appointment-planner-schedule-reminder-2-5251.png" height="50px" class="circle" alt="my_events">
+                        <p>Events</p>
+                    </button> 
+                    <button class="card log_data m-2"> 
+                        <div class="overlay"></div> 
+                        <img src="https://cdn-icons-png.flaticon.com/512/3610/3610380.png" height="50px" class="circle" alt="my_events"> 
+                        <p>Log Data</p> 
+                    </button>
+                    <button class="card qr_scanner m-2"> 
+                        <div class="overlay"></div> 
+                        <img src="https://icons.veryicon.com/png/o/application/wechat/qr-code-76.png" height="50px" class="circle" alt="my_events">
+                        <p>QR Scanner</p>
+                    </button>
                 </div>
             </div>
         </div>
