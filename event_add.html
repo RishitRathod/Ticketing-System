@@ -14,7 +14,7 @@
             <h2>Event Form</h2>
         </div>
         <div class="card-body">
-        <form id="addeventform" method="post" enctype="multipart/form-data">
+        <form id="addeventform"  method="post" class="needs-validation" novalidate>
                 <!-- <div class="form-group">
                     <label for="eventID">Event ID</label>
                     <input type="text" class="form-control" id="eventID" name="eventID">
@@ -86,8 +86,8 @@
                         <!-- Options for state and city addresses would be populated here -->
                     </select>
                 </div>
-
-                <button type="button" class="btn btn-primary" id="submitForm">Submit</button>
+                <input type="hidden" name="tablename" value="events">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
@@ -97,28 +97,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-  $(document).ready(function() {
-        $('#submitForm').click(function(event) {
-            event.preventDefault(); // Prevent default form submission behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector("#addeventform").addEventListener('submit', function(event) {
+                event.preventDefault(); // prevent the form from submitting normally
 
-            var formData = new FormData($('#addeventform')[0]);
-
-            $.ajax({
-                url: 'event_addb.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    alert('Data inserted successfully');
-                    // Optionally, you can reset the form after successful submission
-                    $('#addeventform')[0].reset();
-                },
-                error: function(xhr, status, error) {
+                var form = document.getElementById('addeventform');
+                var formData = new FormData(form);
+                fetch("event_addb.php", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('event created successfully');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch((error) => {
                     console.error('Error:', error);
-                    alert('Error occurred while submitting the form');
-                }
-            });
+                });
         });
     });
 
