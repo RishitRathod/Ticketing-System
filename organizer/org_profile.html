@@ -120,6 +120,7 @@
                         <legend> Status </legend>
                         <div id="status"></div>
                     </fieldset>
+                    <input type="hidden" id="OrgID">
                     <button type="button" id="edit" name="edit" onclick="editProfile()"> Edit </button>
                     <button type="button" id="submit" name="edit" onclick="insertsubmit()" hidden> Submit </button>
                 </form>             
@@ -160,24 +161,31 @@ function editProfile(){
     document.getElementById('co_email').removeAttribute('disabled');
     document.getElementById('co_number').removeAttribute('disabled');
     document.getElementById('co_name').removeAttribute('disabled');
+    document.getElementById('OrgID').value = userData[0].OrgID;
+    
     document.getElementById('submit').removeAttribute('hidden');
 }
 function insertsubmit(){
     document.getElementById('submit').setAttribute('type', 'hidden');
-    document.addEventListener('DOMContentLoaded', function() {
+
             document.querySelector("#registrationForm").addEventListener('submit', function(event) {
                 event.preventDefault(); // prevent the form from submitting normally
                 var name = document.querySelector("#name").value;
                 var ContactName = document.querySelector("#co_email").value;
                 var contactNumber = document.querySelector("#co_number").value;
                 var contactEmail = document.querySelector("#co_name").value;
+                var OrgID = document.querySelector("#OrgID").value;
                 var data = {
                     "Name": name,
                     "Contactname": ContactName,
                     "contactNumber": contactNumber,
                     "contactEmail": contactEmail,
+                    "tabtablename": "organizations",
+                    "OrgID": OrgID
+
+
                 };
-                fetch("organization_signUp.php", {
+                fetch("org_profile.php", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -190,8 +198,7 @@ function insertsubmit(){
                     console.error('Error:', error);
                 });
             });
-        });
-
+      
 }
     </script>
 

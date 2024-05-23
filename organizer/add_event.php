@@ -1,63 +1,40 @@
 <?php
 
-$host = 'localhost';
-$db   = 'ticketing_system';
-$user = 'root';
-$pass = '';
+require_once '../config.php';
+require_once '../db_connection.php';
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-// Create connection
-$link = new mysqli($host, $user, $pass, $db);
-
-// Check connection
-if ($link->connect_error) {
-    die("Connection failed: " . $link->connect_error);
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = $_POST;
-    print_r $data;
+    // Data for insertion into Table1
+    $eventData = array(
+        'column1' => 'value1',
+        'column2' => 'value2',
+        // Add more columns and values as needed
+    );
     
-    // Check if $data is an array
-    if (!is_array($data)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid data format']);
-        exit;
-    }
-
-    // Prepare an INSERT statement
-    $sql = "INSERT INTO events (OrgID, EventName, Description, StartDate, EndDate, Capacity, EventType) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    if($stmt = mysqli_prepare($link, $sql)){
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "issssii", $orgid, $eventName, $description, $startDate, $endDate, $capacity, $eventType);
-        
-        // Set parameter values
-        $orgid = $_POST['orgID'];
-        $eventName = $_POST['eventName'];
-        $description = $_POST['description'];
-        $startDate = $_POST['startDate'];
-        $endDate = $_POST['endDate'];
-        $capacity = $_POST['capacity'];
-        $eventType = $_POST['eventType'];
-        
-
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            echo json_encode(array("status" => "success"));
-        } else{
-            echo json_encode(array("status" => "error", "message" => mysqli_error($link)));
-        }
-    }
-     
-    // Close statement
-    mysqli_stmt_close($stmt);
+    // Data for insertion into Table2
+    $dataTable2 = array(
+        'columnA' => 'valueA',
+        'columnB' => 'valueB',
+        // Add more columns and values as needed
+    );
     
-    // Close connection
-    mysqli_close($link);
-} else {
-    echo json_encode(array("status" => "error", "message" => "No data received"));
+    // Data for insertion into Table3
+    $dataTable3 = array(
+        'columnX' => 'valueX',
+        'columnY' => 'valueY',
+        // Add more columns and values as needed
+    );
+    
+    // Insert into Table1
+    $resultTable1 = DB::insert(DB_NAME, 'Table1', $dataTable1);
+    echo "Insert into Table1 result: $resultTable1 <br>";
+    
+    // Insert into Table2
+    $resultTable2 = DB::insert(DB_NAME, 'Table2', $dataTable2);
+    echo "Insert into Table2 result: $resultTable2 <br>";
+    
+    // Insert into Table3
+    $resultTable3 = DB::insert(DB_NAME, 'Table3', $dataTable3);
+    echo "Insert into Table3 result: $resultTable3 <br>";    
 }
-
-?>
