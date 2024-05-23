@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['Org_Email'] = $check[0]['Email'];
             $_SESSION['packagr_id'] = $check[0]['PakageID'];
 
-            header("organization_dashboard.html");
+            // header("organization_dashboard.html");
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }
