@@ -1,10 +1,5 @@
 <?php
-require_once 'config.php';
 require_once 'db_connection.php';
-require_once 'select.php';
-require_once 'update.php';
-require_once 'insert.php';
-require_once 'delete.php';
 
 class DB
 {
@@ -57,5 +52,42 @@ class DB
         $delete = new delete($db->connection(), $table);
         return $delete->deleteData($id);
     }
+
+    static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){
+
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $User= new User($db->connection(),$table); 
+        $sessiondata=$User->SetUserSession($name,$id,$idColumnName,$role);
+        return $sessiondata;
+
+    }
+
+    static function logout($table){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $db = new dbConnection($host, $user, $pass, DB_NAME);
+        $User= new User($db->connection(),$table);
+        return $User->logout();
+    }
+
 }
+
+
+//  //call the method of this class here to test it
+// $host   = DB_HOST;
+// $user   = DB_USER;
+// $pass   = DB_PASS;
+// $dbname = DB_NAME;
+// $db = new dbConnection($host, $user, $pass, $dbname);
+// $User= new User($db->connection(),'admin');
+// $set=$User->SetUserSession("aryan",1,'adminID','role');
+
+// //echo ($set);
+// print_r( ($set));
+
 ?>

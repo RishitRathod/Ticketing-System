@@ -1,6 +1,6 @@
 <?php
 
-require_once 'index.php'; // Ensure this path is correct for including the DB class
+require_once '../index.php'; // Ensure this path is correct for including the DB class
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw POST data is received
@@ -20,17 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check = DB::selectBy(DB_NAME, $tablename, ['Name' => $data['Username']]);
     if ($check) {
         if (password_verify($data['Password'], $check[0]['Password'])) {
+            
+            $sessiondata =db::checkUser(DB_NAME,$tablename ,$check[0]['Name'], $check[0]['OrgID'], 'OrgID' ,"organization"); //checkUser($dbname, $table,$name,$id,$idColumnName,$role,$tableName)
+            
             echo json_encode(['status' => 'success',
                 'message' => 'Login successful',
-                'data' => $check[0]
+                'data' => $check[0],
+                'serverChahe' => $sessiondata
             ]);
-            session_start();
-            $_SESSION['Org_Username'] = $check[0]['Name'];
-            $_SESSION['Org_ID'] = $check[0]['OrgID'];
-            $_SESSION['Org_Email'] = $check[0]['Email'];
-            $_SESSION['packagr_id'] = $check[0]['PakageID'];
-
-            // header("organization_dashboard.html");
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }

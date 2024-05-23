@@ -1,7 +1,7 @@
 <?php
 
-require_once 'index.php'; // Ensure this path is correct for including the DB class
-
+require_once '../index.php'; // Ensure this path is correct for including the DB class
+session_start();    
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw POST data is received
     $data = json_decode(file_get_contents('php://input'), true);
@@ -20,14 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check = DB::selectBy(DB_NAME, $tablename, ['AdminUsername' => $data['AdminUsername']]);
     if ($check) {
         if (password_verify($data['Password'], $check[0]['Password'])) {
+            
+            $sessiondata =db::checkUser(DB_NAME,$tablename ,$check[0]['AdminUsername'], $check[0]['AdminID'], 'AdminID' ,"admin"); //checkUser($dbname, $table,$name,$id,$idColumnName,$role,$tableName)
             echo json_encode(['status' => 'success',
                 'message' => 'Login successful',
-                'data' => $check[0]
+                'data' => $check[0],
+                'serverChahe' => $sessiondata
             ]);
-            session_start();
-            $_SESSION['AdminUsername'] = $check[0]['AdminUsername'];
-            $_SESSION['AdminID'] = $check[0]['AdminID'];
-            $_SESSION['AdminEmail'] = $check[0]['Email'];
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }
@@ -38,3 +37,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
 }
 ?>
+

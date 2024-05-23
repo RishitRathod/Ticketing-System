@@ -1,5 +1,5 @@
 <?php
-require_once 'index.php'; // Ensure this path is correct for including the DB class
+require_once '../index.php'; // Ensure this path is correct for including the DB class
 
 header('Content-Type: application/json');
 
