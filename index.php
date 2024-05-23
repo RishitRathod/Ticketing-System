@@ -1,11 +1,5 @@
 <?php
-require_once 'config.php';
 require_once 'db_connection.php';
-require_once 'select.php';
-require_once 'update.php';
-require_once 'insert.php';
-require_once 'delete.php';
-require_once 'checkUser.php';
 
 class DB
 {
@@ -72,12 +66,12 @@ class DB
 
     }
 
-    static function logout(){
+    static function logout($table){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $db = new dbConnection($host, $user, $pass, DB_NAME);
-        $User= new User($db->connection(),'admin');
+        $User= new User($db->connection(),$table);
         return $User->logout();
     }
 

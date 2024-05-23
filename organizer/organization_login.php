@@ -1,6 +1,6 @@
 <?php
 
-require_once 'index.php'; // Ensure this path is correct for including the DB class
+require_once '../index.php'; // Ensure this path is correct for including the DB class
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw POST data is received
