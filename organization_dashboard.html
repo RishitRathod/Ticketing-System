@@ -10,6 +10,9 @@
 
     <!-- CSS -->
     <style>
+        body{
+            background-color: #ffffff;
+        }
         .nav-pills li a:hover {
             background-color: darkblue;
         }
@@ -26,6 +29,7 @@
             margin: 20px auto;
             padding: 20px;
             background-color: #f9f9f9;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
 
         .createEvent{
@@ -135,7 +139,6 @@
             transition: opacity 0.3s ease-out;
         }
 
-
         .overlay {
             width: 118px;
             position: absolute; 
@@ -153,17 +156,17 @@
 <body>
     <div class="container-fluid p-3 my-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 mr-auto" href="./organization_dashboard.html">
+            <a class="col-auto p-3 ml-5 mr-auto" href="./organization_dashboard.html">
                 <img src="./img/logo.png" height="80" class="rounded-circle" alt="Logo">
                 <b>The Organizer</b>
             </a>  
-            <div class="col-auto rounded">
-                <div class="dropdown open p-3">
+            <div class="col-auto">
+                <div class="dropdown open p-3 rounded-pills">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="./img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="./organizer/org_profile.html">Profile</a>
                         <a class="dropdown-item" href="./organizer/organization_logout.php">Log Out</a>
                     </div>
                 </div>
@@ -172,31 +175,31 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organization_dashboard.html" class="nav-link text-white active"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organizer/organization_events.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-list"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Events</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organizer/organization_plans.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-th"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Plans</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organizer/organization_analysis.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-clipboard"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Analysis</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organizer/organization_members.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-users"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Members</span>
                             </a>
                         </li>
@@ -204,30 +207,31 @@
                 </div>
             </div>
 
-
-            <div class="main-content d-flex flex-wrap justify-content-center">
-                <!-- The Main buttons come here -->
-                <div class="d-flex justify-content-center flex-wrap">
-                    <button class="card createEvent m-2"> 
-                        <div class="overlay"></div> 
-                        <img src="./img/addEvent.png" height="50px" class="circle" alt="create_event">
-                        <p>Create Event</p> 
-                    </button>
-                    <button class="card events m-2"> 
-                        <div class="overlay"></div> 
-                        <img src="https://cdn.iconscout.com/icon/free/png-256/free-event-processing-calendar-appointment-planner-schedule-reminder-2-5251.png" height="50px" class="circle" alt="my_events">
-                        <p>Events</p>
-                    </button> 
-                    <button class="card log_data m-2"> 
-                        <div class="overlay"></div> 
-                        <img src="https://cdn-icons-png.flaticon.com/512/3610/3610380.png" height="50px" class="circle" alt="my_events"> 
-                        <p>Log Data</p> 
-                    </button>
-                    <button class="card qr_scanner m-2"> 
-                        <div class="overlay"></div> 
-                        <img src="https://icons.veryicon.com/png/o/application/wechat/qr-code-76.png" height="50px" class="circle" alt="my_events">
-                        <p>QR Scanner</p>
-                    </button>
+            <div class="col p-3">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+                    <!-- The Main buttons come here -->
+                    <div class="d-flex justify-content-center flex-wrap">
+                        <a class="card createEvent m-2" href="./add_event.html"> 
+                            <div class="overlay"></div> 
+                            <img src="./img/addEvent.png" height="50px" class="circle" alt="create_event">
+                            <p>Create Event</p> 
+                        </a>
+                        <a class="card events m-2" href="./organizer/organization_allevents.html"> 
+                            <div class="overlay"></div> 
+                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-event-processing-calendar-appointment-planner-schedule-reminder-2-5251.png" height="50px" class="circle" alt="my_events">
+                            <p>Events</p>
+                        </a> 
+                        <a class="card log_data m-2" href="./organizer/organization_logdata.html"> 
+                            <div class="overlay" ></div> 
+                            <img src="https://cdn-icons-png.flaticon.com/512/3610/3610380.png" height="50px" class="circle" alt="my_events"> 
+                            <p>Log Data</p> 
+                        </a>
+                        <a class="card qr_scanner m-2" href="./organizer/organization_scanner.html"> 
+                            <div class="overlay"></div> 
+                            <img src="https://icons.veryicon.com/png/o/application/wechat/qr-code-76.png" height="50px" class="circle" alt="my_events">
+                            <p>QR Scanner</p>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

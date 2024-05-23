@@ -10,6 +10,9 @@
 
     <!-- CSS -->
     <style>
+        body{
+            background-color: #ffffff;
+        }
         .nav-pills li a:hover {
             background-color: darkblue;
         }
@@ -26,6 +29,7 @@
             margin: 20px auto;
             padding: 20px;
             background-color: #f9f9f9;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
 
         .createEvent{
@@ -135,7 +139,6 @@
             transition: opacity 0.3s ease-out;
         }
 
-
         .overlay {
             width: 118px;
             position: absolute; 
@@ -153,18 +156,18 @@
 <body>
     <div class="container-fluid p-3 my-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 mr-auto" href="../organization_dashboard.html">
+            <a class="col-auto p-3 ml-5 mr-auto" href="../organization_dashboard.html">
                 <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
                 <b>The Organizer</b>
             </a>  
-            <div class="col-auto rounded">
-                <div class="dropdown open p-3">
+            <div class="col-auto">
+                <div class="dropdown open p-3 rounded-pills">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="./img/user.png" height="40" class="rounded-circle" alt="User">
+                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="./org_profile.html">Profile</a>
+                        <a class="dropdown-item" href="./organization_logout.php">Log Out</a>
                     </div>
                 </div>
             </div>
@@ -172,36 +175,40 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="../organization_dashboard.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organization_events.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-list"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Events</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organization_plans.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-th"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Plans</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organization_analysis.html" class="nav-link text-white active"> 
                                 <i class="fs-5 fa fa-clipboard"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Analysis</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#" class="nav-link text-white"> 
+                            <a href="./organization_members.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-users"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Members</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="main-content m-2 d-flex flex-wrap justify-content-center">
+                <!-- The Main buttons come here -->
+                
             </div>
         </div>
     </div>  
