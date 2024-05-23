@@ -24,16 +24,16 @@
                         <h2>Event Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form id="registrationForm" enctype="multipart/form-data">
+                        <form id="registrationForm" method="post" enctype="multipart/form-data">
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
                                     <label for="eventName">Event Name</label>
-                                    <input type="text" class="form-control" id="eventName" name="EventName">
+                                    <input type="text" class="form-control" id="eventName" name="EventName" >
                                 </div>
                                 <div class="form-group">
                                     <label for="eventType">Event Type</label>
-                                    <select class="form-control" id="eventType" name="EventType">
+                                    <select class="form-control" id="eventType" name="EventType" >
                                         <option value="">Select event type</option>
                                         <option value="Beauty">Beauty</option>
                                         <option value="Business">Business</option>
@@ -57,11 +57,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="startDate">Start Date</label>
-                                    <input type="datetime-local" class="form-control" id="startDate" name="StartDate">
+                                    <input type="datetime-local" class="form-control" id="startDate" name="StartDate" >
                                 </div>
                                 <div class="form-group">
                                     <label for="endDate">End Date</label>
-                                    <input type="datetime-local" class="form-control" id="endDate" name="EndDate">
+                                    <input type="datetime-local" class="form-control" id="endDate" name="EndDate" >
                                 </div>
                                 <button type="button" class="btn btn-primary next-step">Next</button>
                             </div>
@@ -69,8 +69,8 @@
                             <!-- Step 2: Date and Time -->
                             <div class="step">
                                 <div class="form-group">
-                                    <label for="timeSlotCount">Number of Time Slots</label>
-                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount" onchange="generateTimeSlots()">
+                                    <!-- <label for="timeSlotCount">Number of Time Slots</label> -->
+                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount"  onchange="generateTimeSlots()">
                                         <option value="">Select number of time slots</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -87,37 +87,41 @@
                                 <div id="ticketContainer">
                                     <div class="ticket-group">
                                         <div class="form-group">
-                                            <label for="ticketType">Ticket Type</label>
-                                            <select class="form-control" id="ticketType" name="TicketType[]">
+                                            <!-- <label for="ticketType">Ticket Type</label> -->
+                                            <select class="form-control" name="TicketType[]" >
                                                 <option value="">Select ticket type</option>
                                                 <option value="VIP">VIP</option>
                                                 <option value="Normal">Normal</option>
                                                 <option value="Student">Student</option>
+                                                <option value="Balcony">Balcony</option>
+                                                <option value="Child">Child</option>
+                                                <option value="Senior">Senior</option>
+                                                <option value="LastMinute">Last Minute</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="quantity">Quantity</label>
-                                            <input type="number" class="form-control" id="quantity" name="Quantity[]">
+                                            <!-- <label for="quantity">Quantity</label> -->
+                                            <input type="number" class="form-control" name="Quantity[]" >
                                         </div>
                                         <div class="form-group">
-                                            <label for="returnable">Returnable</label>
-                                            <select class="form-control" id="returnable" name="Returnable[]">
+                                            <!-- <label for="returnable">Returnable</label> -->
+                                            <select class="form-control" name="Returnable[]" >
                                                 <option value="">Select returnable option</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="limitQuantity">Limit Quantity</label>
-                                            <input type="number" id="limitQuantity" class="form-control" name="LimitQuantity[]">
+                                            <!-- <label for="limitQuantity">Limit Quantity</label> -->
+                                            <input type="number" class="form-control" name="LimitQuantity[]" >
                                         </div>
                                         <div class="form-group">
-                                            <label for="discount">Discount</label>
-                                            <input type="number" id="discount" class="form-control" name="Discount[]">
+                                            <!-- <label for="discount">Discount</label> -->
+                                            <input type="number" class="form-control" name="Discount[]" >
                                         </div>
                                         <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="number" id="price" class="form-control" name="Price[]">
+                                            <!-- <label for="price">Price</label> -->
+                                            <input type="number" class="form-control" name="Price[]" >
                                         </div>
                                         <button type="button" class="btn btn-danger remove-ticket">Remove</button>
                                     </div>
@@ -126,6 +130,7 @@
                                 <button type="button" class="btn btn-secondary prev-step">Previous</button>
                                 <button type="button" class="btn btn-primary next-step">Next</button>
                             </div>
+
 
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
@@ -146,7 +151,8 @@
                                     <input type="text" class="form-control" id="stateCityAddress" name="StateCityAddress">
                                 </div>
                                 <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <!-- <button type="button" onclick="submitForm()">Submit</button> -->
+                                <button type="submit" class="btn btn-primary" onclick="submitForm()">Submit</button>
                             </div>
                         </form>
                     </div>
