@@ -225,126 +225,57 @@
                 });
             });
 
-            addTicketBtn.addEventListener('click', () => {
-                const ticketGroup = document.createElement('div');
-                ticketGroup.classList.add('ticket-group');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                console.log('Form submitted');
 
-                ticketGroup.innerHTML = `
-                    <div class="form-group">
-                        <label for="ticketType">Ticket Type</label>
-                        <select class="form-control" name="TicketType[]" >
-                            <option value="VIP">VIP</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Student">Student</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" name="Quantity[]" >
-                    </div>
-                    <div class="form-group">
-                        <label for="returnable">Returnable</label>
-                        <select class="form-control" name="Returnable[]" >
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="limitQuantity">Limit Quantity</label>
-                        <input type="number" class="form-control" name="LimitQuantity[]" >
-                    </div>
-                    <div class="form-group">
-                        <label for="discount">Discount</label>
-                        <input type="number" class="form-control" name="Discount[]" >
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="number" class="form-control" name="Price[]" >
-                    </div>
-                    <button type="button" class="btn btn-danger remove-ticket">Remove</button>
-                `;
+                var formData = new FormData(form);
 
-                ticketContainer.appendChild(ticketGroup);
-
-                ticketGroup.querySelector('.remove-ticket').addEventListener('click', () => {
-                    ticketGroup.remove();
+                // Log form data entries
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+                //send data to server using fatch
+                fetch('add_event.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                //if susseccful
+                .then(data => {
+                    console.log(data);
+                    // You can redirect to another page here
+                })
+                //if not susseccful
+                .catch(error => {
+                    console.error('Error:', error);
                 });
+                
+
+                
+
+                
+
+
+
+                // You can add your form submission logic here (e.g., AJAX request)
             });
 
-        
+            addTicketBtn.addEventListener('click', function() {
+                const newTicketGroup = document.querySelector('.ticket-group').cloneNode(true);
+                newTicketGroup.querySelectorAll('input, select').forEach(input => input.value = '');
+                newTicketGroup.querySelector('.remove-ticket').addEventListener('click', function() {
+                    newTicketGroup.remove();
+                });
+                ticketContainer.appendChild(newTicketGroup);
+            });
+
+            ticketContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-ticket')) {
+                    event.target.closest('.ticket-group').remove();
+                }
+            });
         });
     </script>
-
-<script>
-    function submitForm(event) {
-        event.preventDefault(); // prevent the form from submitting normally
-        // Create an object to hold form data
-        var formData = {
-            "EventName": document.querySelector("#eventName").value,
-            "EventType": document.querySelector("#eventType").value,
-            "Description": document.querySelector("#description").value,
-            "Capacity": document.querySelector("#capacity").value,
-            "StartDate": document.querySelector("#startDate").value,
-            "EndDate": document.querySelector("#endDate").value,
-            "VenueAddress": document.querySelector("#venueAddress").value,
-            "VenueCascadedDropdown": document.querySelector("#venueCascadedDropdown").value,
-            "StateCityAddress": document.querySelector("#stateCityAddress").value,
-            "TimeSlots": [],
-            "Tickets": []
-        };
-
-        // Handling time slots
-        const timeSlotCount = document.querySelector("#timeSlotCount").value;
-        for (let i = 1; i <= timeSlotCount; i++) {
-            formData.TimeSlots.push({
-                "StartTime": document.querySelector(`input[name=StartTimeSlot${i}]`).value,
-                "EndTime": document.querySelector(`input[name=EndTimeSlot${i}]`).value
-            });
-        }
-
-        // Handling tickets
-        const ticketTypes = document.querySelectorAll("select[name='TicketType[]']");
-        const quantities = document.querySelectorAll("input[name='Quantity[]']");
-        const returnables = document.querySelectorAll("select[name='Returnable[]']");
-        const limitQuantities = document.querySelectorAll("input[name='LimitQuantity[]']");
-        const discounts = document.querySelectorAll("input[name='Discount[]']");
-        const prices = document.querySelectorAll("input[name='Price[]']");
-
-        for (let i = 0; i < ticketTypes.length; i++) {
-            formData.Tickets.push({
-                "TicketType": ticketTypes[i].value,
-                "Quantity": quantities[i].value,
-                "Returnable": returnables[i].value,
-                "LimitQuantity": limitQuantities[i].value,
-                "Discount": discounts[i].value,
-                "Price": prices[i].value
-            });
-        }
-
-        // File upload (EventPoster)
-        const eventPoster = document.querySelector("#eventPoster").files[0];
-        const formDataToSend = new FormData();
-        formDataToSend.append("data", JSON.stringify(formData));
-        formDataToSend.append("EventPoster", eventPoster);
-
-        fetch("add_event.php", {
-            method: "POST",
-            body: formDataToSend,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                window.location.href = "./organization_dashboard.html";
-            } else {
-                alert("Failed to submit: " + data.message);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            // alert("An error occurred. Please try again.");
-        });
-    }
-</script>
-
 </body>
 </html>
