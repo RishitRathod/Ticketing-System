@@ -20,12 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check = DB::selectBy(DB_NAME, $tablename, ['Username' => $data['Username']]);
     if ($check) {
         if (password_verify($data['Password'], $check[0]['Password'])) {
+            
+            $sessiondata=DB::checkUser(DB_NAME,$tablename ,$check[0]['Username'], $check[0]['UserID'], 'UserID' ,"user");
             echo json_encode(['status' => 'success',
                 'message' => 'Login successful',
+                'data' => $check[0],
+                'serverChahe' => $sessiondata
                 
             ]);
-            SetUserSession($check[0]['Username'], $check[0]['UserID'],'UserID','user','users');
-
+            
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }

@@ -20,21 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check = DB::selectBy(DB_NAME, $tablename, ['Name' => $data['Username']]);
     if ($check) {
         if (password_verify($data['Password'], $check[0]['Password'])) {
+            
+            $sessiondata =db::checkUser(DB_NAME,$tablename ,$check[0]['Name'], $check[0]['OrgID'], 'OrgID' ,"organization"); //checkUser($dbname, $table,$name,$id,$idColumnName,$role,$tableName)
+            
             echo json_encode(['status' => 'success',
                 'message' => 'Login successful',
-                'data' => $check[0]
+                'data' => $check[0],
+                'serverChahe' => $sessiondata
             ]);
-<<<<<<< HEAD
-            SetUserSession($check[0]['Name'], $check[0]['OrganizationID'],'OrganizationID','organization','organizations');
-=======
-            session_start();
-            $_SESSION['Org_Username'] = $check[0]['Name'];
-            $_SESSION['Org_ID'] = $check[0]['OrgID'];
-            $_SESSION['Org_Email'] = $check[0]['Email'];
-            $_SESSION['packagr_id'] = $check[0]['PakageID'];
->>>>>>> b526992df400842d4e82129fb91a36a1b3aa59f7
-
-            header("organization_dashboard.html");
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }
