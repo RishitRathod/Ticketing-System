@@ -15,6 +15,6 @@ async function getUser(){
     });
     //get the response in json format
     const data = await response.json();
-    console.log(data);
+    return data;
     //set the cookie for the user data
 }
