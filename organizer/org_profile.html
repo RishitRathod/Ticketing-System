@@ -61,7 +61,6 @@
             </div>
         </div>
     </div>
-    </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
@@ -96,16 +95,15 @@
                 </div>
             </div>
             <div class="main-content mx-auto d-flex justify-content-center align-items-center">
-                <form id="registrationForm" class="form-container" action="" method="POST" id="editForm"> 
+                <form id="registrationForm" class="form-container" action="" method="POST"> 
                     <p class="sign" align="center">Profile</p>
                     <label for="name"> Organization Name </label>
-                    <input type="text" name="name" id="name"  disabled>  </br>
+                    <input type="text" name="name" id="name" disabled>  </br>
                     <label for="email"> Email </label>
                     <input type="email" name="email" id="email" disabled>  </br>
                     <label for="pass"> Password </label>
                     <input type="text" name="pass" id="pass" disabled>  </br>
-           
-                    <label for="desc"> Package </label>
+                    <label for="package"> Package </label>
                     <input type="text" name="package" id="package" disabled>
                     <fieldset>
                         <legend>  Contact Details </legend>
@@ -120,15 +118,13 @@
                         <legend> Status </legend>
                         <div id="status"></div>
                     </fieldset>
-                    <input type="hidden" id="OrgID">
-                    <button type="button" id="edit" name="edit" onclick="editProfile()"> Edit </button>
-                    <button type="button" id="submit" name="submit" onclick="insertsubmit()" hidden> Submit </button>
-
+                    <input type="hidden" id="OrgID" name="OrgID">
+                    <button type="button" id="edit" name="edit" onclick="editProfile()">Edit</button>
+                    <button type="submit" id="submit" name="submit" onclick="updateprofile()" hidden>Submit</button>
                 </form>             
             </div>
         </div>
     </div>  
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -142,70 +138,75 @@
         </div>
     <!-- Copyright -->
     </footer>
-    <script src="../script.js"> </script>
+    <script src="../script.js"></script>
     <script>
- document.addEventListener('DOMContentLoaded', async function() {
-    const userData = await getUser();
-    console.log(userData[0].OrgID);
-    
-    // if (userData && userData.length > 0) {
-        // Access the first element of the array and its 'Name' property
-        document.getElementById('name').value = userData[0].Name;
-        document.getElementById('email').value = userData[0].Email;
-        document.getElementById('pass').value = userData[0].Password;
-        document.getElementById('co_email').value = userData[0].ContactEmail;
-        document.getElementById('co_number').value = userData[0].ContactNumber;
-        document.getElementById('co_name').value = userData[0].ContactName;
-    // }
-});
+        let userData;
 
-function editProfile(){
+        document.addEventListener('DOMContentLoaded', async function() {
+            userData = await getUser();
+            console.log(userData[0].OrgID);
+            
+            if (userData && userData.length > 0) {
+                document.getElementById('name').value = userData[0].Name;
+                document.getElementById('email').value = userData[0].Email;
+                document.getElementById('pass').value = userData[0].Password;
+                document.getElementById('co_email').value = userData[0].ContactEmail;
+                document.getElementById('co_number').value = userData[0].ContactNumber;
+                document.getElementById('co_name').value = userData[0].ContactName;
+                document.getElementById('OrgID').value = userData[0].OrgID;
+            }
+        });
+
+        function editProfile() {
     document.getElementById('submit').removeAttribute('hidden');
     document.getElementById('name').removeAttribute('disabled');
     document.getElementById('co_email').removeAttribute('disabled');
     document.getElementById('co_number').removeAttribute('disabled');
     document.getElementById('co_name').removeAttribute('disabled');
-    document.getElementById('OrgID').value = userData[0].OrgID;
+    document.getElementById('OrgID').removeAttribute('hidden');
+}
+function updateprofile() {
+    event.preventDefault();
+    const name = document.querySelector("#name").value;
+    // console.log(name);
+    const contactName = document.querySelector("#co_name").value;
+    const contactNumber = document.querySelector("#co_number").value;
+    const contactEmail = document.querySelector("#co_email").value;
+    const orgID = document.querySelector("#OrgID").value;
+    
+    var data = {
+        "Name": name,
+        "ContactName": contactName,
+        "ContactNumber": contactNumber,
+        "ContactEmail": contactEmail,
+        "Tablename": "organizations",
+        "OrgID": orgID,
+        
+    };
+    fetch("org_profile.php", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response from server:', data);
+        // Handle the response data here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
     
     
-}
-function insertsubmit(){
-    document.getElementById('submit').setAttribute('type', 'hidden');
-
-            document.querySelector("#registrationForm").addEventListener('submit', function(event) {
-                event.preventDefault(); // prevent the form from submitting normally
-                var name = document.querySelector("#name").value;
-                var ContactName = document.querySelector("#co_email").value;
-                var contactNumber = document.querySelector("#co_number").value;
-                var contactEmail = document.querySelector("#co_name").value;
-                var OrgID = document.querySelector("#OrgID").value;
-                var data = {
-                    "Name": name,
-                    "Contactname": ContactName,
-                    "contactNumber": contactNumber,
-                    "contactEmail": contactEmail,
-                    "tabtablename": "organizations",
-                    "OrgID": OrgID
-
-
-                };
-                fetch("org_profile.php", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            });
-      
-}
     </script>
-
-
 </body>
 </html>
