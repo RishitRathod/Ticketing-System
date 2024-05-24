@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- CSS -->
     <style>
         body{
@@ -25,19 +26,12 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             max-width: 1000px;
-            margin: 20px auto;  
+            margin: 20px auto;
             padding: 20px;
             background-color: #f9f9f9;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
 
-        .sign {
-            padding-top: 10px;
-            color: #00111b;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: bold;
-            font-size: 23px;
-        }
     </style>
 </head>
 <body>
@@ -60,14 +54,13 @@
             </div>
         </div>
     </div>
-    </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
-                            <a href="./organization_dashboard.html" class="nav-link text-white"> 
+                            <a href="./organization_dashboard.html" class="nav-link text-white active"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
@@ -95,14 +88,5 @@
                 </div>
             </div>
 
-
-            <footer class="bg-body-tertiary p-3 text-center text-lg-start">
-    <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2024 Copyright:
-            <a class="text-body" href="#"> Event Scheduler </a>
-        </div>
-    <!-- Copyright -->
-    </footer>
-</body>
-</html>
+            <div class="col p-3">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
