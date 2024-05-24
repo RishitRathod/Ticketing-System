@@ -72,19 +72,24 @@
 
                             <!-- Step 2: Date and Time -->
                             <div class="step">
-                                <div class="form-group">
-                                    <!-- <label for="timeSlotCount">Number of Time Slots</label> -->
-                                    <select class="form-control" id="timeSlotCount" name="TimeSlotCount"  onchange="generateTimeSlots()">
-                                        <option value="">Select number of time slots</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
+                                <div id="timeSlotsContainer">
+                                    <div class="time-slot-group">
+                                        <div class="form-group">
+                                            <label for="startTimeSlot1">Start Time Slot 1</label>
+                                            <input type="time" class="form-control" id="startTimeSlot1" name="StartTimeSlot[]">
+                                            <label for="endTimeSlot1">End Time Slot 1</label>
+                                            <input type="time" class="form-control" id="endTimeSlot1" name="EndTimeSlot[]">
+                                            <button type="button" class="btn btn-danger remove-time-slot">Remove</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="timeSlotsContainer"></div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-secondary" id="addTimeSlot">Add Time Slot</button>
+                                </div>
                                 <button type="button" class="btn btn-secondary prev-step">Previous</button>
                                 <button type="button" class="btn btn-primary next-step">Next</button>
                             </div>
+                            
 
                             <!-- Step 3: Ticket Information -->
                             <div class="step">
@@ -166,40 +171,55 @@
     </div>
 
     <script>
-        function generateTimeSlots() {
-            const container = document.getElementById('timeSlotsContainer');
-            container.innerHTML = ''; // Clear previous time slots
-            const timeSlotCount = document.getElementById('timeSlotCount').value;
-
-            for (let i = 0; i < timeSlotCount; i++) {
-                const timeSlotDiv = document.createElement('div');
-                timeSlotDiv.classList.add('form-group');
-
-                const startTimeLabel = document.createElement('label');
-                startTimeLabel.textContent = `Start Time Slot ${i + 1}`;
-                timeSlotDiv.appendChild(startTimeLabel);
-
-                const startTimeInput = document.createElement('input');
-                startTimeInput.type = 'time';
-                startTimeInput.className = 'form-control';
-                startTimeInput.name = `StartTimeSlot${i + 1}`;
-                timeSlotDiv.appendChild(startTimeInput);
-
-                const endTimeLabel = document.createElement('label');
-                endTimeLabel.textContent = `End Time Slot ${i + 1}`;
-                timeSlotDiv.appendChild(endTimeLabel);
-
-                const endTimeInput = document.createElement('input');
-                endTimeInput.type = 'time';
-                endTimeInput.className = 'form-control';
-                endTimeInput.name = `EndTimeSlot${i + 1}`;
-                timeSlotDiv.appendChild(endTimeInput);
-
-                container.appendChild(timeSlotDiv);
-            }
-        }
-
+        
         document.addEventListener('DOMContentLoaded', function () {
+    const addTimeSlotBtn = document.getElementById('addTimeSlot');
+    const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+    let timeSlotCount = 1;
+
+    addTimeSlotBtn.addEventListener('click', function() {
+        const timeSlotGroup = document.createElement('div');
+        timeSlotGroup.classList.add('time-slot-group');
+
+        const timeSlotDiv = document.createElement('div');
+        timeSlotDiv.classList.add('form-group');
+
+        const startTimeLabel = document.createElement('label');
+        startTimeLabel.textContent = `Start Time Slot ${timeSlotCount + 1}`;
+        timeSlotDiv.appendChild(startTimeLabel);
+
+        const startTimeInput = document.createElement('input');
+        startTimeInput.type = 'time';
+        startTimeInput.className = 'form-control';
+        startTimeInput.name = `StartTimeSlot[]`;
+        timeSlotDiv.appendChild(startTimeInput);
+
+        const endTimeLabel = document.createElement('label');
+        endTimeLabel.textContent = `End Time Slot ${timeSlotCount + 1}`;
+        timeSlotDiv.appendChild(endTimeLabel);
+
+        const endTimeInput = document.createElement('input');
+        endTimeInput.type = 'time';
+        endTimeInput.className = 'form-control';
+        endTimeInput.name = `EndTimeSlot[]`;
+        timeSlotDiv.appendChild(endTimeInput);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'remove-time-slot');
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', function() {
+            timeSlotGroup.remove();
+            timeSlotCount--;
+        });
+        timeSlotDiv.appendChild(removeBtn);
+
+        timeSlotGroup.appendChild(timeSlotDiv);
+        timeSlotsContainer.appendChild(timeSlotGroup);
+        timeSlotCount++;
+    });
+
+
             const nextBtns = document.querySelectorAll('.next-step');
             const prevBtns = document.querySelectorAll('.prev-step');
             const form = document.getElementById('registrationForm');
@@ -253,15 +273,7 @@
                 //if not susseccful
                 .catch(error => {
                     console.error('Error:', error);
-                });
-                
-
-                
-
-                
-
-
-
+                })
                 // You can add your form submission logic here (e.g., AJAX request)
             });
 
