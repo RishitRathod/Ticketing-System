@@ -1,5 +1,5 @@
 <?php
-    include "navhead.php";
+    include 'navhead.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -346,5 +346,9 @@
             });
         });
     </script>
+
+    <?php 
+        include 'footer.php';
+    ?>
 </body>
 </html>
