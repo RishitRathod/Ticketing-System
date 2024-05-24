@@ -27,5 +27,25 @@ class insert
             return "Insert failed: " . $e->getMessage();
         }
     }
+
+
+public function insertDataReturnID($data)
+{
+    try {
+        $keys = implode(',', array_keys($data));
+        $placeholders = ':' . implode(', :', array_keys($data));
+        $sql = "INSERT INTO " . $this->table . " ($keys) VALUES ($placeholders)";
+        $stmt = $this->conn->prepare($sql);
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->execute();
+        return $this->conn->lastInsertId();
+    } catch (PDOException $e) {
+        return "Insert failed: " . $e->getMessage();
+    }
 }
+}
+
+
 ?>

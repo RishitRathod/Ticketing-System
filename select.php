@@ -1,4 +1,5 @@
 <?php
+require_once 'db_connection.php';
 
 class select
 {
@@ -45,5 +46,21 @@ public function selectBy($conditions)
     }
 }
 
+public function getLastInsertID()
+    {
+        try {
+            return $this->conn->lastInsertId();
+        } catch (PDOException $e) {
+            return "Select failed: " . $e->getMessage();
+        }
+    }
 }
+// $host   = DB_HOST;
+// $user   = DB_USER;
+// $pass   = DB_PASS;
+// $dbname = DB_NAME;
+// $db = new dbConnection($host, $user, $pass, $dbname);
+// echo db::getLastInsertID($dbname, 'events');
+
+
 ?>

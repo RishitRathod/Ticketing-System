@@ -28,17 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'EventType' => $eventType,
     ];
 
-    // Insert into Table1 (events)
-    $eventID = DB::insert(DB_NAME, 'events', $dataTable1);
+    //Insert into Table1 (events)
+   $insertResult= DB::insertGetId(DB_NAME, 'events', $dataTable1);
+    if ($insertResult) {
+        
+        $lastEventID = $insertResult;
+        
+    } else {
+        $response['success'] = false;
+        $response['message'] = "Failed to retrieve last inserted ID";
+    }
 
-    if ($eventID) {
+
+    if ($lastEventID!=null && $lastEventID>0) {
         // Fetch the last inserted EventID using LAST_INSERT_ID()
-        $query = "SELECT LAST_INSERT_ID() AS EventID";
-        $result = DB::
+        $result = DB::insert(DB_NAME, 'tickets', $dataTable1);
         if ($result) {
-            $row = $result->fetch_assoc();
-            $lastEventID = $row['EventID'] ?? null;
 
+            
             // Handle ticket insertion if present
             if (isset($_POST['TicketType'])) {
                 $tickets = [];

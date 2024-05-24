@@ -40,7 +40,17 @@ class DB
         $pass   = DB_PASS;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $insert = new insert($db->connection(), $table);
-        return $insert->insertData($data);
+        return $insert->insertData($data) ;
+    }
+
+    static function insertGetId($dbname, $table, $data)
+    {
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $insert = new insert($db->connection(), $table);
+        return $insert->insertDataReturnID($data) ;
     }
 
     static function delete($dbname, $table, $id)
@@ -83,19 +93,31 @@ class DB
         $User= new User($db->connection(),$table);
         return $User->isUserloggedIn();
     }
+
+
+    static function getLastInsertID($dbname, $table)
+    {
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $select = new select($db->connection(), $table);
+        return $select->getLastInsertID();
+    }
+
+
 }
 
 
-//  //call the method of this class here to test it
+// //  //call the method of this class here to test it
 // $host   = DB_HOST;
 // $user   = DB_USER;
 // $pass   = DB_PASS;
 // $dbname = DB_NAME;
 // $db = new dbConnection($host, $user, $pass, $dbname);
-// $User= new User($db->connection(),'admin');
-// $set=$User->SetUserSession("aryan",1,'adminID','role');
+// echo db::getLastInsertID($dbname, 'events');
 
-// //echo ($set);
+// // //echo ($set);
 // print_r( ($set));
 
 ?>
