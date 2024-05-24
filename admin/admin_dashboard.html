@@ -186,7 +186,8 @@
                         <td>${row.VenueAddress}</td>
                         <td>${row.Capacity}</td>
                         <td>${row.EventType}</td>
-                        <td>${row.EventPoster}</td>
+                        <td><img src="../${row.EventPoster}" alt="User Photo" hight="50" width="50"></td>
+
                     `;
                 } else if (tableName === 'users') {
                     tr.innerHTML = `
