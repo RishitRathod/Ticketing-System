@@ -78,7 +78,7 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid p-3 mb-2 bg-dark text-white">
+    <div class="container-fluid w-100 p-3 bg-dark text-white">
         <div class="row align-items-center">
             <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html">
                 <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
@@ -100,8 +100,8 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
-                <div class="bg-dark p-2">
+            <div class="bg-dark col-auto col-md-3 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+                <div class="bg-dark">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
                             <a href="./organization_dashboard.html" class="nav-link text-white"> 
@@ -131,71 +131,73 @@
                     </ul>
                 </div>
             </div>
-            <div class="main-content mx-auto d-flex justify-content-center align-items-center">
-                <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
-                    <p class="sign" align="center">Profile</p>
-                    <div class="d-flex flex-column align-items-center mb-3">
-                        <img src="../img/user.png" height="150" alt="Your Profile Photo" class="rounded-circle">
-                    </div>
-                    <fieldset class="mt-3 rounded-4">
-                        <legend> Status </legend>
-                        <div class="my-3 mx-3 text-black" id="status">
-                            <div id="accepted"> 
-                                <i class="fs-5 fa fa-check mr-2 mx-4"></i>Approved
-                            </div>
-                            <div id="pending">  
-                                <i class="fs-5 fa fa-clock-os mr-2 mx-4"></i>Pending
-                            </div>
-                            <div id="rejected"> 
-                                <i class="fs-5 fa fa-warning mr-2 mx-4"></i>Rejected
-                                <p class="" id="reason"></p>
-                            </div>
+            <div class="col p-3">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+                    <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
+                        <p class="sign" align="center">Profile</p>
+                        <div class="d-flex flex-column align-items-center mb-3">
+                            <img src="../img/user.png" height="150" alt="Your Profile Photo" class="rounded-circle">
                         </div>
-                    </fieldset>
-                    <fieldset class="mt-3 rounded-4">
-                        <legend>Organization Details</legend>
-                        <div class="row">
+                        <fieldset class="mt-3 rounded-4">
+                            <legend> Status </legend>
+                            <div class="my-3 mx-3 text-black" id="status">
+                                <div id="accepted"> 
+                                    <i class="fs-5 fa fa-check mr-2 mx-4"></i>Approved
+                                </div>
+                                <div id="pending">  
+                                    <i class="fs-5 fa fa-clock-os mr-2 mx-4"></i>Pending
+                                </div>
+                                <div id="rejected"> 
+                                    <i class="fs-5 fa fa-warning mr-2 mx-4"></i>Rejected
+                                    <p class="" id="reason"></p>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="mt-3 rounded-4">
+                            <legend>Organization Details</legend>
+                            <div class="row">
+                                <div class="col">
+                                <label for="name" class="ml-3"> Organization Name </label>
+                                <input type="text" name="name" id="name" class="my-2 m-sm-1 form-control" disabled> 
+                            </div>
                             <div class="col">
-                            <label for="name" class="ml-3"> Organization Name </label>
-                            <input type="text" name="name" id="name" class="my-2 m-sm-1 form-control" disabled> 
-                        </div>
-                        <div class="col">
-                            <label for="desc" class="ml-3"> Package </label>
-                            <input type="text" name="package" id="package" class="my-2 m-sm-1 form-control" disabled>
-                        </div>
-                    </div>
-                    <label for="email"> Email </label>
-                        <input type="email" name="email" id="email" class="form-control" disabled>
-                        <label for="pass"> Password </label>
-                        <input type="text" name="pass" id="pass" class="form-control" disabled> 
-                    </fieldset>
-
-                    <fieldset class="m-3 rounded-4">
-                        <legend>  Contact Details </legend>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="co_name" class="m-3"> Name </label>
-                                <input type="text" name="co_name" id="co_name" class="form-control" disabled>
+                                <label for="desc" class="ml-3"> Package </label>
+                                <input type="text" name="package" id="package" class="my-2 m-sm-1 form-control" disabled>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col my-2">
-                                <label for="co_email" class="m-3"> Email </label>
-                                <input type="email" name="co_email" id="co_email"  class="form-control"disabled>
+                        <label for="email"> Email </label>
+                            <input type="email" name="email" id="email" class="form-control" disabled>
+                            <label for="pass"> Password </label>
+                            <input type="text" name="pass" id="pass" class="form-control" disabled> 
+                        </fieldset>
+    
+                        <fieldset class="m-3 rounded-4">
+                            <legend>  Contact Details </legend>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="co_name" class="m-3"> Name </label>
+                                    <input type="text" name="co_name" id="co_name" class="form-control" disabled>
+                                </div>
                             </div>
-                            <div class="col my-2">
-                                <label for="co_number" class="m-3"> Number </label>
-                                <input type="text" name="co_number" id="co_number" class="form-control" disabled>
+                            <div class="row">
+                                <div class="col my-2">
+                                    <label for="co_email" class="m-3"> Email </label>
+                                    <input type="email" name="co_email" id="co_email"  class="form-control"disabled>
+                                </div>
+                                <div class="col my-2">
+                                    <label for="co_number" class="m-3"> Number </label>
+                                    <input type="text" name="co_number" id="co_number" class="form-control" disabled>
+                                </div>
                             </div>
+                        </fieldset>
+                       
+                        <input type="hidden" id="OrgID" name="OrgID">
+                        <div class="row justify-content-center">
+                            <button type="button" id="edit" name="edit" class="col-2 m-auto btn btn-outline-primary" onclick="editProfile()">Edit</button>
+                            <button type="submit" id="submit" name="submit" class="col-2 m-auto btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
                         </div>
-                    </fieldset>
-                   
-                    <input type="hidden" id="OrgID" name="OrgID">
-                    <div class="row justify-content-center">
-                        <button type="button" id="edit" name="edit" class="col-2 m-auto btn btn-outline-primary" onclick="editProfile()">Edit</button>
-                        <button type="submit" id="submit" name="submit" class="col-2 m-auto btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
-                    </div>
-                </form>             
+                    </form>             
+                </div>
             </div>
         </div>
     </div>  
