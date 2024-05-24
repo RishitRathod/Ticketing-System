@@ -195,12 +195,13 @@
     <script src="../script.js"></script>
     <script>
         let userData;
-        var status; 
-        var resasonofrejection;
+        let status; 
+        let resasonofrejection;
 
         document.addEventListener('DOMContentLoaded', async function() {
             userData = await getUser();
             console.log(userData[0].OrgID);
+            showDiv(userData[0].Status);
             
             if (userData && userData.length > 0) {
                 document.getElementById('name').value = userData[0].Name;
@@ -214,7 +215,7 @@
                 resasonofrejection= userData[0].ReasonOfRejection;
             }
         });
-        showDiv(status);
+
         function editProfile() {
             document.getElementById('submit').removeAttribute('hidden');
             document.getElementById('name').removeAttribute('disabled');
@@ -223,6 +224,7 @@
             document.getElementById('co_name').removeAttribute('disabled');
             document.getElementById('OrgID').removeAttribute('hidden');
         }
+
         function updateprofile() {
             // Hide the submit button
             document.getElementById('submit').style.display = 'none';
@@ -271,9 +273,9 @@
     }
 
     function showDiv(status) {
-      if (status == "Pending") {
+      if (status === "Pending") {
         document.getElementById('pending').style.display = 'block';
-      } else if (status == "Rejected") {
+      } else if (status === "Rejected") {
         document.getElementById('rejected').style.display = 'block';
       } else {
         document.getElementById('accepted').style.display = 'block';
