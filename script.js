@@ -8,13 +8,20 @@ function setCokkie(data){
 }
 
 //async function to select a perticuler user from the database
-async function getUser(){
-    //fetch the user data from the server/
-    const response = await fetch('../fatchUserData.php' , {
-        method: 'POST' 
-    });
-    //get the response in json format
-    const data = await response.json();
-    return data;
-    //set the cookie for the user data
+
+async function getUser() {
+    try {
+        // Fetch the user data from the server
+        const response = await fetch('../fatchUserData.php', {
+            method: 'POST'
+        });
+        
+        // Get the response in JSON format
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        return error('Error fetching user data:', error);
+    }
 }
+

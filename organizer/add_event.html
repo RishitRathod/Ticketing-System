@@ -28,6 +28,10 @@
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
+                                    <label for="orgid">Event Name</label>
+                                    <input type="text" class="form-control" id="orgid" name="orgid" >
+                                </div>
+                                <div class="form-group">
                                     <label for="eventName">Event Name</label>
                                     <input type="text" class="form-control" id="eventName" name="EventName" >
                                 </div>
@@ -87,8 +91,8 @@
                                 <div id="ticketContainer">
                                     <div class="ticket-group">
                                         <div class="form-group">
-                                            <!-- <label for="ticketType">Ticket Type</label> -->
-                                            <select class="form-control" name="TicketType[]" >
+                                            <label for="ticketType">Ticket Type</label>
+                                            <select class="form-control" id="ticketType" name="TicketType[]" >
                                                 <option value="">Select ticket type</option>
                                                 <option value="VIP">VIP</option>
                                                 <option value="Normal">Normal</option>
@@ -100,27 +104,27 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <!-- <label for="quantity">Quantity</label> -->
-                                            <input type="number" class="form-control" name="Quantity[]" >
+                                            <label for="quantity">Quantity</label>
+                                            <input type="number" id="quantity" class="form-control" name="Quantity[]" >
                                         </div>
                                         <div class="form-group">
-                                            <!-- <label for="returnable">Returnable</label> -->
-                                            <select class="form-control" name="Returnable[]" >
+                                            <label for="returnable">Returnable</label>
+                                            <select class="form-control" id="returnable" name="Returnable[]" >
                                                 <option value="">Select returnable option</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <!-- <label for="limitQuantity">Limit Quantity</label> -->
+                                            <label for="limitQuantity">Limit Quantity</label>
                                             <input type="number" class="form-control" name="LimitQuantity[]" >
                                         </div>
                                         <div class="form-group">
-                                            <!-- <label for="discount">Discount</label> -->
+                                            <label for="discount">Discount</label>
                                             <input type="number" class="form-control" name="Discount[]" >
                                         </div>
                                         <div class="form-group">
-                                            <!-- <label for="price">Price</label> -->
+                                            <label for="price">Price</label>
                                             <input type="number" class="form-control" name="Price[]" >
                                         </div>
                                         <button type="button" class="btn btn-danger remove-ticket">Remove</button>
