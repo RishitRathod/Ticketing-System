@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Data for insertion into Table2
     $dataTable2 = array(
         'columnA' => 'valueA',
-        'columnB' => 'valueB',
+        'columnB' => 'valueB',  
         // Add more columns and values as needed
     );
     
