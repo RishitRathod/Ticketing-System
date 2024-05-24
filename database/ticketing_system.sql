@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 02:06 PM
+-- Generation Time: May 24, 2024 at 07:24 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,8 +39,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`AdminID`, `AdminUsername`, `Password`, `Email`) VALUES
-(1, 'aryan', '$2y$10$VjB8.iWew5BURxaT2IMJ8OS8vKm3NgCRJDOXG5sh3zNMOUUTA9xRC', 'aryanmahida2@gmail.com'),
-(2, 'aryan', '$2y$10$7UQoP9lIJD6V2jZK/I1fPe3oWPHZgzwPSjaRNzoNLZR2f5Misct3a', '');
+(3, 'r', '$2y$10$VnRUJhqyCEe8R/v7vhn1GuIkNBpVNEy69b8m94H9ZnIR2j1rD7mzy', 'r@gmail.com\r\n');
 
 -- --------------------------------------------------------
 
@@ -59,13 +58,23 @@ CREATE TABLE `events` (
   `EventType` enum('Beauty','Business','Comedy','Culture','Dance','Education','Experience','Health','Music','Sports') NOT NULL,
   `EventPoster` varchar(255) DEFAULT NULL,
   `QR_CODE` varchar(255) DEFAULT NULL,
-  `TimeSlotId` int(11) DEFAULT NULL,
-  `StartTime` time DEFAULT NULL,
-  `EndTime` time DEFAULT NULL,
   `VenueAddress` varchar(255) DEFAULT NULL,
   `VenueCascadedDropdown` varchar(255) DEFAULT NULL,
   `StateCityAddress` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`EventID`, `OrgID`, `EventName`, `Description`, `StartDate`, `EndDate`, `Capacity`, `EventType`, `EventPoster`, `QR_CODE`, `VenueAddress`, `VenueCascadedDropdown`, `StateCityAddress`) VALUES
+(27, 2, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'Beauty', NULL, NULL, '', NULL, NULL),
+(28, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'Beauty', NULL, NULL, '', NULL, NULL),
+(29, 3, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'Beauty', NULL, NULL, '', NULL, NULL),
+(31, 2, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'Beauty', NULL, NULL, '', NULL, NULL),
+(41, 1, 'kkkkkkkkkk', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', NULL, NULL, NULL, NULL, NULL),
+(42, 1, 'wfwew', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', NULL, NULL, NULL, NULL, NULL),
+(72, 4, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -78,22 +87,28 @@ CREATE TABLE `organizations` (
   `Name` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `ContactNumber` int(20) DEFAULT NULL,
+  `ContactNumber` varchar(20) DEFAULT NULL,
   `ContactEmail` varchar(100) DEFAULT NULL,
   `Address` varchar(255) DEFAULT NULL,
   `Status` enum('Approved','Pending','Rejected') DEFAULT 'Pending',
-  `ReasonofRegection` text DEFAULT NULL
+  `ReasonofRegection` text DEFAULT NULL,
+  `PakageID` int(11) DEFAULT NULL,
+  `ContactName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `organizations`
 --
 
-INSERT INTO `organizations` (`OrgID`, `Name`, `Password`, `Email`, `ContactNumber`, `ContactEmail`, `Address`, `Status`, `ReasonofRegection`) VALUES
-(1, 'name', 'password', 'email', 1234567890, 'contactEmail', 'address', 'Pending', NULL),
-(2, 'Aryan Jagdishbhai mahida', '1234567890', 'aryan.mahida118299@marwadiuniversity.ac.in', 1234567890, 'aryanmahida2@gmai.com', '\"ARYAN \" st. no.  1 , ambedkarnagar co.op society, op. love temple,  kalavad road, rajkot', 'Pending', NULL),
-(3, 'Rishit', '$2y$10$b0HgDbD5227ORXm0Y4nyp.lWDxL8OTsjyiy8hu/FnWL', 'aryanmahida619@gmail.com', 1234567890, 'aryanmahida619@gmail.com', 'sasti seri probandar ni', 'Pending', NULL),
-(4, 'Aryan Jagdishbhai mahida', '$2y$10$q7aN7j8pu1.YbWp9woPd1uHRFy2TOCA/noVhMB8xvfp/xJEYrKE06', 'chandrasinh.parmar@marwadieducation.edu.in', 1234567890, 'chandrasinh.parmar@marwadieducation.edu.in', '\"ARYAN \" st. no.  1 , ambedkarnagar co.op society, op. love temple,  kalavad road, rajkot', 'Pending', NULL);
+INSERT INTO `organizations` (`OrgID`, `Name`, `Password`, `Email`, `ContactNumber`, `ContactEmail`, `Address`, `Status`, `ReasonofRegection`, `PakageID`, `ContactName`) VALUES
+(1, 'Tech Innovators', '$2y$10$QUfy1XP2sddSqiK2yf4PH.EY7ufAaezvWRa/wKqbl8GV7k4EpjQb2', 'rishirathod645@gmail.com', '123-456-7890', 'johndoe@techinnovators.com', 'Millpara Street No 1 \"Harshad Nivas\"', 'Pending', NULL, NULL, 'John Doe'),
+(2, 'r', '$2y$10$Wqx8hmaWDGnpah3cG/DK2.ZQprIwiWB3xpbD1omqSbr', 'rishirathod6445@gmail.com', '1234', 'asfghj1@gmail.com', 'c', 'Pending', NULL, NULL, ''),
+(3, '', '$2y$10$efCR78RlLH9D6VdNlsMx.ezsfSLCx6i3djHZZ.BDTWrWnmHAOEwk6', '', '', '', '', 'Rejected', 'no nedd', NULL, ''),
+(4, 'jkhgbfvc', '$2y$10$zKtWO9o.vs.upzQeLJKd0evcOy.a4SNnIZP.FmwR9BSHvGzSp26T2', 'dcsddsd@gmail.com', '098765432', 'hgfasfghj@gmail.com', 'jhgbfvcxz', 'Pending', NULL, NULL, ''),
+(5, 'rrr', '$2y$10$.gny9pR/KHEM/blU77yoDO39HJnpEG2qlntXjwraJwR8BDZsrrkA6', 'df@gmail.com', '1234t', 'asfgdfdfdhj@gmail.com', 'asdffwefb', 'Pending', NULL, NULL, ''),
+(6, 'kirtan1234', '$2y$10$UrsdPUBu33tnbMhhDb3S5eSmlH4ua3G0A0PyH0/.SB/Sqp0z/IUh.', 'dcsddfefwefwesd@gmail.com', '123456789', 'asfgddefwefewfewwfewfdfdhj@gmail.com', 'Millpara Street No 1 \"Harshad Nivas\"', 'Pending', NULL, NULL, ''),
+(7, 'mahida', '$2y$10$dMCwtTXAX5uBFwvXXhLB6O.zRL0GYOEbShBSjq59CQj6wtiF50qEu', 'mahida@gmail.com', '6731746328', 'Mahida123@gmail.com', 'esrdfhjkm', 'Pending', NULL, NULL, ''),
+(8, 'jjjk', '$2y$10$JbJ/mug1QQ/ZXGXkBHFAEe1R7ImRGhDUe4oO9IYNjLfW9WOh/6PYq', 'jj@gmail.com', '12345678987654', 'jjj@gmail.cvom', 'aewrdfghbjn', 'Pending', NULL, NULL, 'kkit');
 
 -- --------------------------------------------------------
 
@@ -125,6 +140,19 @@ CREATE TABLE `tickets` (
   `Price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tickets`
+--
+
+INSERT INTO `tickets` (`TicketID`, `TicketType`, `EventID`, `Quantity`, `QR_CODE`, `LimitQuantity`, `Discount`, `Price`) VALUES
+(4, 'Regular', 28, 5, NULL, 4, 2.00, 1.00),
+(6, 'VIP', 31, NULL, NULL, NULL, NULL, NULL),
+(7, '', 27, 0, NULL, 0, 0.00, 0.00),
+(8, '', 27, 0, NULL, 0, 0.00, 4.00),
+(9, '', 27, 0, NULL, 0, 443.00, 0.00),
+(10, '', 27, 0, NULL, 0, 44.00, 0.00),
+(12, 'Regular', 27, 0, NULL, 0, 0.00, 0.00);
+
 -- --------------------------------------------------------
 
 --
@@ -150,7 +178,6 @@ CREATE TABLE `timeslots` (
   `EventID` int(11) NOT NULL,
   `StartTime` time NOT NULL,
   `EndTime` time NOT NULL,
-  `Date` date DEFAULT NULL,
   `Availability` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -178,17 +205,10 @@ CREATE TABLE `timeusage` (
 CREATE TABLE `users` (
   `UserID` int(11) NOT NULL,
   `Username` varchar(50) NOT NULL,
-  `Password` varchar(255) NOT NULL,
+  `Password` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `UserPhoto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`UserID`, `Username`, `Password`, `Email`, `UserPhoto`) VALUES
-(7, 'ary', '$2y$10$9kMCJqDjsJEg0thF.X9l.ubGVwr0AxMBRcMLMVimipzw2YQyXsEY2', 'ar@gamil.com', 'uploads/ary/hitler.jpeg');
 
 --
 -- Indexes for dumped tables
@@ -211,7 +231,8 @@ ALTER TABLE `events`
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
-  ADD PRIMARY KEY (`OrgID`);
+  ADD PRIMARY KEY (`OrgID`),
+  ADD KEY `FK_Package` (`PakageID`);
 
 --
 -- Indexes for table `packages`
@@ -265,55 +286,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `EventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `OrgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `packages`
---
-ALTER TABLE `packages`
-  MODIFY `PakageID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `OrgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `ticketsales`
---
-ALTER TABLE `ticketsales`
-  MODIFY `TicketSalesID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `timeslots`
---
-ALTER TABLE `timeslots`
-  MODIFY `TimeSlotID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `timeusage`
---
-ALTER TABLE `timeusage`
-  MODIFY `TimeUsageID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -324,6 +315,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `events`
   ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`OrgID`) REFERENCES `organizations` (`OrgID`);
+
+--
+-- Constraints for table `organizations`
+--
+ALTER TABLE `organizations`
+  ADD CONSTRAINT `FK_Package` FOREIGN KEY (`PakageID`) REFERENCES `packages` (`PakageID`);
 
 --
 -- Constraints for table `tickets`
