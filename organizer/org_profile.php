@@ -5,10 +5,10 @@ require_once '../index.php'; // Ensure this path is correct for including the DB
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if raw POST data is received
     $data = json_decode(file_get_contents('php://input'), true);
-    $tablename=$data['tablename'];
+    $tablename=$data['Tablename'];
     $OrgID=$data['OrgID'];
     $data = array_filter($data, function($key) {
-        return  $key !== 'tablename' && $key !== 'OrgID' ;
+        return  $key !== 'Tablename' && $key !== 'OrgID';
         }, ARRAY_FILTER_USE_KEY);
 
     // Check if json_decode() returned an array
@@ -19,21 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   
 
-    // Check if the organization is already registered
-    $check = DB::selectBy(DB_NAME, $tablename, ['email' => $data['Email']]);
-    if ($check) {
-        echo json_encode(['status' => 'error', 'message' => 'Organization already registered']);
-        exit;
-    }
 
     // Insert the organization data
     $insert = DB::update(DB_NAME, $tablename, $data,$OrgID,"OrgID" );
-    if ($insert == insertSuccess) {
+    if ($insert === updateSuccess) {
         echo json_encode(['status' => 'success', 'message' => 'Organization registered successfully']);
     } else {
         echo json_encode(['status' => 'error', 'message' => $insert]);
     }
 
+    
     exit;
 }
 ?>

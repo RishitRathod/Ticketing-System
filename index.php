@@ -32,6 +32,24 @@ class DB
         $update = new update($db->connection(), $table);
         return $update->updateData($data, $id, $ColumnName);
     }
+    static function update1($dbname, $tablename, $data, $id, $idField) {
+        $fields = '';
+        foreach ($data as $key => $value) {
+            $fields .= "$key = :$key, ";
+        }
+        $fields = rtrim($fields, ', ');
+
+        $sql = "UPDATE $dbname.$tablename SET $fields WHERE $idField = :id";
+
+        try {
+            $stmt = self::$pdo->prepare($sql);
+            $data['id'] = $id;
+            $stmt->execute($data);
+            return 'updateSuccess';
+        } catch (PDOException $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
 
     static function insert($dbname, $table, $data)
     {
