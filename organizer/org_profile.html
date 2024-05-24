@@ -180,14 +180,20 @@
     document.getElementById('OrgID').removeAttribute('hidden');
 }
 function updateprofile() {
+    // Hide the submit button
+    document.getElementById('submit').style.display = 'none';
+    
+    // Prevent the default form submission behavior
     event.preventDefault();
+    
+    // Get the form data
     const name = document.querySelector("#name").value;
-    // console.log(name);
     const contactName = document.querySelector("#co_name").value;
     const contactNumber = document.querySelector("#co_number").value;
     const contactEmail = document.querySelector("#co_email").value;
     const orgID = document.querySelector("#OrgID").value;
     
+    // Construct the data object
     var data = {
         "Name": name,
         "ContactName": contactName,
@@ -195,8 +201,9 @@ function updateprofile() {
         "ContactEmail": contactEmail,
         "Tablename": "organizations",
         "OrgID": orgID,
-        
     };
+    
+    // Send the form data to the server
     fetch("org_profile.php", {
         method: "POST",
         headers: {
@@ -218,6 +225,7 @@ function updateprofile() {
         console.error('Error:', error);
     });
 }
+
 
     
     
