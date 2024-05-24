@@ -18,6 +18,7 @@ class insert
             $placeholders = ':' . implode(', :', array_keys($data));
             $sql = "INSERT INTO " . $this->table . " ($keys) VALUES ($placeholders)";
             $stmt = $this->conn->prepare($sql);
+            
             foreach ($data as $key => $value) {
                 $stmt->bindValue(":$key", $value);
             }
