@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($eventID) {
         // Fetch the last inserted EventID using LAST_INSERT_ID()
         $query = "SELECT LAST_INSERT_ID() AS EventID";
-        $result = DB::run($query);
+        $result = DB::
         if ($result) {
             $row = $result->fetch_assoc();
             $lastEventID = $row['EventID'] ?? null;
