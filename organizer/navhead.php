@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid p-3 mb-2 bg-dark text-white">
+    <div class="container-fluid p-3 bg-dark text-white">
         <div class="row align-items-center">
             <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html">
                 <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
@@ -56,7 +56,7 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between rounded-right">
+            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">

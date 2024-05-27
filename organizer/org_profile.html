@@ -41,6 +41,14 @@
             margin: 20px auto;  
             padding: 20px;
             background-color: #f9f9f9;
+            box-shadow:0 4px 6px 0 rgba(0, 0, 0, 0.5) ;
+        }
+        .main-content:hover{
+            box-shadow:0 6px 9px 0 rgba(0, 0, 0, 0.5) ;
+        }
+
+        .pfp:hover{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
 
         .sign {
@@ -90,7 +98,7 @@
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="./org_profile.html">Profile</a>
+                        <a class="dropdown-item " href="./org_profile.html">Profile</a>
                         <a class="dropdown-item" href="./organization_logout.php">Log Out</a>
                     </div>
                 </div>
@@ -132,11 +140,11 @@
                 </div>
             </div>
             <div class="col p-3">
-                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center rounded-5">
                     <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
                         <p class="sign" align="center">Profile</p>
                         <div class="d-flex flex-column align-items-center mb-3">
-                            <img src="../img/user.png" height="150" alt="Your Profile Photo" class="rounded-circle">
+                            <img src="../img/user.png" height="150" alt="Your Profile Photo" class="pfp shadow-lg p-2 bg-body-tertiary rounded-circle">
                         </div>
                         <fieldset class="mt-3 rounded-4">
                             <legend> Status </legend>
