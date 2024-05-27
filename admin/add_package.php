@@ -22,19 +22,23 @@
             <div id="packageContainer">
                 <div class="package-form">
                     <div class="form-group">
-                        <label for="PakageName">Package Name:</label>
-                        <input type="text" class="form-control" id="PakageName" name="PakageName[]" required>
+                        <label for="PackageName">Package Name:</label>
+                        <input type="text" class="form-control" id="PackageName" name="PackageName" required>
                     </div>
+                    <!-- <div class="form-group">
+                        <input type="hidden" value="action">
+                    </div>  -->
+
                     <div class="form-group">
-                        <label for="PakageType">Package Type:</label>
-                        <select class="form-control" id="PakageType" name="PakageType[]" required>
+                        <label for="PackageType">Package Type:</label>
+                        <select class="form-control" id="PackageType" name="PackageType" required>
                             <option value="TimeBased">TimeBased</option>
                             <option value="TicketBased">TicketBased</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" id="Amount" name="Amount[]">
+                        <input type="number" class="form-control" id="Amount" name="Amount">
                     </div>
                 </div>
             </div>
@@ -71,19 +75,19 @@
             const packageForm = `
                 <div class="package-form">
                     <div class="form-group">
-                        <label for="PakageName">Package Name:</label>
-                        <input type="text" class="form-control" name="PakageName[]" required>
+                        <label for="PackageName">Package Name:</label>
+                        <input type="text" class="form-control" name="PackageName" required>
                     </div>
                     <div class="form-group">
-                        <label for="PakageType">Package Type:</label>
-                        <select class="form-control" name="PakageType[]" required>
+                        <label for="PackageType">Package Type:</label>
+                        <select class="form-control" name="PackageType" required>
                             <option value="TimeBased">TimeBased</option>
                             <option value="TicketBased">TicketBased</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" name="Amount[]">
+                        <input type="number" class="form-control" name="Amount">
                     </div>
                 </div>
             `;
@@ -99,168 +103,144 @@
             }
         }
 
-        //send data through fetch API using Async and await i want to do all curd operation in this way use action to differentiate between them 
 
+        //submit the Form data using json format using fetch api and async and await function
+        document.getElementById('packageForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+
+            formData.forEach((value, key) => {
+                if (!data[key]) {
+                    data[key] = [];
+                }
+                data[key].push(value);
+            });
+
+            //add action to the data object
+            data.action = 'add';
+            
+
+            console.log(data);
+
+
+            console.log(JSON.stringify(data));
+        
+            const response = await fetch('packages.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+
+
+            const responseData = await response.json();
+            if (responseData.status === 'success') {
+                alert('Data submitted successfully');
+                // Clear the form
+                document.getElementById('packageForm').reset();
+               
+                fetchPackages();
+            } else {
+                console.log(responseData);
+                alert('Data submission failed');
+            }
+        });
+        
+
+        //fetch the data from the database using fetch api and async and await function
         async function fetchPackages() {
             const response = await fetch('packages.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-
-                    action: 'fetch'
-                }),
+                body: JSON.stringify({ action: 'fetch' }),
             });
-            const data = await response.json();
-            if (data.status === 'success') {
-                const packages = data.data;
+
+            const responseData = await response.json();
+            if (responseData.status === 'success') {
+                const packages = responseData.data;
                 const packagesTable = document.getElementById('packagesTable').getElementsByTagName('tbody')[0];
                 packagesTable.innerHTML = '';
-                packages.forEach((package) => {
+                packages.forEach((package, index) => {
                     const row = packagesTable.insertRow();
-                    row.innerHTML = `
+                    row.innerHTML = `   
                         <td>${package.PackageID}</td>
-                        <td>${package.PakageName}</td>
-                        <td>${package.PakageType}</td>
+                        <td>${package.PackageName}</td>
+                        <td>${package.PackageType}</td>
                         <td>${package.Amount}</td>
                         <td>
-                            <button class="btn btn-warning">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
+                        <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>
+                        
                         </td>
                     `;
                 });
             } else {
-                alert(data.message);
+                alert('Failed to fetch packages');
             }
         }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchPackages();
-        });
-// Prevent form from resetting on submit
-async function add_package(event) {
-    event.preventDefault(); // Prevent default form submission
-    // Get all package forms
-    const packageForms = document.querySelectorAll('.package-form');
-    const packagesData = [];
-    // Loop through each package form
-    packageForms.forEach((form) => {
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach(function(value, key) {
-            data[key] = value;
-        });
-        packagesData.push(data);
-    });
-    // Add common fields for all packages
-    packagesData.forEach((package) => {
-        package['tablename'] = 'packages';
-        package['action'] = 'add';
-    });
 
-    // Send packages data to the server
-    const response = await fetch('packages.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(packagesData),
-    });
-    const responseData = await response.json();
-    if (responseData.status === 'success') {
-        alert(responseData.message);
-        fetchPackages();
-    } else {
-        alert(responseData.message);
-    }
-}
+        document.addEventListener('DOMContentLoaded', fetchPackages);
 
-// Fetch package details for edit
-async function fetchPackageDetails(packageId) {
-    const response = await fetch('packages.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            action: 'fetch',
-            PackageID: packageId
-        }),
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-        console.log('Package details:', data.data); // Log package details for debugging
-        // Populate form fields with package details for editing
-    } else {
-        alert(data.message);
-    }
-}
 
-// Edit/Update package
-async function updatePackage(event) {
-    event.preventDefault(); // Prevent default form submission
-    const form = document.getElementById('packageForm');
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach(function(value, key) {
-        data[key] = value;
-    });
-    data['tablename'] = 'packages';
-    data['action'] = 'update';
-    const response = await fetch('packages.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-    if (responseData.status === 'success') {
-        alert(responseData.message);
-        fetchPackages();
-    } else {
-        alert(responseData.message);
-    }
-}
+        async function deletePackage(packageID) {
+            const response = await fetch('packages.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'delete', id: packageID }),
+            });
 
-// Delete package
-async function deletePackage(packageId) {
-    const response = await fetch('packages.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            action: 'delete',
-            PackageID: packageId
-        }),
-    });
-    const data = await response.json();
-    if (data.status === 'success') {
-        alert(data.message);
-        fetchPackages();
-    } else {
-        alert(data.message);
-    }
-}
-
-// Event listeners
-document.getElementById('packageForm').addEventListener('submit', add_package);
-document.getElementById('packagesTable').addEventListener('click', function(event) {
-    const target = event.target;
-    if (target.tagName === 'BUTTON') {
-        const packageId = target.closest('tr').cells[0].textContent;
-        if (target.classList.contains('btn-warning')) {
-            // Edit button clicked
-            fetchPackageDetails(packageId);
-        } else if (target.classList.contains('btn-danger')) {
-            // Delete button clicked
-            deletePackage(packageId);
+            const responseData = await response.json();
+            if (responseData.status === 'success') {
+                alert('Data deleted successfully');
+                fetchPackages();
+            } else {
+                alert('Failed to delete package');
+            }
         }
-    }
-});
+
+        async function editPackage(packageID) {
+            //change the html form to edit form change submit button to update button
+            //populate the form with the data of the package
+            
+
+
+            const response = await fetch('packages.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'select', id: packageID }),
+            });
+
+            const responseData = await response.json();
+            if (responseData.status === 'success') {
+                var package = responseData.data;
+                console.log(package);
+                
+                //parse the json data and populate the form with the data
+                document.getElementById('PackageName').value = package[0].PackageName;
+                document.getElementById('PackageType').value = package[0].PackageType;
+                document.getElementById('Amount').value = package[0].Amount;
+
+                
+            } else {
+                alert('Failed to fetch package');
+            }
+        }
+
         
+
+
+
+
+
         </script>
 </body>
 </html>
