@@ -7,6 +7,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 
     <!-- CSS -->
     <style>
@@ -65,22 +67,22 @@
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_events.html" class="nav-link text-white"> 
+                            <a href="./organization_events.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-list"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Events</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_plans.html" class="nav-link text-white"> 
+                            <a href="./organization_plans.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-th"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Plans</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_analysis.html" class="nav-link text-white"> 
+                            <a href="./organization_analysis.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-clipboard"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Analysis</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_members.html" class="nav-link text-white"> 
+                            <a href="./organization_members.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-users"></i> <span class="fs-4 ms-3 d-none d-sm-inline">Members</span>
                             </a>
                         </li>
