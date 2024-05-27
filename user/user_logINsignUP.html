@@ -14,9 +14,9 @@
         <div class="form-container sign-up">
             <form id="registrationForm" method="post" enctype="multipart/form-data">
                 <h2>Create Account</h2>
-                <input type="text" id="username" placeholder="Name">
-                <input type="email"  id="email" placeholder="Email">
-                <input type="number" id="con_no" placeholder="Contact Number">
+                <input type="text" id="username" name="Username" name placeholder="Name">
+                <input type="email"  id="email" name="Email" placeholder="Email">
+                <input type="tel" id="con_no" placeholder="Contact Number">
                 <input type="file" class="form-control-file" id="userPhoto" name="UserPhoto">
                 <hr class="hr hr-blurry"/>
                 <input type="password" id="password" name="Password" placeholder="Enter a Password">
@@ -71,16 +71,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#registrationForm").addEventListener('submit', function(event) {
                 event.preventDefault(); // prevent the form from submitting normally
-                const data ={};
                 var form = document.getElementById('registrationForm');
                 var formData = new FormData(form);
-                formData.forEach((value, key) => {
-                if (!data[key]) {
-                    data[key] = [];
-                }
-                data[key].push(value);
-            });
-            console.log(data);
+                console.log(formData);  
+
+
+
                 fetch("user_signUp.php", {
                     method: "POST",
                     body: formData,
