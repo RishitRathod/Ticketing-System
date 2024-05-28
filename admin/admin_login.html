@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-
+    <script src="../script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -47,8 +47,8 @@
         var adminPassword = document.querySelector("#AdminPassword").value;
 
         // Define regex patterns
-        var usernamePattern = /^[a-zA-Z0-9]{3,20}$/; // Alphanumeric, 3-20 characters
-        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
+        var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric, 3-20 characters
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
 
         // Validate fields
         if (!usernamePattern.test(adminUsername)) {
@@ -61,7 +61,6 @@
             return;
         }
 
-        // Prepare data for submission
         var data = {
             "AdminUsername": adminUsername,
             "Password": adminPassword,
@@ -101,7 +100,7 @@
 
 
     </script>
-    <script src="../script.js"></script>
+   
     
 </body>
 </html>
