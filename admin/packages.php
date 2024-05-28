@@ -68,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
         case "select":
             $id = $input['id'];
-            $package = DB::selectBy(DB_NAME, 'packages', ['PackageID' => $id]);
+            $package = DB::update(DB_NAME, 'packages', ['PackageID' => $id]);
             if($package){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $package]);
             }else{
