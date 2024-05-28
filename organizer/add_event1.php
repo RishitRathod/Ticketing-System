@@ -127,7 +127,7 @@
                             <!-- Step 3: Ticket Information -->
                             <div class="step">
                                 <div id="ticketContainer">
-                                    <fieldset class="ticket-group m-3 fs-5 rounded-4">
+                                    <fieldset class="ticket-group m-3 fs-5 rounded-4" id="tickeType">
                                         <legend> Ticket </legend>
                                         <div class="row">
                                             <div class="form-group col-6">
@@ -222,6 +222,7 @@
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
             const timeSlotsContainer = document.getElementById('timeSlotsContainer');
             let timeSlotCount = 1;
+            let ticketTypes = 1;
 
             addTimeSlotBtn.addEventListener('click', function() {
                 const timeSlotGroup = document.createElement('div');
@@ -332,16 +333,32 @@
 
             addTicketBtn.addEventListener('click', function() {
                 const newTicketGroup = document.querySelector('.ticket-group.m-3.rounded-4').cloneNode(true);
+                ticketTypes++;
+                console.log("tickets",ticketTypes);
+
                 newTicketGroup.querySelectorAll('input, select').forEach(input => input.value = '');
                 newTicketGroup.querySelector('.remove-ticket').addEventListener('click', function() {
-                    newTicketGroup.remove();
-                });
+                    if (event.target.classList.contains('remove-ticket')) {
+                        if(ticketTypes==1){
+                            alert("There should be at leas one ticket");
+                            console.log("tickets",ticketTypes);
+                        }else {
+                            newTicketGroup.remove();
+                            console.log("tickets",ticketTypes);
+                        }
+                    }});
                 ticketContainer.appendChild(newTicketGroup);
             });
 
             ticketContainer.addEventListener('click', function(event) {
                 if (event.target.classList.contains('remove-ticket')) {
-                    event.target.closest('.ticket-group').remove();
+                    if(ticketTypes==1){
+                        console.log("tickets",ticketTypes);
+                    }else {
+                        event.target.closest('.ticket-group').remove();
+                        ticketTypes--;
+                        console.log("tickets",ticketTypes);
+                    }
                 }
             });
         });

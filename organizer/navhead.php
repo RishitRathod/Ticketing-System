@@ -90,12 +90,9 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
-
-
-</body>
-</html>
-=======
             <div class="col p-3">
+<<<<<<< HEAD
                 <div class="main-content mx-auto d-flex justify-content-center align-items-center">
->>>>>>> 358f492ef50600c8bbf561cbac85485d9cfc7320
+=======
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+>>>>>>> b3f508f7fe9db01262e3613b7477353a49b750d8
