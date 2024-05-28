@@ -49,7 +49,7 @@
 
         <div class="crud-table">
             <h2>Packages List</h2>
-            <table class="table table-bordered" id="packagesTable">
+            <table class="table table-strip" id="packagesTable">
                 <thead>
                     <tr>
                         <th>Package ID</th>
@@ -208,7 +208,7 @@
         async function editPackage(packageID) {
             //change the html form to edit form change submit button to update button
             //populate the form with the data of the package
-            
+
 
 
             const response = await fetch('packages.php', {
