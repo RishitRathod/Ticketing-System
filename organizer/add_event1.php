@@ -313,7 +313,7 @@
                 timeSlotDiv1.classList.add('col-5', 'form-group');
 
                 const startTimeLabel = document.createElement('label');
-                startTimeLabel.textContent = Start Time Slot;
+                startTimeLabel.textContent = 'Start Time Slot';
                 timeSlotDiv1.appendChild(startTimeLabel);
 
                 const startTimeInput = document.createElement('input');

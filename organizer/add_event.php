@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $country = $_POST['Country'];
     $state = $_POST['State'];
     $city = $_POST['City'];
-    $stateCityAddress = $_POST['StateCityAddress'];
+
     $orgid = $_POST['orgid'];
  
     $dataTable1 = [
