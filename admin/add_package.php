@@ -83,6 +83,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+
+    function validateForm() {
+                let isValid = true;
+                const packageForms = document.getElementsByClassName('package-form');
+                //regex for package name and amount amount must be a number with only postive values
+                const nameRegex = /^[a-zA-Z0-9 ]+$/;
+                const amountRegex = /^\d+(\.\d{1,2})?$/;
+
+
+                for (let form of packageForms) {
+                    const packageName = form.querySelector('input[name="PackageName"]').value.trim();
+                    const packageType = form.querySelector('select[name="PackageType"]').value;
+                    const amount = form.querySelector('input[name="Amount"]').value;
+
+                    if (!nameRegex.test(packageName)) {
+                        alert('Package Name should only contain alphanumeric characters and spaces');
+                        isValid = false;
+                        break;
+                    }
+
+                    if (packageType === '') {
+                        alert('Package Type is required');
+                        isValid = false;
+                        break;
+                    }
+
+                    if (!amountRegex.test(amount)) {
+                        alert('Amount should be a number with only positive values');
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                return isValid;
+            }
+        
         function addPackage() {
             const packageForm = `
                 <div class="package-form">
@@ -119,6 +155,8 @@
         //submit the Form data using json format using fetch api and async and await function
         document.getElementById('packageForm').addEventListener('submit', async function (e) {
             e.preventDefault();
+            if (!validateForm()) return;
+
             const formData = new FormData(this);
             const data = {};
 
@@ -259,7 +297,8 @@
             //send the data to the server with the action update
             //update the data in the database
             //fetch the data from the database and show it in the table
-            
+            if (!validateForm()) return;
+
             const data = {
 
                 PackageName: document.getElementById('PackageName').value,
@@ -292,13 +331,6 @@
                 alert('Data update failed');
             }
         }
-
-
-        
-
-
-
-
 
         </script>
 </body>
