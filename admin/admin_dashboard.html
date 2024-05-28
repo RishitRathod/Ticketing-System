@@ -310,7 +310,7 @@
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
 
                 // Validate fields
-                if (!usernamePattern.test(username)) {
+                if (!usernamePattern.test(adminUsername)) {
                     alert("Invalid username. Please enter 3-20 alphanumeric characters.");
                     return;
                 }
@@ -320,7 +320,7 @@
                     return;
                 }
 
-                if (!emailPattern.test(email)) {
+                if (!emailPattern.test(AdminEmail)) {
                     alert("Invalid email address.");
                     return;
                 }
