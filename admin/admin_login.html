@@ -81,9 +81,9 @@
         .then(data => {
             if (data.status === 'success') {
                 // Redirect to dashboard
-                window.location.href = "admin_dashboard.html";
+                //window.location.href = "admin_dashboard.html";
                 console.log("Response data: ", data);
-                setCookie(data.serverChahe);
+                setCokkie(data.serverChahe);
             } else {
                 // Handle login error
                 console.error(data.message);

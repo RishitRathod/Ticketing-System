@@ -9,6 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = array_filter($data, function($key) {
         return  $key !== 'tablename' ;
         }, ARRAY_FILTER_USE_KEY);
+    
+    $data['Password']= password_hash($data['Password'], PASSWORD_DEFAULT);
 
     // Check if json_decode() returned an array
     if (!is_array($data)) {
