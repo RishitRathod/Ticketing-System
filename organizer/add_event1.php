@@ -193,19 +193,27 @@
                                     <label for="eventPoster">Event Poster</label>
                                     <input type="file" class="form-control-file" id="eventPoster" name="EventPoster">
                                 </div>
+                               <div class="form-group">
+                                   <label for="country">Country: </label>
+                                    <select name="Country" id="country" class="form-control"> 
+                                        <option value="" selected="Selected">Select Country</option>
+                                    </select>
+                                    <label for="state">State:</label> 
+                                    <select name="State" id="state" class="form-control"> 
+                                        <option value="" selected="Selected">Select State</option>
+                                    </select>
+                                    <label for="city">City: </label> 
+                                    <select name="City" id="city" class="form-control"> 
+                                        <option value="" selected="Selected">Select City</option>
+                                    </select>
+                               </div>
+
                                 <div class="form-group">
                                     <label for="venueAddress">Venue Address</label>
                                     <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
                                     <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
                                 </div>
-                                <div class="form-group">
-                                    <label for="venueCascadedDropdown">Country</label>
-                                    <input type="text" class="form-control rounded-4" id="venueCascadedDropdown" name="VenueCascadedDropdown">
-                                </div>
-                                <div class="form-group">
-                                    <label for="stateCityAddress">State</label>
-                                    <input type="text" class="form-control rounded-4" id="stateCityAddress" name="StateCityAddress">
-                                </div>
+                               
                                 <div class="d-grid d-flex justify-content-center gap-5">
                                     <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
                                     <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
@@ -221,6 +229,60 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('../cascading.php') 
+                .then(response => response.json())
+                .then(data => {
+                    const countrySel = document.getElementById("country");
+                    const stateSel = document.getElementById("state");
+                    const citySel = document.getElementById("city");
+
+                    let countries = {};
+
+                    data.forEach(item => {
+                        if (!countries[item.country]) {
+                            countries[item.country] = {};
+                        }
+                        if (!countries[item.country][item.state]) {
+                            countries[item.country][item.state] = [];
+                        }
+                        countries[item.country][item.state].push(item.city);
+                    });
+
+                    for (let country in countries) {
+                        let option = new Option(country, country);
+                        countrySel.add(option);
+                    }
+
+                    countrySel.onchange = function() {
+                        stateSel.length = 1;
+                        citySel.length = 1;
+                        let selectedCountry = this.value;
+                        if (selectedCountry && countries[selectedCountry]) {
+                            for (let state in countries[selectedCountry]) {
+                                let option = new Option(state, state);
+                                stateSel.add(option);
+                            }
+                        }
+                    }
+
+                    stateSel.onchange = function() {
+                        citySel.length = 1;
+                        let selectedCountry = countrySel.value;
+                        let selectedState = this.value;
+                        if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+                            countries[selectedCountry][selectedState].forEach(city => {
+                                let option = new Option(city, city);
+                                citySel.add(option);
+                            });
+                        }
+                    }
+                });
+        });
+    </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
