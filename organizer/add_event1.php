@@ -204,7 +204,7 @@
                                 </div>
                                 <div class="d-grid d-flex justify-content-center gap-5">
                                     <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" onclick="submitForm()"> Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                         </form>
