@@ -52,14 +52,14 @@ class DB
         return $insert->insertDataReturnID($data) ;
     }
 
-    static function delete($dbname, $table, $id)
+    static function delete($dbname, $table, $id,$ColumnName)
     {
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $delete = new delete($db->connection(), $table);
-        return $delete->deleteData($id);
+        return $delete->deleteData($id,$ColumnName);
     }
 
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){

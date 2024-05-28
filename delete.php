@@ -11,10 +11,10 @@ class delete
         $this->table = $table;
     }
 
-    public function deleteData($id)
+    public function deleteData($id,$columnName)
     {
         try {
-            $sql = "DELETE FROM " . $this->table . " WHERE id = :id";
+            $sql = "DELETE FROM " . $this->table . " WHERE $columnName = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(":id", $id);
             $stmt->execute();

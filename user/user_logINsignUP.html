@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Welcome </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="u_css.css">    
+
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="registrationForm" method="post" enctype="multipart/form-data">
+                <h2>Create Account</h2>
+                <input type="text" id="username" name="Username" name placeholder="Name">
+                <input type="email"  id="email" name="Email" placeholder="Email">
+                <input type="tel" id="con_no" placeholder="Contact Number">
+                <input type="file" class="form-control-file" id="userPhoto" name="UserPhoto">
+                <hr class="hr hr-blurry"/>
+                <input type="password" id="password" name="Password" placeholder="Enter a Password">
+                <input type="hidden" name="tablename" value="users">
+                <button type="submit" >Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form method="POST"  id="loginForm" class="form-container form1">
+                <h2>Sign In</h2>
+                <span>Use your E-mail or Phone Number </span>
+                <input type="text" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
+                <input type="tel" placeholder="Contact Number">
+                <hr class="hr hr-blurry"/>
+                <input type="password" id="Password" name="Password" placeholder="Password">
+                <a href="#">Forget Your Password?</a>
+                <input type="hidden" value="users" name="tablename">    
+                <button id="submit" type="submit" name="login">Log In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to register in Events</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to Register in Events</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector("#registrationForm").addEventListener('submit', function(event) {
+                event.preventDefault(); // prevent the form from submitting normally
+                var form = document.getElementById('registrationForm');
+                var formData = new FormData(form);
+                console.log(formData);  
+
+
+
+                fetch("user_signUp.php", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('User registered successfully');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector("#loginForm").addEventListener('submit', function(event) {
+            event.preventDefault(); // prevent the form from submitting normally
+            var data = {
+                "Username": document.querySelector("#Username").value,
+                "Password": document.querySelector("#Password").value,
+                "tablename": document.querySelector("input[name=tablename]").value
+            };
+            fetch("user_login.php", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+                .then(data => {
+                    console.log("Response data: ", data);
+                    if (data.status === 'success') {
+                          //console.log(data); 
+                          //console.log(data.serverChahe);
+                          setCokkie(data.serverChahe);
+                          window.location.href = "./user_dashboard.html";
+                    } else {
+                        // Handle login error
+                        console.error(data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
