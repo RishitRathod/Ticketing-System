@@ -25,6 +25,7 @@
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" id="password" name="Password" placeholder="Enter password" required>
+                                <input type="checkbox" onclick="togglePassword()"> Show Password
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -52,6 +53,33 @@
             document.querySelector("#registrationForm").addEventListener('submit', function(event) {
                 event.preventDefault(); // prevent the form from submitting normally
 
+                // Get form values
+                var username = document.querySelector("#username").value;
+                var password = document.querySelector("#password").value;
+                var email = document.querySelector("#email").value;
+
+                // Define regex patterns
+                var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric and underscore, 3-20 characters
+                var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
+
+                // Validate fields
+                if (!usernamePattern.test(username)) {
+                    alert("Invalid username. Please enter 3-20 Alphanumeric characters and underscore .");
+                    return;
+                }
+
+                if (!passwordPattern.test(password)) {
+                    alert("Invalid password. Please enter at least 8 characters, including at least one letter, one number, and one special character.");
+                    return;
+                }
+
+                if (!emailPattern.test(email)) {
+                    alert("Invalid email address.");
+                    return;
+                }
+
+                // Prepare form data for submission
                 var form = document.getElementById('registrationForm');
                 var formData = new FormData(form);
 
@@ -63,6 +91,7 @@
                 .then(data => {
                     if (data.status === 'success') {
                         alert('User registered successfully');
+                        window.location.href = "user_dashboard.html";
                     } else {
                         alert('Error: ' + data.message);
                     }
@@ -72,6 +101,15 @@
                 });
             });
         });
+
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
     </script>
 </body>
 </html>
