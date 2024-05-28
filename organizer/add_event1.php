@@ -159,16 +159,16 @@
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="limitQuantity">Limit Quantity</label>
-                                                <input type="number" class="form-control rounded-4" name="LimitQuantity[]" >
+                                                <input type="number" id="limitQuantity" class="form-control rounded-4" name="LimitQuantity[]" >
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="discount">Discount</label>
-                                            <input type="number" class="form-control rounded-4" name="Discount[]" placeholder="%" >
+                                            <input type="number" id="discount" class="form-control rounded-4" name="Discount[]" placeholder="%" >
                                         </div>
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="number" class="form-control rounded-4" name="Price[]" placeholder="₹">
+                                            <input type="number" id="price" class="form-control rounded-4" name="Price[]" placeholder="₹">
                                         </div>
                                         <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
                                     </fieldset>
