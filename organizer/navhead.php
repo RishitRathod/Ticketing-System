@@ -91,4 +91,8 @@
             </div>
 
             <div class="col p-3">
+<<<<<<< HEAD
                 <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+=======
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+>>>>>>> b3f508f7fe9db01262e3613b7477353a49b750d8
