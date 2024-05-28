@@ -65,6 +65,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(['status' => 'error', 'message' => 'Data deletion failed']);
             }
             break;
+<<<<<<< HEAD
         
         case "select":
             $id = $input['id'];
@@ -73,8 +74,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $package]);
             }else{
                 echo json_encode(['status' => 'error', 'message' => 'No data found']);
+=======
+            
+        case "update":
+            if(!isset($input['id'])){
+                echo json_encode(['status' => 'error', 'message' => 'Missing id']);
+                exit;
+>>>>>>> 412a21cddda105b5a89c994f5c83b0a37a3afc2c
             }
-            break;
+
+            $id = $input['id'];
+            unset($input['id']);
+            $update = DB::update(DB_NAME, 'packages', $input, $id, 'PackageID');
+            if($update){
+                echo json_encode(['status' => 'success', 'message' => 'Data updated successfully']);
+            }else{
+                echo json_encode(['status' => 'error', 'message' => 'Data update failed']);
+            }
+            break;  
+
         default:
             echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
             

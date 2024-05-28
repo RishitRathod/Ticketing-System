@@ -13,6 +13,12 @@
         .crud-table {
             margin-top: 40px;
         }
+        #updatebtn {
+            display: none;
+        }
+        #abortUdpatebtn{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -25,9 +31,7 @@
                         <label for="PackageName">Package Name:</label>
                         <input type="text" class="form-control" id="PackageName" name="PackageName" required>
                     </div>
-                    <!-- <div class="form-group">
-                        <input type="hidden" value="action">
-                    </div>  -->
+                    
 
                     <div class="form-group">
                         <label for="PackageType">Package Type:</label>
@@ -37,14 +41,22 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <input type="hidden" name="packageIDInput">
+                    </div>
+
+                    <div class="form-group">
                         <label for="Amount">Amount:</label>
                         <input type="number" class="form-control" id="Amount" name="Amount">
                     </div>
                 </div>
             </div>
+            <div id="button-div"  class="d-inline">
             <button type="button" class="btn btn-secondary" onclick="addPackage()">Add More Package</button>
             <button type="button" class="btn btn-danger" onclick="removePackage()">Remove Last Package</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="submitbtn" class="btn btn-primary">Submit</button>
+            <button id="abortUdpatebtn" class="btn btn-danger" type="button">Abort Update</button>
+            <button type="button" id="updatebtn" class="btn btn-primary" onclick="updatePackage()">Update</button>
+            </div>
         </form>
 
         <div class="crud-table">
@@ -145,7 +157,6 @@
                 fetchPackages();
             } else {
                 console.log(responseData);
-                alert('Data submission failed');
             }
         });
         
@@ -206,34 +217,82 @@
         }
 
         async function editPackage(packageID) {
-            //change the html form to edit form change submit button to update button
-            //populate the form with the data of the package
 
+            
+            //get the package data from the table packagesTable using the packageID
+            const packagesTable = document.getElementById('packagesTable').getElementsByTagName('tbody')[0];
+            const packageRow = Array.from(packagesTable.children).find(row => row.children[0].textContent === packageID.toString());
+            const packageData = {
+                PackageID: packageRow.children[0].textContent,
+                PackageName: packageRow.children[1].textContent,
+                PackageType: packageRow.children[2].textContent,
+                Amount: packageRow.children[3].textContent,
+            };
 
+            //populate the form with the package data
+            document.getElementById('PackageName').value = packageData.PackageName;
+            document.getElementById('PackageType').value = packageData.PackageType;
+            document.getElementById('Amount').value = packageData.Amount;
+
+            //set the packageID in the hidden input field
+            document.querySelector('input[name="packageIDInput"]').value = packageData.PackageID;
+
+            // console.log(packageData);
+            
+            document.getElementById('updatebtn').style.display = 'inline';
+            document.getElementById('submitbtn').style.display = 'none';
+            document.getElementById('abortUdpatebtn').style.display = 'inline';
+
+            
+
+        }
+
+        document.getElementById('abortUdpatebtn').addEventListener('click', function(){
+            document.getElementById('updatebtn').style.display = 'none';
+            document.getElementById('submitbtn').style.display = 'inline';
+            document.getElementById('abortUdpatebtn').style.display = 'none';
+            document.getElementById('packageForm').reset();
+        });
+
+        async function updatePackage() {
+            //get the data from the form
+            //send the data to the server with the action update
+            //update the data in the database
+            //fetch the data from the database and show it in the table
+            
+            const data = {
+
+                PackageName: document.getElementById('PackageName').value,
+                PackageType: document.getElementById('PackageType').value,
+                Amount: document.getElementById('Amount').value,
+                action: 'update',
+                id: document.querySelector('input[name="packageIDInput"]').value
+
+            };
+
+            console.log(data);
 
             const response = await fetch('packages.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ action: 'select', id: packageID }),
+                body: JSON.stringify(data),
             });
+
 
             const responseData = await response.json();
             if (responseData.status === 'success') {
-                var package = responseData.data;
-                console.log(package);
-                
-                //parse the json data and populate the form with the data
-                document.getElementById('PackageName').value = package[0].PackageName;
-                document.getElementById('PackageType').value = package[0].PackageType;
-                document.getElementById('Amount').value = package[0].Amount;
-
-                
+                alert('Data updated successfully');
+                // Clear the form
+                document.getElementById('packageForm').reset();
+                fetchPackages();
             } else {
-                alert('Failed to fetch package');
+                console.log(responseData);
+                alert('Data update failed');
             }
         }
+
 
         
 
