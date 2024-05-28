@@ -52,6 +52,7 @@
             box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
         }
 
+
         .ls {
             color: white;
             background-color: green;
@@ -84,6 +85,22 @@
         .carousel-item img {
             width: 100%;
         }
+        
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            background-color: #f8f9fa00;
+        }
+        .scroll-item {
+            display: inline-block;
+            min-width: 200px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -104,10 +121,10 @@
                         <a class="nav-link" href="#">Link</a>
                     </li>
                 </ul>
-                <div class="d-flex" id="login">
+                <div class="d-block" id="login">
                     <a class="btn ls" href="#">Login | Sign up</a>
                 </div>
-                <div class="d-flex" id="profile">
+                <div class="d-none" id="profile">
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div id="defaultPF">
@@ -125,9 +142,22 @@
         </div>
     </nav>
     <main>
-        <div class="categories row">
-            <div class="col"></div>
-
+        <div class="container mt-5">
+            <div class="row">
+                <h4>All Categories</h4>
+            </div>
+            <div class="scroll-container text-center p-3">
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Beauty</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Bussiness</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Comedy</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Culture</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Dance</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Education</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Experience</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Health</div>
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Music</div>   
+                <div class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Sports</div>            
+            </div>
         </div>
         <div class="container text-center m-4 py-4">
             <div class="row m-4 justify-content-evenly">
@@ -155,8 +185,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-    
-
         
     </script>
 </body>
