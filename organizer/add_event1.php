@@ -193,7 +193,8 @@
                                     <label for="eventPoster">Event Poster</label>
                                     <input type="file" class="form-control-file" id="eventPoster" name="EventPoster">
                                 </div>
-                              <div class="form-group">
+                                <div class="form-group">
+                               
                                     <label for="country">Country: </label>
                                     <select name="country" id="country" class="form-control"> 
                                         <option value="" selected="Selected">Select Country</option>
@@ -205,14 +206,13 @@
                                     <label for="city">City: </label> 
                                     <select name="city" id="city" class="form-control"> 
                                         <option value="" selected="Selected">Select City</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
+                                    </select>   
+                                                        
                                     <label for="venueAddress">Venue Address</label>
                                     <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
                                     <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
                                 </div>
-
+                               
                                 <div class="d-grid d-flex justify-content-center gap-5">
                                     <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
                                     <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
@@ -225,11 +225,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script>
-    
         document.addEventListener("DOMContentLoaded", function() {
             fetch('../cascading.php') 
                 .then(response => response.json())
@@ -280,8 +276,12 @@
                     }
                 });
         });
-    
+    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
             const deleteTimeSlotBtn = document.getElementById('removeTime')
