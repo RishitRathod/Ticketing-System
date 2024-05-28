@@ -43,10 +43,10 @@
                         <form id="registrationForm" class="fs-5" method="post" enctype="multipart/form-data">
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
-                                <div class="form-group">
-                                    <label for="orgid" class="form-label">Organization ID</label>
-                                    <input type="text" class="form-control rounded-4" id="orgid" name="orgid" >
-                                </div>
+                                <!-- <div class="form-group"> -->
+                                    <!-- <label for="orgid" class="form-label">Organization ID</label> -->
+                                    <!-- <input type="text" class="form-control rounded-4" id="orgid" name="orgid" > -->
+                                <!-- </div> -->
                                 <div class="form-group">
                                     <label for="eventName" class="form-label">Event Name</label>
                                     <input type="text" class="form-control rounded-4" id="eventName" name="EventName" >
@@ -101,15 +101,15 @@
                                         <div class="time-slot-group">
                                             <div class="row mx-auto">
                                                 <div class="col-5 form-group">
-                                                    <label for="startTimeSlot1">Start Time Slot 1</label>
+                                                    <label for="startTimeSlot1">Start Time Slot </label>
                                                     <input type="time" class="form-control" id="startTimeSlot1" name="StartTimeSlot[]">
                                                 </div>
                                                 <div class="col-5 form-group">
-                                                    <label for="endTimeSlot1">End Time Slot 1</label>
+                                                    <label for="endTimeSlot1">End Time Slot </label>
                                                     <input type="time" class="form-control" id="endTimeSlot1" name="EndTimeSlot[]">
                                                 </div>
                                             </div>
-                                                <button type="button" class="btn btn-danger m-2 remove-time-slot"><i class="fa fa-trash mr-2"></i>Remove</button>
+                                                <button type="button" class="btn btn-danger m-2 remove-time-slot" id="removeTime"><i class="fa fa-trash mr-2"></i>Remove</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -195,16 +195,16 @@
                                     <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="venueCascadedDropdown">Venue Cascaded Dropdown</label>
+                                    <label for="venueCascadedDropdown">Country</label>
                                     <input type="text" class="form-control rounded-4" id="venueCascadedDropdown" name="VenueCascadedDropdown">
                                 </div>
                                 <div class="form-group">
-                                    <label for="stateCityAddress">State/City Address</label>
+                                    <label for="stateCityAddress">State</label>
                                     <input type="text" class="form-control rounded-4" id="stateCityAddress" name="StateCityAddress">
                                 </div>
                                 <div class="d-grid d-flex justify-content-center gap-5">
                                     <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" onclick="submitForm()"> Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -220,9 +220,23 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
+            const deleteTimeSlotBtn = document.getElementById('removeTime')
             const timeSlotsContainer = document.getElementById('timeSlotsContainer');
             let timeSlotCount = 1;
             let ticketTypes = 1;
+
+            
+            deleteTimeSlotBtn.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-time-slot')) {
+                    if(timeSlotCount==1){
+                        console.log("time",timeSlotCount);
+                    }else {
+                        event.target.closest('.time-slot-group').remove();
+                        timeSlotCount--;
+                        console.log("time",timeSlotCount);
+                    }
+                }
+            });
 
             addTimeSlotBtn.addEventListener('click', function() {
                 const timeSlotGroup = document.createElement('div');
@@ -235,7 +249,7 @@
                 timeSlotDiv1.classList.add('col-5', 'form-group');
 
                 const startTimeLabel = document.createElement('label');
-                startTimeLabel.textContent = `Start Time Slot ${timeSlotCount + 1}`;
+                startTimeLabel.textContent = `Start Time Slot`;
                 timeSlotDiv1.appendChild(startTimeLabel);
 
                 const startTimeInput = document.createElement('input');
@@ -250,7 +264,7 @@
                 timeSlotDiv2.classList.add('col-5', 'form-group');
 
                 const endTimeLabel = document.createElement('label');
-                endTimeLabel.textContent = `End Time Slot ${timeSlotCount + 1}`;
+                endTimeLabel.textContent = `End Time Slot`;
                 timeSlotDiv2.appendChild(endTimeLabel);
 
                 const endTimeInput = document.createElement('input');
@@ -268,8 +282,13 @@
                 // trash.classList.add('fa', 'fa-trash', 'mr-2');
                 removeBtn.innerHTML = '<i class="fa fa-trash mr-2"></i>Remove';
                 removeBtn.addEventListener('click', function() {
-                    timeSlotGroup.remove();
-                    timeSlotCount--;
+                    if(timeSlotCount==1){
+                        alert("Thre should be one Time slot");
+                    }
+                    else{
+                        timeSlotGroup.remove();
+                        timeSlotCount--;
+                    }
                 });
 
                 
@@ -278,14 +297,13 @@
                 timeSlotsContainer.appendChild(timeSlotGroup);
                 timeSlotCount++;
             });
-
+            
             const nextBtns = document.querySelectorAll('.next-step');
             const prevBtns = document.querySelectorAll('.prev-step');
             const form = document.getElementById('registrationForm');
             const steps = form.querySelectorAll('.step');
             const addTicketBtn = document.getElementById('addTicket');
             const ticketContainer = document.getElementById('ticketContainer');
-
             let currentStep = 0;
 
             nextBtns.forEach(button => {

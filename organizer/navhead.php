@@ -39,7 +39,7 @@
 <body>
     <div class="container-fluid p-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html">
+            <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
                 <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
@@ -58,7 +58,7 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="bg-dark col-auto col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
