@@ -313,13 +313,13 @@
                 timeSlotDiv1.classList.add('col-5', 'form-group');
 
                 const startTimeLabel = document.createElement('label');
-                startTimeLabel.textContent = `Start Time Slot`;
+                startTimeLabel.textContent = Start Time Slot;
                 timeSlotDiv1.appendChild(startTimeLabel);
 
                 const startTimeInput = document.createElement('input');
                 startTimeInput.type = 'time';
                 startTimeInput.className = 'form-control';
-                startTimeInput.name = `StartTimeSlot[]`;
+                startTimeInput.name = StartTimeSlot[];
                 timeSlotDiv1.appendChild(startTimeInput);
 
                 row.appendChild(timeSlotDiv1);
@@ -328,13 +328,13 @@
                 timeSlotDiv2.classList.add('col-5', 'form-group');
 
                 const endTimeLabel = document.createElement('label');
-                endTimeLabel.textContent = `End Time Slot`;
+                endTimeLabel.textContent = End Time Slot;
                 timeSlotDiv2.appendChild(endTimeLabel);
 
                 const endTimeInput = document.createElement('input');
                 endTimeInput.type = 'time';
                 endTimeInput.className = 'form-control';
-                endTimeInput.name = `EndTimeSlot[]`;
+                endTimeInput.name = EndTimeSlot[];
                 timeSlotDiv2.appendChild(endTimeInput);
 
                 row.appendChild(timeSlotDiv2);
@@ -481,7 +481,7 @@
                 var formData = new FormData(form);
 
                 for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
+                    console.log(${key}: ${value});
                 }
 
                 fetch('add_event.php', {
