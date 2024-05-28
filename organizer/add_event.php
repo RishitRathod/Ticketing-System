@@ -14,7 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $startDate = $_POST['StartDate'];
     $endDate = $_POST['EndDate'];
     $venueAddress = $_POST['VenueAddress'];
-    $venueCascadedDropdown = $_POST['VenueCascadedDropdown'];
+    $country = $_POST['Country'];
+    $state = $_POST['State'];
+    $city = $_POST['City'];
     $stateCityAddress = $_POST['StateCityAddress'];
     $orgid = $_POST['orgid'];
  
@@ -26,7 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'EndDate' => $endDate,
         'Capacity' => $capacity,
         'EventType' => $eventType,
-        'VenueAddress' => $venueAddress
+        'VenueAddress' => $venueAddress,
+        'Country' => $country,
+        'State' => $state,
+        'City' => $city,
     ];
 
     //Insert into Table1 (events)
