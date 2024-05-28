@@ -39,43 +39,67 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector("#registrationForm").addEventListener('submit', function(event) {
-                event.preventDefault(); // prevent the form from submitting normally
-                
-                var data = {
-                    "AdminUsername": document.querySelector("#AdminUsername").value,
-                    "Password": document.querySelector("#AdminPassword").value,
-                    "tablename": document.querySelector("input[name=tablename]").value
-                };
-    
-                console.log("Submitting data: ", data);
-    
-                fetch("admin_login.php", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    window.location.href = "admin_dashboard.html";
-                    console.log("Response data: ", data);
-                    if (data.status === 'success') {
-                          //console.log(data); 
-                          //console.log(data.serverChahe);
-                          setCokkie(data.serverChahe);
+    document.querySelector("#registrationForm").addEventListener('submit', function(event) {
+        event.preventDefault(); // prevent the form from submitting normally
 
-                    } else {
-                        // Handle login error
-                        console.error(data.message);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            });
+        // Get form values
+        var adminUsername = document.querySelector("#AdminUsername").value;
+        var adminPassword = document.querySelector("#AdminPassword").value;
+
+        // Define regex patterns
+        var usernamePattern = /^[a-zA-Z0-9]{3,20}$/; // Alphanumeric, 3-20 characters
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
+
+        // Validate fields
+        if (!usernamePattern.test(adminUsername)) {
+            alert("Invalid username. Please enter 3-20 alphanumeric characters.");
+            return;
+        }
+
+        if (!passwordPattern.test(adminPassword)) {
+            alert("Invalid password. Please enter at least 8 characters, including at least one letter, one number, and one special character.");
+            return;
+        }
+
+        // Prepare data for submission
+        var data = {
+            "AdminUsername": adminUsername,
+            "Password": adminPassword,
+            "tablename": document.querySelector("input[name=tablename]").value
+        };
+
+        console.log("Submitting data: ", data);
+
+        // Submit data via fetch
+        fetch("admin_login.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Redirect to dashboard
+                window.location.href = "admin_dashboard.html";
+                console.log("Response data: ", data);
+                setCookie(data.serverChahe);
+            } else {
+                // Handle login error
+                console.error(data.message);
+                alert("Login failed: " + data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
         });
+    });
+});
+
+
+
     </script>
     <script src="../script.js"></script>
     
