@@ -43,10 +43,10 @@
                         <form id="registrationForm" class="fs-5" method="post" enctype="multipart/form-data">
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
-                                <!-- <div class="form-group"> -->
-                                    <!-- <label for="orgid" class="form-label">Organization ID</label> -->
-                                    <!-- <input type="text" class="form-control rounded-4" id="orgid" name="orgid" > -->
-                                <!-- </div> -->
+                                <div class="form-group">
+                                    <label for="orgid" class="form-label">Organization ID</label>
+                                    <input type="text" class="form-control rounded-4" id="orgid" name="orgid" >
+                                </div>
                                 <div class="form-group">
                                     <label for="eventName" class="form-label">Event Name</label>
                                     <input type="text" class="form-control rounded-4" id="eventName" name="EventName" >
@@ -65,7 +65,9 @@
                                         <option value="Health">Health</option>
                                         <option value="Music">Music</option>
                                         <option value="Sports">Sports</option>
+                                        <option value="custom">custom</option>
                                     </select>
+                                    <div id="addEventType"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -141,7 +143,9 @@
                                                     <option value="Child">Child</option>
                                                     <option value="Senior">Senior</option>
                                                     <option value="LastMinute">Last Minute</option>
+                                                    <option value="custom">custom</option>
                                                 </select>
+                                                <div id="addTicType"></div>
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity</label>
@@ -297,7 +301,91 @@
                 timeSlotsContainer.appendChild(timeSlotGroup);
                 timeSlotCount++;
             });
+
+            document.getElementById('eventType').addEventListener('change', function () {
+            const customInputContainer = document.getElementById('addEventType');
+            customInputContainer.innerHTML = ''; // Clear any existing elements
+                if (this.value === 'custom') {
+                    // Create input group
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+
+                    // Create input field
+                    const inputField = document.createElement('input');
+                    inputField.type = 'text';
+                    inputField.className = 'form-control rounded-pill mt-2 mr-2';
+                    inputField.placeholder = 'Enter custom Event Type';
+
+                    // Create add button
+                    const addButton = document.createElement('button');
+                    addButton.type = 'button';
+                    addButton.className = 'btn btn-primary rounded-pill mt-2';
+                    addButton.innerText = 'Add';
+                    addButton.addEventListener('click', function () {
+                        const eventDD = document.getElementById("eventType");
+                        const option = document.createElement('option');
+                        option.value = inputField.value;
+                        option.innerText = inputField.value;
+                        // var option = '<option value="'+inputField.value+'">'+inputField.value+'</option>';
+                        eventDD.value = inputField.value;
+                        eventDD.appendChild(option);
+                        
+                        inputField.remove();
+                        addButton.remove();
+                    });
+
+                    // Append input field and button to input group
+                    inputGroup.appendChild(inputField);
+                    inputGroup.appendChild(addButton);
+
+                    // Append input group to container
+                    customInputContainer.appendChild(inputGroup);
+
+                }
+            });
             
+            document.getElementById('ticketType').addEventListener('change', function () {
+            const customInputContainer = document.getElementById('addTicType');
+            customInputContainer.innerHTML = ''; // Clear any existing elements
+
+                if (this.value === 'custom') {
+                    // Create input group
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+
+                    // Create input field
+                    const inputField = document.createElement('input');
+                    inputField.type = 'text';
+                    inputField.className = 'form-control rounded-pill mt-2 mr-2';
+                    inputField.placeholder = 'Enter custom ticket type';
+
+                    // Create add button
+                    const addButton = document.createElement('button');
+                    addButton.type = 'button';
+                    addButton.className = 'btn btn-primary rounded-pill mt-2';
+                    addButton.innerText = 'Add';
+                    addButton.addEventListener('click', function () {
+                        const eventDD = document.getElementById("ticketType");
+                        const option = document.createElement('option');
+                        option.value = inputField.value;
+                        option.innerText = inputField.value;
+                        // var option = '<option value="'+inputField.value+'">'+inputField.value+'</option>';
+                        eventDD.value = inputField.value;
+                        eventDD.appendChild(option);
+                        
+                        inputField.remove();
+                        addButton.remove();
+                    });
+
+                    // Append input field and button to input group
+                    inputGroup.appendChild(inputField);
+                    inputGroup.appendChild(addButton);
+
+                    // Append input group to container
+                    customInputContainer.appendChild(inputGroup);
+
+                }
+            });
             const nextBtns = document.querySelectorAll('.next-step');
             const prevBtns = document.querySelectorAll('.prev-step');
             const form = document.getElementById('registrationForm');
