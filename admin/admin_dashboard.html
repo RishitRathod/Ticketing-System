@@ -6,16 +6,17 @@
     <title>Admin - Manage Organizations</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
-    <div id="selectionButtonGroup" class ="container mt-5">
+    <div id="selectionButtonGroup" class="container mt-5">
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" aria-selected="true" value="organizations" class="btn btn-primary">Organizations</button>
             <button type="button" value="events" class="btn btn-primary">Events</button>
             <button type="button" value="users" class="btn btn-primary">Users</button>
-          </div>      
+        </div>      
     </div>
 
     <div class="container mt-5" id="addPackageBtn">
@@ -40,12 +41,12 @@
                                 <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
                             </div>
                             <div class="mb-3">
-                                <label for='Password' class='form-label'>Password</label>
+                                <label for='AdminPassword' class='form-label'>Password</label>
                                 <input type='password' name='Password' class='form-control' id="AdminPassword">
                             </div>
                             <input type="hidden" value="admins" id="tablename" name="tablename">
                             <div class="mb-3">
-                                <label for='Email' class='form-label'>Email</label>
+                                <label for='AdminEmail' class='form-label'>Email</label>
                                 <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
                             </div>
                     </div>
@@ -58,10 +59,9 @@
         </div>
     </div>
 
-
-    <div class="container mt-5">
+    <div class="container mt-5 " id="orgDiv">
         <h2>Organizations</h2>
-        <table class="table table-bordered">
+        <table id="orgTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -80,10 +80,9 @@
         </table>
     </div>
  
-    <div class="container mt-5">
-
+    <div class="container mt-5" id="userDiv">
         <h2>Users</h2>
-        <table class="table table-bordered">
+        <table id="userTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -95,14 +94,12 @@
             <tbody id="userTableBody">
                 <!-- Users will be dynamically populated here -->
             </tbody>
-
         </table>
-
     </div>
 
-    <div class="container mt-5">
-        <h2> Events </h2>
-        <table class="table table-bordered">
+    <div class="container mt-5" id="eventDiv">
+        <h2>Events</h2>
+        <table id="eventTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -111,53 +108,63 @@
                     <th>Organization Name</th>
                     <th>Event Time</th> <!-- both Start date and end date and time slots  -->
                     <th>Event Location</th>  
-                    <th>Event Capaity</th>
+                    <th>Event Capacity</th>
                     <th>Event type</th>
                     <th>Event poster</th>
-
                 </tr>
             </thead>
             <tbody id="eventTableBody">
                 <!-- Events will be dynamically populated here -->
             </tbody>
-
+        </table>
     </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
 
         window.onload = function() {
-            document.querySelector('#eventTableBody').parentElement.parentElement.style.display = 'none';
-            document.querySelector('#userTableBody').parentElement.parentElement.style.display = 'none';
-        };        
-
-        var tablename='';
-        document.querySelectorAll('.btn-group .btn').forEach((button) => {
-            button.addEventListener('click', (event) => {
-                // Hide all tables
-                document.querySelectorAll('.container .table').forEach((table) => {
-                    table.parentElement.style.display = 'none';
-                });
-        
-                // Show the table that corresponds to the button that was clicked
-                const value = event.target.value;
-                if (value === 'organizations') {
-                    document.querySelector('#orgTableBody').parentElement.parentElement.style.display = 'block';
-                    tablename ='organizations' ;
-                } else if (value === 'events') {
-                    document.querySelector('#eventTableBody').parentElement.parentElement.style.display = 'block';
-                    tablename = 'events';
-                } else if (value === 'users') {
-                    document.querySelector('#userTableBody').parentElement.parentElement.style.display = 'block';
-                    tablename = 'users';
-                }
-            });
-        });
+            document.querySelector('#eventTable').style.display = 'none';
+            document.querySelector('#userTable  ').style.display = 'none';
+        };
 
         let currentTableName = '';
+
+        document.querySelectorAll('.btn-group .btn').forEach((button) => {
+            button.addEventListener('click', async (event) => {
+                // Hide all tables
+                document.querySelectorAll('.container .table').forEach((table) => {
+                    table.style.display = 'none';
+                });
+
+                // Show the table that corresponds to the button that was clicked
+                const value = event.target.value;
+                currentTableName = value;
+
+                // Show and populate the selected table
+                let tableBody;
+                if (value === 'organizations') {
+                    tableBody = document.querySelector('#orgTableBody');
+                    document.querySelector('#orgTable').style.display = 'block';
+                    document.querySelector('#eventTable').style.display = 'none';
+                    document.querySelector('#userTable').style.display = 'none';
+                } else if (value === 'events') {
+                    tableBody = document.querySelector('#eventTableBody');
+                    document.querySelector('#eventTable').style.display = 'block';
+                    document.querySelector('#orgTable').style.display = 'none';
+                    document.querySelector('#userTable').style.display = 'none';
+                } else if (value === 'users') {
+                    tableBody = document.querySelector('#userTableBody');
+                    document.querySelector('#userTable').style.display = 'block';
+                    document.querySelector('#orgTable').style.display = 'none';
+                    document.querySelector('#eventTable').style.display = 'none';
+                }
+
+                const data = await fetchData(value);
+                populateTable(data, value);
+            });
+        });
 
         async function fetchData(tableName) {
             const response = await fetch("admin_dashboard.php", {
@@ -177,16 +184,7 @@
             }
         }
 
-        document.querySelectorAll('.btn-group .btn').forEach((button) => {
-            button.addEventListener('click', async (event) => {
-                const value = event.target.value;
-                currentTableName = value;
-                const data = await fetchData(value);
-                populateTable(data, value);
-            });
-        });
-
-        function populateTable(data, tableName) { //fetch data from the server and populate the table
+        function populateTable(data, tableName) {
             let tbody;
             if (tableName === 'organizations') {
                 tbody = document.querySelector('#orgTableBody');
@@ -228,8 +226,7 @@
                         <td>${row.VenueAddress}</td>
                         <td>${row.Capacity}</td>
                         <td>${row.EventType}</td>
-                        <td><img src="../${row.EventPoster}" alt="User Photo" hight="50" width="50"></td>
-
+                        <td><img src="../${row.EventPoster}" alt="Event Poster" height="50" width="50"></td>
                     `;
                 } else if (tableName === 'users') {
                     tr.innerHTML = `
@@ -241,12 +238,12 @@
                 }
                 tbody.appendChild(tr);
             });
+
+            // Initialize DataTable for the specific table
+            $(`#${tableName === 'organizations' ? 'orgTable' : tableName === 'events' ? 'eventTable' : 'userTable'}`).DataTable();
         }
 
-        //now write the code to handle the approve and reject buttons for organizations table 
-        //if we go with reject give the reason of rejection in the prompt box and 
-        //send it to the server to update the status of the organization in the database and
-        // write the reason of rejection in the database as well do this using functions and event listeners
+        // Handle approve and reject buttons for organizations table
         document.addEventListener('click', async function(event) {
             if (event.target.classList.contains('approve-btn')) {
                 const orgID = event.target.getAttribute('data-id');
@@ -258,16 +255,16 @@
                 await rejectOrganization(orgID, tableName);
             }
         });
-        
+
         async function approveOrganization(orgID, tableName) {
             const response = await fetch("admin_dashboard.php", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({tablename: tableName, action: 'approve', 'columnName': "orgID",'columnValue': orgID}),
+                body: JSON.stringify({tablename: tableName, action: 'approve', 'columnName': "orgID", 'columnValue': orgID}),
             });
-        
+
             const result = await response.json();
             if (result.status === 'success') {
                 // Refresh the table
@@ -277,7 +274,7 @@
                 console.error('Error:', result.message);
             }
         }
-        
+
         async function rejectOrganization(orgID, tableName) {
             const reason = prompt("Enter reason for rejection:");
             if (reason) {
@@ -286,9 +283,9 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({tablename: tableName, action: 'reject','columnName': "orgID",'columnValue': orgID, reason: reason}),
+                    body: JSON.stringify({tablename: tableName, action: 'reject', 'columnName': "orgID", 'columnValue': orgID, reason: reason}),
                 });
-        
+
                 const result = await response.json();
                 if (result.status === 'success') {
                     // Refresh the table
@@ -299,8 +296,8 @@
                 }
             }
         }
-        
-      async function addadmin() {
+
+        async function addadmin() {
             const adminUsername = document.querySelector("#AdminUsername").value;
             const password = document.querySelector("#AdminPassword").value;
             const AdminEmail = document.querySelector('#AdminEmail').value;
@@ -345,17 +342,13 @@
             
             if (result.status === 'success') {
                 // Refresh the table
-               alert("admin added successfully");
+                alert("Admin added successfully");
                 // var modal=document.getElementById("myModal");
                 // modal.setAttribute("hidden", "true");
-                
-           
             } else {
-              console.log("Error: ", result.message);
-
-      }
-    }
-        
+                console.log("Error: ", result.message);
+            }
+        }
     </script>
 </body>
 </html>
