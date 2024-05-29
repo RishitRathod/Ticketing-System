@@ -46,6 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+     // Check if the email is already registered
+     $check = DB::selectBy(DB_NAME, $tablename, ['userphonenumber' => $data['userphonenumber']]);
+     if ($check) {
+         echo json_encode(['status' => 'error', 'message' => 'phone number already registered']);
+         exit;
+     }
+
+
     // Insert the user data
     $insert = DB::insert(DB_NAME, $tablename, $data);
     if ($insert == insertSuccess) {
