@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Bootstrap -->
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- CSS -->
     <style>
         body{
             background-color: #c9d6ff;
@@ -118,52 +117,47 @@
     </style>
 </head>
 <body>
-  
-    <main>
-        <div class="container text-center m-4 py-4">
-            <div class="row m-4 justify-content-evenly">
-                <div class="events col-5 p-3 p-md-5 rounded-pill btn btn-secondary">
-                    Events
+<nav class="navbar fixed-top navbar-dark bg-dark p-3 navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="user_dashboard.html">
+                <img src="../img/logo.png" class="rounded-circle mx-4" alt="Logo">Events
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Organization </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Events </a>
+                    </li>
+                </ul>
+                <div class="d-block" id="login">
+                    <a class="btn ls" href="user_logINsignUP.html">Login | Sign up</a>
                 </div>
-                <div class="tickets col-5 p-3 p-md-5 rounded-pill btn btn-secondary">
-                    Tickets
+                <div class="d-none" id="profile">
+                <div class="dropdown open p-3 rounded-pills">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
+                    </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                            <li><a class="dropdown-item" href="userprofile.php">Profile</a></li>
+                            <li><a class="dropdown-item" href="user_logout.php">Log Out</a></li>
+                        </div>
                 </div>
             </div>
         </div>
-        <div class="container mt-5">
-            <div class="row">
-                <h4>All Categories</h4>
-            </div>
-            <div class="scroll-container text-center p-3">
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Beauty</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Bussiness</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Comedy</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Culture</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Dance</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Education</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Experience</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Health</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Music</a>   
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Sports</a>            
-            </div>
-        </div>
-    </main>
+    </nav>
 
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   
 
-    <footer class="bg-body-tertiary p-3 text-center text-lg-start">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2024 Copyright:
-            <a class="text-body" href="#">Event Scheduler</a>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <script>
-        
-    </script>
 </body>
 </html>
