@@ -119,7 +119,7 @@
 <body>
 <nav class="navbar fixed-top navbar-dark bg-dark p-3 navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="user_dashboard.html">
+            <a class="navbar-brand" href="user_dashboard1.php">
                 <img src="../img/logo.png" class="rounded-circle mx-4" alt="Logo">Events
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,7 +140,7 @@
                 <div class="d-block" id="login">
                     <a class="btn ls" href="user_logINsignUP.html">Login | Sign up</a>
                 </div>
-                <div class="d-none" id="profile">
+                <div class="d-block " id="profile">
                 <div class="dropdown open p-3 rounded-pills">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
