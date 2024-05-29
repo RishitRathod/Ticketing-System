@@ -37,15 +37,15 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid p-3 bg-dark text-white">
+    <div class="container-fluid w-100 container-sm p-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
-                <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
+                <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
             <div class="col-auto">
                 <div class="dropdown open p-3 rounded-pills">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
@@ -60,9 +60,9 @@
         <div class="row flex-nowrap">
             <div class="bg-dark col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
                 <div class="bg-dark p-2">
-                    <ul class="nav nav-pills flex-column">
+                    <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
-                            <a href="./organization_dashboard.html" class="nav-link text-white active"> 
+                            <a href="./organization_dashboard.html" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
@@ -89,6 +89,28 @@
                     </ul>
                 </div>
             </div>
+            <script>
+                // Function to set active class to the clicked anchor tag
+                function setActiveLink() {
+                    // Get the current path
+                    var currentPath = window.location.pathname;
+                    
+                    // Get all anchor tags within the parent div
+                    var links = document.querySelectorAll('#parentDiv .nav-link');
 
+                    // Remove 'active' class from all anchor tags and set to active if href matches current path
+                    links.forEach(function(link) {
+                        if (link.href.endsWith(currentPath)) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+
+        // Add event listener to set the active class when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', setActiveLink);
+
+            </script>
             <div class="col p-3">
                 <div class="main-content mx-auto d-flex justify-content-center align-items-center">

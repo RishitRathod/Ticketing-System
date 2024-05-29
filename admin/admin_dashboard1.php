@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin - Manage Organizations</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
+<?php
+    include 'admin_headnav.php';
+?>
 
-    <div id="selectionButtonGroup" class="container mt-5">
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" aria-selected="true" value="organizations" class="btn btn-primary">Organizations</button>
-            <button type="button" value="events" class="btn btn-primary">Events</button>
-            <button type="button" value="users" class="btn btn-primary">Users</button>
+    <div id="selectionButtonGroup" class="container d-block row mt-5">
+        <div class="btn-group m-2" role="group" aria-label="Basic example">
+            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary">Organizations</button>
+            <button type="button" value="events" class="btn btn-outline-secondary">Events</button>
+            <button type="button" value="users" class="btn btn-outline-info">Users</button>
         </div>      
     </div>
 
@@ -43,7 +34,6 @@
                             <div class="mb-3">
                                 <label for='AdminPassword' class='form-label'>Password</label>
                                 <input type='password' name='Password' class='form-control' id="AdminPassword">
-                                <input type="checkbox" onclick="togglePassword()"> Show Password
                             </div>
                             <input type="hidden" value="admins" id="tablename" name="tablename">
                             <div class="mb-3">
@@ -62,7 +52,7 @@
 
     <div class="container mt-5 " id="orgDiv">
         <h2>Organizations</h2>
-        <table id="orgTable" class="table table-bordered">
+        <table id="orgTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -83,7 +73,7 @@
  
     <div class="container mt-5" id="userDiv">
         <h2>Users</h2>
-        <table id="userTable" class="table table-bordered">
+        <table id="userTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -100,7 +90,7 @@
 
     <div class="container mt-5" id="eventDiv">
         <h2>Events</h2>
-        <table id="eventTable" class="table table-bordered">
+        <table id="eventTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
