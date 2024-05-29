@@ -58,7 +58,7 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-3 col-md-3 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="bg-dark col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
                 <div class="bg-dark p-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item py-2">
