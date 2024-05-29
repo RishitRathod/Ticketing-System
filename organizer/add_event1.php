@@ -452,6 +452,7 @@
             const prevBtns = document.querySelectorAll('.prev-step');
             const form = document.getElementById('registrationForm');
             const steps = form.querySelectorAll('.step');
+            console.log(steps.length);
             const addTicketBtn = document.getElementById('addTicket');
             const ticketContainer = document.getElementById('ticketContainer');
             let currentStep = 0;

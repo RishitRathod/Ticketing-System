@@ -59,6 +59,16 @@
         const registerBtn = document.getElementById('register');
         const loginBtn = document.getElementById('login');
 
+        function CheckEmailAndPhoneNumberIsSet(){
+            var email = document.getElementById('email').value;
+            var userphonenumber = document.getElementById('userphonenumber').value;
+           
+            if(email == "" && userphonenumber == ""){
+                alert("Please enter either email or phone number");
+                return false;
+            }
+        }
+
         registerBtn.addEventListener('click', () => {
             container.classList.add("active");
         });
@@ -70,6 +80,10 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#registrationForm").addEventListener('submit', function(event) {
+               if(CheckEmailAndPhoneNumberIsSet() == false){
+                   event.preventDefault();
+                   return;
+                }
                 event.preventDefault(); // prevent the form from submitting normally
                 var form = document.getElementById('registrationForm');
                 var formData = new FormData(form);
