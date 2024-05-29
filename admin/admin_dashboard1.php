@@ -4,9 +4,9 @@
 
     <div id="selectionButtonGroup" class="container d-block row mt-5">
         <div class="btn-group m-2" role="group" aria-label="Basic example">
-            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary">Organizations</button>
-            <button type="button" value="events" class="btn btn-outline-secondary">Events</button>
-            <button type="button" value="users" class="btn btn-outline-info">Users</button>
+            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
+            <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
+            <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
         </div>      
     </div>
 
@@ -119,6 +119,24 @@
             document.querySelector('#eventTable').style.display = 'none';
             document.querySelector('#userTable  ').style.display = 'none';
         };
+        function orgonly()
+        {
+            document.getElementById('orgDiv').style.display = 'block';
+            document.getElementById('userDiv').style.display = 'none';
+            document.getElementById('eventDiv').style.display = 'none';
+        }
+        function useronly()
+        {
+            document.getElementById('orgDiv').style.display = 'none';
+            document.getElementById('userDiv').style.display = 'block';
+            document.getElementById('eventDiv').style.display = 'none';
+        }
+        function eventonly()
+        {
+            document.getElementById('orgDiv').style.display = 'none';
+            document.getElementById('userDiv').style.display = 'none';
+            document.getElementById('eventDiv').style.display = 'block';
+        }
 
         let currentTableName = '';
 
