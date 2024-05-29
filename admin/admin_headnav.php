@@ -14,6 +14,8 @@
     <style>
         body{
             background-color: #ffffff;
+            width: 100%;
+
         }
         .nav-pills li a:hover {
             background-color: darkblue;
@@ -24,6 +26,15 @@
             color: #fff;
         }
 
+        .container-fluid{
+            max-width: 100%;
+        }
+        @media (max-width: 768px) {
+            .dropdown.open {
+                width: 100%;
+                text-align: center;
+            }
+        }
         .main-content {
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -37,10 +48,10 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid p-3 bg-dark text-white">
+    <div class="container-fluid  w-100 container-sm p-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
-                <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
+                <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Admins</b>
             </a>  
             <div class="col-auto">
@@ -91,4 +102,4 @@
             </div>
 
             <div class="col p-3">
-                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+                <div class="main-content mx-auto justify-content-center align-items-center">

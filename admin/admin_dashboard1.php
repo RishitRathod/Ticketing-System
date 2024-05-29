@@ -1,58 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin - Manage Organizations</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
+<?php
+    include 'admin_headnav.php';
+?>
 
-    <div id="selectionButtonGroup" class="container mt-5">
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" aria-selected="true" value="organizations" class="btn btn-primary">Organizations</button>
-            <button type="button" value="events" class="btn btn-primary">Events</button>
-            <button type="button" value="users" class="btn btn-primary">Users</button>
+    <div id="selectionButtonGroup" class="container d-block row mt-5">
+        <div class="btn-group m-2" role="group" aria-label="Basic example">
+            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary">Organizations</button>
+            <button type="button" value="events" class="btn btn-outline-secondary">Events</button>
+            <button type="button" value="users" class="btn btn-outline-info">Users</button>
         </div>      
     </div>
-
-    <div class="container mt-5" id="addPackageBtn">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button>
-    </div>
-    <div class="m-4">
-        <!-- Button HTML (to Trigger Modal) -->
-        <a href="#myModal" role="button" class="btn btn-lg btn-primary" data-bs-toggle="modal">ADD ADMIN</a>
-    
-        <!-- Modal HTML -->
-        <div id="myModal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">ADD ADMIN</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                       <form method="POST" id="registrationForm">
-                            <div class="mb-3">
-                                <label for="AdminUsername" class="form-label">Admin Username</label>
-                                <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
-                            </div>
-                            <div class="mb-3">
-                                <label for='AdminPassword' class='form-label'>Password</label>
-                                <input type='password' name='Password' class='form-control' id="AdminPassword">
-                            </div>
-                            <input type="hidden" value="admins" id="tablename" name="tablename">
-                            <div class="mb-3">
-                                <label for='AdminEmail' class='form-label'>Email</label>
-                                <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
+    <div class="row justify-content-evenly">
+        <div class="col-auto m-4" id="addPackageBtn">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button>
+        </div>
+        <div class="col-auto m-4 ">
+            <!-- Button HTML (to Trigger Modal) -->
+            <a href="#myModal" role="button" class="btn btn-primary" data-bs-toggle="modal">ADD ADMIN</a>
+        
+            <!-- Modal HTML -->
+            <div id="myModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">ADD ADMIN</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form method="POST" id="registrationForm">
+                                <div class="mb-3">
+                                    <label for="AdminUsername" class="form-label">Admin Username</label>
+                                    <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
+                                </div>
+                                <div class="mb-3">
+                                    <label for='AdminPassword' class='form-label'>Password</label>
+                                    <input type='password' name='Password' class='form-control' id="AdminPassword">
+                                </div>
+                                <input type="hidden" value="admins" id="tablename" name="tablename">
+                                <div class="mb-3">
+                                    <label for='AdminEmail' class='form-label'>Email</label>
+                                    <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +53,7 @@
 
     <div class="container mt-5 " id="orgDiv">
         <h2>Organizations</h2>
-        <table id="orgTable" class="table table-bordered">
+        <table id="orgTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -82,7 +74,7 @@
  
     <div class="container mt-5" id="userDiv">
         <h2>Users</h2>
-        <table id="userTable" class="table table-bordered">
+        <table id="userTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -99,7 +91,7 @@
 
     <div class="container mt-5" id="eventDiv">
         <h2>Events</h2>
-        <table id="eventTable" class="table table-bordered">
+        <table id="eventTable" class="table table-responsive table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
