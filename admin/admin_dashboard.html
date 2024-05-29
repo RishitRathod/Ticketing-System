@@ -43,6 +43,7 @@
                             <div class="mb-3">
                                 <label for='AdminPassword' class='form-label'>Password</label>
                                 <input type='password' name='Password' class='form-control' id="AdminPassword">
+                                <input type="checkbox" onclick="togglePassword()"> Show Password
                             </div>
                             <input type="hidden" value="admins" id="tablename" name="tablename">
                             <div class="mb-3">
@@ -347,6 +348,14 @@
                 // modal.setAttribute("hidden", "true");
             } else {
                 console.log("Error: ", result.message);
+            }
+        }
+        function togglePassword() {
+            var passwordField = document.getElementById("AdminPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
             }
         }
     </script>
