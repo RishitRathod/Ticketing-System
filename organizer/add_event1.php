@@ -191,7 +191,7 @@
                             <div class="step">
                                 <div class="form-group">
                                     <label for="eventPoster">Event Poster</label>
-                                    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster">
+                                    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]"  multiple>
                                 </div>
                                <div class="form-group">
                                    <label for="country">Country: </label>
@@ -539,12 +539,12 @@ function validateForm() {
                     if (currentStep < steps.length - 1) {
                         steps[currentStep].classList.remove('active');
                         //check if we are on the step of time and date and validate the form
-                        if(currentStep == 1){
-                            if(!validateForm()) {
-                                currentStep =0;
+                        // if(currentStep == 1){
+                        //     if(!validateForm()) {
+                        //         currentStep =0;
                                 
-                            }
-                        }
+                        //     }
+                        // }
                         currentStep++;
 
                         steps[currentStep].classList.add('active');
