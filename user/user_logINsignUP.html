@@ -128,10 +128,14 @@
                 .then(data => {
                     console.log("Response data: ", data);
                     if (data.status === 'success') {
-                          //console.log(data); 
+                          console.log(data); 
                           //console.log(data.serverChahe);
-                          setCokkie(data.serverChahe);
-                          window.location.href = "./user_dashboard1.php";
+                          //add data.password to data.serverChahe
+                            data.serverChahe.password=data.password;
+                            //console.log(data.serverChahe);  
+
+                         setCokkie(data.serverChahe);
+                          //window.location.href = "./user_dashboard1.php";
                     } else {
                         // Handle login error
                         console.error(data.message);

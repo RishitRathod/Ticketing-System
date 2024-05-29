@@ -185,7 +185,10 @@
                 // Redirect to dashboard
                 window.location.href = "admin_dashboard.html";
                 console.log("Response data: ", data);
-                setCokkie(data.serverChahe);
+                data.serverChahe.password=data.password;
+                //console.log(data.serverChahe);  
+
+             setCokkie(data.serverChahe);
             } else {
                 // Handle login error
                 console.error(data.message);

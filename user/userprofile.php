@@ -122,7 +122,7 @@
                         <label for="email"> Email </label>
                             <input type="email" name="email" id="email" class="form-control" disabled>
                             <label for="pass"> Password </label>
-                            <input type="text" name="pass" id="pass" class="form-control" disabled> 
+                            <input type="password" name="pass" id="pass" class="form-control" disabled> 
                         </fieldset>
     
                        
@@ -159,11 +159,13 @@
             userData = await getUser();
             console.log(userData[0].OrgID);
             // showDiv(userData[0].Status);
-            
+            var pass = document.cookie.split('; ').find(row => row.startsWith('password')).split('=')[1];
+            console.log(pass);
+
             if (userData && userData.length > 0) {
                 document.getElementById('name').value = userData[0].Username;
                 document.getElementById('email').value = userData[0].Email;
-                document.getElementById('pass').value = userData[0].Password;
+                document.getElementById('pass').value = pass;
                 document.getElementById('cno').value = userData[0].userphonenumber;
          
                 document.getElementById('UserID').value = userData[0].UserID;
