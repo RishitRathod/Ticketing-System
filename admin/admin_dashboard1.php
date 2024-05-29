@@ -2,113 +2,122 @@
     include 'admin_headnav.php';
 ?>
 
-    <div id="selectionButtonGroup" class="container d-block row mt-5">
-        <div class="btn-group m-2" role="group" aria-label="Basic example">
+    <div id="selectionButtonGroup" class="container stic d-block row mt-5">
+        <div class="btn-group m-2" id="gB"role="group" aria-label="Basic example">
             <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
             <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
             <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
         </div>      
     </div>
-
-    <div class="container mt-5" id="addPackageBtn">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button>
-    </div>
-    <div class="m-4">
-        <!-- Button HTML (to Trigger Modal) -->
-        <a href="#myModal" role="button" class="btn btn-lg btn-primary" data-bs-toggle="modal">ADD ADMIN</a>
-    
-        <!-- Modal HTML -->
-        <div id="myModal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">ADD ADMIN</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                       <form method="POST" id="registrationForm">
-                            <div class="mb-3">
-                                <label for="AdminUsername" class="form-label">Admin Username</label>
-                                <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
-                            </div>
-                            <div class="mb-3">
-                                <label for='AdminPassword' class='form-label'>Password</label>
-                                <input type='password' name='Password' class='form-control' id="AdminPassword">
-                            </div>
-                            <input type="hidden" value="admins" id="tablename" name="tablename">
-                            <div class="mb-3">
-                                <label for='AdminEmail' class='form-label'>Email</label>
-                                <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
+    <div class="row justify-content-evenly">
+        <div class="container col-4 mt-5" id="addPackageBtn">
+            <!-- <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button> -->
+        </div>
+        <div class="col-4 mt-5">
+            <!-- Button HTML (to Trigger Modal) -->
+            <!-- <a href="#myModal" role="button" class="btn btn-primary" data-bs-toggle="modal">ADD ADMIN</a> -->
+        
+            <!-- Modal HTML -->
+            <div id="myModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">ADD ADMIN</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                           <form method="POST" id="registrationForm">
+                                <div class="mb-3">
+                                    <label for="AdminUsername" class="form-label">Admin Username</label>
+                                    <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
+                                </div>
+                                <div class="mb-3">
+                                    <label for='AdminPassword' class='form-label'>Password</label>
+                                    <input type='password' name='Password' class='form-control' id="AdminPassword">
+                                </div>
+                                <input type="hidden" value="admins" id="tablename" name="tablename">
+                                <div class="mb-3">
+                                    <label for='AdminEmail' class='form-label'>Email</label>
+                                    <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="container mt-5 " id="orgDiv">
-        <h2>Organizations</h2>
-        <table id="orgTable" class="table table-responsive table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Contact Number</th>
-                    <th>Contact Email</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="orgTableBody">
-                <!-- Organizations will be dynamically populated here -->
-            </tbody>
-        </table>
+    <div id="a" style="display: none;">
+        <div class="container mt-5 " id="orgDiv">
+            <h2>Organizations</h2>
+            <table id="orgTable" class="table table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Contact Email</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orgTableBody">
+                    <!-- Organizations will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div id="b" style="display: none;">
+        <div class="container mt-5" id="userDiv">
+            <h2>Users</h2>
+            <table id="userTable" class="table table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>User Photo</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Users will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div id="c" style="display: none;">
+        <div class="container mt-5" id="eventDiv">
+            <h2>Events</h2>
+            <table id="eventTable" class="table table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Event Name</th>
+                        <th>Event Description</th>
+                        <th>Organization Name</th>
+                        <th>Event Time</th> <!-- both Start date and end date and time slots  -->
+                        <th>Event Location</th>  
+                        <th>Event Capacity</th>
+                        <th>Event type</th>
+                        <th>Event poster</th>
+                    </tr>
+                </thead>
+                <tbody id="eventTableBody">
+                    <!-- Events will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+        
     </div>
  
-    <div class="container mt-5" id="userDiv">
-        <h2>Users</h2>
-        <table id="userTable" class="table table-responsive table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>User Photo</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- Users will be dynamically populated here -->
-            </tbody>
-        </table>
-    </div>
 
-    <div class="container mt-5" id="eventDiv">
-        <h2>Events</h2>
-        <table id="eventTable" class="table table-responsive table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Event Name</th>
-                    <th>Event Description</th>
-                    <th>Organization Name</th>
-                    <th>Event Time</th> <!-- both Start date and end date and time slots  -->
-                    <th>Event Location</th>  
-                    <th>Event Capacity</th>
-                    <th>Event type</th>
-                    <th>Event poster</th>
-                </tr>
-            </thead>
-            <tbody id="eventTableBody">
-                <!-- Events will be dynamically populated here -->
-            </tbody>
-        </table>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -121,21 +130,21 @@
         };
         function orgonly()
         {
-            document.getElementById('orgDiv').style.display = 'block';
-            document.getElementById('userDiv').style.display = 'none';
-            document.getElementById('eventDiv').style.display = 'none';
+            document.getElementById('a').style.display = 'block';
+            document.getElementById('b').style.display = 'none';
+            document.getElementById('c').style.display = 'none';
         }
         function useronly()
         {
-            document.getElementById('orgDiv').style.display = 'none';
-            document.getElementById('userDiv').style.display = 'block';
-            document.getElementById('eventDiv').style.display = 'none';
+            document.getElementById('a').style.display = 'none';
+            document.getElementById('b').style.display = 'block';
+            document.getElementById('c').style.display = 'none';
         }
         function eventonly()
         {
-            document.getElementById('orgDiv').style.display = 'none';
-            document.getElementById('userDiv').style.display = 'none';
-            document.getElementById('eventDiv').style.display = 'block';
+            document.getElementById('a').style.display = 'none';
+            document.getElementById('b').style.display = 'none';
+            document.getElementById('c').style.display = 'block';
         }
 
         let currentTableName = '';
@@ -367,5 +376,6 @@
             }
         }
     </script>
-</body>
-</html>
+<?php
+    include 'admin_footer.php';
+?>

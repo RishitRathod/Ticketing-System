@@ -44,6 +44,14 @@
             background-color: #f9f9f9;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
+        .stic {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            padding: 50px;
+            font-size: 20px;
+            background:
+        }
 
     </style>
 </head>
@@ -78,23 +86,18 @@
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_events.php" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-list"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Events</span>
+                            <a href="#myModal" role="button"  class="nav-link text-white" data-bs-toggle="modal">
+                                <i class="fs-5 fa fa-user"></i><span class="fs-5 ms-3 d-none d-sm-inline">Add Admin</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="./organization_plans.php" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-th"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Plans</span>
-                            </a>
+                            <button type="button" class="nav-link text-white" onclick="window.location.href='add_package.php'"> 
+                                <i class="fs-5 fa fa-plus"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Add Package</span>
+                            </button>
                         </li>
                         <li class="nav-item py-2">
                             <a href="./organization_analysis.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-clipboard"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Analysis</span>
-                            </a>
-                        </li>
-                        <li class="nav-item py-2">
-                            <a href="./organization_members.php" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-users"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Members</span>
                             </a>
                         </li>
                     </ul>
