@@ -44,8 +44,8 @@
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
-                                    <label for="orgid" class="form-label">Organization ID</label>
-                                    <input type="text" class="form-control rounded-4" id="orgid" name="orgid" >
+                                    <!-- <label for="orgid" class="form-label">Organization ID</label> -->
+                                    <input type="hidden" class="form-control rounded-4" id="orgid"  name="orgid" >
                                 </div>
                                 <div class="form-group">
                                     <label for="eventName" class="form-label">Event Name</label>
@@ -83,7 +83,7 @@
                             </div>
 
                             <!-- Step 2: Date and Time -->
-                            <div class="step">
+                            <div name="timeAndDate" id="timeAndDate" class="step">
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date</legend>
                                     <div class="row mx-auto">
@@ -231,6 +231,81 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     
     <script>
+       
+
+function validateForm() {
+        const form = document.getElementById('registrationForm');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+
+        // Get the selected start and end dates and times
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        const currentDate = new Date();
+
+        // Check if the start date and time are before the end date and time
+        if (startDate >= endDate) {
+            alert('Start date and time must be before end date and time.');
+            return false;
+        }
+
+        // Check if the start date and time are greater than today's date and time
+        if (startDate <= currentDate) {
+            alert('Start date and time must be greater than today.');
+            return false;
+        }
+        if(startDate.value === '' || endDate.value === '') {
+            alert('Please fill in all date and time fields.');
+            return false;
+        }
+        const startTimeInputs = document.querySelectorAll('input[name="StartTimeSlot[]"]');
+    // Get all end time inputs
+    const endTimeInputs = document.querySelectorAll('input[name="EndTimeSlot[]"]');
+
+    // Iterate over each pair of start and end time inputs
+    for (let i = 0; i < startTimeInputs.length; i++) {
+        const startTime = new Date(startDate.toDateString() + ' ' + startTimeInputs[i].value);
+        const endTime = new Date(startDate.toDateString() + ' ' + endTimeInputs[i].value);
+
+        // Check if the start time is before the end time
+        if (startTime >= endTime) {
+            alert('Start time must be before end time for each time slot.');
+            return false;
+        }
+        if(startTime <= currentDate){
+            alert('Start time must be greater than today.');
+            return false;
+        }
+        if(endTime <= currentDate){
+            alert('End time must be greater than today.');
+            return false;
+        }
+
+        if(endTime <= startTime){
+            alert('End time must be greater than start time.');
+            return false;
+        }
+        if(startTimeInputs[i].value === '' || endTimeInputs[i].value === '') {
+            alert('Please fill in all time slots.');
+            return false;
+        }
+
+        // Check if the start time of the next slot is greater than or equal to the end time of the previous slot
+        if (i > 0) {
+            const prevEndTime = new Date(startDate.toDateString() + ' ' + endTimeInputs[i - 1].value);
+            const nextStartTime = new Date(startDate.toDateString() + ' ' + startTimeInputs[i].value);
+            if (nextStartTime < prevEndTime) {
+                alert('Start time of the next slot must be after the end time of the previous slot.');
+                return false;
+            }
+        }
+    }
+
+    // If all validations pass, return true to submit the form
+    return true;
+}
+
+
         document.addEventListener("DOMContentLoaded", function() {
             fetch('../cascading.php') 
                 .then(response => response.json())
@@ -284,6 +359,8 @@
     </script>
     
     <script>
+         document.getElementById('orgid').value = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+         console.log(document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1]);
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
             const deleteTimeSlotBtn = document.getElementById('removeTime')
@@ -452,7 +529,7 @@
             const prevBtns = document.querySelectorAll('.prev-step');
             const form = document.getElementById('registrationForm');
             const steps = form.querySelectorAll('.step');
-            console.log(steps.length);
+            // console.log(steps.length);
             const addTicketBtn = document.getElementById('addTicket');
             const ticketContainer = document.getElementById('ticketContainer');
             let currentStep = 0;
@@ -461,7 +538,15 @@
                 button.addEventListener('click', () => {
                     if (currentStep < steps.length - 1) {
                         steps[currentStep].classList.remove('active');
+                        //check if we are on the step of time and date and validate the form
+                        if(currentStep == 1){
+                            if(!validateForm()) {
+                                currentStep =0;
+                                
+                            }
+                        }
                         currentStep++;
+
                         steps[currentStep].classList.add('active');
                     }
                 });
@@ -479,7 +564,12 @@
 
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
+            //    if(!validateForm()) {
+                    
+            //         return;
+            //     }
                 console.log('Form submitted');
+             console.log('Form submitted');
 
                 var formData = new FormData(form);
 
