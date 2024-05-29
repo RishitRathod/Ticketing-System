@@ -1,5 +1,5 @@
 <?php
-include './userdashnav.php';
+include 'userdashnav.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

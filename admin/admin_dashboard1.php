@@ -9,42 +9,41 @@
             <button type="button" value="users" class="btn btn-outline-info">Users</button>
         </div>      
     </div>
-    <div class="row justify-content-evenly">
-        <div class="col-auto m-4" id="addPackageBtn">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button>
-        </div>
-        <div class="col-auto m-4 ">
-            <!-- Button HTML (to Trigger Modal) -->
-            <a href="#myModal" role="button" class="btn btn-primary" data-bs-toggle="modal">ADD ADMIN</a>
-        
-            <!-- Modal HTML -->
-            <div id="myModal" class="modal fade" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">ADD ADMIN</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                        <form method="POST" id="registrationForm">
-                                <div class="mb-3">
-                                    <label for="AdminUsername" class="form-label">Admin Username</label>
-                                    <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
-                                </div>
-                                <div class="mb-3">
-                                    <label for='AdminPassword' class='form-label'>Password</label>
-                                    <input type='password' name='Password' class='form-control' id="AdminPassword">
-                                </div>
-                                <input type="hidden" value="admins" id="tablename" name="tablename">
-                                <div class="mb-3">
-                                    <label for='AdminEmail' class='form-label'>Email</label>
-                                    <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
-                        </div>
+
+    <div class="container mt-5" id="addPackageBtn">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button>
+    </div>
+    <div class="m-4">
+        <!-- Button HTML (to Trigger Modal) -->
+        <a href="#myModal" role="button" class="btn btn-lg btn-primary" data-bs-toggle="modal">ADD ADMIN</a>
+    
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">ADD ADMIN</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                       <form method="POST" id="registrationForm">
+                            <div class="mb-3">
+                                <label for="AdminUsername" class="form-label">Admin Username</label>
+                                <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
+                            </div>
+                            <div class="mb-3">
+                                <label for='AdminPassword' class='form-label'>Password</label>
+                                <input type='password' name='Password' class='form-control' id="AdminPassword">
+                            </div>
+                            <input type="hidden" value="admins" id="tablename" name="tablename">
+                            <div class="mb-3">
+                                <label for='AdminEmail' class='form-label'>Email</label>
+                                <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
                     </div>
                 </div>
             </div>
@@ -339,6 +338,14 @@
                 // modal.setAttribute("hidden", "true");
             } else {
                 console.log("Error: ", result.message);
+            }
+        }
+        function togglePassword() {
+            var passwordField = document.getElementById("AdminPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
             }
         }
     </script>
