@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         return $key !== 'tablename';
     }, ARRAY_FILTER_USE_KEY);
 
+   
     // Check if $data is an array
     if (!is_array($data)) {
         echo json_encode(['status' => 'error', 'message' => 'Invalid data format']);
