@@ -122,7 +122,9 @@
                         <label for="email"> Email </label>
                             <input type="email" name="email" id="email" class="form-control" disabled>
                             <label for="pass"> Password </label>
-                            <input type="password" name="pass" id="pass" class="form-control" disabled> 
+                            <input type="password" name="pass" id="pass" class="form-control" >
+                                <input type="checkbox" onclick="togglePassword()"> Show Password
+                      
                         </fieldset>
     
                        
@@ -222,7 +224,14 @@
         });
     }
 
-
+    function togglePassword() {
+            var passwordField = document.getElementById("pass");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
 
 
 

@@ -19,7 +19,11 @@
                 <input type="tel" id="userphonenumber" placeholder="Contact Number" name="userphonenumber">
                 <input type="file" class="form-control-file" id="userPhoto" name="UserPhoto">
                 <hr class="hr hr-blurry"/>
-                <input type="password" id="password" name="Password" placeholder="Enter a Password">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="Password" placeholder="Enter password" required>
+                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                </div>
                 <input type="hidden" name="tablename" value="users">
                 <button type="submit" >Sign Up</button>
             </form>
@@ -31,7 +35,12 @@
                 <input type="text" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
                 <input type="tel" placeholder="Contact Number">
                 <hr class="hr hr-blurry"/>
-                <input type="password" id="Password" name="Password" placeholder="Password">
+               
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter password" required>
+                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                </div>
                 <a href="#">Forget Your Password?</a>
                 <input type="hidden" value="users" name="tablename">    
                 <button id="submit" type="submit" name="login">Log In</button>
@@ -135,7 +144,7 @@
                             //console.log(data.serverChahe);  
 
                          setCokkie(data.serverChahe);
-                          //window.location.href = "./user_dashboard1.php";
+                          window.location.href = "./user_dashboard1.php";
                     } else {
                         // Handle login error
                         console.error(data.message);
@@ -146,7 +155,22 @@
                 });
             });
         });
-
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+        function togglePassword() {
+            var passwordField = document.getElementById("Password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
     </script>
 </body>
 </html>

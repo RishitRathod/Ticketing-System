@@ -127,6 +127,8 @@
                     <div class="mb-3">
                         <!-- <label for="AdminPassword" class="form-label">Password</label> -->
                         <input type="password" class="form-control pass" id="AdminPassword" name="AdminPassword" placeholder="Password">
+                        <input type="checkbox" onclick="togglePassword()"> Show Password
+                        </div>
                     </div>
 
                     <input type="hidden" value="admins" name="tablename">
@@ -203,7 +205,14 @@
 });
 
 
-
+function togglePassword() {
+            var passwordField = document.getElementById("AdminPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
     </script>
    
     
