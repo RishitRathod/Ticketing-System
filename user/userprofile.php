@@ -166,7 +166,7 @@
                 document.getElementById('pass').value = userData[0].Password;
                 document.getElementById('cno').value = userData[0].userphonenumber;
          
-             
+                document.getElementById('UserID').value = userData[0].UserID;
             }
         });
 
@@ -188,10 +188,10 @@
             // Get the form data
             const name = document.querySelector("#name").value;
             const Password = document.querySelector("#pass").value;
-           
+            const UserID = document.querySelector("#UserID").value;
             // Construct the data object
             var data = {
-                "Userame": name,
+                "Username": name,
                 "Password": Password,
                 "Tablename": "users",
                 "UserID": UserID,

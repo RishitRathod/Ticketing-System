@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert the organization data
     $insert = DB::update(DB_NAME, $tablename, $data,$UserID,"UserID" );
     if ($insert === updateSuccess) {
-        echo json_encode(['status' => 'success', 'message' => 'Organization registered successfully']);
+        echo json_encode(['status' => 'success', 'message' => 'user details updates successfully']);
     } else {
         echo json_encode(['status' => 'error', 'message' => $insert]);
     }
