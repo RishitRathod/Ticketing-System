@@ -104,6 +104,36 @@ class DB
         return $select->getLastInsertID();
     }
 
+    static function selectByJoin($conditions) {
+        try {
+            $conn =new dbConnection($host, $user, $pass, $dbname);
+            $query = "SELECT * FROM events e JOIN eventposter ep ON e.EventID = ep.EventID WHERE ";
+            $queryConditions = [];
+            
+            foreach ($conditions as $key => $value) {
+                if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $key)) {
+                    throw new PDOException("Invalid parameter name: $key");
+                }
+                $queryConditions[] = "$key = :$key";
+            }
+            $query .= implode(" AND ", $queryConditions);
+            
+            $stmt = $conn->prepare($query);
+            
+            foreach ($conditions as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+            
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return "Select by join condition failed: " . $e->getMessage();
+        }
+    }
+    
+    
+    
+    
 
 }
 
