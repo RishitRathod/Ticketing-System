@@ -125,9 +125,9 @@
     <script>
 
         window.onload = function() {
-            document.querySelector('#eventTable').style.display = 'none';
-            document.querySelector('#userTable').style.display = 'none';
-            document.querySelector('#orgTable').style.display = 'none';
+            document.querySelector('#eventTable').style.display = 'block';
+            document.querySelector('#userTable').style.display = 'block';
+            document.querySelector('#orgTable').style.display = 'block';
         };
         function orgonly()
         {
