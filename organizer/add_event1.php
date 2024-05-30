@@ -205,10 +205,10 @@
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
                             <div id="posterContainer" class="form-group">
-    <label for="eventPoster">Event Poster</label>
-    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" >
-</div>
-<button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
+                                <label for="eventPoster">Event Poster</label>
+                                <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" >
+                            </div>
+                            <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
 
                                <div class="form-group">
                                    <label for="country">Country: </label>

@@ -118,7 +118,7 @@
     </div>
  
 
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -186,7 +186,7 @@
         });
 
         async function fetchData(tableName) {
-            const response = await fetch("admin_dashboard.php", {
+            const response = await fetch("../admin/admin_dashboard.php", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
