@@ -40,14 +40,14 @@
 
     </style>
 </head>
-<body>
-    <div class="container-fluid w-100 container-sm p-3 bg-dark text-white">
+<body>  
+    <div class="container-fluid w-100 p-3 bg-dark text-white">
         <div class="row align-items-center">
-            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html"  style="text-decoration: none;">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
-            <div class="col-auto">
+            <div class="col-sm-auto col-3 ">
                 <div class="dropdown open p-3 rounded-pills">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">

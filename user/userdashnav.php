@@ -124,17 +124,17 @@
                     <a class="nav-link" href="#"> Events </a>
                 </li>
             </ul>
-            <div class="d-block" id="login">
+            <div class="" id="login">
                 <a class="btn ls" href="user_logINsignUP.html">Login | Sign up</a>
             </div>
-            <div class="d-block" id="profile">
+            <div class="" id="profile">
                 <div class="dropdown open p-3 rounded-pills">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="userprofile.php">Profile</a>
-                        <a class="dropdown-item" href="userlogout.php">Log Out</a>
+                        <button type="button" class="dropdown-item" onclick="logout()" href="#">Log Out</button>
                     </div>
                 </div>
             </div>
@@ -143,6 +143,19 @@
 </nav>
 
 <!-- Bootstrap 5 JS -->
+<script src="../script.js"></script>
+<script>
+   window.onload = function() {
+    if (isUserLoggedIn()) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('profile').style.display = 'block';
+    } else {
+        document.getElementById('login').style.display = 'block';
+        document.getElementById('profile').style.display = 'none';
+    }
+}
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXlDQ8VdAiW3x2yK5RZ3e2V5iZZj3yYS1t68vY0APbFiSJSwkHnd1LKA7cmA" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12wTPO8LInEvC5iFN1pB4j2RLwVEl5q4MzElr2gMZGx7HsmT" crossorigin="anonymous"></script>
 </body>
