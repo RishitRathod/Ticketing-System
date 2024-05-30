@@ -15,6 +15,10 @@
         body{
             background-color: #ffffff;
         }
+        td{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
         .nav-pills li a:hover {
             background-color: darkblue;
         }
