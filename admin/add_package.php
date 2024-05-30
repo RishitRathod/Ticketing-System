@@ -1,3 +1,6 @@
+<?php
+    include 'admin_headnav.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Package Form and CRUD Table</title>
     <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .package-form {
             margin-bottom: 20px;
@@ -331,7 +333,10 @@
                 alert('Data update failed');
             }
         }
-
         </script>
 </body>
 </html>
+
+<?php 
+    include 'admin_footer.php';
+?>
