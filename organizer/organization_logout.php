@@ -4,5 +4,10 @@
     
     db::logout('organizations'); //logout($tablename)
     $url = './organization_login.html';
+   
+    session_unset();
+    session_destroy();
+
     header('Location: ' . $url);
+    exit();
 ?>

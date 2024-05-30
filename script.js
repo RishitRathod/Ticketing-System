@@ -29,6 +29,7 @@ function isUserLoggedIn() {
         }
     }
     console.log("User is not logged in");
+  
     return false;
 }
 

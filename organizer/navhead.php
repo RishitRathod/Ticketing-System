@@ -93,7 +93,19 @@
                     </ul>
                 </div>
             </div>
-            <script>
+            <script src="../script.js"></script>
+           <script>
+               
+
+            window.onload = function() {
+                if (isUserLoggedIn()) {
+                    document.getElementById('login').style.display = 'none';
+                    document.getElementById('profile').style.display = 'block';
+                } else {
+                    document.getElementById('login').style.display = 'block';
+                    document.getElementById('profile').style.display = 'none';
+                }
+            }
                 // Function to set active class to the clicked anchor tag
                 function setActiveLink() {
                     // Get the current path
