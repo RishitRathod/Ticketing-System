@@ -118,15 +118,16 @@
     </div>
  
 
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
 
         window.onload = function() {
-            document.querySelector('#eventTable').style.display = 'none';
-            document.querySelector('#userTable  ').style.display = 'none';
+            document.querySelector('#eventTable').style.display = 'block';
+            document.querySelector('#userTable').style.display = 'block';
+            document.querySelector('#orgTable').style.display = 'block';
         };
         function orgonly()
         {
