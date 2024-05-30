@@ -2,8 +2,8 @@
     include 'admin_headnav.php';
 ?>
 
-    <div id="selectionButtonGroup" class="container stic d-block row mt-5">
-        <div class="btn-group m-2" id="gB"role="group" aria-label="Basic example">
+    <div id="selectionButtonGroup" class="container d-block row mt-5">
+        <div class="btn-group stic m-2" id="gB"role="group" aria-label="Basic example">
             <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
             <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
             <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
