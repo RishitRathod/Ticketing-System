@@ -3,5 +3,8 @@
 ?>
 Analysis
 <?php
+    include 'adJS.php';
+?>
+<?php
     include 'admin_footer.php';
 ?>

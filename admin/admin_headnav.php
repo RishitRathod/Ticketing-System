@@ -8,15 +8,16 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
+    
+    
     <!-- CSS -->
     <style>
+        
         body{
-            background-color: #ffffff;
+            background: linear-gradient(to bottom right, #7774ff7e, #a85bff47);
             width: 100%;
 
         }
@@ -32,15 +33,9 @@
         .container-fluid{
             max-width: 100%;
         }
-        @media (max-width: 768px) {
-            .dropdown.open {
-                width: 100%;
-                text-align: center;
-            }
-        }
         .main-content {
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
@@ -54,11 +49,35 @@
             top:20px;
             /* color:#ffffff; */
         }
-
+        
+        
+        .themecol{
+            color: #fff;
+            background-color: #8341fe;
+        }
+        .themecol:hover{
+            color: #fff;
+            box-shadow: 0 5px 10px #6f21ffd1;
+        }
+        .themecol:active{
+            color: #fff;
+            font-weight: bolder;
+            box-sahdow: 1px 6px 20px #6f21ff47;
+        }
+        .backOnav{
+            background-color: #000;
+        }
+        @media (max-width: 768px) {
+            .dropdown.open {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        /* @table-bg-accent: #c8b6eb; */
     </style>
 </head>
 <body>
-    <div class="container-fluid w-100 container-sm p-3 bg-dark text-white">
+    <div class="container-fluid w-100 container-sm p-3 backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard.php"  style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
@@ -79,8 +98,8 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
-                <div class="bg-dark p-2">
+            <div class="backOnav col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+                <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
                             <a href="./admin_dashboard1.php" class="nav-link text-white"> 
