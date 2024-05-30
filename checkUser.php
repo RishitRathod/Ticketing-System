@@ -33,9 +33,11 @@ class User{
 
     function isUserloggedIn(){
         if(isset($_SESSION['user'])){
+            echo "User logged in". $_SESSION['user']['name']."<br>";
             return true;
         }
         else{
+            echo "User not logged in"."<br>";
             return false;
         }
     }
@@ -86,13 +88,14 @@ class User{
     }
 
     function logout(){
-        if($this->isUserloggedIn()){
+        if(!$this->isUserloggedIn()){
             unset($_SESSION['user']);
             session_destroy();
-
+            echo "User logged out successfully by lougout"."<br>";
             return true;
         }
         else{
+            echo "User not logged in said by lougout"."<br>";
             return false;
         }
     }
@@ -102,16 +105,18 @@ class User{
 
 
  //call the method of this class here to test it
-// $host   = DB_HOST;
-// $user   = DB_USER;
-// $pass   = DB_PASS;
-// $dbname = DB_NAME;
-// $db = new dbConnection($host, $user, $pass, $dbname);
-// $User= new User($db->connection(),'admin');
-// $set=$User->SetUserSession("aryan",1,'adminID','role');
-
-// //echo ($set);
-// print_r( ($set));
+$host   = DB_HOST;
+$user   = DB_USER;
+$pass   = DB_PASS;
+$dbname = DB_NAME;
+$db = new dbConnection($host, $user, $pass, $dbname);
+$user= new User($db->connection(),'users');
+echo $user-> isUserloggedIn();
+$boll =$user->logout();
+if($boll)
+{echo "User logged out successfully main"."<br>";}
+else 
+{echo "User logged in main"."</br>";}
 
 
 

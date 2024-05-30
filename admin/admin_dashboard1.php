@@ -52,7 +52,7 @@
 
     <div class="container mt-5 " id="orgDiv">
         <h2>Organizations</h2>
-        <table id="orgTable" class="table table-responsive table-bordered">
+        <table id="orgTable" class="table table-responsive table-bordered w-100">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -65,7 +65,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="orgTableBody">
+            <tbody class="w-100"  id="orgTableBody">
                 <!-- Organizations will be dynamically populated here -->
             </tbody>
         </table>
@@ -73,7 +73,7 @@
  
     <div class="container mt-5" id="userDiv">
         <h2>Users</h2>
-        <table id="userTable" class="table table-responsive table-bordered">
+        <table id="userTable" class="table table-responsive table-bordered w-100">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -82,7 +82,7 @@
                     <th>User Photo</th>
                 </tr>
             </thead>
-            <tbody id="userTableBody">
+            <tbody class="w-100" id="userTableBody">
                 <!-- Users will be dynamically populated here -->
             </tbody>
         </table>
@@ -90,7 +90,7 @@
 
     <div class="container mt-5" id="eventDiv">
         <h2>Events</h2>
-        <table id="eventTable" class="table table-responsive table-bordered">
+        <table id="eventTable" class="table table-responsive table-bordered w-100">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -104,7 +104,7 @@
                     <th>Event poster</th>
                 </tr>
             </thead>
-            <tbody id="eventTableBody">
+            <tbody class="w-100" id="eventTableBody">
                 <!-- Events will be dynamically populated here -->
             </tbody>
         </table>
