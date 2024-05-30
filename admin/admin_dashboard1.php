@@ -185,7 +185,7 @@
         });
 
         async function fetchData(tableName) {
-            const response = await fetch("admin_dashboard.php", {
+            const response = await fetch("../admin/admin_dashboard.php", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

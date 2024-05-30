@@ -1,4 +1,4 @@
-    <?php
+<?php
 
     require_once '../config.php';
     require_once '../db_connection.php';
@@ -110,24 +110,21 @@
                 mkdir($uploadDirectory, 0777, true);
             }
     
-            $filePath = $uploadDirectory . basename($posterFile['name']);
-            if (move_uploaded_file($posterFile['tmp_name'], $filePath)) {
-                $posterData = [
-                    'EventID' => $lastEventID,
-                    'poster' => $filePath
-                ];
-                // Insert poster into eventposter table
-                DB::insert(DB_NAME, 'eventposter', $posterData);
-    
-                $response['success'] = true;
-                $response['eventID'] = $lastEventID; // Include the last retrieved EventID in the response
-            } else {
-                $response['success'] = false;
-                $response['message'] = "Failed to upload event poster";
+            foreach ($posterFile['name'] as $index => $name) {
+                $posterPath = $uploadDirectory . $name;
+                if (move_uploaded_file($posterFile['tmp_name'][$index], $posterPath)) {
+                    db::insert(DB_NAME, 'eventposter', ['EventID' => $lastEventID, 'poster' => $posterPath]);
+                    $response['success'] = true;
+                    $response['message'] = "Event added successfully";
+                } else {
+                    $response['success'] = false;
+                    $response['message'] = "Failed to upload event poster";
+                }
             }
         } else {
             $response['success'] = false;
-            $response['message'] = "No event poster provided to upload";
+            $response['message'] = "No event poster provided";
+
         }
 
     } else {
