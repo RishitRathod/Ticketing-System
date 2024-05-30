@@ -1,169 +1,378 @@
-<?php
-include 'userdashnav.php';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dashboard</title>
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- CSS -->
     <style>
         body{
-            background-color: #c9d6ff;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-        }
-        main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .navbar-brand img {
-            height: 90px;
-        }
-
-        .events, .tickets {
-            color: white;
-            font-size: 30px;
-            font-weight: bolder;
-            background-size: cover;
-            box-shadow: 0 0 150px #000 inset;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 150px;
-        }
-
-        .events {
-            background-image: url("https://png.pngtree.com/background/20221109/original/pngtree-event-management-doodle-set-picture-image_1952957.jpg");
-        }
-
-        .tickets {
-            background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg");
-        }
-
-        .events:hover, .tickets:hover {
-            color: black;
-            box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
-        }
-
-
-        .ls {
-            color: white;
-            background-color: green;
-            border: 5px solid black;
-            border-radius: 30px;
-            box-shadow: 0px 5px black;
-        }
-
-        .ls:hover {
-            color: green;
-            background-color: rgb(0, 255, 38);
-            border: 5px solid black;
-            border-radius: 30px;
-            transition: 100ms;
-        }
-
-        .ls:active {
-            transform: translateY(3px);
-            background-color: green;
-            box-shadow: 0px 1px rgba(175, 255, 175, 0.455);
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .carousel-item img {
+            background-color: #ffffff;
             width: 100%;
         }
-        
-        .scroll-container {
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 10px;
-            background-color: #f8f9fa00;
+        .nav-pills li a:hover {
+            background-color: darkblue;
         }
-        .scroll-item:hover{
-            color: black;
-            font-size: x-large;
-            font-weight: bold;
-            padding-top: 50%;
-            box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
-            transform: translateY(-5px);
+        .dropdown-menu a:hover {
+            background-color: darkblue;
+            color: #fff;
         }
-        .scroll-container::-webkit-scrollbar {
-            display: none;
+        .container-fluid{
+            max-width: 100%;
         }
-        .scroll-item {
-            display: inline-block;
-            min-width: 200px;
-            max-width: 500px;
-            height: 100px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 10px;
-            text-align: center;
+        @media (max-width: 768px) {
+            .dropdown.open {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .main-content {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        .stic {
+            position: sticky;
+            top: 20px;
         }
     </style>
 </head>
 <body>
-  
-    <main>
-        <div class="container text-center m-4 py-4">
-            <div class="row m-4 justify-content-evenly">
-                <div class="events col-5 p-3 p-md-5 rounded-pill btn btn-secondary">
-                    Events
+    <div class="container-fluid w-100 container-sm p-3 bg-dark text-white">
+        <div class="row align-items-center">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard.php" style="text-decoration: none;">
+                <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
+                <b class="h5 ml-2 text-light text-decoration-none">The Admins</b>
+            </a>  
+            <div class="col-sm-auto col-3">
+                <div class="dropdown open p-3 rounded-pills">
+                    <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Log Out</a>
+                    </div>
                 </div>
-                <div class="tickets col-5 p-3 p-md-5 rounded-pill btn btn-secondary">
-                    Tickets
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="bg-dark col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+                <div class="bg-dark p-2">
+                    <ul class="nav nav-pills flex-column" id="parentDiv">
+                        <li class="nav-item py-2">
+                            <a href="./admin_dashboard1.php" class="nav-link text-white"> 
+                                <i class="fs-5 fa fa-tachometer"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item py-2">
+                            <a href="#myModal" role="button" class="nav-link text-white" data-bs-toggle="modal">
+                                <i class="fs-5 fa fa-user"></i><span class="fs-5 ms-3 d-none d-sm-inline">Add Admin</span>
+                            </a>
+                        </li>
+                        <li class="nav-item py-2">
+                            <a type="button" class="nav-link text-white" href="./add_package.php"> 
+                                <i class="fs-5 fa fa-plus"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Add Package</span>
+                            </a>
+                        </li>
+                        <li class="nav-item py-2">
+                            <a href="./admin_analysis.php" class="nav-link text-white"> 
+                                <i class="fs-5 fa fa-clipboard"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Analysis</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col p-3">
+                <div class="main-content mx-auto justify-content-center align-items-center">
+                    <?php include 'admin_headnav.php'; ?>
+
+                    <div id="selectionButtonGroup" class="container d-block row mt-5">
+                        <div class="btn-group stic m-2" id="gB" role="group" aria-label="Basic example">
+                            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
+                            <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
+                            <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
+                        </div>      
+                    </div>
+                    <div class="row justify-content-evenly">
+                        <div class="container col-4 mt-5" id="addPackageBtn"></div>
+                        <div class="col-4 mt-5">
+                            <div id="myModal" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">ADD ADMIN</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" id="registrationForm">
+                                                <div class="mb-3">
+                                                    <label for="AdminUsername" class="form-label">Admin Username</label>
+                                                    <input type="text" autocomplete='off' name="AdminUsername" class="form-control" id="AdminUsername">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for='AdminPassword' class='form-label'>Password</label>
+                                                    <input type='password' name='Password' class='form-control' id="AdminPassword">
+                                                </div>
+                                                <input type="hidden" value="admins" id="tablename" name="tablename">
+                                                <div class="mb-3">
+                                                    <label for='AdminEmail' class='form-label'>Email</label>
+                                                    <input type='email' name='AdminEmail' class="form-control" id="AdminEmail">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="a" style="display: none;">
+                        <div class="container mt-5" id="orgDiv">
+                            <h2>Organizations</h2>
+                            <table id="orgTable" class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Contact Number</th>
+                                        <th>Contact Email</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orgTableBody">
+                                    <!-- Organizations will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="b" style="display: none;">
+                        <div class="container mt-5" id="userDiv">
+                            <h2>Users</h2>
+                            <table id="userTable" class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Created At</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                    <!-- Users will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="c" style="display: none;">
+                        <div class="container mt-5" id="eventDiv">
+                            <h2>Events</h2>
+                            <table id="eventTable" class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Event ID</th>
+                                        <th>Event Name</th>
+                                        <th>Event Type</th>
+                                        <th>Organizer</th>
+                                        <th>Date</th>
+                                        <th>Venue</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventTableBody">
+                                    <!-- Events will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container mt-5">
-            <div class="row">
-                <h4>All Categories</h4>
-            </div>
-            <div class="scroll-container text-center p-3">
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Beauty</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Bussiness</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Comedy</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Culture</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Dance</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Education</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Experience</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Health</a>
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Music</a>   
-                <a class="scroll-item btn btn-outline-primary m-2 py-3 px-5 rounded-6">Sports</a>            
-            </div>
-        </div>
-    </main>
+    </div>
 
-
-    <footer class="bg-body-tertiary p-3 text-center text-lg-start">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2024 Copyright:
-            <a class="text-body" href="#">Event Scheduler</a>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS and dependencies -->
+    <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../script.js">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('#orgTable').DataTable();
+            $('#userTable').DataTable();
+            $('#eventTable').DataTable();
+
+            $('#selectionButtonGroup button').on('click', function() {
+                $('#selectionButtonGroup button').removeClass('active');
+                $(this).addClass('active');
+
+                var selectedValue = $(this).val();
+                $('#a, #b, #c').hide();
+                if (selectedValue === 'organizations') {
+                    $('#a').show();
+                    populateTable('organizations');
+                } else if (selectedValue === 'events') {
+                    $('#c').show();
+                    populateTable('events');
+                } else if (selectedValue === 'users') {
+                    $('#b').show();
+                    populateTable('users');
+                }
+            });
+
+            $('#registrationForm').on('submit', function(event) {
+                event.preventDefault();
+                addadmin();
+            });
+        });
+
+        function populateTable(tableType) {
+            let endpoint;
+            switch(tableType) {
+                case 'organizations':
+                    endpoint = 'fetch_organizations.php';
+                    break;
+                case 'users':
+                    endpoint = 'fetch_users.php';
+                    break;
+                case 'events':
+                    endpoint = 'fetch_events.php';
+                    break;
+                default:
+                    return;
+            }
+
+            fetch(endpoint)
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody;
+                    switch(tableType) {
+                        case 'organizations':
+                            tableBody = $('#orgTableBody');
+                            tableBody.empty();
+                            data.forEach(org => {
+                                tableBody.append(`<tr>
+                                    <td>${org.id}</td>
+                                    <td>${org.name}</td>
+                                    <td>${org.email}</td>
+                                    <td>${org.contact_number}</td>
+                                    <td>${org.contact_email}</td>
+                                    <td>${org.address}</td>
+                                    <td>${org.status}</td>
+                                    <td><button onclick="approve('${org.id}', 'organizations')" class="btn btn-success">Approve</button> <button onclick="reject('${org.id}', 'organizations')" class="btn btn-danger">Reject</button></td>
+                                </tr>`);
+                            });
+                            break;
+                        case 'users':
+                            tableBody = $('#userTableBody');
+                            tableBody.empty();
+                            data.forEach(user => {
+                                tableBody.append(`<tr>
+                                    <td>${user.user_id}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.role}</td>
+                                    <td>${user.created_at}</td>
+                                    <td>${user.status}</td>
+                                    <td><button onclick="approve('${user.user_id}', 'users')" class="btn btn-success">Approve</button> <button onclick="reject('${user.user_id}', 'users')" class="btn btn-danger">Reject</button></td>
+                                </tr>`);
+                            });
+                            break;
+                        case 'events':
+                            tableBody = $('#eventTableBody');
+                            tableBody.empty();
+                            data.forEach(event => {
+                                tableBody.append(`<tr>
+                                    <td>${event.event_id}</td>
+                                    <td>${event.event_name}</td>
+                                    <td>${event.event_type}</td>
+                                    <td>${event.organizer}</td>
+                                    <td>${event.date}</td>
+                                    <td>${event.venue}</td>
+                                    <td>${event.status}</td>
+                                    <td><button onclick="approve('${event.event_id}', 'events')" class="btn btn-success">Approve</button> <button onclick="reject('${event.event_id}', 'events')" class="btn btn-danger">Reject</button></td>
+                                </tr>`);
+                            });
+                            break;
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function addadmin() {
+            const formData = new FormData(document.getElementById('registrationForm'));
+            fetch('add_admin.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Admin added successfully');
+                    $('#myModal').modal('hide');
+                    document.getElementById('registrationForm').reset();
+                } else {
+                    alert('Error adding admin');
+                }
+            })
+            .catch(error => console.error('Error adding admin:', error));
+        }
+
+        function approve(id, type) {
+            fetch('approve.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: id, type: type})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Approved successfully');
+                    populateTable(type);
+                } else {
+                    alert('Error approving');
+                }
+            })
+            .catch(error => console.error('Error approving:', error));
+        }
+
+        function reject(id, type) {
+            fetch('reject.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: id, type: type})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Rejected successfully');
+                    populateTable(type);
+                } else {
+                    alert('Error rejecting');
+                }
+            })
+            .catch(error => console.error('Error rejecting:', error));
+        }
+    </script>
 </body>
 </html>
