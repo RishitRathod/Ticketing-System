@@ -2,8 +2,8 @@
     include 'admin_headnav.php';
 ?>
 
-    <div id="selectionButtonGroup" class="container d-block row mt-5">
-        <div class="btn-group stic m-2" id="gB"role="group" aria-label="Basic example">
+    <div id="selectionButtonGroup" class="container stic d-block row mt-5">
+        <div class="btn-group m-2" id="gB"role="group" aria-label="Basic example">
             <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
             <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
             <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
@@ -118,9 +118,6 @@
     </div>
  
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -188,7 +185,7 @@
         });
 
         async function fetchData(tableName) {
-            const response = await fetch("../admin/admin_dashboard.php", {
+            const response = await fetch("admin_dashboard.php", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
