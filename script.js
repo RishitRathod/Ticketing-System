@@ -6,6 +6,19 @@ async function setCookie(data) {
     console.log(document.cookie);
 }
 
+function isUserLoggedIn() {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            console.log("User is logged in");
+            return true;
+        }
+    }
+    console.log("User is not logged in");
+    return false;
+}
+
+
 async function getUser() {
     try {
         const response = await fetch('../fatchUserData.php', {
@@ -47,4 +60,3 @@ function logout() {
     // Redirect to the PHP logout script
     window.location.href = "userlogout.php";
 }
-

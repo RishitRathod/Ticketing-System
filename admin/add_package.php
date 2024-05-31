@@ -24,43 +24,44 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 ">
         <h2>Add Packages</h2>
         <form id="packageForm" action="" method="POST">
             <div id="packageContainer">
-                <div class="package-form">
+                <hr>
+                <div class="row package-form w-50 mx-auto">
                     <div class="form-group">
                         <label for="PackageName">Package Name:</label>
                         <input type="text" class="form-control" id="PackageName" name="PackageName" required>
                     </div>
                     
-
-                    <div class="form-group">
-                        <label for="PackageType">Package Type:</label>
-                        <select class="form-control" id="PackageType" name="PackageType" required>
-                            <option value="TimeBased">TimeBased</option>
-                            <option value="TicketBased">TicketBased</option>
-                        </select>
+                    <div class="row form-group justify-content-evenly">
+                        <div class="col-auto">
+                            <label for="PackageType">Package Type:</label>
+                            <select class="form-control" id="PackageType" name="PackageType" required>
+                                <option value="TimeBased">TimeBased</option>
+                                <option value="TicketBased">TicketBased</option>
+                            </select>
+                            </div>
+                        <div class="col-auto">
+                            <label for="Amount">Amount:</label>
+                            <input type="number" class="form-control" id="Amount" name="Amount">
+                        </div>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="packageIDInput">
                     </div>
-
-                    <div class="form-group">
-                        <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" id="Amount" name="Amount">
-                    </div>
                 </div>
             </div>
-            <div id="button-div"  class="d-inline">
-            <button type="button" class="btn btn-secondary" onclick="addPackage()">Add More Package</button>
-            <button type="button" class="btn btn-danger" onclick="removePackage()">Remove Last Package</button>
-            <button type="submit" id="submitbtn" class="btn btn-primary">Submit</button>
-            <button id="abortUdpatebtn" class="btn btn-danger" type="button">Abort Update</button>
-            <button type="button" id="updatebtn" class="btn btn-primary" onclick="updatePackage()">Update</button>
+            <div id="button-div"  class="row justify-content-evenly">
+            <button type="button" class="btn btn-primary col m-sm-2 m-0 " onclick="addPackage()">Add More Package</button>
+            <button type="button" class="btn btn-danger col m-sm-2 m-0" onclick="removePackage()">Remove Last Package</button>
+            <button type="submit" id="submitbtn" class="btn btn-success col m-sm-2 m-0">Submit</button>
+            <button type="button" id="abortUdpatebtn" class="btn btn-warning col m-sm-2 m-0">Abort Update</button>
+            <button type="button" id="updatebtn" class="btn btn-primary col m-sm-2 m-0" onclick="updatePackage()">Update</button>
             </div>
         </form>
-
+        <hr>
         <div class="crud-table">
             <h2>Packages List</h2>
             <table class="table table-strip" id="packagesTable">
@@ -80,11 +81,11 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <?php
+            include 'adJS.php';
+        ?>
     <script>
+
 
     function validateForm() {
                 let isValid = true;
@@ -123,21 +124,28 @@
         
         function addPackage() {
             const packageForm = `
-                <div class="package-form">
+            <hr>
+                <div class="row package-form w-50 mx-auto">
                     <div class="form-group">
                         <label for="PackageName">Package Name:</label>
-                        <input type="text" class="form-control" name="PackageName" required>
+                        <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+                    </div>
+                    
+                    <div class="row form-group justify-content-evenly">
+                        <div class="col-auto">
+                            <label for="PackageType">Package Type:</label>
+                            <select class="form-control" id="PackageType" name="PackageType" required>
+                                <option value="TimeBased">TimeBased</option>
+                                <option value="TicketBased">TicketBased</option>
+                            </select>
+                            </div>
+                        <div class="col-auto">
+                            <label for="Amount">Amount:</label>
+                            <input type="number" class="form-control" id="Amount" name="Amount">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="PackageType">Package Type:</label>
-                        <select class="form-control" name="PackageType" required>
-                            <option value="TimeBased">TimeBased</option>
-                            <option value="TicketBased">TicketBased</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" name="Amount">
+                        <input type="hidden" name="packageIDInput">
                     </div>
                 </div>
             `;

@@ -1,19 +1,19 @@
 <?php
     include 'admin_headnav.php';
 ?>
-
-    <div id="selectionButtonGroup" class="container stic d-block row mt-5">
+    
+    <div id="selectionButtonGroup" class="container d-block row mt-5">
         <div class="btn-group m-2" id="gB"role="group" aria-label="Basic example">
-            <button type="button" aria-selected="true" value="organizations" class="btn btn-outline-primary" onclick="orgonly()">Organizations</button>
-            <button type="button" value="events" class="btn btn-outline-secondary" onclick="eventonly()">Events</button>
-            <button type="button" value="users" class="btn btn-outline-info" onclick="useronly()">Users</button>
+            <button type="button" aria-selected="true" value="organizations" class="btn themecol" onclick="orgonly()">Organizations</button>
+            <button type="button" value="events" class="btn themecol" onclick="eventonly()">Events</button>
+            <button type="button" value="users" class="btn themecol" onclick="useronly()">Users</button>
         </div>      
     </div>
     <div class="row justify-content-evenly">
-        <div class="container col-4 mt-5" id="addPackageBtn">
+        <!-- <div class="container col-4 mt-5" id="addPackageBtn"> -->
             <!-- <button type="button" class="btn btn-primary" onclick="window.location.href='add_package.php'">Add Package</button> -->
-        </div>
-        <div class="col-4 mt-5">
+        <!-- </div> -->
+        <div class="col-4 mt-2">
             <!-- Button HTML (to Trigger Modal) -->
             <!-- <a href="#myModal" role="button" class="btn btn-primary" data-bs-toggle="modal">ADD ADMIN</a> -->
         
@@ -51,32 +51,31 @@
         </div>
     </div>
     <div id="a" style="display: none;">
-        <div class="container mt-5 " id="orgDiv">
-            <h2>Organizations</h2>
-            <table id="orgTable" class="table table-responsive table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Contact Number</th>
-                        <th>Contact Email</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="orgTableBody">
-                    <!-- Organizations will be dynamically populated here -->
-                </tbody>
-            </table>
-        </div>
-        
+        <div class="container table-responsive mt-5 " id="orgDiv">
+                <h2>Organizations</h2>
+                <table id="orgTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact Number</th>
+                            <th>Contact Email</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orgTableBody">
+                        <!-- Organizations will be dynamically populated here -->
+                    </tbody>
+                </table>
+        </div> 
     </div>
     <div id="b" style="display: none;">
-        <div class="container mt-5" id="userDiv">
+        <div class="container table-responsive mt-5 mx-auto" id="userDiv">
             <h2>Users</h2>
-            <table id="userTable" class="table table-responsive table-bordered">
+            <table id="userTable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -93,7 +92,7 @@
         
     </div>
     <div id="c" style="display: none;">
-        <div class="container mt-5" id="eventDiv">
+        <div class="container mt-5 mx-auto" id="eventDiv">
             <h2>Events</h2>
             <table id="eventTable" class="table table-responsive table-bordered">
                 <thead>
@@ -118,10 +117,9 @@
     </div>
  
 
-    
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+     
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>/ -->
+    <!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>  -->
     <script>
 
         window.onload = function() {
@@ -231,8 +229,8 @@
                         <td>${row.Address}</td>
                         <td>${row.Status}</td>
                         <td>
-                            <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}">Approve</button>
-                            <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}">Reject</button>
+                            <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check mr-1"></i> Approve</button>
+                            <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban mr-1"></i> Reject</button>
                         </td>
                     `;
                 } else if (tableName === 'events') {

@@ -93,17 +93,29 @@
                     </ul>
                 </div>
             </div>
+            <div class="col p-3">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+
             <script src="../script.js"></script>
            <script>
                
-
+               function isUserLoggedIn() {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            console.log("User is logged in");
+            return true;
+        }
+    }
+    console.log("User is not logged in");
+    return false;
+}
             window.onload = function() {
-                if (isUserLoggedIn()) {
-                    document.getElementById('login').style.display = 'none';
-                    document.getElementById('profile').style.display = 'block';
+                    if (isUserLoggedIn()) {
+                   // document.getElementById('login').style.display = 'none';
+                   // document.getElementById('profile').style.display = 'block';
                 } else {
-                    document.getElementById('login').style.display = 'block';
-                    document.getElementById('profile').style.display = 'none';
+                   window.herf = "./organization_login.html";
                 }
             }
                 // Function to set active class to the clicked anchor tag
@@ -127,6 +139,6 @@
         // Add event listener to set the active class when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', setActiveLink);
 
-            </script>
-            <div class="col p-3">
-                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+
+        </script>
+            
