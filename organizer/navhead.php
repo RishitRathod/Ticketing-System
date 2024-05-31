@@ -37,11 +37,14 @@
             background-color: #f9f9f9;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
+        .backOnav{
+            background-color: #000;
+        }
 
     </style>
 </head>
 <body>  
-    <div class="container-fluid w-100 p-3 bg-dark text-white">
+    <div class="container-fluid w-100 p-3 backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
@@ -62,8 +65,8 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="bg-dark col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
-                <div class="bg-dark p-2">
+            <div class="backOnav col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+                <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
                             <a href="./organization_dashboard.html" class="nav-link text-white"> 
