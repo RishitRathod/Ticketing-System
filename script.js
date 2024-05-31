@@ -1,4 +1,4 @@
-function setCookie(data) {
+async function setCookie(data) {
     for (var key in data) {
         document.cookie = key + "=" + data[key] + ";path=/";
     }
@@ -29,7 +29,7 @@ function isUserLoggedIn() {
         }
     }
     console.log("User is not logged in");
-  
+    
     return false;
 }
 
