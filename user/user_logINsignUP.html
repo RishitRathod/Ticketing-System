@@ -21,8 +21,8 @@
                 <hr class="hr hr-blurry"/>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="Password" placeholder="Enter password" required>
-                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                    <input type="password" class="form-control" id="Password1" name="Password" placeholder="Enter password" required>
+                    <input type="checkbox" onclick="togglePassword1()"> Show Password
                 </div>
                 <input type="hidden" name="tablename" value="users">
                 <button type="submit" >Sign Up</button>
@@ -163,8 +163,8 @@
                 passwordField.type = "password";
             }
         }
-        function togglePassword() {
-            var passwordField = document.getElementById("Password");
+        function togglePassword1() {
+            var passwordField = document.getElementById("Password1");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
             } else {

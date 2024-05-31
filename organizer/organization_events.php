@@ -1,7 +1,6 @@
 <?php
-    include 'navhead.php';
+// include 'navhead.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,18 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Ticketing System</title>
     <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <!-- DataTables CSS -->
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .event-card {
             display: flex;
             flex-direction: column;
             height: 100%;
-        }
-        .event-card img {
-            max-width: 100%;
-            height: auto;
         }
         .event-poster {
             max-height: 200px;
@@ -35,6 +28,8 @@
     </style>
 </head>
 <body>
+    <?php include 'navhead.php'; ?>
+
     <!-- Main Content -->
     <div class="container mt-5" id="eventsContainer">
         <h2>Events</h2>
@@ -44,62 +39,136 @@
     </div>
 
     <!-- jQuery and Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
-    <!-- DataTables JS -->
-    <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="../script.js"></script>
     <script>
-
-  
         async function fetchData(tableName) {
-           console.log(document.cookie);
-            var OrgID = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
-    console.log(OrgID);
-            const response = await fetch("organization_events_backend.php", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ tablename: tableName,OrgID : OrgID }),
-            });
+            try {
+                console.log(document.cookie);
+                const OrgID = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+                console.log(OrgID);
+                const response = await fetch("organization_events_backend.php", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ tablename: tableName, OrgID: OrgID }),
+                });
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                console.log(result.data);
-                return result.data;
-            } else {
-                console.error('Error:', result.message);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    console.log(result.data);
+                    return result.data;
+                } else {
+                    console.error('Error:', result.message);
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
                 return [];
             }
         }
 
         async function initialize() {
-            var value = 'events';
+            const value = 'events';
             const data = await fetchData(value);
             populateEvents(data);
         }
 
         function populateEvents(events) {
-           // console.log(event.EventPoster[0]);
-            let eventsRow = document.querySelector('#eventsRow');
+            const eventsRow = document.querySelector('#eventsRow');
 
             if (!Array.isArray(events)) {
                 console.error('Expected an array but got:', events);
                 return;
             }
 
+            const uniqueEvents = events.reduce((acc, event) => {
+    if (!acc[event.EventID]) {
+        acc[event.EventID] = {
+            ...event,
+            posters: new Set([event.poster]),
+            timeSlots: new Set([{
+                TimeSlotID: event.TimeSlotID,
+                StartTime: event.StartTime,
+                EndTime: event.EndTime,
+                Availability: event.Availability
+            }]),
+            tickets: new Set([{
+                TicketID: event.TicketID,
+                TicketType: event.TicketType,
+                Quantity: event.Quantity,
+                LimitQuantity: event.LimitQuantity,
+                Discount: event.Discount,
+                Price: event.Price
+            }])
+        };
+    } else {
+        acc[event.EventID].posters.add(event.poster);
+        acc[event.EventID].timeSlots.add({
+            TimeSlotID: event.TimeSlotID,
+            StartTime: event.StartTime,
+            EndTime: event.EndTime,
+            Availability: event.Availability
+        });
+        acc[event.EventID].tickets.add({
+            TicketID: event.TicketID,
+            TicketType: event.TicketType,
+            Quantity: event.Quantity,
+            LimitQuantity: event.LimitQuantity,
+            Discount: event.Discount,
+            Price: event.Price
+        });
+    }
+    return acc;
+}, {});
+
+// Convert sets to arrays
+Object.keys(uniqueEvents).forEach(eventID => {
+    uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
+    uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots);
+    uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets);
+});
+
+console.log(uniqueEvents);
+
+
             eventsRow.innerHTML = '';
-            events.forEach((event) => {
+            Object.values(uniqueEvents).forEach((event) => {
                 const eventCard = document.createElement('div');
                 eventCard.classList.add('col-12', 'mb-4');
+
+                const posterIndicators = event.posters.map((poster, index) => `
+                    <li data-target="#carousel${event.EventID}" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>
+                `).join('');
+
+                const posterItems = event.posters.map((poster, index) => `
+                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="${poster}" class="d-block w-100 event-poster" alt="Event Poster">
+                    </div>
+                `).join('');
 
                 eventCard.innerHTML = `
                     <div class="card h-100 event-card">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img src="${event.poster}" class="card-img event-poster" alt="Event Poster">
+                                <div id="carousel${event.EventID}" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        ${posterIndicators}
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        ${posterItems}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carousel${event.EventID}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carousel${event.EventID}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body event-details">
@@ -109,7 +178,7 @@
                                     <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
-                                        <button class="btn btn-primary">View Details</button>
+                                       <a class="btn btn-primary" href="organization_events_backend.php?id=${event.EventID}" ">View Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -120,11 +189,11 @@
             });
         }
 
+ 
+        
         window.onload = initialize;
     </script>
 
-    <?php
-        include 'footer.php';
-    ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

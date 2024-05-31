@@ -6,6 +6,9 @@ function setCookie(data) {
     console.log(document.cookie);
 }
 
+
+
+
 function isUserLoggedIn() {
     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
     for (const cookie of cookies) {

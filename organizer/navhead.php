@@ -40,6 +40,10 @@
         .backOnav{
             background-color: #000;
         }
+        .stic {
+            position:sticky;
+            top:20px;
+        }
 
     </style>
 </head>
@@ -64,8 +68,8 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <div class="backOnav col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+        <div class="row stic flex-nowrap">
+            <div class="backOnav  col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
                 <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
