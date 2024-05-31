@@ -15,7 +15,9 @@
     
     <!-- CSS -->
     <style>
-        
+        *{
+            font-family: Roboto, sans sarif;
+        }
         body{
             background: linear-gradient(to bottom right, #7774ff7e, #a85bff47);
             width: 100%;

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <!-- Use only Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,9 +16,13 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            height: 100vh;
+            height: 70vh;
             margin: 0;
         }
+        .board{
+            
+        }
+
         .navbar-brand img {
             height: 90px;
         }
@@ -33,18 +36,22 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            height: 150px;
-        }
+            width: 100%;
+        } 
+
         .events {
             background-image: url("https://png.pngtree.com/background/20221109/original/pngtree-event-management-doodle-set-picture-image_1952957.jpg");
         }
+
         .tickets {
             background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg");
         }
+
         .events:hover, .tickets:hover {
             color: black;
             box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
         }
+
         .ls {
             color: white;
             background-color: green;
@@ -64,15 +71,7 @@
             background-color: green;
             box-shadow: 0px 1px rgba(175, 255, 175, 0.455);
         }
-        .carousel-container {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            margin: auto;
-        }
-        .carousel-item img {
-            width: 100%;
-        }
+
         .scroll-container {
             display: flex;
             overflow-x: auto;
@@ -80,12 +79,14 @@
             padding: 10px;
             background-color: #f8f9fa00;
         }
-        .scroll-item:hover {
+        .scroll-item:hover{
             color: black;
             font-size: x-large;
             font-weight: bold;
             padding-top: 50%;
-            box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
+            /* box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset; */
+            box-shadow: 10px 10px 20px #000000;
+
             transform: translateY(-5px);
         }
         .scroll-container::-webkit-scrollbar {
@@ -97,10 +98,15 @@
             max-width: 500px;
             height: 100px;
             background-color: #007bff;
+            box-shadow: 10px 10px 20px #000000 inset;
             color: white;
             border-radius: 10px;
             text-align: center;
+            background-size: 200px 100px;
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-position: center; /* Center the image within the button */
         }
+
     </style>
 </head>
 <body>
@@ -118,10 +124,13 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"> Organization </a>
+                    <a class="nav-link" href="#"> Organizations </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"> Events </a>
+                    <a class="nav-link" href="./user_events.php"> My Events </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./user_tickets.php"> My Tickets </a>
                 </li>
             </ul>
             <div class="" id="login">
@@ -158,5 +167,8 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXlDQ8VdAiW3x2yK5RZ3e2V5iZZj3yYS1t68vY0APbFiSJSwkHnd1LKA7cmA" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12wTPO8LInEvC5iFN1pB4j2RLwVEl5q4MzElr2gMZGx7HsmT" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 </body>
 </html>
