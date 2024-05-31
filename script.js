@@ -1,4 +1,4 @@
-function setCookie(data) {
+async function setCookie(data) {
     for (var key in data) {
         document.cookie = key + "=" + data[key] + ";path=/";
     }
@@ -34,6 +34,19 @@ async function getUser() {
         console.error('Error fetching user data:', error);
         return null;
     }
+}
+
+function isUserLoggedIn() {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            console.log("User is logged in");
+            return true;
+        }
+    }
+    console.log("User is not logged in");
+    
+    return false;
 }
 
 function logout() {

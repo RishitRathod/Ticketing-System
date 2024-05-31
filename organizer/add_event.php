@@ -19,7 +19,7 @@
         $City = $_POST['City'];
 
         $orgid = $_POST['orgid'];
-    
+
         $dataTable1 = [
             'OrgID' => $orgid,
             'EventName' => $eventName,
@@ -33,12 +33,32 @@
             'State' => $State,
             'City' => $City
 
+
         ];
+        
 
         //Insert into Table1 (events)
         $insertResult = DB::insertGetId(DB_NAME, 'events', $dataTable1);
         if ($insertResult) {
             $lastEventID = $insertResult;
+            $qrCodePath = '../uploads/Organizations/' . $orgid . '/events'.'/'. $lastEventID .'/event_qrcodes';
+            $qrCodeFile = $qrCodePath .'/'. $lastEventID . '.svg';
+            // Check if directory exists and if not, create it
+            if (!is_dir($qrCodePath)) {
+                mkdir($qrCodePath, 0777, true);
+            }
+            //pass link to eventpage
+            $QRdata = "http://". getHostByName(getHostName())."/Event-Platform/event.php?eventID=".$lastEventID;            $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);            if($QRCodeGeneratorBool){
+                $response['success'] = true;
+                $response['eventID'] = $lastEventID;
+                DB::update(DB_NAME, 'events', ['QR_CODE' =>$qrCodeFile], $lastEventID,'EventID');
+            }else{
+
+                $response['success'] = false;
+                $response['message'] = "Failed to generate QR code";
+                exit();
+            }
+
         } else {
             $response['success'] = false;
             $response['message'] = "Failed to insert into Table1";
@@ -103,8 +123,8 @@
 
         if (isset($_FILES['EventPoster'])) {
             $posterFile = $_FILES['EventPoster'];
-            $uploadDirectory = '../uploads/events/' . $lastEventID . '/event_posters/';
-            
+            //$uploadDirectory = '../uploads/events/' . $lastEventID . '/event_posters/';
+            $uploadDirectory = '../uploads/Organizations/' . $orgid . '/events'.'/'. $lastEventID .'/'.'event_posters/';
             // Create the directory if it doesn't exist
             if (!is_dir($uploadDirectory)) {
                 mkdir($uploadDirectory, 0777, true);
