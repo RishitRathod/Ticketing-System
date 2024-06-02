@@ -39,8 +39,8 @@
     </div>
 
     <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script src="../script.js"></script>
     <script>
         async function fetchData(tableName) {
@@ -178,8 +178,10 @@ console.log(uniqueEvents);
                                     <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
-                                       <a class="btn btn-primary" href="organization_events_backend.php?id=${event.EventID}" ">View Details</a>
-                                    </div>
+                                    <form action="organization_eventdetails.php" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="${event.EventID}">
+                                        <button type="submit" class="btn btn-primary">View Details</button>
+                                    </form> </div>
                                 </div>
                             </div>
                         </div>
