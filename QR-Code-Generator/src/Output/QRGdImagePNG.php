@@ -10,7 +10,8 @@
  * @noinspection PhpComposerExtensionStubsInspection
  */
 
-namespace chillerlan\QRCode\Output; 
+namespace chillerlan\QRCode\Output;
+
 use function imagepng, max, min;
 
 /**
