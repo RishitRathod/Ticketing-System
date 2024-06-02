@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>  
-        <div class="board tickets">
-
+        <div class="">
+            <img src="https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg" class="img-fluid">
         </div>
 </body>

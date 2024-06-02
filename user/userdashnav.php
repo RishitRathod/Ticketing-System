@@ -19,9 +19,7 @@
             height: 70vh;
             margin: 0;
         }
-        .board{
-            
-        }
+
 
         .navbar-brand img {
             height: 90px;
