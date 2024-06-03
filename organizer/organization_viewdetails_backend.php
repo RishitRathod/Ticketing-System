@@ -22,7 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $detailedEvents = selectByJoin($EventID);
 
     if (is_array($detailedEvents)) {
-        echo json_encode(['tablename' => $tableName, 'status' => 'success', 'message' => 'Event details exist', 'data' => $detailedEvents]);
+        // Combine data of all four objects into one array
+        $mergedData = [];
+        foreach ($detailedEvents as $event) {
+            $mergedData[] = $event;
+        }
+
+        echo json_encode(['tablename' => $tableName, 'status' => 'success', 'message' => 'Event details exist', 'data' => $mergedData]);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'No event details exist']);
     }
@@ -53,4 +59,5 @@ function selectByJoin($EventID) {
         return "Select by join condition failed: " . $e->getMessage();
     }
 }
+
 ?>

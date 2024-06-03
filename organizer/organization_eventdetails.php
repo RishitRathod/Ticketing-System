@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Ticketing System</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
         .event-card {
             display: flex;
@@ -36,8 +36,8 @@
     </div>
 
     <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script>
         async function fetchData(tableName) {
             try {
@@ -89,30 +89,30 @@
                     acc[event.EventID] = {
                         ...event,
                         posters: new Set([event.poster]),
-                        timeSlots: new Set([{
+                        timeSlots: new Map([[event.TimeSlotID, {
                             TimeSlotID: event.TimeSlotID,
                             StartTime: event.StartTime,
                             EndTime: event.EndTime,
                             Availability: event.Availability
-                        }]),
-                        tickets: new Set([{
+                        }]]),
+                        tickets: new Map([[`${event.TicketID}-${event.TicketType}`, {
                             TicketID: event.TicketID,
                             TicketType: event.TicketType,
                             Quantity: event.Quantity,
                             LimitQuantity: event.LimitQuantity,
                             Discount: event.Discount,
                             Price: event.Price
-                        }])
+                        }]])
                     };
                 } else {
                     acc[event.EventID].posters.add(event.poster);
-                    acc[event.EventID].timeSlots.add({
+                    acc[event.EventID].timeSlots.set(event.TimeSlotID, {
                         TimeSlotID: event.TimeSlotID,
                         StartTime: event.StartTime,
                         EndTime: event.EndTime,
                         Availability: event.Availability
                     });
-                    acc[event.EventID].tickets.add({
+                    acc[event.EventID].tickets.set(`${event.TicketID}-${event.TicketType}`, {
                         TicketID: event.TicketID,
                         TicketType: event.TicketType,
                         Quantity: event.Quantity,
@@ -127,8 +127,8 @@
             // Convert sets to arrays
             Object.keys(uniqueEvents).forEach(eventID => {
                 uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
-                uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots);
-                uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets);
+                uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots.values());
+                uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets.values());
             });
 
             console.log(uniqueEvents);
@@ -146,6 +146,14 @@
                     <div class="carousel-item ${index === 0 ? 'active' : ''}">
                         <img src="${poster}" class="d-block w-100 event-poster" alt="Event Poster">
                     </div>
+                `).join('');
+
+                const ticketsList = event.tickets.map(ticket => `
+                    <p class="card-text"><strong>Ticket Type:</strong> ${ticket.TicketType}, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</p>
+                `).join('');
+
+                const timeSlotsList = event.timeSlots.map(slot => `
+                    <p class="card-text"><strong>Time Slot:</strong> ${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</p>
                 `).join('');
 
                 eventCard.innerHTML = `
@@ -176,10 +184,17 @@
                                     <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
                                     <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
+                                    ${timeSlotsList}
+                                    ${ticketsList}
                                     <div class="text-center">
+                                        
+                                        <form action="edit_events.php" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="${event.EventID}">
+                                            <button type="submit" class="btn btn-primary">Edit Details</button>
+                                        </form>
                                         <form action="organization_eventdetails.php" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary">View Details</button>
+                                            <button type="submit" class="btn btn-primary">Delete Event</button>
                                         </form>
                                     </div>
                                 </div>
@@ -197,4 +212,3 @@
     <?php include 'footer.php'; ?>
 </body>
 </html>
-
