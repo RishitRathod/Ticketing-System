@@ -1,7 +1,5 @@
 <?php
 
-use chillerlan\QRCode\Output\QRFpdf;
-use chillerlan\QRCode\Output\QRGdImage;
 use chillerlan\QRCode\QRCode;
 use \chillerlan\QRCode\Common\EccLevel;
 
@@ -13,8 +11,7 @@ class QRCodeGenerator
         $data = str_replace(' ', '', $data);
         $options = new chillerlan\QRCode\QROptions([
             'eccLevel'   => EccLevel::H,
-            'scale'      => 5,
-            
+            'scale'      => 5,    
 
         ]);
 
