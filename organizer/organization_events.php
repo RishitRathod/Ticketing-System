@@ -181,7 +181,8 @@ console.log(uniqueEvents);
                                     <form action="organization_eventdetails.php" method="post" style="display:inline;">
                                         <input type="hidden" name="id" value="${event.EventID}">
                                         <button type="submit" class="btn btn-primary">View Details</button>
-                                    </form> </div>
+                                    </form> 
+                           </div>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +195,7 @@ console.log(uniqueEvents);
  
         
         window.onload = initialize;
+
     </script>
 
     <?php include 'footer.php'; ?>
