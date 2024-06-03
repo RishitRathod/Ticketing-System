@@ -27,6 +27,19 @@
             height: 70vh;
             margin: 0;
         }
+        fieldset {
+            border: solid 1px gray;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
+        }
+        legend {
+            float: none;
+            width: inherit;
+        }
+        
         .nav{
             background: #1b155d;
         }
@@ -80,6 +93,9 @@
             background-color: green;
             box-shadow: 0px 1px rgba(175, 255, 175, 0.455);
         }
+        #triggerId:active{
+            box-shadow: 2px 2px 10px black;
+        }
 
         .scroll-container {
             display: flex;
@@ -121,7 +137,7 @@
 <body>
 <nav class="navbar fixed-top nav navbar-dark p-3 navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand fs-3" href="./user_dashboard1.php">
+        <a class="navbar-brand fs-4" href="./user_dashboard1.php">
             <img src="../img/logo.png" class="rounded-circle mx-1 mx-sm-3" alt="Logo"> USER
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
