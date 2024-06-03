@@ -58,10 +58,10 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            
                             <th>Contact Number</th>
-                            <th>Contact Email</th>
-                            <th>Address</th>
+                            
+                        
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -223,10 +223,10 @@
                     tr.innerHTML = `
                         <td>${row.OrgID}</td>
                         <td>${row.Name}</td>
-                        <td>${row.Email}</td>   
+                        
                         <td>${row.ContactNumber}</td>
-                        <td>${row.ContactEmail}</td>
-                        <td>${row.Address}</td>
+                       
+                        
                         <td>${row.Status}</td>
                         <td>
                             <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check mr-1"></i> Approve</button>
