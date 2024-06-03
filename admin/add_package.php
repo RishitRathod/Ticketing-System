@@ -21,6 +21,12 @@
         #abortUdpatebtn{
             display: none;
         }
+            /* #removeBtn{
+                display: none;
+            }
+            #addBtn{
+                display:none;
+            } */
     </style>
 </head>
 <body>
@@ -29,37 +35,36 @@
         <form id="packageForm" action="" method="POST">
             <div id="packageContainer">
                 <hr>
-                <div class="row package-form w-50 mx-auto">
-                    <div class="form-group">
-                        <label for="PackageName">Package Name:</label>
-                        <input type="text" class="form-control" id="PackageName" name="PackageName" required>
-                    </div>
-                    
+                <div class="package-form mx-auto">
                     <div class="row form-group justify-content-evenly">
+                        <div class="col-auto">
+                            <label for="PackageName">Package Name:</label>
+                            <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+                        </div>
                         <div class="col-auto">
                             <label for="PackageType">Package Type:</label>
                             <select class="form-control" id="PackageType" name="PackageType" required>
                                 <option value="TimeBased">TimeBased</option>
                                 <option value="TicketBased">TicketBased</option>
                             </select>
-                            </div>
+                        </div>
                         <div class="col-auto">
                             <label for="Amount">Amount:</label>
                             <input type="number" class="form-control" id="Amount" name="Amount">
                         </div>
+                        <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
+                        <button type="button" id="abortUdpatebtn" class="btn btn-warning col-1 m-sm-2 m-0">Abort Update</button>
+                        <button type="button" id="updatebtn" class="btn btn-primary col-1 m-sm-2 m-0" onclick="updatePackage()">Update</button>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="packageIDInput">
                     </div>
                 </div>
             </div>
-            <div id="button-div"  class="row justify-content-evenly">
-            <button type="button" class="btn btn-primary col m-sm-2 m-0 " onclick="addPackage()">Add More Package</button>
-            <button type="button" class="btn btn-danger col m-sm-2 m-0" onclick="removePackage()">Remove Last Package</button>
-            <button type="submit" id="submitbtn" class="btn btn-success col m-sm-2 m-0">Submit</button>
-            <button type="button" id="abortUdpatebtn" class="btn btn-warning col m-sm-2 m-0">Abort Update</button>
-            <button type="button" id="updatebtn" class="btn btn-primary col m-sm-2 m-0" onclick="updatePackage()">Update</button>
-            </div>
+            <!-- <div id="button-div"  class="row justify-content-center"> -->
+            <!-- <button type="button" id="addBtn" class="btn btn-primary col m-sm-2 m-0 " onclick="addPackage()">Add More Package</button> -->
+            <!-- <button type="button" id="removeBtn"class="btn btn-danger col m-sm-2 m-0" onclick="removePackage()">Remove Last Package</button> -->
+            <!-- </div> -->
         </form>
         <hr>
         <div class="crud-table">
@@ -122,44 +127,43 @@
                 return isValid;
             }
         
-        function addPackage() {
-            const packageForm = `
-            <hr>
-                <div class="row package-form w-50 mx-auto">
-                    <div class="form-group">
-                        <label for="PackageName">Package Name:</label>
-                        <input type="text" class="form-control" id="PackageName" name="PackageName" required>
-                    </div>
-                    
-                    <div class="row form-group justify-content-evenly">
-                        <div class="col-auto">
-                            <label for="PackageType">Package Type:</label>
-                            <select class="form-control" id="PackageType" name="PackageType" required>
-                                <option value="TimeBased">TimeBased</option>
-                                <option value="TicketBased">TicketBased</option>
-                            </select>
-                            </div>
-                        <div class="col-auto">
-                            <label for="Amount">Amount:</label>
-                            <input type="number" class="form-control" id="Amount" name="Amount">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" name="packageIDInput">
-                    </div>
-                </div>
-            `;
-            document.getElementById('packageContainer').insertAdjacentHTML('beforeend', packageForm);
-        }
+        // function addPackage() {
+        //     const packageForm = `
+        //     <hr>
+        //         <div class="row package-form w-50 mx-auto">
+        //             <div class="form-group">
+        //                 <label for="PackageName">Package Name:</label>
+        //                 <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+        //             </div>            
+        //             <div class="row form-group justify-content-evenly">
+        //                 <div class="col-auto">
+        //                     <label for="PackageType">Package Type:</label>
+        //                     <select class="form-control" id="PackageType" name="PackageType" required>
+        //                         <option value="TimeBased">TimeBased</option>
+        //                         <option value="TicketBased">TicketBased</option>
+        //                     </select>
+        //                     </div>
+        //                 <div class="col-auto">
+        //                     <label for="Amount">Amount:</label>
+        //                     <input type="number" class="form-control" id="Amount" name="Amount">
+        //                 </div>
+        //             </div>
+        //             <div class="form-group">
+        //                 <input type="hidden" name="packageIDInput">
+        //             </div>
+        //         </div>
+        //     `;
+        //     document.getElementById('packageContainer').insertAdjacentHTML('beforeend', packageForm);
+        // }
 
-        function removePackage() {
-            const packageForms = document.getElementsByClassName('package-form');
-            if (packageForms.length > 1) {
-                packageForms[packageForms.length - 1].remove();
-            } else {
-                alert('At least one package is required.');
-            }
-        }
+        // function removePackage() {
+        //     const packageForms = document.getElementsByClassName('package-form');
+        //     if (packageForms.length > 1) {
+        //         packageForms[packageForms.length - 1].remove();
+        //     } else {
+        //         alert('At least one package is required.');
+        //     }
+        // }
 
 
         //submit the Form data using json format using fetch api and async and await function
@@ -237,14 +241,15 @@
                         
                         </td>
                     `;
+                  
                 });
+                $('#packagesTable').DataTable(); 
             } else {
                 alert('Failed to fetch packages');
             }
         }
 
         document.addEventListener('DOMContentLoaded', fetchPackages);
-
 
         async function deletePackage(packageID) {
             const response = await fetch('packages.php', {
@@ -340,6 +345,10 @@
                 console.log(responseData);
                 alert('Data update failed');
             }
+            document.getElementById('updatebtn').style.display = 'none';
+            document.getElementById('submitbtn').style.display = 'inline';
+            document.getElementById('abortUdpatebtn').style.display = 'none';
+            document.getElementById('packageForm').reset();
         }
         </script>
 </body>
