@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <style>
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .event-poster {
+            max-height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+
 </head>
 <body>
   
@@ -23,22 +41,26 @@
                 <h3>All Categories</h3>
             </div>
             <div class="scroll-container text-center p-3">
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="business">Business</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="comedy">Comedy</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="beauty">Beauty</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="culture">Culture</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="dance">Dance</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="education">Education</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="health">Health</button>
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="music">Music</button>   
-                <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="sports">Sports</button>            
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business">Business</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy">Comedy</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty">Beauty</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture">Culture</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance">Dance</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education">Education</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health">Health</button>
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music">Music</button>   
+                <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports">Sports</button>            
             </div>
         </div>
         <div class="container table table-responsive"> 
 
         </div>
-    </main>
 
+        <div id="events">
+            <!-- events will be shown here -->
+        </div>        
+ 
+    </main>
 
     <footer class="bg-body-tertiary p-3 text-center text-lg-start">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
@@ -47,10 +69,9 @@
         </div>
     </footer>
 
-
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const buttons = document.querySelectorAll("#hoverA");
+        function setImanges(){
+            const buttons = document.querySelectorAll(".hoverA");
 
             buttons.forEach(button => {
                 button.addEventListener("mouseover", function() {
@@ -66,8 +87,24 @@
                     button.style.backgroundImage = "";
                 });
             });
+        }
 
-        });
+        async function fetchAllEvents(){
+            fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            
+        }
+
+
+        document.addEventListener("DOMContentLoaded", setImanges() );
         </script>
 </body>
 </html>
