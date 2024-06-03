@@ -6,6 +6,16 @@ async function setCookie(data) {
     console.log(document.cookie);
 }
 
+async function getUserRole() {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            return cookie.split('=')[1];
+        }
+    }
+    return null;
+
+}
 
 
 
@@ -20,7 +30,6 @@ function isUserLoggedIn() {
     console.log("User is not logged in");
     return false;
 }
-
 
 async function getUser() {
     try {
@@ -36,18 +45,6 @@ async function getUser() {
     }
 }
 
-function isUserLoggedIn() {
-    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-    for (const cookie of cookies) {
-        if (cookie.startsWith('role=')) {
-            console.log("User is logged in");
-            return true;
-        }
-    }
-    console.log("User is not logged in");
-    
-    return false;
-}
 
 function logout() {
     // Delete all cookies
