@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,6 +153,13 @@
 
         </script>
             <!doctype html>
+=======
+
+<?php
+    include 'navhead.php';
+?>
+<!doctype html>
+>>>>>>> b1acb56906d197851a1dd667f3bb63fd93a84bdd
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -356,7 +364,13 @@
                             <div class="step">
                             <div id="posterContainer" class="form-group">
                                 <label for="eventPoster">Event Poster</label>
-                                <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" >
+                                <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)" name="EventPoster[]" >
+                                <!-- show that poster -->
+                                <div id="posterPreview">
+                                    <img src="" alt="Event Poster" id="posterPreviewImg" style="display: none; width:150px;height:150px;">
+                                    
+                                </div>
+
                             </div>
                             <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
 
@@ -399,6 +413,15 @@
     
     <script>
        
+       function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('posterPreviewImg');
+        output.src = reader.result;
+        output.style.display = "block";
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 
 function validateForm() {
         const form = document.getElementById('registrationForm');

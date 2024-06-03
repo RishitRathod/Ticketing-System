@@ -27,18 +27,7 @@
             background-color: darkblue;
             color: #fff;
         }
-        fieldset {
-            border: solid 1px gray;
-            padding-top: 5px;
-            padding-right: 12px;
-            padding-bottom: 10px;
-            padding-left: 12px;
-            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
-        }
-        legend {
-            float: none;
-            width: inherit;
-        }
+       
 
         .main-content {
             max-width: 1000px;
@@ -86,6 +75,10 @@
             padding: 10px;
             border-radius: 5px;  
         }
+        #pfp{
+            height: 30vmin;
+            width: 30vmin;
+        }
 
     </style>
 </head>
@@ -104,7 +97,7 @@
                     <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
                         <p class="sign" align="center">Profile</p>
                         <div class="d-flex flex-column align-items-center mb-3">
-                            <img src="../img/user.png" height="180" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary rounded-circle">
+                            <img src="../img/user.png" id="pfp" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary rounded-circle">
                         </div>
                 
                         <fieldset class="mt-3 p-4 rounded-4">
@@ -169,7 +162,7 @@
                 document.getElementById('email').value = userData[0].Email;
                 document.getElementById('pass').value = pass;
                 document.getElementById('cno').value = userData[0].userphonenumber;
-         
+                document.getElementById('pfp').src = userData[0].UserPhoto;
                 document.getElementById('UserID').value = userData[0].UserID;
             }
         });

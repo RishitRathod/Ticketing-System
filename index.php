@@ -104,9 +104,15 @@ class DB
         return $select->getLastInsertID();
     }
 
+    static function getUserID(){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $db = new dbConnection($host, $user, $pass, DB_NAME);
+        $User= new User($db->connection(),'users');
+        return $User->getUserID();
     
-    
-    
+    }
     
 
 }

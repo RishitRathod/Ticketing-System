@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <div class="container" id="container">
+    <div class="container c1" id="container">
         <div class="form-container sign-up">
             <form id="registrationForm" method="post" enctype="multipart/form-data">
                 <h2>Create Account</h2>
@@ -18,29 +18,24 @@
                 <input type="email"  id="email" name="Email" placeholder="Email">
                 <input type="tel" id="userphonenumber" placeholder="Contact Number" name="userphonenumber">
                 <input type="file" class="form-control-file" id="userPhoto" name="UserPhoto">
-                <hr class="hr hr-blurry"/>
-                <div class="form-group">
-                    <label for="password">Password</label>
+                <hr />
                     <input type="password" class="form-control" id="Password1" name="Password" placeholder="Enter password" required>
-                    <input type="checkbox" onclick="togglePassword1()"> Show Password
-                </div>
+                    <input type="checkbox" onclick="togglePassword1()"> <span>Show Password </span>
                 <input type="hidden" name="tablename" value="users">
                 <button type="submit" >Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
-            <form method="POST"  id="loginForm" class="form-container form1">
-                <h2>Sign In</h2>
+            <form method="POST"  id="loginForm" class="form-container form1 w-100">
+                <h2>Log In</h2>
                 <span>Use your E-mail or Phone Number </span>
                 <input type="text" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
                 <input type="tel" placeholder="Contact Number">
-                <hr class="hr hr-blurry"/>
+                <hr />
                
-                <div class="form-group">
-                    <label for="password">Password</label>
+
                     <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter password" required>
-                    <input type="checkbox" onclick="togglePassword()"> Show Password
-                </div>
+                    <input type="checkbox" onclick="togglePassword()"><span> Show Password </span>
                 <a href="#">Forget Your Password?</a>
                 <input type="hidden" value="users" name="tablename">    
                 <button id="submit" type="submit" name="login">Log In</button>
@@ -49,13 +44,13 @@
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to register in Events</p>
-                    <button class="hidden" id="login">Sign In</button>
+                    <h1>Already a User!</h1>
+                    <p>Enter your personal details to Login and register in Events</p>
+                    <button class="hidden" id="login">Login In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to Register in Events</p>
+                    <h1>New Here !?</h1>
+                    <p>Register with your personal details Register in Events</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
             </div>

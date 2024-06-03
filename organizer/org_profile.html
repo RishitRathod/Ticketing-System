@@ -85,6 +85,10 @@
         .backOnav{
             background-color: #000;
         }
+        #pfp{
+            height: 30vmin;
+            width: 30vmin;
+        }
 
     </style>
 </head>
@@ -147,7 +151,7 @@
                     <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
                         <p class="sign" align="center">Profile</p>
                         <div class="d-flex flex-column align-items-center mb-3">
-                            <img src="../img/user.png" height="180" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary rounded-circle">
+                            <img src="../img/user.png" height="180" id="pfp" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary rounded-circle">
                         </div>
                         <fieldset class="mt-3 px-5 rounded-4">
                             <legend> Status </legend>
@@ -245,6 +249,8 @@
                 document.getElementById('co_number').value = userData[0].ContactNumber;
                 document.getElementById('co_name').value = userData[0].ContactName;
                 document.getElementById('OrgID').value = userData[0].OrgID;
+                document.getElementById('pfp').src = userData[0].UserPhoto;
+
                 status = userData[0].Status;
                 resasonofrejection= userData[0].ReasonOfRejection;
             }

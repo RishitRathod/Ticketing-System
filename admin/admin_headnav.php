@@ -52,6 +52,19 @@
             /* color:#ffffff; */
         }
         
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 30px;
+        }
+        .password-container .eye {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
         
         .themecol{
             color: #fff;
