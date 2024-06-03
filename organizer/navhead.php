@@ -55,7 +55,7 @@
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
             <div class="col-sm-auto col-3 ">
-                <div class="dropdown open p-3 rounded-pills">
+                <div class="dropdown open p-3 rounded-pill">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
