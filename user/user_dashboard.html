@@ -34,6 +34,9 @@
                 <button class="scroll-item btn m-2 py-3 px-5 rounded-6" id="hoverA" value="sports">Sports</button>            
             </div>
         </div>
+        <div class="container table table-responsive"> 
+
+        </div>
     </main>
 
 
@@ -54,11 +57,16 @@
                     const imageValue = button.value;
                     button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
                 });
+                button.addEventListener("click", function() {
+                    const imageValue = button.value;
+                    button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
+                });
 
                 button.addEventListener("mouseout", function() {
                     button.style.backgroundImage = "";
                 });
             });
+
         });
         </script>
 </body>
