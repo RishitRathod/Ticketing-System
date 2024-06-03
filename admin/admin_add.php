@@ -13,14 +13,14 @@
                             <input type="text" autocomplete='off' name="AdminUsername" class="form-control mb-1" id="AdminUsername">
                             <label for='AdminEmail' class='form-label'>Email</label>
                             <input type='email' name='AdminEmail' class="form-control mb-1" id="AdminEmail">
-                            <div class="password-container">
+                            <div id="passwordDiv" class="password-container">
                                 <label for='AdminPassword' class='form-label'>Password</label>
                                 <input type='password' name='Password' class='form-control' id="AdminPassword">
                                 <div id="eye" class="d-inline mb-1"><i class="fa fa-eye-slash"></i></div><span class="d-inline" style="font-size: 12px;"> Show Password</span>
-                            </div>
                             <label for='ConfirmPass' class='form-label'>Confirm Password</label>
                             <input type="password" name="Password1" class="form-control mb-3" id="ConfirmPass">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="resetform()">Cancel</button>
                             <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
                     </div>
                 </div>
@@ -34,9 +34,10 @@
                             <th>Admin ID</th>
                             <th>Admin Name</th>
                             <th>Email</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="adminBody">
                         <!-- Table rows will be populated here -->
                     </tbody>
                 </table>
@@ -44,6 +45,17 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script>
+
+            function resetform(){
+                document.querySelector("#registrationForm").reset();
+                document.querySelector("#AdminUsername").disabled = false;
+                document.querySelector("#AdminEmail").disabled = false;
+                document.querySelector("#AdminPassword").disabled = false;
+                document.querySelector("#ConfirmPass").disabled = false;
+                document.querySelector("#passwordDiv").style.display = "block";
+                
+            }
+            
             $(document).ready(function() {
                 $('#eye').click(function() {
                     let passwordFieldType = $('#AdminPassword').attr('type');
@@ -75,11 +87,194 @@
                 });
             });
 
+            document.addEventListener('DOMContentLoaded', function() {
+                fetchAdmins();
+            });
+            async function fetchAdmins(){
+                fetch('addadmin.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'Action': 'fetch',
+                        'tablename': 'admins'
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const admins = data.data;
+                        const adminBody = document.querySelector('#adminBody');
+                        adminBody.innerHTML = '';
+                        admins.forEach(admin => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${admin.AdminID}</td>
+                                <td>${admin.AdminUsername}</td>
+                                <td>${admin.Email}</td> 
+                                <td>
+                                    <button class="btn btn-primary" onclick="editAdmin(${admin.AdminID})">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteAdmin(${admin.AdminID})">Delete</button>
+                            `;//add button to edit and delete admin
+                            adminBody.appendChild(row);
+                        });
+                    } else {
+                        console.log('Error: ', data.message);
+                    }
+                });
+            }
+
+            async function addadmin() {
+        const adminUsername = document.querySelector("#AdminUsername").value;
+        const password = document.querySelector("#AdminPassword").value;
+        const AdminEmail = document.querySelector('#AdminEmail').value;
+        const tablename = document.querySelector('#tablename').value;
+        // var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric, 3-20 characters
+        //     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
+        //     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
+    
+            // // Validate fields
+            // if (!usernamePattern.test(adminUsername)) {
+            //     alert("Invalid username. Please enter 3-20 alphanumeric characters.");
+            //     return;
+            // }
+    
+            // if (!passwordPattern.test(password)) {
+            //     alert("Invalid password. Please enter at least 8 characters, including at least one letter, one number, and one special character.");
+            //     return;
+            // }
+    
+            // if (!emailPattern.test(AdminEmail)) {
+            //     alert("Invalid email address.");
+            //     return;
+            // }
+        // Construct the data object
+        var data = {
+            "tablename": tablename,
+            "AdminUsername": adminUsername,
+            "Password": password,
+            "Email": AdminEmail,
+            "Action" : "add"
+        };
+        
+        // Send the form data to the server
+        const response = await fetch("addadmin.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            // Refresh the table
+            alert("Admin added successfully");
+            fetchAdmins();
+            // Clear the form
+            document.querySelector("#registrationForm").reset();
             
+            // var modal=document.getElementById("myModal");
+            // modal.setAttribute("hidden", "true");
+        } else {
+            console.log("Error: ", result.message);
+        }
+    }
+    function togglePassword() {
+        var passwordField = document.getElementById("AdminPassword");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    }
+
+    async function deleteAdmin(id) {
+        const tablename = document.querySelector('#tablename').value;
+        const response = await fetch("addadmin.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "tablename": tablename,
+                "id": id,
+                "Action": "delete"
+            }),
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            alert("Admin deleted successfully");
+            fetchAdmins();
+        } else {
+            console.log("Error: ", result.message);
+        }
+    }   
+
+    async function editAdmin(id) {
+        const tablename = document.querySelector('#tablename').value;
+        document.querySelector("#passwordDiv").style.display = "none";
+        const response = await fetch("addadmin.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "tablename": tablename,
+                "id": id,
+                "Action": "edit"
+            }),
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            const admin = result.data[0];
+            document.querySelector("#AdminUsername").value = admin.AdminUsername;
+            document.querySelector("#AdminEmail").value = admin.Email;
+         //   document.querySelector("#AdminPassword").value = admin.Password;
+         //   document.querySelector("#ConfirmPass").value = admin.Password;
+            document.querySelector("#AdminUsername").disabled = true;
+            document.querySelector("#AdminEmail").disabled = true;
+            document.querySelector("#AdminPassword").disabled = true;
+            document.querySelector("#ConfirmPass").disabled = true;
+        } else {
+            console.log("Error: ", result.message);
+        }
+    }
+
+    async function updateAdmin() {
+        const adminUsername = document.querySelector("#AdminUsername").value;
+       // const password = document.querySelector("#AdminPassword").value;
+        const AdminEmail = document.querySelector('#AdminEmail').value;
+        const tablename = document.querySelector('#tablename').value;
+        const id = document.querySelector('#AdminID').value;
+        var data = {
+            "tablename": tablename,
+            "AdminUsername": adminUsername,
+            //"Password": password,
+            "Email": AdminEmail,
+            "Action" : "update",
+            "id": id
+        };
+        const response = await fetch("addadmin.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            alert("Admin updated successfully");
+            fetchAdmins();
+        } else {
+            console.log("Error: ", result.message);
+        }
+    }
+
         </script>
-<?php
-    include 'adJS.php';
-?>
+
 <?php
     include 'admin_footer.php';
 ?>
