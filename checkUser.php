@@ -1,8 +1,4 @@
 <?php
-require_once 'config.php';
-require_once 'db_connection.php';
-session_start();    
-
 class User{
 
     private $conn;
@@ -15,6 +11,8 @@ class User{
     }
      function  SetUserSession($name,$id,$idColumnName,$role){
         try{
+            
+session_start();    
             //set the session array
                 $_SESSION['user'] = array(
                     'name' => $name,
