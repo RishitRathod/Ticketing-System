@@ -16,11 +16,24 @@
     <!-- CSS -->
     <style>
         body{
-            background-color: #52D3D8;
+            background-color: #c9d6ff;
         }
         td{
             margin-left: 5px;
             margin-right: 5px;
+        }
+
+        fieldset {
+            border: solid 1px gray;
+            border-radius: 10px;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+        }
+        legend {
+            float: none;
+            width: inherit;
         }
         .nav-pills li a:hover {
             background-color: darkblue;
@@ -41,7 +54,7 @@
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
         .backOnav{
-            background-color: #200E3A;
+            background-color: #00023c;
         }
         .stic {
             position:sticky;
