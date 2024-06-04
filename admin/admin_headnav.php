@@ -11,8 +11,21 @@
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0;
+        }
+        table.dataTable {
+            width: 100% !important;
+            margin: 0 auto;
+        }
+        .container.table-responsive {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+    </style>    
+
     <!-- CSS -->
     <style>
         *{
@@ -166,4 +179,4 @@
                 document.addEventListener('DOMContentLoaded', setActiveLink);
             </script>
             <div class="col p-3">
-                <div class="main-content mx-auto justify-content-center align-items-center">
+                <!-- <div class="main-content mx-auto justify-content-center align-items-center"> -->
