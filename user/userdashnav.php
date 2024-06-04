@@ -131,7 +131,11 @@
             background-repeat: no-repeat; /* Prevent the image from repeating */
             background-position: center; /* Center the image within the button */
         }
+        #categorySearch{
+                margin-top: 20vh;
+        }
 
+        
     </style>
 </head>
 <body>

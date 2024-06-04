@@ -206,7 +206,8 @@
                                 <div class="step">
                                 <div id="posterContainer" class="form-group">
                                     <label for="eventPoster">Event Poster</label>
-                                    <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" >
+                                    <input type="file" class="form-control-file" id="eventPoster" name="
+                                    " >
                                 </div>
                                 <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
 
