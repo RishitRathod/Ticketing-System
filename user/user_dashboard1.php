@@ -19,15 +19,15 @@
             <h3>All Categories</h3>
         </div>
         <div class="scroll-container text-center" id="categoryButtons">
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterevents()">Business</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterevents()">Comedy</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterevents()">Beauty</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterevents()">Culture</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterevents()">Dance</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterevents()">Education</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterevents()">Health</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterevents()">Music</button>   
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterevents()">Sports</button>            
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterevents(this.id)">Business</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterevents(this.id)">Comedy</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterevents(this.id)">Beauty</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterevents(this.id)">Culture</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterevents(this.id)">Dance</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterevents(this.id)">Education</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterevents(this.id)">Health</button>
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterevents(this.id)">Music</button>   
+            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterevents(this.id)">Sports</button>            
         </div>
     </div>
 <div class="container table-responsive mt-3"></div>
@@ -82,21 +82,7 @@ include 'user_footer.html';
                     button.style.backgroundImage = "";
                 });
             });
-        }
-
-        async function fetchAllEvents(){
-            fetch("", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            
-        }
+        }   
 
 
         document.addEventListener("DOMContentLoaded", setImanges() );
@@ -104,12 +90,72 @@ include 'user_footer.html';
         
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-     document.addEventListener("DOMContentLoaded", () => {
-    fetchEventPosters();
+const eventHandler = async () => {
+    await fetchEventPosters();
+};
 
-    // Add scroll event listener
-    window.addEventListener('scroll', onScroll);
-});
+document.addEventListener("DOMContentLoaded", eventHandler);
+
+async function filterevents(id) {
+    console.log(id);
+    $('#events-container').empty();
+    let isLoading = false;
+    let offset = 0;
+    const limit = 8; // Number of items to fetch per request
+    let noMoreEvents = false; // Flag to indicate if there are no more events to fetch
+    try {
+        if (isLoading || noMoreEvents) return; // Stop fetching if already loading or no more events
+        isLoading = true;
+
+        const response1 = await fetch(`userposter_backend1.php?id=${id}&offset=${offset}&limit=${limit}`);
+        const events1 = await response1.json();
+        // Now you can use the events1 data here
+        if (events1.length === 0) {
+            noMoreEvents = true; // No more events to fetch
+            return;
+        }
+
+        const eventsContainer = document.getElementById('events-container');
+
+        events1.forEach(event => { // Use events1 instead of events
+            const eventDiv = document.createElement('div');
+            eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block'); // Adjust column classes
+
+            eventDiv.innerHTML = `
+                <div class="card h-100">
+                    <img src="${event.poster}" class="card-img-top event-poster" alt="${event.event_name}">
+                    <div class="card-body"></div>
+                    <div class="card-footer text-center">
+                        <form action="get_details.php" method="POST">
+                            <input type="hidden" name="id" value="${event.EventID}">
+                            <button type="submit" class="btn btn-primary">View Details</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            eventsContainer.appendChild(eventDiv);
+        });
+
+        offset += limit; // Increment offset for next fetch
+        isLoading = false;
+        window.addEventListener('scroll', onScroll);
+    } catch (error) {
+        console.error('Error fetching event posters:', error);
+        isLoading = false;
+    }
+
+    function onScroll() {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight -5) {
+        fetchEventPosters();
+    }
+}
+}
+
+
+
+
 
 let isLoading = false;
 let offset = 0;
@@ -153,6 +199,7 @@ async function fetchEventPosters() {
 
         offset += limit; // Increment offset for next fetch
         isLoading = false;
+        window.addEventListener('scroll', onScroll);
     } catch (error) {
         console.error('Error fetching event posters:', error);
         isLoading = false;
@@ -167,4 +214,10 @@ function onScroll() {
 }
 
 </script>
+
+
+
+<script>
+ 
+</script>    
 
