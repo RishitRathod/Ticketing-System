@@ -16,7 +16,7 @@
     <!-- CSS -->
     <style>
         body{
-            background-color: #ffffff;
+            background-color: #52D3D8;
         }
         td{
             margin-left: 5px;
@@ -32,16 +32,16 @@
         }
 
         .main-content {
-            border: 1px solid #ccc;
+            /* border: 1px solid #ccc; */
             border-radius: 5px;
             max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #25252510;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
         .backOnav{
-            background-color: #000;
+            background-color: #200E3A;
         }
         .stic {
             position:sticky;
@@ -104,22 +104,22 @@
                 </div>
             </div>
             <div class="col p-3">
-                <div class="main-content mx-auto d-flex justify-content-center align-items-center">
+                <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center">
 
             <script src="../script.js"></script>
            <script>
                
-               function isUserLoggedIn() {
-    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-    for (const cookie of cookies) {
-        if (cookie.startsWith('role=')) {
-            console.log("User is logged in");
-            return true;
-        }
-    }
-    console.log("User is not logged in");
-    return false;
-}
+            function isUserLoggedIn() {
+                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                    for (const cookie of cookies) {
+                        if (cookie.startsWith('role=')) {
+                            console.log("User is logged in");
+                            return true;
+                        }
+                    }
+                    console.log("User is not logged in");
+                    return false;
+            }
             window.onload = function() {
                     if (isUserLoggedIn()) {
                    // document.getElementById('login').style.display = 'none';

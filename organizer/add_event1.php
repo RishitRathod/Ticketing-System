@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <style>
 
         .poster-input {
@@ -32,6 +32,7 @@
         }
         fieldset {
             border: solid 1px gray;
+            border-radius: 10px;
             padding-top: 5px;
             padding-right: 12px;
             padding-bottom: 10px;
@@ -42,19 +43,22 @@
             width: inherit;
         }
         .poster-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-.poster-input label {
-    margin-right: 10px;
-}
+        .poster-input label {
+            margin-right: 10px;
+        }
 
-.poster-input .form-control-file {
-    flex-grow: 1;
-    margin-right: 10px;
-}
+        .poster-input .form-control-file {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .card{
+            border-radius:20px;
+        }
 
     </style>
 </head>
