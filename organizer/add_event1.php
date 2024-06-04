@@ -9,10 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <style>
+
+        .poster-input {
+            margin-bottom: 10px;
+        }
+        .poster-preview-img {
+            display: block;
+            width: 150px;
+            height: 150px;
+            margin-top: 10px;
+        }
+    
         .step {
             display: none;
         }
@@ -21,6 +32,7 @@
         }
         fieldset {
             border: solid 1px gray;
+            border-radius: 10px;
             padding-top: 5px;
             padding-right: 12px;
             padding-bottom: 10px;
@@ -31,19 +43,22 @@
             width: inherit;
         }
         .poster-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-.poster-input label {
-    margin-right: 10px;
-}
+        .poster-input label {
+            margin-right: 10px;
+        }
 
-.poster-input .form-control-file {
-    flex-grow: 1;
-    margin-right: 10px;
-}
+        .poster-input .form-control-file {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .card{
+            border-radius:20px;
+        }
 
     </style>
 </head>
@@ -207,16 +222,12 @@
                             <div class="step">
                             <div id="posterContainer" class="form-group">
                                 <label for="eventPoster">Event Poster</label>
-                                <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)" name="EventPoster[]" >
-                                <!-- show that poster -->
-                                <div id="posterPreview">
-                                    <img src="" alt="Event Poster" id="posterPreviewImg" style="display: none; width:150px;height:150px;">
-                                    
-                                </div>
-
+                                <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)">
+                                <div id="posterPreview"></div>
                             </div>
                             <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
-
+                            <button type="button" class="btn btn-danger" id="removePosterButton">Remove Poster</button>
+                                <div class="form-group
                                <div class="form-group">
                                    <label for="country">Country: </label>
                                     <select name="Country" id="country" class="form-control"> 
@@ -256,15 +267,7 @@
     
     <script>
        
-       function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function(){
-        var output = document.getElementById('posterPreviewImg');
-        output.src = reader.result;
-        output.style.display = "block";
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
+    
 
 function validateForm() {
         const form = document.getElementById('registrationForm');
@@ -655,43 +658,61 @@ function validateForm() {
             });
         });
 
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const newPreviewImg = document.createElement('img');
+                newPreviewImg.src = reader.result;
+                newPreviewImg.alt = 'Event Poster';
+                newPreviewImg.classList.add('poster-preview-img');
+
+                const posterPreviewDiv = document.getElementById('posterPreview');
+                posterPreviewDiv.appendChild(newPreviewImg);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
         document.getElementById('addPosterButton').addEventListener('click', function() {
-    // Create a new div for the new input field
-    var newDiv = document.createElement('div');
-    newDiv.classList.add('form-group', 'poster-input');
+            // Create a new div for the new input field
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('form-group', 'poster-input');
 
-    // Create a new label
-    var newLabel = document.createElement('label');
-    // newLabel.innerText = 'Event Poster';
+            // Create a new label
+            const newLabel = document.createElement('label');
+            newLabel.innerText = 'Event Poster';
 
-    // Create a new input field
-    var newInput = document.createElement('input');
-    newInput.type = 'file';
-    newInput.classList.add('form-control-file');
-    newInput.name = 'EventPoster[]';
+            // Create a new input field
+            const newInput = document.createElement('input');
+            newInput.type = 'file';
+            newInput.classList.add('form-control-file');
+            newInput.name = 'EventPoster[]';
+            newInput.accept = 'image/*';
+            newInput.setAttribute('onchange', 'previewImage(event)');
 
-    // Create a remove button
-    var removeButton = document.createElement('button');
-    removeButton.type = 'button';
-    removeButton.classList.add('btn', 'btn-danger', 'removePosterButton');
-    removeButton.innerText = 'Remove';
+            // Append the label and input to the new div
+            newDiv.appendChild(newLabel);
+            newDiv.appendChild(newInput);
 
-    // Append the label, input, and remove button to the new div
-    newDiv.appendChild(newLabel);
-    newDiv.appendChild(newInput);
-    newDiv.appendChild(removeButton);
+            // Append the new div to the poster container
+            document.getElementById('posterContainer').appendChild(newDiv);
+        });
 
-    // Append the new div to the poster container
-    document.getElementById('posterContainer').appendChild(newDiv);
+            // document.getElementById('eventPoster').addEventListener('change', function(event) {
+            //     previewImage(event);
+            // });
+        //remove Poster and poster preview for that input there should be alteast 1 psoter
+        document.getElementById('removePosterButton').addEventListener('click', function() {
+            const posterPreviewDiv = document.getElementById('posterPreview');
+            const posterInputs = document.querySelectorAll('.poster-input');
+            if (posterInputs.length > 0) {
+                posterInputs[posterInputs.length - 1].remove();
+                posterPreviewDiv.lastElementChild.remove();
+            } else {
+                alert('There should be at least one poster');
+            }
+        });
 
-    // Add event listener to the remove button
-    removeButton.addEventListener('click', function() {
-        var posterInputs = document.querySelectorAll('.poster-input');
-   
-            document.getElementById('posterContainer').removeChild(newDiv);
-      
-    });
-});
+
 
 
 

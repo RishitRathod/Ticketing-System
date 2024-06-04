@@ -6,7 +6,10 @@ header('Content-Type: application/json');
 $response = array('success' => true); // Initialize an array to hold the response data
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Assuming the input is sent as form-data
+$action = $_POST['action'];
+
+if ($action == 'update')
+    {    // Assuming the input is sent as form-data
     $eventName = $_POST['EventName'];
     $eventType = $_POST['EventType'];
     $description = $_POST['Description'];
@@ -134,5 +137,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $response['message'] = "Event updated successfully";
     }
     echo json_encode($response);
+}
+
+    if($action == 'delete'){
+        $eventID = $_POST['eventID'];
+        $deleteResult1 = DB::delete(DB_NAME, 'tickets', $eventID,'EventID');
+        if (!$deleteResult1) {
+            http_response_code(500);
+            echo "Error `deleting tickets";
+            exit();
+        }
+
+        $deleteResult2 = DB::delete(DB_NAME, 'timeslots', $eventID,'EventID');
+        if (!$deleteResult2) {
+            http_response_code(500);
+            echo "Error deleting timeslots";
+            exit();
+        }
+
+        $deleteResult3 = DB::delete(DB_NAME, 'eventposter', $eventID,'EventID');
+        if (!$deleteResult3) {
+            http_response_code(500);
+            echo "Error deleting event poster";
+            exit();
+        }
+
+        $deleteResult4 = DB::delete(DB_NAME, 'events', $eventID,'EventID');
+        if (!$deleteResult4) {
+            http_response_code(500);
+            echo "Error deleting event";
+            exit();
+        }
+        //also delete the files realted to the event
+        $uploadDirectory = '../uploads/Organizations/' . $orgID . '/events/' . $eventID . '/';
+    
+        try {
+            if (is_dir($uploadDirectory)) {
+                $files = glob($uploadDirectory . '*', GLOB_MARK); //GLOB_MARK adds a slash to directories returned
+                foreach ($files as $file) {
+                    if (!unlink($file)) {
+                        throw new Exception("Failed to delete file: $file");
+                    }
+                }
+                if (!rmdir($uploadDirectory)) {
+                    throw new Exception("Failed to delete directory: $uploadDirectory");
+                }
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            exit();
+        }
+        
+
+
+        http_response_code(200);
+        echo "Event deleted successfully";
+
+    }
+
 }
 ?>

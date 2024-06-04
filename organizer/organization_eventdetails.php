@@ -192,8 +192,9 @@
                                             <input type="hidden" name="id" value="${event.EventID}">
                                             <button type="submit" class="btn btn-primary">Edit Details</button>
                                         </form>
-                                        <form action="organization_eventdetails.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="${event.EventID}">
+                                        <form action="update_event.php" method="post" style="display:inline;">
+                                            <input type="hidden" name="eventID" value="${event.EventID}">
+                                            <input type="hidden" name="action" value="delete">
                                             <button type="submit" class="btn btn-primary">Delete Event</button>
                                         </form>
                                     </div>
@@ -205,6 +206,8 @@
                 eventsRow.appendChild(eventCard);
             });
         }
+
+        
 
         window.onload = initialize;
     </script>

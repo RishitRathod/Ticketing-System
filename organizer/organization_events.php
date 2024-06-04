@@ -11,29 +11,122 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .event-card {
+            background-color: #3887BE;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 10%;
+            border-radius:20px !important;
         }
         .event-poster {
             max-height: 200px;
             object-fit: cover;
-            width: 100%;
+            width: 90%;
+            margin: 3vmin;
+            border-radius:20px !important;
         }
+
         .event-details {
+            
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            margin-left:3vmin;
+            margin-top:4vmin;
+            /* font-size: 3vw; */
         }
+        @media (max-width: 765px) {
+            .event-details {
+                margin-top: 0 !important;
+                font-size: 3vw;
+            }
+        }
+
+        /* app ui css  */
+            .btn-22,
+            .btn-22 *,
+            .btn-22 :after,
+            .btn-22 :before,
+            .btn-22:after,
+            .btn-22:before {
+            border: 0 solid;
+            box-sizing: border-box;
+            }
+            .btn-22 {
+                -webkit-tap-highlight-color:transparent;
+                -webkit-appearance: button;
+                background-color: #000;
+                background-image: none;
+                color:#fff;
+                cursor: pointer;
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+                    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+                font-size: 100%;
+                font-weight: 900;
+                line-height: 1.5;
+                margin: 0;
+                -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+                padding: 0;
+                text-transform: uppercase;
+            }
+            .btn-22:disabled {
+                cursor: default;
+            }
+            .btn-22:-moz-focusring {
+                outline: auto;
+            }
+            .btn-22 svg {
+                display: block;
+                vertical-align: middle;
+            }
+            .btn-22 [hidden] {
+                display: none;
+            }
+            .btn-22 {
+                border-radius: 99rem;
+                border-width: 2px;
+                overflow: hidden;
+                padding: 0.8rem 3rem;
+                position: relative;
+            }
+            .btn-22 span {
+                mix-blend-mode: difference;
+            }
+            .btn-22:before {
+                aspect-ratio: 1;
+                background: 
+                #fff;
+                border-radius: 50%;
+                content: "";
+                left: -100%;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%) scale(1);
+                transform-origin: left center;
+                transition: transform 0.2s ease;
+                width: 100%;
+            }
+            .btn-22:hover:before {
+                transform: translateY(-50%) scale(2);
+            }
+        /* end of app ui css  */
+        
+
+        /* .date{
+          
+            font-weight: bolder;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        } */
     </style>
 </head>
 <body>
     <?php include 'navhead.php'; ?>
 
     <!-- Main Content -->
-    <div class="container mt-5" id="eventsContainer">
-        <h2>Events</h2>
-        <div class="row" id="eventsRow">
+    <div id="eventsContainer">
+        <h2 class="py-2">Events</h2>
+        <div id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
         </div>
     </div>
@@ -137,22 +230,22 @@ console.log(uniqueEvents);
             eventsRow.innerHTML = '';
             Object.values(uniqueEvents).forEach((event) => {
                 const eventCard = document.createElement('div');
-                eventCard.classList.add('col-12', 'mb-4');
+                eventCard.classList.add('col-14', 'mb-4');
 
                 const posterIndicators = event.posters.map((poster, index) => `
                     <li data-target="#carousel${event.EventID}" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>
                 `).join('');
 
                 const posterItems = event.posters.map((poster, index) => `
-                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="${poster}" class="d-block w-100 event-poster" alt="Event Poster">
+                    <div class="poster carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="${poster}" class=" event-poster" alt="Event Poster">
                     </div>
                 `).join('');
 
                 eventCard.innerHTML = `
-                    <div class="card h-100 event-card">
-                        <div class="row no-gutters">
-                            <div class="col-md-4">
+                    <div class="card event-card">
+                        <div class="row ">
+                            <div class="col-md-5">
                                 <div id="carousel${event.EventID}" class="carousel slide" data-ride="carousel">
                                     <ol class="carousel-indicators">
                                         ${posterIndicators}
@@ -170,19 +263,20 @@ console.log(uniqueEvents);
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="card-body event-details">
-                                    <h5 class="card-title">${event.EventName}</h5>
-                                    <p class="card-text"><strong>Time:</strong> ${event.StartDate} - ${event.EndDate}</p>
-                                    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
-                                    <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
+                                    <b><h5 class="card-title">${event.EventName}</h5></b>
+                                    <div class="card-text date rounded-end-circle"><strong>Time:</strong> <div class=""><div class="startD d-inline"> ${event.StartDate}</div> <div class="d-inline">to </div> <div class="endD d-inline">${event.EndDate}</div></div>
+                                <!--    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p> -->
+                                <!--    <p class="card-text"><strong>Price:</strong> $${event.Price}</p> -->
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
                                     <form action="organization_eventdetails.php" method="post" style="display:inline;">
                                         <input type="hidden" name="id" value="${event.EventID}">
-                                        <button type="submit" class="btn btn-primary">View Details</button>
+                                        <!--  <button type="submit" class="btn btn-primary">View Details</button> -->
+                                        <button type="submit" class="btn-22"><span>View Details</span></button>
                                     </form> 
-                           </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

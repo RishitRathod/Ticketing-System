@@ -27,8 +27,8 @@
                     <input type="hidden" value="admins" id="tablename" name="tablename">
             </div>
 
-            <div class="d-inline-block" id="adminTable">
-                <table class="table table-strip" id="packagesTable">
+            <div class="d-inline-block" id="adminTableDiv">
+                <table class="table table-strip" id="adminTable">
                     <thead>
                         <tr>
                             <th>Admin ID</th>
@@ -119,6 +119,7 @@
                             `;//add button to edit and delete admin
                             adminBody.appendChild(row);
                         });
+                        $('#adminTable').DataTable();
                     } else {
                         console.log('Error: ', data.message);
                     }
