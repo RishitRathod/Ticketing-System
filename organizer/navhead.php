@@ -22,6 +22,19 @@
             margin-left: 5px;
             margin-right: 5px;
         }
+
+        fieldset {
+            border: solid 1px gray;
+            border-radius: 10px;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+        }
+        legend {
+            float: none;
+            width: inherit;
+        }
         .nav-pills li a:hover {
             background-color: darkblue;
         }

@@ -8,19 +8,40 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
         .event-card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            border-radius: 20px !important;
+            height: 100% !important;
+            width: 100% !important;
         }
         .event-poster {
             max-height: 200px;
             object-fit: cover;
-            width: 100%;
+            width: 90%;
+            margin: 4vmin;
+            border-radius: 20px !important;
         }
         .event-details {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+        .poster-container {
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: row;
+
+        }
+        fieldset {
+            border: solid 1px gray;
+            border-radius: 10px;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+        }
+        legend {
+            float: none;
+            width: inherit;
         }
     </style>
 </head>
@@ -138,64 +159,48 @@
                 const eventCard = document.createElement('div');
                 eventCard.classList.add('col-12', 'mb-4');
 
-                const posterIndicators = event.posters.map((poster, index) => `
-                    <li data-target="#carousel${event.EventID}" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>
-                `).join('');
-
-                const posterItems = event.posters.map((poster, index) => `
-                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="${poster}" class="d-block w-100 event-poster" alt="Event Poster">
-                    </div>
+                const posterItems = event.posters.map(poster => `
+                    <img src="${poster}" class="event-poster img-fluid d-block" alt="Event Poster">
                 `).join('');
 
                 const ticketsList = event.tickets.map(ticket => `
-                    <p class="card-text"><strong>Ticket Type:</strong> ${ticket.TicketType}, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</p>
+                    <li><span class="card-text"><b> ${ticket.TicketType}</b >, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
                 `).join('');
 
                 const timeSlotsList = event.timeSlots.map(slot => `
-                    <p class="card-text"><strong>Time Slot:</strong> ${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</p>
+                    <li><span class="card-text"> ${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span> </li>
                 `).join('');
 
                 eventCard.innerHTML = `
-                    <div class="card h-100 event-card">
+                    <div class="card event-card p-5">
                         <div class="row no-gutters">
-                            <div class="col-md-4">
-                                <div id="carousel${event.EventID}" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        ${posterIndicators}
-                                    </ol>
-                                    <div class="carousel-inner">
-                                        ${posterItems}
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carousel${event.EventID}" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carousel${event.EventID}" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
+                            <div class="col-md-4 poster-container">
+                                ${posterItems}
                             </div>
                             <div class="col-md-8">
-                                <div class="card-body event-details">
-                                    <h5 class="card-title">${event.EventName}</h5>
-                                    <p class="card-text"><strong>Time:</strong> ${event.StartDate} - ${event.EndDate}</p>
-                                    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
+                                <div class="card-body event-details pl-4">
+                                    <h3 class="card-title">${event.EventName}</h3>
                                     <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
+                                    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
+                                    <fieldset><legend><strong>Date</strong></legend>
+                                        <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong>${event.EndDate}</div>
+                                    </fieldset>
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
-                                    ${timeSlotsList}
-                                    ${ticketsList}
+                                    <fieldset><legend><strong>Time Slots</strong></legend>
+                                        ${timeSlotsList}
+                                    </fieldset>
+                                    <fieldset><legend><strong>Tickets</strong></legend>
+                                        ${ticketsList}
+                                    </fieldset>
                                     <div class="text-center">
-                                        
                                         <form action="edit_events.php" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary">Edit Details</button>
+                                            <button type="submit" class="btn btn-primary mt-3">Edit Details</button>
                                         </form>
                                         <form action="update_event.php" method="post" style="display:inline;">
                                             <input type="hidden" name="eventID" value="${event.EventID}">
                                             <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="btn btn-primary">Delete Event</button>
+                                            <button type="submit" class="btn btn-primary mt-3">Delete Event</button>
                                         </form>
                                     </div>
                                 </div>
@@ -206,8 +211,6 @@
                 eventsRow.appendChild(eventCard);
             });
         }
-
-        
 
         window.onload = initialize;
     </script>
