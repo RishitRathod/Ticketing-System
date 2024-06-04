@@ -67,13 +67,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Event Name</th>
-                    <th>Event Description</th>
-                    <th>Organization Name</th>
+                    <th>Organization ID</th>
                     <th>Event Time</th>
-                    <th>Event Location</th>
-                    <th>Event Capacity</th>
+                    <th>Location:City</th>
                     <th>Event Type</th>
-                    <th>Event Poster</th>
                     <th>View Details</th>
                 </tr>
             </thead>
@@ -198,13 +195,10 @@
                 tr.innerHTML = `
                     <td>${row.EventID}</td>
                     <td>${row.EventName}</td>
-                    <td>${row.Description}</td>
                     <td>${row.OrgID}</td>
                     <td>${row.StartDate} - ${row.EndDate}</td>
-                    <td>${row.VenueAddress}</td>
-                    <td>${row.Capacity}</td>
+                    <td>${row.City}</td>
                     <td>${row.EventType}</td>
-                    <td><img src="../${row.EventPoster}" alt="Event Poster" height="50" width="50"></td>
                     <td><button class="btn btn-primary view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 `;
             } else if (tableName === 'users') {

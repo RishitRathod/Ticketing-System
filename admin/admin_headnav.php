@@ -135,7 +135,7 @@
                             </a>
                         </li>
                         <li class="nav-item py-2">
-                            <a href="#myModal" role="button"  class="nav-link text-white" data-bs-toggle="modal">
+                            <a href="./admin_add.php" role="button"  class="nav-link text-white" data-bs-toggle="modal">
                                 <i class="fs-5 fa fa-user"></i><span class="fs-5 ms-3 d-none d-sm-inline">Add Admin</span>
                             </a>
                         </li>
