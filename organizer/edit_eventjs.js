@@ -361,7 +361,8 @@ function validateForm() {
                 for (let [key, value] of formData.entries()) {
                     console.log(`${key}: ${value}`);
                 }
-
+                //add action =update in formdata
+                formData.append('action', 'update');
                 fetch('update_event.php', {
                     method: 'POST',
                     body: formData
@@ -407,45 +408,4 @@ function validateForm() {
             });
         });
 
-        document.getElementById('addPosterButton').addEventListener('click', function() {
-    // Create a new div for the new input field
-    var newDiv = document.createElement('div');
-    newDiv.classList.add('form-group', 'poster-input');
-
-    // Create a new label
-    var newLabel = document.createElement('label');
-    // newLabel.innerText = 'Event Poster';
-
-    // Create a new input field
-    var newInput = document.createElement('input');
-    newInput.type = 'file';
-    newInput.classList.add('form-control-file');
-    newInput.name = 'EventPoster[]';
-
-    // Create a remove button
-    var removeButton = document.createElement('button');
-    removeButton.type = 'button';
-    removeButton.classList.add('btn', 'btn-danger', 'removePosterButton');
-    removeButton.innerText = 'Remove';
-
-    // Append the label, input, and remove button to the new div
-    newDiv.appendChild(newLabel);
-    newDiv.appendChild(newInput);
-    newDiv.appendChild(removeButton);
-
-    // Append the new div to the poster container
-    document.getElementById('posterContainer').appendChild(newDiv);
-
-    // Add event listener to the remove button
-    removeButton.addEventListener('click', function() {
-        var posterInputs = document.querySelectorAll('.poster-input');
-   
-            document.getElementById('posterContainer').removeChild(newDiv);
-      
-    });
-    
-});
-
-
-
-
+// Path: organizer/edit_event.php

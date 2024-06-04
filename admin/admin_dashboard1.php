@@ -2,6 +2,18 @@
     include 'admin_headnav.php';
 ?>
     
+    <form id="viewOrganizationForm" action="view_organization.php" method="post" style="display: none;">
+    <input type="hidden" name="id">
+</form>
+
+<form id="viewEventForm" action="view_event.php" method="post" style="display: none;">
+    <input type="hidden" name="id">
+</form>
+
+<form id="viewUserForm" action="view_user.php" method="post" style="display: none;">
+    <input type="hidden" name="id">
+</form>
+
 <div id="selectionButtonGroup" class="container d-block row mt-5">
     <div class="btn-group m-2" id="gB" role="group" aria-label="Basic example">
         <button type="button" aria-selected="true" value="organizations" class="btn themecol" onclick="orgonly()">Organizations</button>
@@ -12,7 +24,7 @@
 <div id="a" style="display: none;">
     <div class="container table-responsive mt-5" id="orgDiv">
         <h2>Organizations</h2>
-        <table id="orgTable" class="table table-bordered" style="width:100%;">
+        <table id="orgTable" class="table table-bordered" style="width:100%; ">
             <thead style="width:100%;">
                 <tr>
                     <th>ID</th>
@@ -31,13 +43,14 @@
 <div id="b" style="display: none;">
     <div class="container table-responsive mt-5 mx-auto" id="userDiv">
         <h2>Users</h2>
-        <table id="userTable" class="table table-bordered" style="width:100%;">
+        <table id="userTable" class="table table-bordered" style="width:100%; background-color: white;">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>User Photo</th>
+                    <th>View Details</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
@@ -61,6 +74,7 @@
                     <th>Event Capacity</th>
                     <th>Event Type</th>
                     <th>Event Poster</th>
+                    <th>View Details</th>
                 </tr>
             </thead>
             <tbody id="eventTableBody">
@@ -177,7 +191,8 @@
                     <td>
                         <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check mr-1"></i> Approve</button>
                         <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban mr-1"></i> Reject</button>
-                    </td>
+                        <button class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button>
+                        </td>
                 `;
             } else if (tableName === 'events') {
                 tr.innerHTML = `
@@ -190,6 +205,7 @@
                     <td>${row.Capacity}</td>
                     <td>${row.EventType}</td>
                     <td><img src="../${row.EventPoster}" alt="Event Poster" height="50" width="50"></td>
+                    <td><button class="btn btn-primary view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 `;
             } else if (tableName === 'users') {
                 tr.innerHTML = `
@@ -197,7 +213,9 @@
                     <td>${row.Username}</td>
                     <td>${row.Email}</td>
                     <td><img src="../${row.UserPhoto}" alt="User Photo" width="50"></td>
-                `;
+                    <td><button class="btn btn-primary view-btn" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+                
+                    `;
             }
             tbody.appendChild(tr);
         });
@@ -249,6 +267,11 @@
             //update the datatable call fetchData and populateTable
             const data = await fetchData(tableName);
             populateTable(data, tableName);
+        }else if (event.target.classList.contains('view-btn')) {
+            const orgID = event.target.getAttribute('data-id');
+            const tableName = event.target.getAttribute('data-table');
+            viewDetails(orgID, tableName);
+
         }
     });
 
@@ -292,6 +315,23 @@
             }
         }
     }
+
+    //async function to view details of organizations, events and users on diffrent page
+    function viewDetails(id, tableName) {
+    let form;
+    if (tableName === 'organizations') {
+        form = document.getElementById('viewOrganizationForm');
+    } else if (tableName === 'events') {
+        form = document.getElementById('viewEventForm');
+    } else if (tableName === 'users') {
+        form = document.getElementById('viewUserForm');
+    }
+
+    form.elements.id.value = id;
+    form.submit();
+}
+
+
 </script>
 <?php
     include 'admin_footer.php';

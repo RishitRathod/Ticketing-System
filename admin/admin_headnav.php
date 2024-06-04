@@ -179,4 +179,4 @@
                 document.addEventListener('DOMContentLoaded', setActiveLink);
             </script>
             <div class="col p-3">
-                <!-- <div class="main-content mx-auto justify-content-center align-items-center"> -->
+                <div class="main-content mx-auto justify-content-center align-items-center">
