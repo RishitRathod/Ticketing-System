@@ -2,16 +2,16 @@
     include 'admin_headnav.php';
 ?>
     
-    <form id="viewOrganizationForm" action="view_organization.php" method="post" style="display: none;">
-    <input type="hidden" name="id">
+    <form id="viewOrganizationForm" action="view_organization.php" target="_blank" method="post" style="display: none;">
+    <input type="hidden" name="OrgID">
 </form>
 
-<form id="viewEventForm" action="view_event.php" method="post" style="display: none;">
-    <input type="hidden" name="id">
+<form id="viewEventForm" action="view_event.php" method="post" target="_blank" style="display: none;">
+    <input type="hidden" name="EventID">
 </form>
 
-<form id="viewUserForm" action="view_user.php" method="post" style="display: none;">
-    <input type="hidden" name="id">
+<form id="viewUserForm" action="view_user.php" method="post" target="_blank" style="display: none;">
+    <input type="hidden" name="UserID">
 </form>
 
 <div id="selectionButtonGroup" class="container d-block row mt-5">
@@ -67,13 +67,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Event Name</th>
-                    <th>Event Description</th>
-                    <th>Organization Name</th>
+                    <th>Organization ID</th>
                     <th>Event Time</th>
-                    <th>Event Location</th>
-                    <th>Event Capacity</th>
+                    <th>Location:City</th>
                     <th>Event Type</th>
-                    <th>Event Poster</th>
                     <th>View Details</th>
                 </tr>
             </thead>
@@ -198,13 +195,10 @@
                 tr.innerHTML = `
                     <td>${row.EventID}</td>
                     <td>${row.EventName}</td>
-                    <td>${row.Description}</td>
                     <td>${row.OrgID}</td>
                     <td>${row.StartDate} - ${row.EndDate}</td>
-                    <td>${row.VenueAddress}</td>
-                    <td>${row.Capacity}</td>
+                    <td>${row.City}</td>
                     <td>${row.EventType}</td>
-                    <td><img src="../${row.EventPoster}" alt="Event Poster" height="50" width="50"></td>
                     <td><button class="btn btn-primary view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 `;
             } else if (tableName === 'users') {
@@ -321,13 +315,16 @@
     let form;
     if (tableName === 'organizations') {
         form = document.getElementById('viewOrganizationForm');
+        form.elements.OrgID.value = id;
     } else if (tableName === 'events') {
+        
         form = document.getElementById('viewEventForm');
+        form.elements.EventID.value = id;
     } else if (tableName === 'users') {
         form = document.getElementById('viewUserForm');
+        form.elements.UserID.value = id;
     }
 
-    form.elements.id.value = id;
     form.submit();
 }
 

@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .event-card {
-            background-color: #3887BE;
             display: flex;
             flex-direction: column;
             height: 10%;
             border-radius:20px !important;
+            box-shadow: 3px 3px 20px #3E00FF20;
         }
         .event-poster {
             max-height: 200px;
@@ -52,9 +52,10 @@
             box-sizing: border-box;
             }
             .btn-22 {
+                color:white;
                 -webkit-tap-highlight-color:transparent;
                 -webkit-appearance: button;
-                background-color: #000;
+                background-color: #3E00FF;
                 background-image: none;
                 color:#fff;
                 cursor: pointer;
@@ -90,12 +91,12 @@
                 position: relative;
             }
             .btn-22 span {
-                mix-blend-mode: difference;
+                mix-blend-mode: lighten;
             }
             .btn-22:before {
+                color:black;
                 aspect-ratio: 1;
-                background: 
-                #fff;
+                background:#000;
                 border-radius: 50%;
                 content: "";
                 left: -100%;
