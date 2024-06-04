@@ -16,7 +16,7 @@
     <!-- CSS -->
     <style>
         body{
-            background-color: #52D3D8;
+            background-color: #c9d6ff;
         }
         td{
             margin-left: 5px;
@@ -41,7 +41,7 @@
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
         .backOnav{
-            background-color: #200E3A;
+            background-color: #00023c;
         }
         .stic {
             position:sticky;
