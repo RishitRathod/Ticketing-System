@@ -215,12 +215,20 @@
                             <!-- Step 4: Venue and Capacity -->
                                 <div class="step">
                                 <div id="posterContainer" class="form-group">
+<<<<<<< HEAD
+                                    <label for="eventPoster">Event Poster</label>
+                                    <input type="file" class="form-control-file" id="eventPoster" name="
+                                    " >
+                                </div>
+                                <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
+=======
                                 <label for="eventPoster">Event Poster</label>
                                 <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)">
                                 <div id="posterPreview"></div>
                             </div>
                             <button type="button" class="btn btn-primary" id="addPosterButton1">Add Poster</button>
                             <button type="button" class="btn btn-danger" id="removePosterButton">Remove Poster</button>
+>>>>>>> c8a13ed1d0641b6d7504f8c35f8b7e895281c776
 
                                 <div class="form-group">
                                     <label for="country">Country: </label>
