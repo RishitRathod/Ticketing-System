@@ -82,6 +82,12 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
     window.onload = function() {
         document.querySelector('#eventTable').style.display = 'block';
         document.querySelector('#userTable').style.display = 'block';
@@ -186,12 +192,21 @@
                     <td>${row.ContactNumber}</td>
                     <td>${row.Status}</td>
                     <td>
-            
-                        <button class="btn btn-success approve-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check"></i><span class="tooltiptext">Accept</span></button>
-                        <button class="btn btn-danger reject-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban"></i><span class="tooltiptext"> Rejected </span> </button>
-                        <button class="btn btn-primary view-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info"></i> <span class="tooltiptext"> View Details</span></button>
-                       
+                   
+                    <button type="button" id="tooltip" class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-check "></i>
+                    <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
+                    </button>
+                    
+                    
+                    <button type="button" id="tooltip" class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-ban"></i> 
+                    <span id="tooltiptext" class="p-1 rounded-3">Reject</span>
+                    
+                    </button>
+                    <button type="button" id="tooltip" class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mx-1"></i> 
+                    <span id="tooltiptext" class="p-1 rounded-3">View Details</span>
+                    </button>
                     </td>
+
                 `;
             } else if (tableName === 'events') {
                 tr.innerHTML = `

@@ -8,9 +8,17 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS and Popper.js (required for tooltips) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    
+
     <style>
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0;
@@ -22,6 +30,22 @@
         .container.table-responsive {
             padding-left: 0;
             padding-right: 0;
+        }
+        #tooltip{
+            position: relative;
+            display: inline-block;
+        }
+        #tooltip #tooltiptext{
+            visibility: hidden;
+            background-color: #000;
+            position: absolute;
+            z-index: 1;
+            
+
+        }
+        #tooltip:hover #tooltiptext{
+            visibility: visible;
+            /* transition: 0.5s; */
         }
     </style>
     </style>    
@@ -96,21 +120,7 @@
             background-color: #000;
         }
 
-        .expand-btn:hover {
-            width: 200px;
-            /* background-color: #0056b3; */
-        }
 
-        .expand-btn::after {
-            content: data-hov;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            white-space: nowrap;
-            /* transition: opacity 0.4s; */
-        }
         @media (max-width: 768px) {
             .dropdown.open {
                 width: 100%;
