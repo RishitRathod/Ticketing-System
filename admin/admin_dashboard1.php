@@ -82,6 +82,12 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
     window.onload = function() {
         document.querySelector('#eventTable').style.display = 'block';
         document.querySelector('#userTable').style.display = 'block';
@@ -105,7 +111,7 @@
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'block';
     }
-
+    
     let currentTableName = '';
 
     document.querySelectorAll('.btn-group .btn').forEach((button) => {
@@ -186,10 +192,21 @@
                     <td>${row.ContactNumber}</td>
                     <td>${row.Status}</td>
                     <td>
-                        <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check mr-1"></i> Approve</button>
-                        <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban mr-1"></i> Reject</button>
-                        <button class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button>
-                        </td>
+                   
+                    <button type="button" id="tooltip" class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-check "></i>
+                    <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
+                    </button>
+                    
+                    
+                    <button type="button" id="tooltip" class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-ban"></i> 
+                    <span id="tooltiptext" class="p-1 rounded-3">Reject</span>
+                    
+                    </button>
+                    <button type="button" id="tooltip" class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mx-1"></i> 
+                    <span id="tooltiptext" class="p-1 rounded-3">View Details</span>
+                    </button>
+                    </td>
+
                 `;
             } else if (tableName === 'events') {
                 tr.innerHTML = `
@@ -265,8 +282,8 @@
             const orgID = event.target.getAttribute('data-id');
             const tableName = event.target.getAttribute('data-table');
             viewDetails(orgID, tableName);
-
         }
+        
     });
 
     async function approveOrganization(orgID, tableName) {
