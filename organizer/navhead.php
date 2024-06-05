@@ -56,6 +56,21 @@
         .backOnav{
             background-color: #00023c;
         }
+        .adBox {
+            position: relative;
+        }
+        .adBox input {
+            width: 100%;
+            padding-right: 30px; /* Make space for the icon */
+        }
+        .adBox .eye {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-30%);
+            cursor: pointer;
+        }
+
         .stic {
             position:sticky;
             top:20px;

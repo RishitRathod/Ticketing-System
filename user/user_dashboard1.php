@@ -10,10 +10,11 @@
    
     <div class="container mt-5">
         <div class="mb-3">
-            <div class=" row-12">
+            <div class="row-5 sBox align-items-center">
                 <input type="text" class="form-control col-auto " placeholder="Search categories" id="categorySearch">
-                <button class="btn btn-outline-secondary col-1 " type="button" id="searchButton">Search</button>
+                <button class="btn btn-outline-secondary col-1 sbtn" type="button" id="searchButton">Search</button>
             </div>
+            
         </div>
         <div class="row">
             <h3>All Categories</h3>
@@ -101,7 +102,7 @@ async function filterevents(id) {
     $('#events-container').empty();
     let isLoading = false;
     let offset = 0;
-    const limit = 8; // Number of items to fetch per request
+    const limit = 10; // Number of items to fetch per request
     let noMoreEvents = false; // Flag to indicate if there are no more events to fetch
     try {
         if (isLoading || noMoreEvents) return; // Stop fetching if already loading or no more events
@@ -109,6 +110,8 @@ async function filterevents(id) {
 
         const response1 = await fetch(`userposter_backend1.php?id=${id}&offset=${offset}&limit=${limit}`);
         const events1 = await response1.json();
+        
+ 
         // Now you can use the events1 data here
         if (events1.length === 0) {
             noMoreEvents = true; // No more events to fetch
@@ -156,11 +159,11 @@ async function filterevents(id) {
 
 
 
-
 let isLoading = false;
 let offset = 0;
 const limit = 8; // Number of items to fetch per request
 let noMoreEvents = false; // Flag to indicate if there are no more events to fetch
+const displayedEventIDs = new Set(); // Set to keep track of displayed event IDs
 
 async function fetchEventPosters() {
     try {
@@ -170,14 +173,40 @@ async function fetchEventPosters() {
         const response = await fetch(`userposter_backend.php?offset=${offset}&limit=${limit}`);
         const events = await response.json();
 
-        if (events.length === 0) {
+        if (!Array.isArray(events)) {
+            console.error('Expected an array but got:', events);
+            return;
+        }
+
+        const uniqueEvents = events.reduce((acc, event) => {
+            if (!acc[event.EventID]) {
+                acc[event.EventID] = {
+                    ...event,
+                    posters: new Set([event.poster]),
+                };
+            } else {
+                acc[event.EventID].posters.add(event.poster);
+            }
+            return acc;
+        }, {});
+
+        // Convert sets to arrays
+        Object.keys(uniqueEvents).forEach(eventID => {
+            uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
+        });
+
+        const eventsArray = Object.values(uniqueEvents);
+
+        if (eventsArray.length === 0) {
             noMoreEvents = true; // No more events to fetch
             return;
         }
 
         const eventsContainer = document.getElementById('events-container');
 
-        events.forEach(event => {
+        eventsArray.forEach(event => {
+            if (displayedEventIDs.has(event.EventID)) return; // Skip already displayed events
+
             const eventDiv = document.createElement('div');
             eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block'); // Adjust column classes
 
@@ -195,6 +224,7 @@ async function fetchEventPosters() {
             `;
 
             eventsContainer.appendChild(eventDiv);
+            displayedEventIDs.add(event.EventID); // Mark this event as displayed
         });
 
         offset += limit; // Increment offset for next fetch
@@ -208,10 +238,14 @@ async function fetchEventPosters() {
 
 function onScroll() {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight -5) {
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
         fetchEventPosters();
     }
 }
+
+window.addEventListener('scroll', onScroll);
+fetchEventPosters(); // Initial fetch
+
 
 </script>
 

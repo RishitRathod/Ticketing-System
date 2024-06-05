@@ -179,7 +179,23 @@
         #categorySearch{
                 margin-top: 20vh;
         }
+        .sBox{
+            position: relative;
 
+        }
+        .sBox input{
+            width: 100%;
+            /* padding:30px; */
+
+        }
+
+        .sBox .sbtn{
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-30%);
+            cursor: pointer;
+        }
         
     </style>
 </head>
