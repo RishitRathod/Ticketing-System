@@ -15,9 +15,9 @@
         .event-poster {
             max-height: 200px;
             object-fit: cover;
-            width: 90%;
+            width: 80%;
             margin: 4vmin;
-            border-radius: 20px !important;
+            border-radius: 10px !important;
         }
         .event-details {
             display: flex;
@@ -25,11 +25,12 @@
             justify-content: space-between;
         }
         .poster-container {
-            max-height: 400px;
+            max-height: 400px !important;
+            width: max-content; !important;
             overflow-y: auto;
+            overflow-x: none;
             display: flex;
             flex-direction: row;
-
         }
         fieldset {
             border: solid 1px gray;
@@ -160,7 +161,7 @@
                 eventCard.classList.add('col-12', 'mb-4');
 
                 const posterItems = event.posters.map(poster => `
-                    <img src="${poster}" class="event-poster img-fluid d-block" alt="Event Poster">
+                    <img src="${poster}" class="event-poster img-fluid" alt="Event Poster">
                 `).join('');
 
                 const ticketsList = event.tickets.map(ticket => `
@@ -174,7 +175,8 @@
                 eventCard.innerHTML = `
                     <div class="card event-card p-5">
                         <div class="row no-gutters">
-                            <div class="col-md-4 poster-container">
+                            <div class="col-md-4 overflow-auto d-block poster-container">
+                            <strong>Event Photos</strong>
                                 ${posterItems}
                             </div>
                             <div class="col-md-8">

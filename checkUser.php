@@ -31,12 +31,11 @@ session_start();
 
     function isUserloggedIn(){
         if(isset($_SESSION['user'])){
-            echo "User logged in". $_SESSION['user']['name']."</br>";
-            return true;
+            $data=$_SESSION['user'];
+            json_encode(['status'=>true,'message'=>'User logged in as '.$data['name'],'role'=>$data['role'],'id'=>$data['id'],'tableName'=>$data['tableName'],'idColumnName'=>$data['idColumnName']]);
         }
         else{
-            echo "User not logged in"."</br>";
-            return false;
+            json_encode(['status'=>false,'message'=>'User not logged in' ]);
         }
     }
 

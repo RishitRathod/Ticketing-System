@@ -8,6 +8,9 @@ require_once 'delete.php';
 require_once 'checkUser.php';
 require_once 'index.php';
 require_once 'QR-Code-Generator/QRCodeGenerator.php';
+require_once 'Events.php';
+require_once 'Organizations.php';
+require_once 'Users.php';
 
 class dbConnection
 {

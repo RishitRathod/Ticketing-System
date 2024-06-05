@@ -2,6 +2,9 @@
 require_once 'admin_headnav.php';
 ?>
 
+
+
+
 <script>
     //fetch data from server
     async function getEventsData(){
