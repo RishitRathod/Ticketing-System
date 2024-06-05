@@ -206,7 +206,7 @@
                     <td>${row.UserID}</td>
                     <td>${row.Username}</td>
                     <td>${row.Email}</td>
-                    <td><img src="../${row.UserPhoto}" alt="User Photo" width="50"></td>
+                    <td><img src="${row.UserPhoto}" alt="User Photo" width="50"></td>
                     <td><button class="btn btn-primary view-btn" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 
                     `;
