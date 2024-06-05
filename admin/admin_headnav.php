@@ -90,10 +90,26 @@
         .themecol:active{
             color: #fff;
             font-weight: bolder;
-            box-sahdow: 1px 6px 20px #6f21ff47;
+            box-shadow: 1px 6px 20px #6f21ff47;
         }
         .backOnav{
             background-color: #000;
+        }
+
+        .expand-btn:hover {
+            width: 200px;
+            /* background-color: #0056b3; */
+        }
+
+        .expand-btn::after {
+            content: data-hov;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            white-space: nowrap;
+            /* transition: opacity 0.4s; */
         }
         @media (max-width: 768px) {
             .dropdown.open {
@@ -107,7 +123,7 @@
 <body>
     <div class="container-fluid w-100 container-sm p-3 backOnav text-white">
         <div class="row align-items-center">
-            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard.php"  style="text-decoration: none;">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard1.php"  style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Admins</b>
             </a>  

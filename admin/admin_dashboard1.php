@@ -105,7 +105,7 @@
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'block';
     }
-
+    
     let currentTableName = '';
 
     document.querySelectorAll('.btn-group .btn').forEach((button) => {
@@ -186,10 +186,12 @@
                     <td>${row.ContactNumber}</td>
                     <td>${row.Status}</td>
                     <td>
-                        <button class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check mr-1"></i> Approve</button>
-                        <button class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban mr-1"></i> Reject</button>
-                        <button class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button>
-                        </td>
+            
+                        <button class="btn btn-success approve-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-check"></i><span class="tooltiptext">Accept</span></button>
+                        <button class="btn btn-danger reject-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-ban"></i><span class="tooltiptext"> Rejected </span> </button>
+                        <button class="btn btn-primary view-btn tooltip" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info"></i> <span class="tooltiptext"> View Details</span></button>
+                       
+                    </td>
                 `;
             } else if (tableName === 'events') {
                 tr.innerHTML = `
@@ -265,8 +267,8 @@
             const orgID = event.target.getAttribute('data-id');
             const tableName = event.target.getAttribute('data-table');
             viewDetails(orgID, tableName);
-
         }
+        
     });
 
     async function approveOrganization(orgID, tableName) {
