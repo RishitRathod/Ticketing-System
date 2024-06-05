@@ -1,33 +1,48 @@
 <?php
     include 'admin_headnav.php';
 ?>
-        <div class="contentainer">
-            <div class="d-inline-block">
-                <form method="POST" id="registrationForm">
-                    <div class="row justify-content-evenly">
-                        <div class="col-auto mb-3">
-                            <div class="modal-header">
-                                <h5 class="modal-title">ADD ADMIN</h5>
-                            </div>
-                            <label for="AdminUsername" class="form-label">Admin Username</label>
-                            <input type="text" autocomplete='off' name="AdminUsername" class="form-control mb-1" id="AdminUsername">
-                            <label for='AdminEmail' class='form-label'>Email</label>
-                            <input type='email' name='AdminEmail' class="form-control mb-1" id="AdminEmail">
-                            <div id="passwordDiv" class="password-container">
-                                <label for='AdminPassword' class='form-label'>Password</label>
-                                <input type='password' name='Password' class='form-control' id="AdminPassword">
-                                <div id="eye" class="d-inline mb-1"><i class="fa fa-eye-slash"></i></div><span class="d-inline" style="font-size: 12px;"> Show Password</span>
-                            <label for='ConfirmPass' class='form-label'>Confirm Password</label>
-                            <input type="password" name="Password1" class="form-control mb-3" id="ConfirmPass">
-                            </div>
-                            <button type="button" class="btn btn-secondary" onclick="resetform()">Cancel</button>
-                            <button type="button" class="btn btn-primary" onclick="addadmin()">Add</button>
-                    </div>
+        <div class="contentainer d-block">
+            <div class="d-inline">
+                <div class="modal-header">
+                    <h5 class="modal-title">ADD ADMIN</h5>
                 </div>
+                <form method="POST" id="registrationForm">
+                    <div class="row justify-content-evenly mt-3">
+                        <div class="col-auto mb-3">
+                            <div class="d-inline-block">
+                                <label for="AdminUsername" class="form-label">Admin Username</label>
+                                <input type="text" autocomplete='off' name="AdminUsername" class="form-control mb-1" id="AdminUsername">
+                            </div>
+                            <div class="d-inline-block">
+                                <label for='AdminEmail' class='form-label'>Email</label>
+                                <input type='email' name='AdminEmail' class="form-control mb-1" id="AdminEmail">
+                            </div>
+                            <div id="passID" style="display: inline-block">
+                                <div id="passwordDiv" class="password-container d-inline-block adBox">
+                                    <label for='AdminPassword' class='form-label'>Password</label>
+                                    <input type='password' name='Password' class='form-control' id="AdminPassword">
+                                    <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
+                                </div>
+                                <div class="d-inline-block">
+                                    <label for='ConfirmPass' class='form-label'>Confirm Password</label>
+                                    <input type="password" name="Password1" class="form-control mb-3" id="ConfirmPass">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-secondary" onclick="resetform()">Cancel</button>
+                                    <button type="button" class="btn btn-success" id="upDate"onclick="updateAdmin()" hidden>Update</button>
+                                    <button type="button" class="btn btn-success" id="add" onclick="addadmin()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" value="admins" id="tablename" name="tablename">
+                    <input type="hidden" value="" id="AdminID">
+                    
             </div>
-
-            <div class="d-inline-block" id="adminTableDiv">
+    <hr>
+            <div class="d-inline" id="adminTableDiv">
                 <table class="table table-strip" id="adminTable">
                     <thead>
                         <tr>
@@ -52,8 +67,10 @@
                 document.querySelector("#AdminEmail").disabled = false;
                 document.querySelector("#AdminPassword").disabled = false;
                 document.querySelector("#ConfirmPass").disabled = false;
-                document.querySelector("#passwordDiv").style.display = "block";
-                
+                document.querySelector("#passID").style.display = "inline-block";
+                document.querySelector("#upDate").setAttribute('hidden',true);
+                document.querySelector("#add").removeAttribute('hidden');
+
             }
             
             $(document).ready(function() {
@@ -150,6 +167,14 @@
             //     alert("Invalid email address.");
             //     return;
             // }
+            let pass1 = $('#AdminPassword').val();
+            let pass2 = $('#ConfirmPass').val();
+
+                    if (pass1 !== pass2) {
+                        alert("Password do not match");
+                        return;
+                        // $('#passwordError').text('Passwords do not match!');
+                    } 
         // Construct the data object
         var data = {
             "tablename": tablename,
@@ -216,7 +241,11 @@
 
     async function editAdmin(id) {
         const tablename = document.querySelector('#tablename').value;
-        document.querySelector("#passwordDiv").style.display = "none";
+        document.querySelector("#passID").style.display = "none";
+        document.querySelector("#upDate").removeAttribute('hidden');
+        document.querySelector("#add").setAttribute('hidden',true);
+
+
         const response = await fetch("addadmin.php", {
             method: "POST",
             headers: {
@@ -233,12 +262,15 @@
             const admin = result.data[0];
             document.querySelector("#AdminUsername").value = admin.AdminUsername;
             document.querySelector("#AdminEmail").value = admin.Email;
+            document.querySelector("#AdminID").value = admin.AdminID;
          //   document.querySelector("#AdminPassword").value = admin.Password;
          //   document.querySelector("#ConfirmPass").value = admin.Password;
-            document.querySelector("#AdminUsername").disabled = true;
-            document.querySelector("#AdminEmail").disabled = true;
+            document.querySelector("#AdminUsername").disabled = false;
+            document.querySelector("#AdminEmail").disabled = false;
             document.querySelector("#AdminPassword").disabled = true;
             document.querySelector("#ConfirmPass").disabled = true;
+            document.querySelector("#passwordDiv").style.display = "none";
+
         } else {
             console.log("Error: ", result.message);
         }
@@ -269,6 +301,7 @@
         if (result.status === 'success') {
             alert("Admin updated successfully");
             fetchAdmins();
+            resetform();
         } else {
             console.log("Error: ", result.message);
         }
