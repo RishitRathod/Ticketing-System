@@ -18,7 +18,11 @@ if ($conn->connect_error) {
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10; // Default limit to 10
 
-$sql = "SELECT PosterID, poster, EventID FROM eventposter LIMIT $offset, $limit";
+$sql = "SELECT *
+        FROM events e
+        JOIN eventposter ep ON e.EventID = ep.EventID
+        LIMIT $offset, $limit"
+        ;
 $result = $conn->query($sql);
 
 $events = array();

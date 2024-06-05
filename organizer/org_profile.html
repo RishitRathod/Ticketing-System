@@ -232,13 +232,27 @@
     </footer>
     <script src="../script.js"></script>
     <script>
+        async function getUser() {
+    try {
+        const response = await fetch('../fatchUserData.php', {
+            method: 'POST'
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return null;
+    }
+}
         let userData;
         let status; 
         let resasonofrejection;
 
         document.addEventListener('DOMContentLoaded', async function() {
             userData = await getUser();
-            console.log(userData[0].OrgID);
+            console.log(userData);
+            console.log(userData[0].id);
             showDiv(userData[0].Status);
             
             if (userData && userData.length > 0) {

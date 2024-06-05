@@ -137,10 +137,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script src="../script.js"></script>
     <script>
+           const getCookieValue = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+};
+
+
+
+         console.log(getCookieValue('id'));
         async function fetchData(tableName) {
             try {
                 console.log(document.cookie);
-                const OrgID = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+                const OrgID =  getCookieValue('id');
                 console.log(OrgID);
                 const response = await fetch("organization_events_backend.php", {
                     method: 'POST',
