@@ -423,9 +423,28 @@ function previewImage(event) {
     document.getElementById('endDate').value = event.EndDate;
     document.getElementById('startDate').value = event.StartDate;
     document.getElementById('endDate').value = event.EndDate;
-    document.getElementById('country').value = event.Country;
-    document.getElementById('state').value = event.State;
-    document.getElementById('city').value = event.City;
+
+        // Set the country, state, and city
+        const countrySel = document.getElementById('country');
+        const stateSel = document.getElementById('state');
+        const citySel = document.getElementById('city');
+
+        // Set the country
+        countrySel.value = event.Country;
+        countrySel.dispatchEvent(new Event('change'));
+
+        // Wait for the states to be populated
+        setTimeout(() => {
+            // Set the state
+            stateSel.value = event.State;
+            stateSel.dispatchEvent(new Event('change'));
+
+            // Wait for the cities to be populated
+            setTimeout(() => {
+                // Set the city
+                citySel.value = event.City;
+            }, 300); // Adjust the timeout as necessary
+        }, 300); // Adjust the timeout as necessary
     // Populate time slots
     const timeSlotsContainer = document.getElementById('timeSlotsContainer');
     timeSlotsContainer.innerHTML = ''; // Clear existing slots
