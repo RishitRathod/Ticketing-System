@@ -12,6 +12,18 @@
             background: linear-gradient(to right, #27b092, #409dfb);
             font-family: 'Trebuchet MS', sans-serif;
         }
+        fieldset {
+            border: solid 1px gray;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
+        }
+        legend {
+            float: none;
+            width: inherit;
+        }   
         .sign {
             padding-top: 10px;
             color: #70a7ff;
@@ -40,37 +52,63 @@
                         <h3 class="sign" align="center">Organization Registration</h3>
                     </div>
                     <div class="card-body">
-                        <form  id="registrationForm">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter name">
+                        <form  id="registrationForm" class="row-12">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter email" autocomplete="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Your Password">
+                                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                                </div>
+                                <fieldset>
+                                    <legend>Contact Details</legend>
+                                    <div class="form-group">
+                                        <label for="contactNumber">Contact Number</label>
+                                        <input type="tel" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactEmail">Contact Email</label>
+                                        <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email">
+                                    </div>
+                                </fieldset>
                             </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter email" autocomplete="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="contactNumber">Contact Number</label>
-                                <input type="tel" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
-                            </div>
-                            <div class="form-group">
-                                <label for="contactEmail">Contact Email</label>
-                                <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control rounded-pill" id="address" name="address" placeholder="Enter address">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Your Password">
-                                <input type="checkbox" onclick="togglePassword()"> Show Password
+                            <div class="col-4">
+
+                                
+                                <div class="form-group">
+                                    <label for="country">Country: </label>
+                                     <select name="Country" id="country" class="form-control rounded-pill"> 
+                                         <option value="" selected="Selected">Select Country</option>
+                                     </select>
+                                     <label for="state">State:</label> 
+                                     <select name="State" id="state" class="form-control rounded-pill"> 
+                                         <option value="" selected="Selected">Select State</option>
+                                     </select>
+                                     <label for="city">City: </label> 
+                                     <select name="City" id="city" class="form-control rounded-pill"> 
+                                         <option value="" selected="Selected">Select City</option>
+                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control rounded-pill" id="address" name="address" placeholder="Enter address">
+                                </div>
                             </div>
                             <input type="hidden" name="tablename" value="organizations">
                                 <input id="btn" type="submit" name="submit" value="Register" class="btn submit rounded-pill "></input>
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+
             </div>
         </div>
     </div>
@@ -129,5 +167,60 @@
             }
         }
     </script>
+
+
+<script>
+     document.addEventListener("DOMContentLoaded", function() {
+            fetch('../cascading.php') 
+                .then(response => response.json())
+                .then(data => {
+                    const countrySel = document.getElementById("country");
+                    const stateSel = document.getElementById("state");
+                    const citySel = document.getElementById("city");
+
+                    let countries = {};
+
+                    data.forEach(item => {
+                        if (!countries[item.country]) {
+                            countries[item.country] = {};
+                        }
+                        if (!countries[item.country][item.state]) {
+                            countries[item.country][item.state] = [];
+                        }
+                        countries[item.country][item.state].push(item.city);
+                    });
+
+                    for (let country in countries) {
+                        let option = new Option(country, country);
+                        countrySel.add(option);
+                    }
+
+                    countrySel.onchange = function() {
+                        stateSel.length = 1;
+                        citySel.length = 1;
+                        let selectedCountry = this.value;
+                        if (selectedCountry && countries[selectedCountry]) {
+                            for (let state in countries[selectedCountry]) {
+                                let option = new Option(state, state);
+                                stateSel.add(option);
+                            }
+                        }
+                    }
+
+                    stateSel.onchange = function() {
+                        citySel.length = 1;
+                        let selectedCountry = countrySel.value;
+                        let selectedState = this.value;
+                        if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+                            countries[selectedCountry][selectedState].forEach(city => {
+                                let option = new Option(city, city);
+                                citySel.add(option);
+                            });
+                        }
+                    }
+                });
+        });
+    </script>
+</script>
 </body>
 </html>

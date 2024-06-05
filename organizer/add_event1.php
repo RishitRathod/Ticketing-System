@@ -8,10 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <!-- Bootstrap CSS -->
-    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <style>
 
         .poster-input {
@@ -185,7 +181,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-6">
-                                                <label for="returnable">Returnable</label>
+                                                <label for="returnable">Refundable</label>
                                                 <select class="form-control rounded-4" id="returnable" name="Returnable[]" >
                                                     <option value="">Select returnable option</option>
                                                     <option value="Yes">Yes</option>
@@ -220,14 +216,20 @@
 
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
-                            <div id="posterContainer" class="form-group">
-                                <label for="eventPoster">Event Poster</label>
-                                <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)">
-                                <div id="posterPreview"></div>
-                            </div>
-                            <button type="button" class="btn btn-primary" id="addPosterButton">Add Poster</button>
-                            <button type="button" class="btn btn-danger" id="removePosterButton">Remove Poster</button>
-                                <div class="form-group
+                            <div class="container mt-5">
+        <div id="posterContainer" class="mb-3">
+            <div class="form-group poster-input">
+                <label for="eventPoster">Event Poster</label>
+                <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
+            </div>
+        </div>
+        <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
+        <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button>
+
+        <div id="posterPreview" class="mt-3"></div>
+    </div>
+
+                               
                                <div class="form-group">
                                    <label for="country">Country: </label>
                                     <select name="Country" id="country" class="form-control"> 
@@ -261,10 +263,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    
+
     <script>
        
     
@@ -665,21 +664,6 @@ document.getElementById('orgid').value = getCookieValue('id');
                 }
             });
         });
-
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const newPreviewImg = document.createElement('img');
-                newPreviewImg.src = reader.result;
-                newPreviewImg.alt = 'Event Poster';
-                newPreviewImg.classList.add('poster-preview-img');
-
-                const posterPreviewDiv = document.getElementById('posterPreview');
-                posterPreviewDiv.appendChild(newPreviewImg);
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
         document.getElementById('addPosterButton').addEventListener('click', function() {
             // Create a new div for the new input field
             const newDiv = document.createElement('div');
@@ -705,20 +689,34 @@ document.getElementById('orgid').value = getCookieValue('id');
             document.getElementById('posterContainer').appendChild(newDiv);
         });
 
-            // document.getElementById('eventPoster').addEventListener('change', function(event) {
-            //     previewImage(event);
-            // });
-        //remove Poster and poster preview for that input there should be alteast 1 psoter
         document.getElementById('removePosterButton').addEventListener('click', function() {
             const posterPreviewDiv = document.getElementById('posterPreview');
             const posterInputs = document.querySelectorAll('.poster-input');
-            if (posterInputs.length > 0) {
+            if (posterInputs.length > 1) {
+                // Correctly select the last input and remove it
                 posterInputs[posterInputs.length - 1].remove();
                 posterPreviewDiv.lastElementChild.remove();
             } else {
                 alert('There should be at least one poster');
             }
         });
+
+        function previewImage(event) {
+            const posterPreviewDiv = document.getElementById('posterPreview');
+            const files = event.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('img-thumbnail', 'm-2');
+                    img.style.maxWidth = '150px';
+                    posterPreviewDiv.appendChild(img);
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
 
 
 
@@ -732,18 +730,9 @@ document.getElementById('orgid').value = getCookieValue('id');
     </div>  
 
 
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    -->
-
-    <footer class="bg-body-tertiary p-3 text-center text-lg-start">
-    <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2024 Copyright:
-            <a class="text-body" href="#"> Event Scheduler </a>
-        </div>
-    <!-- Copyright -->
-    </footer>
+<?php
+include 'footer.php';
+?>
 
 </body>
 </html>

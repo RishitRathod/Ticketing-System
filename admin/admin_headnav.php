@@ -23,6 +23,19 @@
             padding-left: 0;
             padding-right: 0;
         }
+        fieldset {
+            border: solid 1px gray;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
+        }
+        legend {
+            float: none;
+            width: inherit;
+        }
+
     </style>
     </style>    
 
