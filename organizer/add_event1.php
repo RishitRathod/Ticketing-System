@@ -395,8 +395,16 @@ function validateForm() {
     </script>
     
     <script>
-         document.getElementById('orgid').value = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
-         console.log(document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1]);
+         const getCookieValue = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+};
+
+document.getElementById('orgid').value = getCookieValue('id');
+
+
+         console.log(getCookieValue('id'));
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');
             const deleteTimeSlotBtn = document.getElementById('removeTime')

@@ -1,18 +1,20 @@
 <?php
+session_start();
 class User{
+    
 
     private $conn;
     private $table;
 
     public function __construct($conn, $table)
-    {
+    {   
         $this->conn = $conn;
         $this->table = $table;
     }
      function  SetUserSession($name,$id,$idColumnName,$role){
         try{
             
-session_start();    
+    
             //set the session array
                 $_SESSION['user'] = array(
                     'name' => $name,
