@@ -2,15 +2,15 @@
     include 'admin_headnav.php';
 ?>
     
-    <form id="viewOrganizationForm" action="view_organization.php" target="_blank" method="post" style="display: none;">
+    <form id="viewOrganizationForm" action="view_organization.php"  method="post" style="display: none;">
     <input type="hidden" name="OrgID">
 </form>
 
-<form id="viewEventForm" action="view_event.php" method="post" target="_blank" style="display: none;">
+<form id="viewEventForm" action="view_event.php" method="post"  style="display: none;">
     <input type="hidden" name="EventID">
 </form>
 
-<form id="viewUserForm" action="view_user.php" method="post" target="_blank" style="display: none;">
+<form id="viewUserForm" action="view_user.php" method="post"  style="display: none;">
     <input type="hidden" name="UserID">
 </form>
 

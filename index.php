@@ -3,6 +3,8 @@ require_once 'db_connection.php';
 
 class DB
 {
+
+
     static function selectAll($dbname, $table)
     {
         $host   = DB_HOST;
@@ -60,6 +62,126 @@ class DB
         $db = new dbConnection($host, $user, $pass, $dbname);
         $delete = new delete($db->connection(), $table);
         return $delete->deleteData($id,$ColumnName);
+    }
+
+    static function FetchEventDetailsByOrgID($EventID,$OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->FetchEventDetailsByOrgID($EventID,$OrgID);
+    }
+
+    static function FetchEventDetails($EventID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->FetchEventDetails($EventID);
+    }
+
+    static function FetchAllEventsByOrgID($OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->FetchAllEventsByOrgID($OrgID);
+    }
+
+    static function GetEventsByCatagory($Catagory,$limit,$offset){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->GetEventsByCatagory($Catagory,$limit,$offset);
+    }
+
+    static function fetchPaginatedEventData($limit, $offset){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->fetchPaginatedEventData($limit, $offset);
+    }
+
+    static function fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID);
+    }
+
+    static function FetchOrgDetails($OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->FetchOrgDetails($OrgID);
+    }
+
+    static function CheckOrgStatus($OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->CheckOrgStatus($OrgID);
+    }
+
+    static function OrgDetails($OrgID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->GetOrgDetails($OrgID);
+    }
+
+    static function FetchUserDetails($UserID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->FetchUserDetails($UserID);
+    }
+
+    static function TicketInfo($UserID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->TicketInfo($UserID);
+    }
+
+    static function getTicketUsage($UserID, $TicketSalesID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->getTicketUsage($UserID, $TicketSalesID);
     }
 
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){

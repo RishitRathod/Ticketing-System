@@ -144,7 +144,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="admin_logout.php">Log Out</a>
                     </div>
                 </div>
             </div>
