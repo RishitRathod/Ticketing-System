@@ -8,6 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
+    <!-- date picker ui -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.0.2/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-39e9UaGkm/+yp6spIsVfzcs3j7ac7G2cg0hzmDvtG11pT1d7YMnOC26w4wMPhzsL" crossorigin="anonymous"> -->
     <style>
 
         .poster-input {
@@ -116,11 +118,11 @@
                                     <div class="row mx-auto">
                                         <div class="col-5 form-group">
                                             <label for="startDate">Start Date</label>
-                                            <input type="datetime-local" class="form-control" id="startDate" name="StartDate" >
+                                            <input type="date" class="form-control datepicker" id="startDate" name="startDate" >
                                         </div>
                                         <div class="col-5 form-group">
                                             <label for="endDate">End Date</label>
-                                            <input type="datetime-local" class="form-control" id="endDate" name="EndDate" >
+                                            <input type="date" class="form-control" id="endDate" name="endDate" >
                                         </div>
                                     </div>
                                 </fieldset>
@@ -262,6 +264,7 @@
             </div>
         </div>
     </div>
+    
 
 
     <script>

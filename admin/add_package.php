@@ -48,13 +48,15 @@
                                 <option value="TicketBased">TicketBased</option>
                             </select>
                         </div>
-                        <div class="col-auto">
-                            <label for="Days">Validity:</label>
-                            <input type="number" class="form-control" id="Days" name="Days">
-                        </div>
+                        
                         <div class="col-auto">
                             <label for="Amount">Amount:</label>
                             <input type="number" class="form-control" id="Amount" name="Amount">
+                        </div>
+
+                        <div class="col-auto">
+                            <label for="Days">Validity( in NO. days):</label>
+                            <input type="number" class="form-control" id="Days" name="Days">
                         </div>
 
                         <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
@@ -174,15 +176,15 @@
             e.preventDefault();
             if (!validateForm()) return;
 
-            const formData = new FormData(this);
-            const data = {};
+            const data = {
+                PackageName: document.getElementById('PackageName').value,
+                PackageType: document.getElementById('PackageType').value,
+                Amount: document.getElementById('Amount').value,
+                Days: document.getElementById('Days').value
+                
+            };
 
-            formData.forEach((value, key) => {
-                if (!data[key]) {
-                    data[key] = [];
-                }
-                data[key].push(value);
-            });
+            
 
             //add action to the data object
             data.action = 'add';
@@ -242,7 +244,6 @@
                         <td>
                         <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
                         <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>
-                        
                         </td>
                     `;
                   
@@ -284,12 +285,15 @@
                 PackageName: packageRow.children[1].textContent,
                 PackageType: packageRow.children[2].textContent,
                 Amount: packageRow.children[3].textContent,
+                Days: packageRow.children[4].textContent
             };
 
             //populate the form with the package data
             document.getElementById('PackageName').value = packageData.PackageName;
             document.getElementById('PackageType').value = packageData.PackageType;
+            document.getElementById('Days').value = packageData.Days;
             document.getElementById('Amount').value = packageData.Amount;
+
 
             //set the packageID in the hidden input field
             document.querySelector('input[name="packageIDInput"]').value = packageData.PackageID;
@@ -323,6 +327,7 @@
                 PackageName: document.getElementById('PackageName').value,
                 PackageType: document.getElementById('PackageType').value,
                 Amount: document.getElementById('Amount').value,
+                Days: document.getElementById('Days').value,
                 action: 'update',
                 id: document.querySelector('input[name="packageIDInput"]').value
 
