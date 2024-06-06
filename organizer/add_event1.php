@@ -218,42 +218,41 @@
 
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
-                            <div class="container mt-5">
-        <div id="posterContainer" class="mb-3">
-            <div class="form-group poster-input">
-                <label for="eventPoster">Event Poster</label>
-                <input type="file" class="form-control-file" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
-            </div>
-        </div>
-        <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
-        <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button>
-
-        <div id="posterPreview" class="mt-3"></div>
-    </div>
-
-                               
-                               <div class="form-group">
-                                   <label for="country">Country: </label>
-                                    <select name="Country" id="country" class="form-control"> 
-                                        <option value="" selected="Selected">Select Country</option>
-                                    </select>
-                                    <label for="state">State:</label> 
-                                    <select name="State" id="state" class="form-control"> 
-                                        <option value="" selected="Selected">Select State</option>
-                                    </select>
-                                    <label for="city">City: </label> 
-                                    <select name="City" id="city" class="form-control"> 
-                                        <option value="" selected="Selected">Select City</option>
-                                    </select>
-                               </div>
-
-                                <div class="form-group">
-                                    <label for="venueAddress">Venue Address</label>
-                                    <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
-                                    <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
+                                <div class="container">
+                                    <label for="eventPoster" class="d-block">Event Poster</label>
+                                    <div id="posterContainer" class="mb-3">
+                                        <div class="form-group poster-input">
+                                            <input type="file" class="form-control" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
+                                        </div>
+                                    </div>
+                                    <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
+                                    <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button>
+                                    <div id="posterPreview" class="mt-3"></div>
                                 </div>
+                                <!-- <fieldset> -->
+                                    <div class="form-group">
+                                        <label for="country">Country: </label>
+                                         <select name="Country" id="country" class="form-control"> 
+                                             <option value="" selected="Selected">Select Country</option>
+                                         </select>
+                                         <label for="state">State:</label> 
+                                         <select name="State" id="state" class="form-control"> 
+                                             <option value="" selected="Selected">Select State</option>
+                                         </select>
+                                         <label for="city">City: </label> 
+                                         <select name="City" id="city" class="form-control"> 
+                                             <option value="" selected="Selected">Select City</option>
+                                         </select>
+                                    </div>
+     
+                                     <div class="form-group">
+                                         <label for="venueAddress">Venue Address</label>
+                                         <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
+                                         <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
+                                     </div>
+                                <!-- </fieldset> -->
                                
-                                <div class="d-grid d-flex justify-content-center gap-5">
+                                <div class="d-grid d-flex mt-3 justify-content-center gap-5">
                                     <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
                                     <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
@@ -673,19 +672,19 @@ document.getElementById('orgid').value = getCookieValue('id');
             newDiv.classList.add('form-group', 'poster-input');
 
             // Create a new label
-            const newLabel = document.createElement('label');
-            newLabel.innerText = 'Event Poster';
+            // const newLabel = document.createElement('label');
+            // newLabel.innerText = 'Event Poster';
 
             // Create a new input field
             const newInput = document.createElement('input');
             newInput.type = 'file';
-            newInput.classList.add('form-control-file');
+            newInput.classList.add('form-control');
             newInput.name = 'EventPoster[]';
             newInput.accept = 'image/*';
             newInput.setAttribute('onchange', 'previewImage(event)');
 
             // Append the label and input to the new div
-            newDiv.appendChild(newLabel);
+           // newDiv.appendChild(newLabel);
             newDiv.appendChild(newInput);
 
             // Append the new div to the poster container
