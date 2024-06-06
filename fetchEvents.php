@@ -1,7 +1,7 @@
 <?php 
 require_once 'db_connection.php';
 header('Content-Type: application/json');
-if($SERVER['REQUEST_METHOD']=='POST'){
+if($_SERVER['REQUEST_METHOD']==='POST'){
     $data = json_decode(file_get_contents('php://input'), true);
     $action=$data['action'];
     
