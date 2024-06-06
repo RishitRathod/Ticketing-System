@@ -2,7 +2,7 @@
 require_once 'db_connection.php';
 require_once 'config.php';
 
-class Event{
+class Events{
 
 /**
  * The Event class represents a single event in the system.
@@ -58,7 +58,7 @@ class Event{
      *
      * @var string
      */
-    private $EventPostersTable = "eventposters";
+    private $EventPostersTable = "eventposter";
 
     /**
      * The name of the table in the database that stores ticket sales data.
@@ -107,7 +107,7 @@ class Event{
  * @throws PDOException If there is an error with the database operation.
  */
 
-public function FetchEventDetails($EventID, $OrgID) {
+public function FetchEventDetailsByOrgID($EventID, $OrgID) {
     try {
         $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
@@ -183,6 +183,82 @@ public function FetchEventDetails($EventID, $OrgID) {
  * @return array An array of events matching the organization ID, or an error message if the query fails.
  * @throws PDOException If there is an error with the database operation.
  */
+public function FetchEventDetails($EventID) {
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate,
+        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State, e.City,
+        o.Name AS OrgName,
+        GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TicketID\":', t.TicketID, 
+            ',\"TicketType\":\"', t.TicketType, 
+            '\",\"Quantity\":', COALESCE(t.Quantity, 'null'), 
+            ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
+            '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
+            ',\"Discount\":', COALESCE(t.Discount, 'null'), 
+            ',\"Price\":', COALESCE(t.Price, 'null'), '}'
+        ) SEPARATOR ',') AS Tickets,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TimeSlotID\":', tmsl.TimeSlotID, 
+            ',\"StartTime\":\"', tmsl.StartTime, 
+            '\",\"EndTime\":\"', tmsl.EndTime, 
+            '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
+        ) SEPARATOR ',') AS TimeSlots,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TicketSalesID\":', ts.TicketSalesID, 
+            ',\"UserID\":', COALESCE(ts.UserID, 'null'), 
+            ',\"Quantity\":', COALESCE(ts.Quantity, 'null'), '}'
+        ) SEPARATOR ',') AS TicketSales
+    FROM 
+        {$this->EventTable} e
+    LEFT JOIN 
+        {$this->OrgTable} o ON e.OrgID = o.OrgID
+    LEFT JOIN 
+        {$this->EventPostersTable} ep ON e.EventID = ep.EventID
+    LEFT JOIN 
+        {$this->TicketTable} t ON e.EventID = t.EventID
+    LEFT JOIN 
+        {$this->TimeSlotTable} tmsl ON e.EventID = tmsl.EventID
+    LEFT JOIN 
+        {$this->TicketSalesTable} ts ON t.TicketID = ts.TicketID
+    WHERE 
+        e.EventID = :EventID 
+    GROUP BY 
+        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate, 
+        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State,
+        e.City, o.Name;";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+            $row['Tickets'] = json_decode('[' . $row['Tickets'] . ']', true);
+            $row['TimeSlots'] = json_decode('[' . $row['TimeSlots'] . ']', true);
+            $row['TicketSales'] = json_decode('[' . $row['TicketSales'] . ']', true);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
+
+
+/**
+ * Fetches all events from the database based on the organization ID.
+ * 
+ *
+ * @param int $OrgID The organization ID to filter events by.
+ * @return array An array of events matching the organization ID, or an error message if the query fails.
+ * @throws PDOException If there is an error with the database operation.
+ */
 
 function FetchAllEventsByOrgID($OrgID){
     try {
@@ -200,7 +276,160 @@ function FetchAllEventsByOrgID($OrgID){
     
 }
 
-} 
+/**
+ * Fetches all events from the database based on the event category.
+ * 
+ * @param string $Catagory The event category to filter events by.
+ * @return array An array of events matching the event category, or an error message if the query fails.
+ * @throws PDOException If there is an error with the database operation.
+ */
+function GetEventsByCatagory($Catagory){
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate,
+        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State, e.City,
+        o.Name AS OrgName,
+        GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TicketID\":', t.TicketID, 
+            ',\"TicketType\":\"', t.TicketType, 
+            '\",\"Quantity\":', COALESCE(t.Quantity, 'null'), 
+            ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
+            '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
+            ',\"Discount\":', COALESCE(t.Discount, 'null'), 
+            ',\"Price\":', COALESCE(t.Price, 'null'), '}'
+        ) SEPARATOR ',') AS Tickets,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TimeSlotID\":', tmsl.TimeSlotID, 
+            ',\"StartTime\":\"', tmsl.StartTime, 
+            '\",\"EndTime\":\"', tmsl.EndTime, 
+            '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
+        ) SEPARATOR ',') AS TimeSlots,
+        GROUP_CONCAT(DISTINCT CONCAT(
+            '{\"TicketSalesID\":', ts.TicketSalesID, 
+            ',\"UserID\":', COALESCE(ts.UserID, 'null'), 
+            ',\"Quantity\":', COALESCE(ts.Quantity, 'null'), '}'
+        ) SEPARATOR ',') AS TicketSales
+    FROM 
+        {$this->EventTable} e
+    LEFT JOIN 
+        {$this->OrgTable} o ON e.OrgID = o.OrgID
+    LEFT JOIN 
+        {$this->EventPostersTable} ep ON e.EventID = ep.EventID
+    LEFT JOIN 
+        {$this->TicketTable} t ON e.EventID = t.EventID
+    LEFT JOIN 
+        {$this->TimeSlotTable} tmsl ON e.EventID = tmsl.EventID
+    LEFT JOIN 
+        {$this->TicketSalesTable} ts ON t.TicketID = ts.TicketID
+    WHERE 
+        e.EventType = :Catagory
+    GROUP BY 
+        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate, 
+        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State,
+        e.City, o.Name;";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':Catagory', $Catagory, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+            $row['Tickets'] = json_decode('[' . $row['Tickets'] . ']', true);
+            $row['TimeSlots'] = json_decode('[' . $row['TimeSlots'] . ']', true);
+            $row['TicketSales'] = json_decode('[' . $row['TicketSales'] . ']', true);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
+
+/**
+ * Fetches all events from the database based on the event category.
+ * 
+ * @param string $Catagory The event category to filter events by.
+ * @return array An array of events matching the event category, or an error message if the query fails.
+ * @throws PDOException If there is an error with the database operation.
+ */
+public function fetchPaginatedEventData($limit, $offset) {
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,EventType,
+                GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+            FROM 
+                events e
+            LEFT JOIN 
+                eventposter ep ON e.EventID = ep.EventID
+            GROUP BY 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,e.EventType
+            LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
+/**
+ * Fetches all events from the database based on the organization ID.
+ * 
+ * @param int $OrgID The organization ID to filter events by.
+ * @return array An array of events matching the organization ID, or an error message if the query fails.
+ * @throws PDOException If there is an error with the database operation.
+ */
+public function fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID) {
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,EventType,
+                GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+            FROM 
+                events e
+            LEFT JOIN 
+                eventposter ep ON e.EventID = ep.EventID
+            WHERE 
+                e.OrgID = :OrgID
+            GROUP BY 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,e.EventType
+            LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
+}
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $Event = new Event($conn->connection());
