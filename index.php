@@ -94,14 +94,14 @@ class DB
         return $Events->FetchAllEventsByOrgID($OrgID);
     }
 
-    static function GetEventsByCatagory($Catagory){
+    static function GetEventsByCatagory($Catagory,$limit,$offset){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $dbname = DB_NAME;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $Events= new Events($db->connection());
-        return $Events->GetEventsByCatagory($Catagory);
+        return $Events->GetEventsByCatagory($Catagory,$limit,$offset);
     }
 
     static function fetchPaginatedEventData($limit, $offset){

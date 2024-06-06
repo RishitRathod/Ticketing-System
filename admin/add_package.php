@@ -49,9 +49,14 @@
                             </select>
                         </div>
                         <div class="col-auto">
+                            <label for="Days">Validity:</label>
+                            <input type="number" class="form-control" id="Days" name="Days">
+                        </div>
+                        <div class="col-auto">
                             <label for="Amount">Amount:</label>
                             <input type="number" class="form-control" id="Amount" name="Amount">
                         </div>
+
                         <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
                         <button type="button" id="abortUdpatebtn" class="btn btn-warning col-1 m-sm-2 m-0">Abort Update</button>
                         <button type="button" id="updatebtn" class="btn btn-primary col-1 m-sm-2 m-0" onclick="updatePackage()">Update</button>
@@ -76,6 +81,7 @@
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Amount</th>
+                        <th>Validity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -232,6 +238,7 @@
                         <td>${package.PackageName}</td>
                         <td>${package.PackageType}</td>
                         <td>${package.Amount}</td>
+                        <td>${package.Days}</td>
                         <td>
                         <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
                         <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>

@@ -62,7 +62,9 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
         case 'GetEventsByCatagory':
             try { 
                 $Catagory = $data['Catagory'];
-                $response=DB::GetEventsByCatagory($Catagory);
+                $limit = $data['limit'];
+                $offset = $data['offset'];
+                $response=DB::GetEventsByCatagory($Catagory,$limit,$offset);
                 $response['success']=true;
                 echo json_encode($response);
             }
