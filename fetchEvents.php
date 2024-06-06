@@ -14,6 +14,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
                 //add sucess message to response
                 
                 $response['success']=true;
+                $response['status']='success';
                 echo json_encode($response);
             }
             catch(Exception $e){
@@ -28,6 +29,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
                 $response=DB::FetchEventDetailsByOrgID($EventID,$OrgID);
                 
                 $response['success']=true;
+                
                 echo json_encode($response);
             }
             catch(Exception $e){
@@ -38,9 +40,12 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
         case 'FetchEventDetails':
             try { 
                 $EventID = $data['EventID'];
-                $response=DB::FetchEventDetails($EventID);
-        
+                $response;
+                $data=DB::FetchEventDetails($EventID);
+                $response['data']=$data;
                 $response['success']=true;
+                $response['status']='success';
+
                 echo json_encode($response);
             }
             catch(Exception $e){
