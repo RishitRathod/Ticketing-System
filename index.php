@@ -144,7 +144,7 @@ class DB
         return $Organizations->CheckOrgStatus($OrgID);
     }
 
-    static function OrgDetails($OrgID){
+    static function GetOrgDetails($OrgID){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
@@ -173,7 +173,7 @@ class DB
         $Users= new Users($db->connection());
         return $Users->TicketInfo($UserID);
     }
-
+    
     static function getTicketUsage($UserID, $TicketSalesID){
         $host   = DB_HOST;
         $user   = DB_USER;
