@@ -10,27 +10,26 @@ function addPackage($input){
         exit;
     }
 
-    if (!isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) || !is_array($input['PackageName']) || !is_array($input['PackageType']) || !is_array($input['Amount'])) {
+    if ( !isset($input['Days'])||!isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) ) {
         echo json_encode(['status' => 'error', 'message' => 'Missing or invalid input data']);
         exit;
     }
 
+    $data = [
+        'Days' => $input['Days'],
+        'PackageName' => $input['PackageName'],
+        'PackageType' => $input['PackageType'],
+        'Amount' => $input['Amount']
+    ];
 
-    $insert=null;
-    for ($i = 0; $i < count($input['PackageName']); $i++) {
-        $data = [
-            'PackageName' => $input['PackageName'][$i],
-            'PackageType' => $input['PackageType'][$i],
-            'Amount' => $input['Amount'][$i]
-        ];
-        $insert = DB::insert(DB_NAME, 'packages', $data);
+    $insert = DB::insert(DB_NAME, 'packages', $data);
+    if($insert){
+        echo json_encode(['status' => 'success', 'message' => 'Data inserted successfully']);
+    }else{
+        echo json_encode(['status' => 'error', 'message' => 'Data insertion failed']);
     }
     
-    if($insert!=null){
-        echo json_encode(['status' => 'success', 'message' => 'Data submitted successfully']);
-    }else{
-        echo json_encode(['status' => 'error', 'message' => 'Data submission failed']);
-    }
+    
 }
 
 
