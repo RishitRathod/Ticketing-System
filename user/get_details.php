@@ -123,7 +123,7 @@
                                     <div class="text-center">
                                         <form action="edit_events.php" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary">Buy Tickrt</button>
+                                            <button type="submit" class="btn btn-primary">Buy Ticket</button>
                                         </form>
                                      
                                     </div>
