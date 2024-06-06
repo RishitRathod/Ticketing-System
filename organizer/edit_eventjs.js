@@ -93,56 +93,88 @@ function validateForm() {
 }
 
 
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('../cascading.php') 
-                .then(response => response.json())
-                .then(data => {
-                    const countrySel = document.getElementById("country");
-                    const stateSel = document.getElementById("state");
-                    const citySel = document.getElementById("city");
+function setDefaultDropdownValues(country, state, city) {
+    const countrySel = document.getElementById("country");
+    const stateSel = document.getElementById("state");
+    const citySel = document.getElementById("city");
 
-                    let countries = {};
+    // Set default selected country
+    if (country) {
+        countrySel.value = country;
+    }
 
-                    data.forEach(item => {
-                        if (!countries[item.country]) {
-                            countries[item.country] = {};
-                        }
-                        if (!countries[item.country][item.state]) {
-                            countries[item.country][item.state] = [];
-                        }
-                        countries[item.country][item.state].push(item.city);
+    // Set default selected state
+    if (state) {
+        stateSel.value = state;
+    }
+
+    // Set default selected city
+    if (city) {
+        citySel.value = city;
+    }
+}
+
+// Call this function after fetching data from populateEvents
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('../cascading.php') 
+        .then(response => response.json())
+        .then(data => {
+            const countrySel = document.getElementById("country");
+            const stateSel = document.getElementById("state");
+            const citySel = document.getElementById("city");
+
+            let countries = {};
+            let selectedCountry, selectedState;
+            
+    
+
+            data.forEach(item => {
+                if (!countries[item.country]) {
+                    countries[item.country] = {};
+                }
+                if (!countries[item.country][item.state]) {
+                    countries[item.country][item.state] = [];
+                }
+                countries[item.country][item.state].push(item.city);
+            });
+
+            for (let country in countries) {
+                let option = new Option(country, country);
+                countrySel.add(option);
+            }
+
+            countrySel.onchange = function() {
+                stateSel.length = 1;
+                citySel.length = 1;
+                selectedCountry = this.value;
+                if (selectedCountry && countries[selectedCountry]) {
+                    for (let state in countries[selectedCountry]) {
+                        let option = new Option(state, state);
+                        stateSel.add(option);
+                    }
+                }
+                // Call the function to set default values
+                setDefaultDropdownValues(selectedCountry, null, null);
+            }
+
+            stateSel.onchange = function() {
+                citySel.length = 1;
+                selectedState = this.value;
+                if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+                    countries[selectedCountry][selectedState].forEach(city => {
+                        let option = new Option(city, city);
+                        citySel.add(option);
                     });
+                }
+                // Call the function to set default values
+                setDefaultDropdownValues(selectedCountry, selectedState, null);
+            }
 
-                    for (let country in countries) {
-                        let option = new Option(country, country);
-                        countrySel.add(option);
-                    }
-
-                    countrySel.onchange = function() {
-                        stateSel.length = 1;
-                        citySel.length = 1;
-                        let selectedCountry = this.value;
-                        if (selectedCountry && countries[selectedCountry]) {
-                            for (let state in countries[selectedCountry]) {
-                                let option = new Option(state, state);
-                                stateSel.add(option);
-                            }
-                        }
-                    }
-
-                    stateSel.onchange = function() {
-                        citySel.length = 1;
-                        let selectedCountry = countrySel.value;
-                        let selectedState = this.value;
-                        if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
-                            countries[selectedCountry][selectedState].forEach(city => {
-                                let option = new Option(city, city);
-                                citySel.add(option);
-                            });
-                        }
-                    }
-                });
+            // Call the function to set default values with data from populateEvents
+            setDefaultDropdownValues(event.Country, event.State, event.City);
         });
+});
+
     
          document.getElementById('orgid').value = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
          console.log(document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1]);

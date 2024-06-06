@@ -350,10 +350,10 @@ function previewImage(event) {
         }
 
         async function initialize() {
-            const value = 'events';
-            const data = await fetchData(value);
-            populateEvents(data);
-        }
+                const value = 'events';
+                const data = await fetchData(value);
+                populateEvents(data);
+            }
 
         function populateEvents(events) {
             const eventsRow = document.querySelector('#eventsRow');
@@ -424,27 +424,37 @@ function previewImage(event) {
     document.getElementById('startDate').value = event.StartDate;
     document.getElementById('endDate').value = event.EndDate;
 
-        // Set the country, state, and city
-        const countrySel = document.getElementById('country');
-        const stateSel = document.getElementById('state');
-        const citySel = document.getElementById('city');
+    const countrySel = document.getElementById("country");
+    const stateSel = document.getElementById("state");
+    const citySel = document.getElementById("city");
 
-        // Set the country
-        countrySel.value = event.Country;
-        countrySel.dispatchEvent(new Event('change'));
+    // Set the default value for the country dropdown
+    setDropdownSelectedValue(countrySel, events.country);
 
-        // Wait for the states to be populated
-        setTimeout(() => {
-            // Set the state
-            stateSel.value = event.State;
-            stateSel.dispatchEvent(new Event('change'));
+    // Trigger the change event on the country dropdown to populate the states
+    const countryChangeEvent = new Event('change');
+    countrySel.dispatchEvent(countryChangeEvent);
 
-            // Wait for the cities to be populated
-            setTimeout(() => {
-                // Set the city
-                citySel.value = event.City;
-            }, 300); // Adjust the timeout as necessary
-        }, 300); // Adjust the timeout as necessary
+    // Set the default value for the state dropdown
+    setDropdownSelectedValue(stateSel, events.state);
+
+    // Trigger the change event on the state dropdown to populate the cities
+    const stateChangeEvent = new Event('change');
+    stateSel.dispatchEvent(stateChangeEvent);
+
+    // Set the default value for the city dropdown
+    setDropdownSelectedValue(citySel, events.city);
+
+
+function setDropdownSelectedValue(dropdown, value) {
+    for (let option of dropdown.options) {
+        if (option.value === value) {
+            option.selected = true;
+            break;
+        }
+    }
+}
+        
     // Populate time slots
     const timeSlotsContainer = document.getElementById('timeSlotsContainer');
     timeSlotsContainer.innerHTML = ''; // Clear existing slots

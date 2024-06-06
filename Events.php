@@ -400,8 +400,8 @@ public function fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID) {
 }
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// $Event = new Event($conn->connection());
-//  $events = $Event->FetchEventDetails(142,9);
-//  echo json_encode($events);
+// $Event = new Events($conn->connection());
+// $events = $Event->FetchEventDetails(142);
+// echo json_encode($events);
 
 ?>

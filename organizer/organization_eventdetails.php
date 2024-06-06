@@ -54,7 +54,11 @@
         <h2>Events</h2>
         <div class="row" id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
+
         </div>
+        
+        
+
     </div>
 
     <!-- jQuery and Bootstrap JS -->
@@ -196,13 +200,13 @@
                                     </fieldset>
                                     <div class="text-center">
                                         <form action="edit_events.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary mt-3">Edit Details</button>
+                                            <input type="hidden" name="id"  value="${event.EventID}">
+                                            <button type="submit"  class="btn btn-primary mt-3">Edit Details</button>
                                         </form>
                                         <form action="update_event.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="eventID" value="${event.EventID}">
+                                            <input type="hidden" name="eventID" id="eventID" value="${event.EventID}">
                                             <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="btn btn-primary mt-3">Delete Event</button>
+                                            <button type="submit"  onclick="return confirm('Are you sure?')"  class="btn btn-primary mt-3">Delete Event</button>
                                         </form>
                                     </div>
                                 </div>
@@ -213,7 +217,41 @@
                 eventsRow.appendChild(eventCard);
             });
         }
+        async function update(){
+            try {
+                event.preventDefault();
+                const formdata=new FormData();
+                const EventID=document.getElementById("eventID").value;
+                console.log(EventID);
+                formdata.append('eventID',EventID);
+                formdata.append('action','delete');
 
+                const response = await fetch("update_event.php", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: formdata,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    console.log(result.message);
+                    window.href('./organization_event.php');
+                     
+                } else {
+                    console.error('Error:', result.message);
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
         window.onload = initialize;
     </script>
 

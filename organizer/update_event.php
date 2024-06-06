@@ -3,12 +3,34 @@ require_once '../config.php';
 require_once '../db_connection.php';
 
 header('Content-Type: application/json');
+// Recursive function to delete directory
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+
+        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+        }
+    }
+
+    return rmdir($dir);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$action = $_POST['action'];
 $response = array('success' => true); // Initialize an array to hold the response data
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-$action = $_POST['action'];
-
-if ($action == 'update')
+if ($action === 'update')
     {    // Assuming the input is sent as form-data
     $eventName = $_POST['EventName'];
     $eventType = $_POST['EventType'];
@@ -139,62 +161,73 @@ if ($action == 'update')
     echo json_encode($response);
 }
 
-    if($action == 'delete'){
-        $eventID = $_POST['eventID'];
-        $deleteResult1 = DB::delete(DB_NAME, 'tickets', $eventID,'EventID');
-        if (!$deleteResult1) {
-            http_response_code(500);
-            echo "Error `deleting tickets";
-            exit();
-        }
-
-        $deleteResult2 = DB::delete(DB_NAME, 'timeslots', $eventID,'EventID');
-        if (!$deleteResult2) {
-            http_response_code(500);
-            echo "Error deleting timeslots";
-            exit();
-        }
-
-        $deleteResult3 = DB::delete(DB_NAME, 'eventposter', $eventID,'EventID');
-        if (!$deleteResult3) {
-            http_response_code(500);
-            echo "Error deleting event poster";
-            exit();
-        }
-
-        $deleteResult4 = DB::delete(DB_NAME, 'events', $eventID,'EventID');
-        if (!$deleteResult4) {
-            http_response_code(500);
-            echo "Error deleting event";
-            exit();
-        }
-        //also delete the files realted to the event
-        $uploadDirectory = '../uploads/Organizations/' . $orgID . '/events/' . $eventID . '/';
     
-        try {
-            if (is_dir($uploadDirectory)) {
-                $files = glob($uploadDirectory . '*', GLOB_MARK); //GLOB_MARK adds a slash to directories returned
-                foreach ($files as $file) {
-                    if (!unlink($file)) {
-                        throw new Exception("Failed to delete file: $file");
-                    }
-                }
-                if (!rmdir($uploadDirectory)) {
-                    throw new Exception("Failed to delete directory: $uploadDirectory");
-                }
-            }
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-            exit();
-        }
-        
+if ($action === 'delete') {
+    $eventID = $_POST['eventID'];
+    echo $eventID;
+    $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $sql = "SELECT OrgID FROM events WHERE EventID = ?";
+    $stmt = $conn->connection()->prepare($sql);
+    $stmt->execute([$eventID]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-        http_response_code(200);
-        echo "Event deleted successfully";
-
+    if (!$row) {
+        http_response_code(400);
+        echo json_encode(["status" => "error", "message" => "Event not found"]);
+        exit();
     }
 
+    $OrgID = $row['OrgID'];
+
+    $deleteResult1 = DB::delete(DB_NAME, 'tickets', $eventID, 'EventID');
+    if (!$deleteResult1) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Error deleting tickets"]);
+        exit();
+    }
+
+    $deleteResult2 = DB::delete(DB_NAME, 'timeslots', $eventID, 'EventID');
+    if (!$deleteResult2) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Error deleting timeslots"]);
+        exit();
+    }
+
+    $deleteResult3 = DB::delete(DB_NAME, 'eventposter', $eventID, 'EventID');
+    if (!$deleteResult3) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Error deleting event poster"]);
+        exit();
+    }
+
+    $deleteResult4 = DB::delete(DB_NAME, 'events', $eventID, 'EventID');
+    if (!$deleteResult4) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Error deleting event"]);
+        exit();
+    }
+
+    // Also delete the files related to the event
+    $uploadDirectory = '../uploads/Organizations/' . $OrgID . '/events/' . $eventID . '/';
+
+    try {
+        if (is_dir($uploadDirectory)) {
+            // Recursively delete directory and its content
+            if (!deleteDirectory($uploadDirectory)) {
+                error_log("Failed to delete directory: $uploadDirectory");
+                throw new Exception("Failed to delete directory");
+            }
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => 'Caught exception: ' . $e->getMessage()]);
+        exit();
+    }
+
+
+    http_response_code(200);
+    echo json_encode(["status" => "success", "message" => "Event deleted successfully"]);
+    echo '<script>alert("Event Deleted Successfully")</script>';
+    header('Location: organization_events.php');
 }
-?>
+}
