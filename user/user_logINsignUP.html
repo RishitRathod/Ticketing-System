@@ -18,8 +18,7 @@
                 <input type="email"  id="email" name="Email" placeholder="Email">
                 <input type="tel" id="userphonenumber" placeholder="Contact Number" name="userphonenumber">
                 <input type="file" class="form-control-file" id="userPhoto" name="UserPhoto">
-                <hr />
-                    <input type="password" class="form-control" id="Password1" name="Password" placeholder="Enter password" required>
+                <input type="password" class="form-control" id="Password1" name="Password" placeholder="Enter password" required>
                     <input type="checkbox" onclick="togglePassword1()"> <span>Show Password </span>
                 <input type="hidden" name="tablename" value="users">
                 <button type="submit" >Sign Up</button>
@@ -31,12 +30,11 @@
                 <span>Use your E-mail or Phone Number </span>
                 <input type="text" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
                 <input type="tel" placeholder="Contact Number">
-                <hr />
                
 
                     <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter password" required>
                     <input type="checkbox" onclick="togglePassword()"><span> Show Password </span>
-                <a href="#">Forget Your Password?</a>
+                <!-- <a href="#">Forget Your Password?</a> -->
                 <input type="hidden" value="users" name="tablename">    
                 <button id="submit" type="submit" name="login">Log In</button>
             </form>
@@ -151,7 +149,7 @@
             });
         });
         function togglePassword() {
-            var passwordField = document.getElementById("password");
+            var passwordField = document.getElementById("Password");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
             } else {
