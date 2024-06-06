@@ -196,6 +196,9 @@
             transform: translateY(-30%);
             cursor: pointer;
         }
+        #events-container{
+            margin-top: 5px;
+        }
         
     </style>
 </head>

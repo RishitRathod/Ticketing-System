@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insert = DB::insert(DB_NAME, $tablename, $data);
     if ($insert == insertSuccess) {
         echo json_encode(['status' => 'success', 'message' => 'Organization registered successfully']);
+        include "organization_login.html";
     } else {
         echo json_encode(['status' => 'error', 'message' => $insert]);
     }

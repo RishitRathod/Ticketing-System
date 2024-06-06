@@ -1,30 +1,34 @@
-<?php
-include 'userdashnav.php';
-?>
-
-    <!-- Main Content -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Fetch Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <?php
+    //  include 'userdashnav.php'; ?>
+    
+<div class="container1 mt-5" ></div>
     <div class="container mt-5" id="eventsContainer">   
-        <h2>Events</h2>
-        <div class="row" id="eventsRow">
+        <h2 class="container mt-5">Events</h2>
+        <div class="row mt-5" id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
         </div>
     </div>
 
-    <!-- jQuery and Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script>
         async function fetchData(tableName) {
             try {
                 const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
                 console.log(EventID);
 
-                const response = await fetch("get_details_backend.php", {
+                const response = await fetch('../fetchEvents.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ tableName: tableName, EventID: EventID }),
+                    body: JSON.stringify({ action: 'FetchEventDetails', EventID: EventID }),
                 });
 
                 if (!response.ok) {
@@ -59,77 +63,32 @@ include 'userdashnav.php';
                 return;
             }
 
-            const uniqueEvents = events.reduce((acc, event) => {
-                if (!acc[event.EventID]) {
-                    acc[event.EventID] = {
-                        ...event,
-                        posters: new Set([event.poster]),
-                        timeSlots: new Map([[event.TimeSlotID, {
-                            TimeSlotID: event.TimeSlotID,
-                            StartTime: event.StartTime,
-                            EndTime: event.EndTime,
-                            Availability: event.Availability
-                        }]]),
-                        tickets: new Map([[`${event.TicketID}-${event.TicketType}`, {
-                            TicketID: event.TicketID,
-                            TicketType: event.TicketType,
-                            Quantity: event.Quantity,
-                            LimitQuantity: event.LimitQuantity,
-                            Discount: event.Discount,
-                            Price: event.Price
-                        }]])
-                    };
-                } else {
-                    acc[event.EventID].posters.add(event.poster);
-                    acc[event.EventID].timeSlots.set(event.TimeSlotID, {
-                        TimeSlotID: event.TimeSlotID,
-                        StartTime: event.StartTime,
-                        EndTime: event.EndTime,
-                        Availability: event.Availability
-                    });
-                    acc[event.EventID].tickets.set(`${event.TicketID}-${event.TicketType}`, {
-                        TicketID: event.TicketID,
-                        TicketType: event.TicketType,
-                        Quantity: event.Quantity,
-                        LimitQuantity: event.LimitQuantity,
-                        Discount: event.Discount,
-                        Price: event.Price
-                    });
-                }
-                return acc;
-            }, {});
+            const eventsArray = Object.values(events);
 
-            // Convert sets to arrays
-            Object.keys(uniqueEvents).forEach(eventID => {
-                uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
-                uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots.values());
-                uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets.values());
-            });
-
-            console.log(uniqueEvents);
+            console.log(eventsArray);
 
             eventsRow.innerHTML = '';
-            Object.values(uniqueEvents).forEach((event) => {
+            eventsArray.forEach((event) => {
                 const eventCard = document.createElement('div');
                 eventCard.classList.add('col-12', 'mb-4');
 
-                const posterIndicators = event.posters.map((poster, index) => `
+                const posterIndicators = Array.isArray(event.posters) ? event.posters.map((poster, index) => `
                     <li data-target="#carousel${event.EventID}" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>
-                `).join('');
+                `).join('') : '';
 
-                const posterItems = event.posters.map((poster, index) => `
+                const posterItems = Array.isArray(event.posters) ? event.posters.map((poster, index) => `
                     <div class="carousel-item ${index === 0 ? 'active' : ''}">
                         <img src="${poster}" class="d-block w-100 event-poster" alt="Event Poster">
                     </div>
-                `).join('');
+                `).join('') : '';
 
-                const ticketsList = event.tickets.map(ticket => `
+                const ticketsList = Array.isArray(event.tickets) ? event.tickets.map(ticket => `
                     <p class="card-text"><strong>Ticket Type:</strong> ${ticket.TicketType}, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</p>
-                `).join('');
+                `).join('') : '';
 
-                const timeSlotsList = event.timeSlots.map(slot => `
+                const timeSlotsList = Array.isArray(event.timeSlots) ? event.timeSlots.map(slot => `
                     <p class="card-text"><strong>Time Slot:</strong> ${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</p>
-                `).join('');
+                `).join('') : '';
 
                 eventCard.innerHTML = `
                     <div class="card h-100 event-card">
@@ -162,15 +121,11 @@ include 'userdashnav.php';
                                     ${timeSlotsList}
                                     ${ticketsList}
                                     <div class="text-center">
-                                        
                                         <form action="edit_events.php" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary">Edit Details</button>
+                                            <button type="submit" class="btn btn-primary">Buy Ticket</button>
                                         </form>
-                                        <form action="organization_eventdetails.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary">Delete Event</button>
-                                        </form>
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +138,5 @@ include 'userdashnav.php';
 
         window.onload = initialize;
     </script>
-
-    <?php  ?>
 </body>
 </html>
