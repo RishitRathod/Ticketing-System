@@ -7,8 +7,42 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
     <style>
         .heg{
-            margin-top: 150px;
+            margin-top: 15vmin;
           
+        }
+        .card{
+            border:none !important;
+            background-color: #00000000  !important;
+        }
+        .posters{
+            height: 55vmin;
+        }
+        .event-poster{
+            border-radius: 8px;
+        }
+        fieldset{
+            border-radius: 5px !important;
+            background-color: #ffffff50  !important;
+        }
+
+        .price{
+            color:honeydew;
+            background-color: #527822;
+            width: max-content;
+            border-radius: 5px;
+            padding-inline: 5px;
+        }
+        .evTitle{
+            background-color: #00000070;
+            border-radius: 20px;
+            box-shadow: 0 0 30px black;
+            text-shadow: 0 0 30px black;
+        }
+
+        @media (max-width: 760px) {
+            .heg{
+                font-size: 12px !important;   
+            }
         }
 
     </style>
@@ -20,13 +54,10 @@
   
     
     <!-- <div class="container1"></div> -->
-    <div class="heg p-3" id="eventsContainer" style="width:70%;">   
-     
-        <div class="row " id="eventsRow">
-
+    <div class="heg pt-5 px-4" id="eventsContainer">   
+        <h2>Event</h2>
+        <div class="row px-md-5 px-0" id="eventsRow">
         
-
-        <h2 class="container">Events</h2>
             <!-- Event cards will be dynamically populated here -->
         </div>
     </div>
@@ -83,11 +114,11 @@
                 eventCard.classList.add('col-12', 'mb-4');
 
                 const posterItems = event.Posters.map(poster => `
-                    <img src="${poster}" class="event-poster img-fluid" alt="Event Poster">
+                    <img src="${poster}" class="event-poster img-fluid d-inline m-2 " alt="Event Poster">
                 `).join('');
 
                 const ticketsList = event.Tickets.map(ticket => `
-                    <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
+                    <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}</li><li><strong>Discount:</strong> ${ticket.Discount}%</span></li>
                 `).join('');
 
                 const timeSlotsList = event.TimeSlots.map(slot => `
@@ -95,29 +126,41 @@
                 `).join('');
 
                 eventCard.innerHTML = `
-                    <div class="card event-card p-5">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 overflow-auto d-block poster-container">
-                                <strong>Event Photos</strong>
-                                ${posterItems}
+                    <div class="card event-card">
+                        <div class="row row-cols-1 row-cols-md-2 g-2 p-3">
+                            <div class="col-md-8 overflow-auto card d-block poster-container ">
+                                <legend><strong>Event Photos</strong></legend>
+                                <div class="posters d-flex overflow-auto">
+                                    ${posterItems}
+                                </div>
+                                <h3 class="card-title position-absolute bottom-0 start-0 text-light m-4 evTitle">${event.EventName}</h3>
                             </div>
-                            <div class="col-md-8">
-                                <div class="card-body event-details pl-4">
-                                    <h3 class="card-title">${event.EventName}</h3>
-                                    <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
-                                    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
+                            <div class="col-md-4 card overflow-auto">
+                                <div class="card-body event-details">
+                                    <div class="mt-3"><legend><strong>Available Tickets:</strong> ${event.Capacity}</legend></div>
                                     <fieldset><legend><strong>Date</strong></legend>
                                         <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong> ${event.EndDate}</div>
                                     </fieldset>
-                                    <p class="card-text"><strong>Available Tickets:</strong> ${event.Capacity}</p>
-                                    <fieldset><legend><strong>Time Slots</strong></legend>
+                                    <fieldset style="height:10vmax; overflow:auto;"><legend><strong>Time Slots</strong></legend>
                                         ${timeSlotsList}
                                     </fieldset>
-                                    <fieldset><legend><strong>Tickets</strong></legend>
+                                    <fieldset style="height:10vmax; overflow:auto;"><legend><strong>Tickets</strong></legend>
                                         ${ticketsList}
                                     </fieldset>
-                                
                                 </div>
+                            </div>
+                                
+                            <div class="col-md-12 card py-md-2 py-0">
+                                <fieldset>
+                                    <legend> <strong> Discount </strong> </legend>
+                                    <div class="card-text price"><s class="bg-danger opacity-50 rounded-3"> ₹${event.Price}</s>  ₹ ${event.Price - (event.Price * event.Discount)/100}</div>
+                                </fieldset>                                
+
+                                <fieldset>
+                                    <legend> <strong>Description</strong> </legend>
+                                    <div class="card-text">${event.Description}</div>
+                                    <p class="card-text"><strong>Venue Address:</strong> ${event.VenueAddress}</p>
+                                </fieldset>
                             </div>
                         </div>
                     </div>

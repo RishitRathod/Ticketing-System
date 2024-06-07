@@ -8,11 +8,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <!-- datatable Bootstrap -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-
-  
-    
 
     <!-- CSS -->
     <style>
@@ -76,13 +73,18 @@
             position:sticky;
             top:20px;
         }
+        @media (min-width: 760px) {
+            .sn{
+                width:225px;   
+            }
+        }
 
     </style>
 </head>
 <body>  
     <div class="container-fluid w-100 p-3 backOnav text-white">
         <div class="row align-items-center">
-            <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html" style="text-decoration: none;">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.html" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
@@ -100,8 +102,8 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row stic flex-nowrap">
-            <div class="backOnav  col-auto col-xl-2 col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+        <div class="row stic flex-nowrap">  
+            <div class="backOnav  col-auto col-xl-2 col-md-4 sn min-vh-100 d-flex flex-column justify-content-between">
                 <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
