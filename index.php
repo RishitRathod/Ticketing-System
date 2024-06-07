@@ -64,14 +64,14 @@ class DB
         return $delete->deleteData($id,$ColumnName);
     }
 
-    static function FetchEventDetailsByOrgID($EventID,$OrgID){
+    static function FetchEventDetailsByOrgID($OrgID){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $dbname = DB_NAME;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $Events= new Events($db->connection());
-        return $Events->FetchEventDetailsByOrgID($EventID,$OrgID);
+        return $Events->FetchEventDetailsByOrgID($OrgID);
     }
 
     static function FetchEventDetails($EventID){

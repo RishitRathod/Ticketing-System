@@ -38,7 +38,7 @@
         //Insert into Table1 (events)
         $insertResult = DB::insertGetId(DB_NAME, 'events', $dataTable1);
         if ($insertResult) {
-            $lastEventID = $insertResult;
+             $lastEventID = $insertResult;
             $qrCodePath = '../uploads/Organizations/' . $orgid . '/events'.'/'. $lastEventID .'/event_qrcodes';
             $qrCodeFile = $qrCodePath .'/'. $lastEventID . '.svg';
             // Check if directory exists and if not, create it

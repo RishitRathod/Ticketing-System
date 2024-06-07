@@ -107,7 +107,7 @@ class Events{
  * @throws PDOException If there is an error with the database operation.
  */
 
-public function FetchEventDetailsByOrgID($EventID, $OrgID) {
+public function FetchEventDetailsByOrgID( $OrgID) {
     try {
         $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
@@ -119,7 +119,7 @@ public function FetchEventDetailsByOrgID($EventID, $OrgID) {
         GROUP_CONCAT(DISTINCT CONCAT(
             '{\"TicketID\":', t.TicketID, 
             ',\"TicketType\":\"', t.TicketType, 
-            '\",\"Quantity\":', COALESCE(t.Quantity, 'null'), 
+            '\",\"Quantity\":', COALESCE(t.Quantity, 'null'),
             ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
             '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
             ',\"Discount\":', COALESCE(t.Discount, 'null'), 
@@ -149,14 +149,13 @@ public function FetchEventDetailsByOrgID($EventID, $OrgID) {
     LEFT JOIN 
         {$this->TicketSalesTable} ts ON t.TicketID = ts.TicketID
     WHERE 
-        e.EventID = :EventID AND e.OrgID = :OrgID
+        e.OrgID = :OrgID
     GROUP BY 
         e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate, 
         e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State,
         e.City, o.Name;";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
         $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -249,11 +248,8 @@ public function FetchEventDetails($EventID) {
     }
 }
 
-
-
 /**
- * Fetches all events from the database based on the organization ID.
- * 
+ * Fetches all events from the database based on the organization ID. 
  *
  * @param int $OrgID The organization ID to filter events by.
  * @return array An array of events matching the organization ID, or an error message if the query fails.
