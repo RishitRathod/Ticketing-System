@@ -222,7 +222,7 @@
                                     <label for="eventPoster" class="d-block">Event Poster</label>
                                     <div id="posterContainer" class="mb-3">
                                         <div class="form-group poster-input">
-                                            <input type="file" class="form-control" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
+                                            <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
                                         </div>
                                     </div>
                                     <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
@@ -678,7 +678,7 @@ document.getElementById('orgid').value = getCookieValue('id');
             // Create a new input field
             const newInput = document.createElement('input');
             newInput.type = 'file';
-            newInput.classList.add('form-control');
+            newInput.classList.add('form-control','form-control-sm');
             newInput.name = 'EventPoster[]';
             newInput.accept = 'image/*';
             newInput.setAttribute('onchange', 'previewImage(event)');
