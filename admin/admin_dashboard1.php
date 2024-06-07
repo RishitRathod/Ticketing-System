@@ -269,6 +269,8 @@
             await approveOrganization(orgID, tableName);
             //update the datatable call fetchData and populateTable
             const data = await fetchData(tableName);
+            //DESTORY DataTable
+            $('#orgTable').DataTable().destroy();
             populateTable(data, tableName);
 
         } else if (event.target.classList.contains('reject-btn')) {
@@ -277,10 +279,12 @@
             await rejectOrganization(orgID, tableName);
             //update the datatable call fetchData and populateTable
             const data = await fetchData(tableName);
+            $('#orgTable').DataTable().destroy();
             populateTable(data, tableName);
         }else if (event.target.classList.contains('view-btn')) {
             const orgID = event.target.getAttribute('data-id');
             const tableName = event.target.getAttribute('data-table');
+
             viewDetails(orgID, tableName);
         }
         

@@ -24,12 +24,12 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
 
         case 'FetchEventDetailsByOrgID':
             try { 
-                $EventID = $data['EventID'];
                 $OrgID = $data['OrgID'];
-                $response=DB::FetchEventDetailsByOrgID($EventID,$OrgID);
+                $data=DB::FetchEventDetailsByOrgID($OrgID);
                 
                 $response['success']=true;
-                
+                $response['status']= 'success';
+                $response['data']=$data;
                 echo json_encode($response);
             }
             catch(Exception $e){
