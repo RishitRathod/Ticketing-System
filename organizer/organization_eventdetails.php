@@ -50,7 +50,7 @@
     <?php include 'navhead.php'; ?>
 
     <!-- Main Content -->
-    <div class="container mt-5" id="eventsContainer">
+    <div class="container " id="eventsContainer">
         <h2>Events</h2>
         <div class="row" id="eventsRow">
             <!-- Event cards will be dynamically populated here -->

@@ -719,19 +719,7 @@ document.getElementById('orgid').value = getCookieValue('id');
                 reader.readAsDataURL(files[i]);
             }
         }
-
-
-
-
-
     </script>
-
-                    </div>
-            </div>
-        </div>
-    </div>  
-
-
 <?php
 include 'footer.php';
 ?>
