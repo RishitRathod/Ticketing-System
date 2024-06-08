@@ -146,6 +146,7 @@
                                     </fieldset>
                                     <fieldset style="height:10vmax; overflow:auto;"><legend><strong>Tickets</strong></legend>
                                         ${ticketsList}
+                                <button class="btn btn-primary" onclick="window.location.href='buy_tickets.php?id=${event.EventID}'">Buy Tickets</button>
                                     </fieldset>
                                 </div>
                             </div>
