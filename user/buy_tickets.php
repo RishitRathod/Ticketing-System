@@ -38,7 +38,7 @@ include 'userdashnav.php';
   
     <div class="container">
         <h1 class="text-center">Buy Tickets</h1>
-        <form action="/submit_ticket" method="post">
+        <form id="form" action="/submit_ticket" method="post">
             <fieldset class="form-section">
                 <legend>Event Selection</legend>
                 <div class="form-group">
@@ -161,52 +161,67 @@ include 'userdashnav.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        //get details for the selected event 
-        async function fetcDetails(value){
-            cosnt call =await fetch('../fetchUsers.php',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({eventID: , action : 'GetDetailsAtBuyTickets'}), //pass event ID here
-            }).then(response => response.json())
-        if(response.status === 'success'){
-            console.log(response.data);
-        }else{
-            console.error('Error:', response.message);
-        }
-        catch(error){
-            console.error('Error fetching data:', error);
-        };
-        }
-        
-        async function initialize(){
-            const value = ;//pass eventID here
-            const data = await fetchData(value);
-            populateEvents(data);
+      async function fetchDetails(eventID) {
+            try {
+                const response = await fetch('../fetchUser.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ EventID: eventID, action: 'GetDetailsAtBuyTickets' }), // Pass event ID here
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    console.log(data.data);
+                } else {
+                    console.error('Error:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         }
 
-        async function SubmitForm(event){
+        async function initialize() {
+            const eventID = 106; // Pass the actual eventID here
+            await fetchDetails(eventID);
+            // Populate events or handle data as needed
+        }
+
+        async function SubmitForm(event) {
             event.preventDefault();
-            const data= {
+            const formData = {
                 event: document.getElementById('event').value,
                 eventDate: document.getElementById('event-date').value,
                 ticketType: document.getElementById('ticket-type').value,
                 quantity: document.getElementById('quantity').value,
-                Name: document.getElementById('name').value,
-                Email: document.getElementById('email').value,
-                Phone: document.getElementById('phone').value,
-                // paymentMethod: document.getElementById('payment-method').value,
-                // cardNumber: document.getElementById('card-number').value,
-                // expirationDate: document.getElementById('expiration-date').value,
-                // cvv: document.getElementById('cvv').value,
-                // billingAddress: document.getElementById('billing-address').value,
-                // city: document.getElementById('city').value,
-                // state: document.getElementById('state').value,
-                // postalCode: document.getElementById('postal-code').value,  
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
             };
-            
+
+            try {
+                const response = await fetch('/submit_ticket', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Ticket submitted successfully');
+                } else {
+                    alert('Failed to submit ticket: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Failed to submit ticket due to an error');
+            }
         }
+
+        document.getElementById('form').addEventListener('submit', SubmitForm);
+
+        initialize();
 
 
     </script>

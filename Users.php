@@ -145,61 +145,79 @@ class Users {
  * @param int $EventID The ID of the event.
  * @return array An associative array containing ticket details for the event, or an error message if the operation fails.
  */
-    public function GetDetailsAtBuyTickets($EventID)
-    {
-        try {
-            $this->conn->query("SET SESSION group_concat_max_len = 10000");
-            $stmt = $this->conn->prepare("SELECT 
-                        t.TicketID, 
-                        t.TicketType, 
-                        GROUP_CONCAT(ts.TimeSlotID) AS TimeSlotIDs,
-                        GROUP_CONCAT(ts.StartTime) AS StartTimes,
-                        GROUP_CONCAT(ts.EndTime) AS EndTimes,
-                        t.Quantity, 
-                        t.Availability, 
-                        t.QR_CODE, 
-                        t.LimitQuantity, 
-                        t.Discount, 
-                        t.Price, 
-                        o.Name AS OrganizationName
-                    FROM 
-                        tickets t
-                    INNER JOIN 
-                        events e ON t.EventID = e.EventID
-                    INNER JOIN 
-                        timeslots ts ON e.EventID = ts.EventID
-                    INNER JOIN 
-                        organizations o ON e.OrgID = o.OrgID
-                    WHERE 
-                        e.EventID = :EventID
-                    GROUP BY
-                        t.TicketID, 
-                        t.TicketType, 
-                        t.Quantity, 
-                        t.Availability, 
-                        t.QR_CODE, 
-                        t.LimitQuantity, 
-                        t.Discount, 
-                        t.Price, 
-                        o.Name;");
+public function GetDetailsAtBuyTickets($EventID)
+{
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+        $stmt = $this->conn->prepare("SELECT 
+                    t.TicketID, 
+                    t.TicketType, 
+                    ts.TimeSlotID,
+                    ts.StartTime,
+                    ts.EndTime,
+                    t.Quantity, 
+                    t.Availability, 
+                    t.QR_CODE, 
+                    t.LimitQuantity, 
+                    t.Discount, 
+                    t.Price, 
+                    o.Name AS OrganizationName
+                FROM 
+                    tickets t
+                INNER JOIN 
+                    events e ON t.EventID = e.EventID
+                INNER JOIN 
+                    timeslots ts ON e.EventID = ts.EventID
+                INNER JOIN 
+                    organizations o ON e.OrgID = o.OrgID
+                WHERE 
+                    e.EventID = :EventID
+                ORDER BY
+                    t.TicketID");
 
-            $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
-            
-            // Execute the prepared statement
-            $stmt->execute();
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
         
-            // Fetch the results
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            if (!$result) {
-                return ["error" => "No details found for EventID: $EventID"];
-            }
-            
-            return $result;
-
-        } catch (PDOException $e) {
-            return ['error' => "Fetch Details failed: " . $e->getMessage()];
+        // Execute the prepared statement
+        $stmt->execute();
+    
+        // Fetch the results
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!$result) {
+            return ["error" => "No details found for EventID: $EventID"];
         }
+
+        $mergedResult = [];
+        foreach ($result as $row) {
+            $ticketID = $row['TicketID'];
+            if (!isset($mergedResult[$ticketID])) {
+                $mergedResult[$ticketID] = [
+                    "TicketID" => $row['TicketID'],
+                    "TicketType" => $row['TicketType'],
+                    "TimeSlots" => [],
+                    "Quantity" => $row['Quantity'],
+                    "Availability" => $row['Availability'],
+                    "QR_CODE" => $row['QR_CODE'],
+                    "LimitQuantity" => $row['LimitQuantity'],
+                    "Discount" => $row['Discount'],
+                    "Price" => $row['Price'],
+                    "OrganizationName" => $row['OrganizationName']
+                ];
+            }
+            $mergedResult[$ticketID]['TimeSlots'][] = [
+                "TimeSlotID" => $row['TimeSlotID'],
+                "StartTime" => $row['StartTime'],
+                "EndTime" => $row['EndTime']
+            ];
+        }
+
+        // Reset array keys and return the merged result
+        return array_values($mergedResult);
+
+    } catch (PDOException $e) {
+        return ['error' => "Fetch Details failed: " . $e->getMessage()];
     }
+}
+
     
 }
