@@ -11,22 +11,38 @@
     <p id="qr-result">QR Code Result: None</p>
 
     <script>
+        let html5QrCode;
+        let scanning = true;
+
         function onScanSuccess(decodedText, decodedResult) {
             // Handle the result here
             document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
             console.log(`Code matched = ${decodedText}`, decodedResult);
-            
+
+            if (scanning) {
+                scanning = false; // Prevent multiple stops
+                // Stop scanning and close the camera input after success
+                html5QrCode.stop().then(ignore => {
+                    console.log('QR Code scanning stopped.');
+                    // Optionally clear the video element
+                    document.getElementById('reader').innerHTML = '';
+                    
+                }).catch(err => {
+                    console.error('Unable to stop scanning.', err);
+                });
+            }
         }
 
         function onScanFailure(error) {
             // Handle scan failure, usually better to ignore and keep scanning.
             console.warn(`Code scan error = ${error}`);
+
         }
 
         // Wait for the DOM to fully load
         document.addEventListener("DOMContentLoaded", function() {
             // Create instance of Html5Qrcode
-            const html5QrCode = new Html5Qrcode("reader");
+            html5QrCode = new Html5Qrcode("reader");
 
             // Start scanning
             html5QrCode.start(

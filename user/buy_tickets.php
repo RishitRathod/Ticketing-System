@@ -159,6 +159,58 @@ include 'userdashnav.php';
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        //get details for the selected event 
+        async function fetcDetails(value){
+            cosnt call =await fetch('../fetchUsers.php',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({eventID: , action : 'GetDetailsAtBuyTickets'}), //pass event ID here
+            }).then(response => response.json())
+        if(response.status === 'success'){
+            console.log(response.data);
+        }else{
+            console.error('Error:', response.message);
+        }
+        catch(error){
+            console.error('Error fetching data:', error);
+        };
+        }
+        
+        async function initialize(){
+            const value = ;//pass eventID here
+            const data = await fetchData(value);
+            populateEvents(data);
+        }
+
+        async function SubmitForm(event){
+            event.preventDefault();
+            const data= {
+                event: document.getElementById('event').value,
+                eventDate: document.getElementById('event-date').value,
+                ticketType: document.getElementById('ticket-type').value,
+                quantity: document.getElementById('quantity').value,
+                Name: document.getElementById('name').value,
+                Email: document.getElementById('email').value,
+                Phone: document.getElementById('phone').value,
+                // paymentMethod: document.getElementById('payment-method').value,
+                // cardNumber: document.getElementById('card-number').value,
+                // expirationDate: document.getElementById('expiration-date').value,
+                // cvv: document.getElementById('cvv').value,
+                // billingAddress: document.getElementById('billing-address').value,
+                // city: document.getElementById('city').value,
+                // state: document.getElementById('state').value,
+                // postalCode: document.getElementById('postal-code').value,  
+            };
+            
+        }
+
+
+    </script>
+    
 </body>
 <?php
 include 'user_footer.html';

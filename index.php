@@ -184,6 +184,16 @@ class DB
         return $Users->getTicketUsage($UserID, $TicketSalesID);
     }
 
+    static function GetDetailsAtBuyTickets($EventID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->GetDetailsAtBuyTickets($EventID);
+    }
+
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){
 
         $host   = DB_HOST;
