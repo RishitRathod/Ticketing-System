@@ -15,7 +15,7 @@ require_once 'admin_headnav.php';
         padding: 2px;
 
     }
-    .btn:active::after{
+    .btn:active{
         background-color: #8341fe;
         color: #fff;
 
@@ -25,6 +25,9 @@ require_once 'admin_headnav.php';
     }
     #orgEvents{
         display:none;
+    }
+    .pac{
+        max-width: 20vmax;
     }
 </style>
 <div class="container mt-2 row justify-content-center">
@@ -156,20 +159,27 @@ require_once 'admin_headnav.php';
             </div>
             <div class="list-group mt-3 d-sm-inlines">
                 <h5 class="card-subtitle d-sm-inline"><li>Packages:</li></h5>`;
+            
+
+            function addDays(date, days) {
+                var result = new Date(date);
+                result.setDate(result.getDate() + days);
+                return result;
+            }
+
 
             packages.forEach(pkg => {
                 orgDetailsHTML += `
-                    <div class="list-group-item">
+                    <div class="list-group-item pac card">
                         <h6 class="mb-1">${pkg.PackageName}</h6>
                         <p class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</p>
                         <p class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</p>
-                        <p class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</p>
+                        <p class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</p>  ${pkg.Days}
+                        <p class="mb-1"><strong>Expire Date:</strong> `+ addDays(pkg.BuyDate,pkg.Days)+`</p>
                     </div>`;
             });
-
-            orgDetailsHTML += `
-                        
-                    
+            
+            orgDetailsHTML += `       
                 </div>`;
 
             orgDetailsContainer.innerHTML += orgDetailsHTML;
