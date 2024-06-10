@@ -77,11 +77,11 @@
             buttons.forEach(button => {
                 button.addEventListener("mouseover", function() {
                     const imageValue = button.value;
-                    button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
+                    button.style.backgroundImage = url('../uploads/event_types/${imageValue}.png');
                 });
                 button.addEventListener("click", function() {
                     const imageValue = button.value;
-                    button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
+                    button.style.backgroundImage = url('../uploads/event_types/${imageValue}.png');
                 });
 
                 button.addEventListener("mouseout", function() {

@@ -75,7 +75,7 @@ include 'userdashnav.php';
 
                 <div class="col-5 form-group">
                     <label for="startDate">Select Date</label>
-                    <input type="date" class="form-control datepicker" id="startDate" name="StartDate" >
+                    <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
                 </div>
             </fieldset>
 
@@ -115,15 +115,15 @@ include 'userdashnav.php';
                 <legend>Buyer Information</legend>
                 <div class="form-group">
                     <label for="name">Full Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="name" name="name" >
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address:</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="email" name="email" >
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                    <input type="tel" class="form-control" id="phone" name="phone" >
                 </div>
             </fieldset>
 
@@ -281,10 +281,12 @@ if (User) {
 }
 
         async function SubmitForm(event) {
+            const eventDate = document.getElementById('startDate').value;
+console.log(eventDate); // Verify the date value
             event.preventDefault();
             const formData = {
                 EventID: <?php echo json_encode($eventID); ?>,
-                EventDate: document.getElementById('startDate').value,
+                EventDate: eventDate,
                 TicketID: document.getElementById('ticketid').value,
                 TimeSlotID: document.getElementById('timeslotid').value,
                 Quantity: document.getElementById('quantity').value,
@@ -295,6 +297,8 @@ if (User) {
                 UserID: 5
 
             };
+            console.log(formData);
+
 
             try {
                 const response = await fetch('./submit_ticket.php', {
