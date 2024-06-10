@@ -65,7 +65,7 @@
     <script>
         async function fetchData(tableName) {
             try {
-                const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
+                const EventID = <?php echo isset($_REQUEST['id']) ? json_encode($_REQUEST['id']) : 'null'; ?>;
                 console.log(EventID);
 
                 const response = await fetch('../fetchEvents.php', {

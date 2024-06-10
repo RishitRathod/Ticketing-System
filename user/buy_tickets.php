@@ -200,7 +200,7 @@ include 'userdashnav.php';
             };
 
             try {
-                const response = await fetch('/submit_ticket', {
+                const response = await fetch('./submit_ticket.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
