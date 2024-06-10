@@ -163,6 +163,8 @@ public function GetDetailsAtBuyTickets($EventID)
                     t.Price, 
                     e.Capacity,
                     e.EventName,
+                    e.StartDate,
+                    e.EndDate,
                     o.Name AS OrganizationName
                 FROM 
                     tickets t
@@ -205,7 +207,9 @@ public function GetDetailsAtBuyTickets($EventID)
                     "Price" => $row['Price'],
                     "OrganizationName" => $row['OrganizationName'],
                     "Capacity" => $row["Capacity"],
-                    "EventName" =>$row['EventName']
+                    "EventName" =>$row['EventName'],
+                    "StartDate" =>$row['StartDate'],
+                    "EndDate" =>$row['EndDate'],
                 ];
             }
             $mergedResult[$ticketID]['TimeSlots'][] = [
