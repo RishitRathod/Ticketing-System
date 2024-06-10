@@ -190,13 +190,14 @@ include 'userdashnav.php';
         async function SubmitForm(event) {
             event.preventDefault();
             const formData = {
-                event: document.getElementById('event').value,
+                eventID: document.getElementById('event').value,
                 eventDate: document.getElementById('event-date').value,
                 ticketType: document.getElementById('ticket-type').value,
                 quantity: document.getElementById('quantity').value,
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
+
             };
 
             try {

@@ -4,9 +4,11 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
+    $UserID = $data['UserID'];
+    $EventID = $data['EventID'];
 
     // Mandatory fields
-    $mandatoryFields = ['TicketID', 'TimeSlotID', 'EventID', 'UserID', 'Name', 'Quantity', 'Status'];
+    $mandatoryFields = ['TicketID', 'TimeSlotID', 'EventID', 'UserID', 'Name', 'Quantity','EventDate'];
 
     // Check if all mandatory fields are present
     foreach ($mandatoryFields as $field) {
@@ -27,13 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['PurchaseDate'] = date('Y-m-d H:i:s');
     }
 
-    // Insert into ticketsales table
-    $insert = DB::insert(DB_NAME, 'ticketsales', $data);
-
-    if ($insert!== 'Insert Successfully') {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to submit ticket']);
-        exit();
-    }
     $qrCodePath = '../uploads/user/' . $UserID . '/events'.'Tickets'.'/'. $EventID .'/'.'ticket_qrcode/';
     $qrCodeFile = $qrCodePath .'/'. $EventID . '.svg';
     // Check if directory exists and if not, create it
@@ -41,17 +36,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mkdir($qrCodePath, 0777, true);
     }
     //pass link to eventpage
-    $QRdata = "http://". getHostByName(getHostName())."/ticketing-system/user/my_tickets.php?id=".$lastEventID;            $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);            if($QRCodeGeneratorBool){
+    $QRdata = "http://". getHostByName(getHostName())."/ticketing-system/user/my_tickets.php?id=".$EventID;
+    $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);
+    if($QRCodeGeneratorBool) {
         $response['success'] = true;
-        $response['eventID'] = $lastEventID;
-        DB::update(DB_NAME, 'ticketsales', ['QR_CODE' =>$qrCodeFile], $lastEventID,'EventID');
+        $response['eventID'] = $EventID;
+        $data['QR_CODE']= $qrCodeFile;
     }else{
-            
-            $response['success'] = false;
-            $response['message'] = "Failed to generate QR code";
+        $response['success'] = false;
+        $response['message'] = "Failed to generate QR code";
             exit();
         }
-    echo json_encode(['status' => 'success', 'message' => 'Ticket submitted successfully']);
+
+    // Insert into ticketsales table
+    $insert = DB::insertGetId(DB_NAME, 'ticketsales', $data);
+
+    if ($insert !=PDO::PARAM_INT) {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to submit ticket','ErrorMessage'=> $insert]);
+        exit();
+    }
+    echo json_encode(['status' => 'success', 'message' => 'Ticket submitted successfully', "TicketSaleID" => $insert ]);
     } else {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
