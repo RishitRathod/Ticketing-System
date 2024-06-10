@@ -10,12 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap JS and Popper.js (required for tooltips) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -51,6 +48,29 @@
             
 
         }
+        .approve-btn{
+            background-image: url('https://icons.iconarchive.com/icons/fa-team/fontawesome/256/FontAwesome-Check-icon.png');
+            background-size: 75%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .reject-btn{
+            background-image: url('https://icons.iconarchive.com/icons/ionic/ionicons/256/ban-sharp-icon.png');
+            background-size: 75%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .inf{
+            background-image: url('https://icons.iconarchive.com/icons/aniket-suvarna/box-regular/256/bx-info-circle-icon.png');
+            background-size: 75%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .acBtn{
+            height: 4vmin;
+            width: 4vmin;
+        }
+        
         #tooltip:hover #tooltiptext{
             visibility: visible;
             /* transition: 0.5s; */

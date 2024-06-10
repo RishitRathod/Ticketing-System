@@ -188,16 +188,26 @@
             /* padding:30px; */
 
         }
+        .sbtn{
+            height: max;
+            background-color: #1b155d;
 
+        }
         .sBox .sbtn{
             position: absolute;
             right: 10px;
-            top: 50%;
+            top: 15px;
             transform: translateY(-30%);
             cursor: pointer;
         }
         #events-container{
             margin-top: 5px;
+        }
+
+        .fil{
+            height:30vmin;
+            width:10vmin;
+            top:20%;
         }
         
     </style>
@@ -216,9 +226,9 @@
                 <li class="nav-item ml-3 ml-md-0">
                     <a class="nav-link active" aria-current="page" href="./user_dashboard1.php">Home</a>
                 </li>
-                <li class="nav-item ml-3 ml-md-0">
+                <!-- <li class="nav-item ml-3 ml-md-0">
                     <a class="nav-link" href="#"> Organizations </a>
-                </li>
+                </li> -->
                 <li class="nav-item ml-3 ml-md-0">
                     <a class="nav-link" href="./user_events.php"> My Events </a>
                 </li>

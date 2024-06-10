@@ -193,15 +193,15 @@
                     <td>${row.Status}</td>
                     <td>
                    
-                    <button type="button" id="tooltip" class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
+                    <button type="button" id="tooltip" class="btn btn-outline-success border-3 acBtn approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
                     <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
                     </button>
                     
                     
-                    <button type="button" id="tooltip" class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}" >
+                    <button type="button" id="tooltip" class="btn btn-outline-danger border-3 acBtn reject-btn" data-id="${row.OrgID}" data-table="${tableName}" >
                     
                     </button>
-                    <button type="button" id="tooltip" class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}">
+                    <button type="button" id="tooltip" class="btn btn-outline-primary border-3 acBtn inf view-btn" data-id="${row.OrgID}" data-table="${tableName}">
                     <span id="tooltiptext" class="p-1 rounded-3">View Details</span>
                     </button>
                     </td>

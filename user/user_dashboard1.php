@@ -6,38 +6,49 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <div class="container-fluid g-0">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-md-flex d-none flex-column justify-content-between">
+                <div class="card fil">
+                </div>
+            </div>
+            <div class="col col-md-10">
+                <div class="main-content justify-content-center align-items-center">
+                    <div class="container mt-5">
+                        <div class="mb-3">
+                            <div class="row-5 sBox align-items-center g-0">
+                                <input type="text" class="form-control col-auto g-0" placeholder="Search categories" id="categorySearch">
+                                <button class="btn col-1 sbtn" type="button" id="searchButton"><i class="fa fa-search text-light"></i></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3>All Categories</h3>
+                        </div>
+                        <div class="scroll-container text-center" id="categoryButtons">
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterEvents(this.id)">Business</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterEvents(this.id)">Comedy</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterEvents(this.id)">Beauty</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterEvents(this.id)">Culture</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterEvents(this.id)">Dance</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterEvents(this.id)">Education</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterEvents(this.id)">Health</button>
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterEvents(this.id)">Music</button>   
+                            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterEvents(this.id)">Sports</button>            
+                        </div>
+                    </div>
+                
+                    <div class="container table-responsive mt-3"></div>
+                    <div id="events" class="mt-5 g-0">
+                        <!-- Events will be shown here -->
+                    </div>
+                    <div id="events-container" class="container d-block g-0 mt-10"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php 
     include 'userdashnav.php'; ?>
 
-    <div class="container mt-5">
-        <div class="mb-3">
-            <div class="row-5 sBox align-items-center">
-                <input type="text" class="form-control col-auto" placeholder="Search categories" id="categorySearch">
-                <button class="btn btn-outline-secondary col-1 sbtn" type="button" id="searchButton">Search</button>
-            </div>
-        </div>
-        <div class="row">
-            <h3>All Categories</h3>
-        </div>
-        <div class="scroll-container text-center" id="categoryButtons">
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterEvents(this.id)">Business</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterEvents(this.id)">Comedy</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterEvents(this.id)">Beauty</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterEvents(this.id)">Culture</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterEvents(this.id)">Dance</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterEvents(this.id)">Education</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterEvents(this.id)">Health</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterEvents(this.id)">Music</button>   
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterEvents(this.id)">Sports</button>            
-        </div>
-    </div>
-
-    <div class="container table-responsive mt-3"></div>
-    <div id="events" class="mt-5">
-        <!-- Events will be shown here -->
-    </div>
-
-    <div id="events-container" class="container d-block mt-100"></div>
 
     <?php include 'user_footer.html'; ?>
 
@@ -114,11 +125,11 @@
                     if (displayedEventIDs.has(event.EventID)) return;
 
                     const eventDiv = document.createElement('div');
-                    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+                    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4','g-none', 'd-inline-block');
                     const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
                     eventDiv.innerHTML = `
                         <div class="card h-100">
-                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
+                            <img src="${poster}" class="card-img-top img-fluid event-poster" alt="${event.EventID}">
                             <div class="card-body">   <p>${event.EventName}</p>
                             <p>${event.VenueAddress}</p></div>
                             <div class="card-footer text-center">
