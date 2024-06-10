@@ -62,18 +62,20 @@ include 'userdashnav.php';
                 <legend>Event Selection</legend>
                 <div class="form-group">
                     <label for="event">Event:</label>
-                    <select class="form-control" id="event" name="event">
-                        <option value="event1">Event 1</option>
-                        <option value="event2">Event 2</option>
-                        <option value="event3">Event 3</option>
-                        <!-- More events -->
-                    </select>
+                    <input class="form-control" id="event" name="event">
+
                 </div>
                 <div class="form-group">
-                    <label for="event-date">Date and Time:</label>
-                    <select class="form-control" id="event-date" name="event-date">
-                        <!-- Options populated based on selected event -->
-                    </select>
+                    <label for="event-date">Start Date:</label>
+                    <input class="form-control" id="event-date" name="event-date">
+                    <label for="eevent-date">End Date:</label>
+                    <input class="form-control" id="eevent-date" name="eevent-date">
+                 
+                </div>
+
+                <div class="col-5 form-group">
+                    <label for="startDate">Select Date</label>
+                    <input type="date" class="form-control datepicker" id="startDate" name="StartDate" >
                 </div>
             </fieldset>
 
@@ -86,6 +88,7 @@ include 'userdashnav.php';
                     <select class="form-control" id="time-slot" name="time-slot">
                         <!-- Options populated by fetchTicketType function -->
                     </select>
+                    <input type="hidden" id="timeslotid" name="timeslotid">
                 </div>
                 
                 <div class="form-group">
@@ -93,6 +96,7 @@ include 'userdashnav.php';
                     <select class="form-control" id="ticket-type" name="ticket-type">
                         <!-- Options populated by fetchTicketType function -->
                     </select>
+                    <input type="hidden" id="ticketid" name="ticketid">
                 </div>
 
 
@@ -147,41 +151,53 @@ include 'userdashnav.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        async function fetchDetails(eventID) {
-            try {
-                const response = await fetch('../fetchUser.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ EventID: eventID, action: 'GetDetailsAtBuyTickets' }), // Pass event ID here
-                });
-                const data = await response.json();
-                if (data.status === 'success') {
-                    console.log(data.data);
-                    populateTicketTypes(data.data);
-                } else {
-                    console.error('Error:', data.message);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
+       async function fetchDetails(eventID) {
+    try {
+        const response = await fetch('../fetchUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ EventID: eventID, action: 'GetDetailsAtBuyTickets' }), // Pass event ID here
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            console.log(data.data);
+            const eventDetails = data.data[0];
+            document.getElementById('event').value = eventDetails.EventName;
+            document.getElementById('event-date').value = eventDetails.StartDate;
+            document.getElementById('eevent-date').value = eventDetails.EndDate;
+            
+            // Set constraints on the date input
+            const startDateInput = document.getElementById('startDate');
+            startDateInput.min = eventDetails.StartDate;
+            startDateInput.max = eventDetails.EndDate;
+
+            populateTicketTypes(data.data);
+        } else {
+            console.error('Error:', data.message);
         }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
 
-        function populateTicketTypes(tickets) {
 
-            const timeslotSelect = document.getElementById('time-slot');
+function populateTicketTypes(tickets) {
+    const timeslotSelect = document.getElementById('time-slot');
     timeslotSelect.innerHTML = '';
-    // tickets.forEach(ticket => {
+ 
         tickets[0].TimeSlots.forEach(timeSlot => {
             const option = document.createElement('option');
-            option.value = timeSlot.TimeSlotID[0];
-            option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime} `;
+            option.value = timeSlot.TimeSlotID;
+            option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
             option.dataset.limitQuantity = tickets.LimitQuantity;
-            option.dataset.price = tickets.Price; // Add this line to set the price in the dataset
+            option.dataset.price = tickets.Price;
             timeslotSelect.appendChild(option);
+            document.getElementById('timeslotid').value = option.value;
+            console.log(timeSlot.TimeSlotID);
         });
-    // });
+ 
 
     const ticketTypeSelect = document.getElementById('ticket-type');
     ticketTypeSelect.innerHTML = '';
@@ -190,12 +206,15 @@ include 'userdashnav.php';
         option.value = ticket.TicketID;
         option.textContent = `${ticket.TicketType} - $${ticket.Price} (Limit: ${ticket.LimitQuantity})`;
         option.dataset.limitQuantity = ticket.LimitQuantity;
-        option.dataset.price = ticket.Price; // Add this line to set the price in the dataset
+        option.dataset.price = ticket.Price;
         ticketTypeSelect.appendChild(option);
+        document.getElementById('ticketid').value = option.value;
+        console.log(ticket.TicketID);
     });
-
-
 }
+
+
+
 
 
 function updateQuantityLimit() {
@@ -239,16 +258,41 @@ function updateQuantityLimit() {
             }
         }
 
+//         var User = getUser();
+
+// // Log the User array to understand its structure
+// console.log(User);
+function getUserID() {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith('id=')) {
+            return cookie.split('=')[1];
+        }
+    }
+    return null;
+
+}
+// Access and log the UserID of the first user in the array
+let User = getUserID();
+if (User) {
+    console.log(User);
+} else {
+    console.log('No user found.');
+}
+
         async function SubmitForm(event) {
             event.preventDefault();
             const formData = {
-                eventID: document.getElementById('event').value,
-                eventDate: document.getElementById('event-date').value,
-                ticketType: document.getElementById('ticket-type').value,
-                quantity: document.getElementById('quantity').value,
-                name: document.getElementById('name').value,
+                EventID: <?php echo json_encode($eventID); ?>,
+                EventDate: document.getElementById('startDate').value,
+                TicketID: document.getElementById('ticketid').value,
+                TimeSlotID: document.getElementById('timeslotid').value,
+                Quantity: document.getElementById('quantity').value,
+                Name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
+                // startDate: document.getElementById('StartDate').value,
+                UserID: 5
 
             };
 
