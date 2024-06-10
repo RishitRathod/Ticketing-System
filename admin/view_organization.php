@@ -211,6 +211,7 @@ require_once 'admin_headnav.php';
     }
 
     $(document).ready(function() {
+        console.log(OrgID);
         getOrgData(OrgID);
         getEventDataByOrgID(OrgID);
     });

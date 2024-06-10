@@ -46,7 +46,7 @@
                 mkdir($qrCodePath, 0777, true);
             }
             //pass link to eventpage
-            $QRdata = "http://". getHostByName(getHostName())."/Event-Platform/event.php?eventID=".$lastEventID;            $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);            if($QRCodeGeneratorBool){
+            $QRdata = "http://". getHostByName(getHostName())."/Ticketing-System/user/get_details.php?id=".$lastEventID;            $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);            if($QRCodeGeneratorBool){
                 $response['success'] = true;
                 $response['eventID'] = $lastEventID;
                 DB::update(DB_NAME, 'events', ['QR_CODE' =>$qrCodeFile], $lastEventID,'EventID');

@@ -1,63 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time QR Code Scanner</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
-</head>
-<body>
-    <div id="reader" style="width: 500px;"></div>
-    <p id="qr-result">QR Code Result: None</p>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Real-time QR Code Scanner</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    </head>
+    <body>
+        <div id="reader" style="width: 500px;"></div>
+        <p id="qr-result">QR Code Result: None</p>
 
-    <script>
-        let html5QrCode;
-        let scanning = true;
+        <script>
+            let html5QrCode;
+            let scanning = true;
 
-        function onScanSuccess(decodedText, decodedResult) {
-            // Handle the result here
-            document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
-            console.log(`Code matched = ${decodedText}`, decodedResult);
+            function onScanSuccess(decodedText, decodedResult) {
+                // Handle the result here
+                document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
+                console.log(`Code matched = ${decodedText}`, decodedResult);
 
-            if (scanning) {
-                scanning = false; // Prevent multiple stops
-                // Stop scanning and close the camera input after success
-                html5QrCode.stop().then(ignore => {
-                    console.log('QR Code scanning stopped.');
-                    // Optionally clear the video element
-                    document.getElementById('reader').innerHTML = '';
-                    
-                }).catch(err => {
-                    console.error('Unable to stop scanning.', err);
-                });
+                if (scanning) {
+                    scanning = false; // Prevent multiple stops
+                    // Stop scanning and close the camera input after success
+                    html5QrCode.stop().then(ignore => {
+                        console.log('QR Code scanning stopped.');
+                        // Optionally clear the video element
+                        document.getElementById('reader').innerHTML = '';
+                        
+                    }).catch(err => {
+                        console.error('Unable to stop scanning.', err);
+                    });
+                }
             }
-        }
 
-        function onScanFailure(error) {
-            // Handle scan failure, usually better to ignore and keep scanning.
-            console.warn(`Code scan error = ${error}`);
+            function onScanFailure(error) {
+                // Handle scan failure, usually better to ignore and keep scanning.
+                console.warn(`Code scan error = ${error}`);
 
-        }
+            }
 
-        // Wait for the DOM to fully load
-        document.addEventListener("DOMContentLoaded", function() {
-            // Create instance of Html5Qrcode
-            html5QrCode = new Html5Qrcode("reader");
+            // Wait for the DOM to fully load
+            document.addEventListener("DOMContentLoaded", function() {
+                // Create instance of Html5Qrcode
+                html5QrCode = new Html5Qrcode("reader");
 
-            // Start scanning
-            html5QrCode.start(
-                { facingMode: "environment" }, // camera settings
-                {
-                    fps: 10, // frames per second
-                    qrbox: { width: 300, height: 300 } // QR code scanning box size
-                },
-                onScanSuccess,
-                onScanFailure
-            ).catch(err => {
-                // Start failed, handle it.
-                console.error(`Unable to start scanning, error: ${err}`);
+                // Start scanning
+                html5QrCode.start(
+                    { facingMode: "environment" }, // camera settings
+                    {
+                        fps: 10, // frames per second
+                        qrbox: { width: 300, height: 300 } // QR code scanning box size
+                    },
+                    onScanSuccess,
+                    onScanFailure
+                ).catch(err => {
+                    // Start failed, handle it.
+                    console.error(`Unable to start scanning, error: ${err}`);
+                });
             });
-        });
-    </script>
-</body>
-</html>
+        </script>
+    </body>
+    </html>

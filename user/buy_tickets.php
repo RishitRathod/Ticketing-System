@@ -32,6 +32,25 @@ include 'userdashnav.php';
         .btn-space {
             margin-bottom: 30px;
         }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+            margin: 0 5px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -60,20 +79,32 @@ include 'userdashnav.php';
 
             <fieldset class="form-section">
                 <legend>Ticket Information</legend>
+
+                
+                <div class="form-group">
+                    <label for="time-slot">Time-Slot:</label>
+                    <select class="form-control" id="time-slot" name="time-slot">
+                        <!-- Options populated by fetchTicketType function -->
+                    </select>
+                </div>
+                
                 <div class="form-group">
                     <label for="ticket-type">Ticket Type:</label>
                     <select class="form-control" id="ticket-type" name="ticket-type">
-                        <option value="general">General Admission</option>
-                        <option value="vip">VIP</option>
-                        <option value="student">Student</option>
-                        <option value="senior">Senior</option>
-                        <!-- More types -->
+                        <!-- Options populated by fetchTicketType function -->
                     </select>
                 </div>
+
+
                 <div class="form-group">
                     <label for="quantity">Quantity:</label>
-                    <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="10">
+                    <div class="quantity-controls">
+                        <button type="button" id="decrease-quantity">-</button>
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
+                        <button type="button" id="increase-quantity">+</button>
+                    </div>
                 </div>
+                <div id="price"></div>
             </fieldset>
 
             <fieldset class="form-section">
@@ -91,51 +122,6 @@ include 'userdashnav.php';
                     <input type="tel" class="form-control" id="phone" name="phone" required>
                 </div>
             </fieldset>
-
-            <!-- <fieldset class="form-section">
-                <legend>Payment Information</legend>
-                <div class="form-group">
-                    <label for="payment-method">Payment Method:</label>
-                    <select class="form-control" id="payment-method" name="payment-method">
-                        <option value="credit-card">Credit/Debit Card</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="bank-transfer">Bank Transfer</option>
-                 
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="card-number">Card Number:</label>
-                    <input type="text" class="form-control" id="card-number" name="card-number" required>
-                </div>
-                <div class="form-group">
-                    <label for="expiration-date">Expiration Date:</label>
-                    <input type="text" class="form-control" id="expiration-date" name="expiration-date" placeholder="MM/YY" required>
-                </div>
-                <div class="form-group">
-                    <label for="cvv">CVV:</label>
-                    <input type="text" class="form-control" id="cvv" name="cvv" required>
-                </div>
-                <div class="form-group">
-                    <label for="billing-address">Billing Address:</label>
-                    <input type="text" class="form-control" id="billing-address" name="billing-address" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="city">City:</label>
-                        <input type="text" class="form-control" id="city" name="city" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="state">State/Province:</label>
-                        <select id="state" class="form-control" name="state">
-                    
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="postal-code">Postal/ZIP Code:</label>
-                        <input type="text" class="form-control" id="postal-code" name="postal-code" required>
-                    </div>
-                </div>
-            </fieldset> -->
 
             <fieldset class="form-section">
                 <legend>Confirmation</legend>
@@ -161,7 +147,7 @@ include 'userdashnav.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-      async function fetchDetails(eventID) {
+        async function fetchDetails(eventID) {
             try {
                 const response = await fetch('../fetchUser.php', {
                     method: 'POST',
@@ -173,6 +159,7 @@ include 'userdashnav.php';
                 const data = await response.json();
                 if (data.status === 'success') {
                     console.log(data.data);
+                    populateTicketTypes(data.data);
                 } else {
                     console.error('Error:', data.message);
                 }
@@ -181,26 +168,92 @@ include 'userdashnav.php';
             }
         }
 
+        function populateTicketTypes(tickets) {
+
+            const timeslotSelect = document.getElementById('time-slot');
+    timeslotSelect.innerHTML = '';
+    // tickets.forEach(ticket => {
+        tickets[0].TimeSlots.forEach(timeSlot => {
+            const option = document.createElement('option');
+            option.value = timeSlot.TimeSlotID[0];
+            option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime} `;
+            option.dataset.limitQuantity = tickets.LimitQuantity;
+            option.dataset.price = tickets.Price; // Add this line to set the price in the dataset
+            timeslotSelect.appendChild(option);
+        });
+    // });
+
+    const ticketTypeSelect = document.getElementById('ticket-type');
+    ticketTypeSelect.innerHTML = '';
+    tickets.forEach(ticket => {
+        const option = document.createElement('option');
+        option.value = ticket.TicketID;
+        option.textContent = `${ticket.TicketType} - $${ticket.Price} (Limit: ${ticket.LimitQuantity})`;
+        option.dataset.limitQuantity = ticket.LimitQuantity;
+        option.dataset.price = ticket.Price; // Add this line to set the price in the dataset
+        ticketTypeSelect.appendChild(option);
+    });
+
+
+}
+
+
+function updateQuantityLimit() {
+    const ee = document.getElementById("time-slot");
+    const selectedOption1 = ee.options[ee.selectedIndex]; // Get the actual selected option element
+    console.log(selectedOption1);
+   
+
+    const e = document.getElementById("ticket-type");
+    const selectedOption = e.options[e.selectedIndex]; // Get the actual selected option element
+    console.log(selectedOption);
+    const quantityInput = document.getElementById('quantity');
+    
+    // Set the maximum quantity based on the selected ticket
+    const limitQuantity = selectedOption ? selectedOption.dataset.limitQuantity : 10; // Default to 10 if no option is selected
+    quantityInput.max = limitQuantity;
+
+    // Calculate the price
+    const ticketPrice = selectedOption ? parseFloat(selectedOption.dataset.price) : 0;
+    const quantity = parseInt(quantityInput.value);
+    const totalPrice = ticketPrice * quantity;
+
+    // Display the total price in the price div
+    const priceDiv = document.getElementById('price');
+    priceDiv.textContent = 'Total Price: $' + totalPrice;
+}
+
+
+        <?php
+    // Check if the 'id' parameter exists and is not empty
+    $eventID = isset($_GET['id']) ? $_GET['id'] : null;
+    ?>
         async function initialize() {
-            const eventID = 106; // Pass the actual eventID here
-            await fetchDetails(eventID);
-            // Populate events or handle data as needed
+            // Encode the PHP variable as JSON to handle special characters or null values
+            const eventID = <?php echo json_encode($eventID); ?>;
+            if (eventID) {
+                await fetchDetails(eventID);
+                updateQuantityLimit();
+            } else {
+                console.error("No event ID provided.");
+            }
         }
 
         async function SubmitForm(event) {
             event.preventDefault();
             const formData = {
-                event: document.getElementById('event').value,
+                eventID: document.getElementById('event').value,
                 eventDate: document.getElementById('event-date').value,
                 ticketType: document.getElementById('ticket-type').value,
                 quantity: document.getElementById('quantity').value,
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
+
             };
 
             try {
-                const response = await fetch('/submit_ticket', {
+                const response = await fetch('./submit_ticket.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -221,9 +274,26 @@ include 'userdashnav.php';
 
         document.getElementById('form').addEventListener('submit', SubmitForm);
 
+        document.getElementById('decrease-quantity').addEventListener('click', () => {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+            }
+        });
+
+        document.getElementById('increase-quantity').addEventListener('click', () => {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            if (quantity < quantityInput.max) {
+                quantityInput.value = quantity + 1;
+
+            }
+        });
+
+        document.getElementById('ticket-type').addEventListener('change', updateQuantityLimit);
+
         initialize();
-
-
     </script>
     
 </body>
@@ -231,4 +301,3 @@ include 'userdashnav.php';
 include 'user_footer.html';
 ?>
 </html>
-

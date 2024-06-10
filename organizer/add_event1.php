@@ -197,7 +197,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="discount">Discount</label>
-                                            <input type="number" id="discount" class="form-control rounded-4" name="Discount[]" placeholder="%" >
+                                            <input type="number" id="discount" step="0.01"  class="form-control rounded-4" name="Discount[]" placeholder="%" >
                                         </div>
                                         <div class="form-group">
                                             <label for="price">Price</label>
