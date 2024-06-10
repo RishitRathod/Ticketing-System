@@ -106,7 +106,6 @@
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Package Price</th>
-
                         <th>Exp. Date</th>
                     </tr>
                 </thead>

@@ -28,28 +28,20 @@ class QRCodeGenerator
 }
 
 // $dataTable1 = [
-//     'OrgID' => 10,
-//     'EventName' => "Name",
-//     'Description' => "desc",
-//     'StartDate' => "08/08/2021",
-//     'EndDate' => "10/08/2021",
-//     'Capacity' => 50,
-//     'EventType' => "beauty",
-//     'VenueAddress' => "Address 1 Address 2",
-//     'Country'  => "India",
-//     'State' => "gujarat",
-//     'City' => "Rajot"
+  
+// "link1" => "http://". getHostByName(getHostName())."/Ticketing-System/user/get_details.php?id=1",
+// "ticketsalesID" => 1,
+// "ticketUsageID" => 1,
+// 'link2' => "http://". getHostByName(getHostName())."/Ticketing-System/user/get_details.php?id=2",
 // //echo getHostByName(getHostName());
-
-
 // ];
-// $quad = implode(" ", $dataTable1);
-// print_r($quad) . "</br>";
-// $quad= str_replace(' ', '', $quad);
-// print_r($quad)."</br>";
-// $quad = json_encode($quad);
+// //  $quad = implode(" ", $dataTable1);
+// // // print_r($quad) . "</br>";
+// // $quad= str_replace(' ', '', $quad);
+// // print_r($quad)."</br>";
+// $quad = json_encode($dataTable1);
 // print_r($quad);
 
 // QRCodeGenerator::GenerateQRCode($quad, 'test.svg');
-// ?>
+?>
 
