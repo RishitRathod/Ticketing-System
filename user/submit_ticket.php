@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check if at least one of Email or Phone is provided
-    if (empty($data['Email']) && empty($data['Phone'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Either Email or Phone must be provided']);
-        exit;
-    }
+    // if (empty($data['Email']) && empty($data['Phone'])) {
+    //     echo json_encode(['status' => 'error', 'message' => 'Either Email or Phone must be provided']);
+    //     exit;
+    // }
 
     // Set default value for PurchaseDate if not provided
     if (empty($data['PurchaseDate'])) {
