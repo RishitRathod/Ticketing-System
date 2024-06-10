@@ -1,17 +1,47 @@
 <?php
 require_once 'admin_headnav.php';
 ?>
+<style>
+    .btn-group .btn{
+        border: 1px solid #8341fe;
+    }
+    .btn-group .btn:hover{
+        background-color: #8341fe;
+        color: #fff;
+    }
+    thead{
+        background-color: #8341fe;
+        color: #fff;
+        padding: 2px;
 
-<div class="container mt-5">
-    <h1>Organization Details</h1>
+    }
+    .btn:active::after{
+        background-color: #8341fe;
+        color: #fff;
+
+    }
+    #orgInfo{
+        display: block;
+    }
+    #orgEvents{
+        display:none;
+    }
+</style>
+<div class="container mt-2 row justify-content-center">
+    <div class="btn-group mx-auto col mb-4">
+        <button type="button" class="col btn" onclick="showOrg()"> Organization </button>
+        <button type="button" class="col btn" onclick="showEvents()"> Events </button>
+    </div>
+</div>
+<div id="orgInfo">
+    <h2 align="center">Organization Details</h2>
     <div id="organization-details"></div>
 </div>
 
-<div class="container mt-5">
-    <h1>Organization Details</h1>
-    <div id="organization-details"></div>
-    <h2 class="mt-5">Events</h2>
-    <table id="events-table" class="display">
+<div class="container" id="orgEvents">
+    <!-- <div id="organization-details"></div> -->
+    <h2 align="center" class="mt-3">Events Details</h2>
+    <table id="events-table" class="display table-striped">
         <thead>
             <tr>
                 <th>EventID</th>
@@ -32,6 +62,20 @@ require_once 'admin_headnav.php';
     <input type="hidden" id="EventID" name ="EventID" value="">
 </form>
 
+<script>
+    function showOrg(){
+        var a = document.getElementById("orgInfo");
+        var b = document.getElementById("orgEvents");
+        a.style.display="block";
+        b.style.display="none";
+    }
+    function showEvents(){
+        var a = document.getElementById("orgInfo");
+        var b = document.getElementById("orgEvents");
+        a.style.display= "none";
+        b.style.display="block";
+    }
+</script>
 <script>
     var OrgID = <?php echo ($_POST['OrgID']); ?>;
     OrgID = parseInt(OrgID);
@@ -95,15 +139,23 @@ require_once 'admin_headnav.php';
             const packages = JSON.parse("[" + org.Packages + "]");
 
             let orgDetailsHTML = `
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">${org.OrganizationName}</h5>
-                        <p class="card-text"><strong>Email:</strong> ${org.OrganizationEmail}</p>
-                        <p class="card-text"><strong>Contact Name:</strong> ${org.OrganizationContactName}</p>
-                        <p class="card-text"><strong>Contact Number:</strong> ${org.OrganizationContactNumber}</p>
-                        <p class="card-text"><strong>Status:</strong> ${org.OrganizationStatus}</p>
-                        <h6 class="card-subtitle mb-2 text-muted">Packages:</h6>
-                        <div class="list-group">`;
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title ">${org.OrganizationName}</h3>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-text"><strong>Email:</strong> ${org.OrganizationEmail}</div>
+                            <div class="card-text"><strong>Status:</strong> ${org.OrganizationStatus}</div>
+                            </div>
+                        <div class="col">
+                            <div class="card-text"><strong>Contact Name:</strong> ${org.OrganizationContactName}</div>
+                            <div class="card-text"><strong>Contact Number:</strong> ${org.OrganizationContactNumber}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group mt-3 d-sm-inlines">
+                <h5 class="card-subtitle d-sm-inline"><li>Packages:</li></h5>`;
 
             packages.forEach(pkg => {
                 orgDetailsHTML += `
@@ -116,8 +168,8 @@ require_once 'admin_headnav.php';
             });
 
             orgDetailsHTML += `
-                        </div>
-                    </div>
+                        
+                    
                 </div>`;
 
             orgDetailsContainer.innerHTML += orgDetailsHTML;
@@ -144,7 +196,7 @@ require_once 'admin_headnav.php';
                 { data: 'EndDate' },
                 { data: 'VenueAddress' },
                 {data :null, render: function(data, type, row){
-                    return `<a  onclick="GoToEvent(${row.EventID})" class="btn btn-primary">View</a>`;
+                    return `<a  onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
                 }}
             ]
         });

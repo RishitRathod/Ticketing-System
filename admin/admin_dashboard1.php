@@ -193,16 +193,15 @@
                     <td>${row.Status}</td>
                     <td>
                    
-                    <button type="button" id="tooltip" class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-check "></i>
+                    <button type="button" id="tooltip" class="btn btn-success approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
                     <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
                     </button>
                     
                     
-                    <button type="button" id="tooltip" class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}" ><i class="fa fa-ban"></i> 
-                    <span id="tooltiptext" class="p-1 rounded-3">Reject</span>
+                    <button type="button" id="tooltip" class="btn btn-danger reject-btn" data-id="${row.OrgID}" data-table="${tableName}" >
                     
                     </button>
-                    <button type="button" id="tooltip" class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}"><i class="fa fa-regular fa-info mx-1"></i> 
+                    <button type="button" id="tooltip" class="btn btn-primary view-btn" data-id="${row.OrgID}" data-table="${tableName}">
                     <span id="tooltiptext" class="p-1 rounded-3">View Details</span>
                     </button>
                     </td>
