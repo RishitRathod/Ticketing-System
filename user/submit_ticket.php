@@ -51,11 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert into ticketsales table
     $insert = DB::insertGetId(DB_NAME, 'ticketsales', $data);
 
-    if ($insert !=PDO::PARAM_INT) {
+    if (!$insert) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to submit ticket','ErrorMessage'=> $insert]);
         exit();
     }
-    echo json_encode(['status' => 'success', 'message' => 'Ticket submitted successfully', "TicketSaleID" => $insert ]);
+    echo json_encode(['status' => 'success', 'message' => 'Ticket submitted successfully', "TicketSaleID" => $insert]);
+    
+
     } else {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }

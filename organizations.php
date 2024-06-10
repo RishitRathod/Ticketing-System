@@ -59,13 +59,14 @@ class Organizations{
                             o.Address AS OrganizationAddress,
                             o.Status AS OrganizationStatus,
                             o.ContactName AS OrganizationContactName,
-                            GROUP_CONCAT(DISTINCT CONCAT(
-                                '{\"PackageID\":', op.PackageID, 
-                                ',\"PackageName\":\"', p.PackageName, 
-                                '\",\"Amount\":', p.Amount, 
-                                ',\"PackageType\":\"', p.PackageType, 
-                                '\",\"BuyDate\":\"', op.BuyDate, '\"}'
-                            ) SEPARATOR ',') AS Packages
+                                GROUP_CONCAT(DISTINCT CONCAT(
+                                    '{\"PackageID\":', op.PackageID, 
+                                    ',\"PackageName\":\"', p.PackageName, 
+                                    '\",\"Amount\":', p.Amount, 
+                                    ',\"PackageType\":\"', p.PackageType, 
+                                    '\",\"BuyDate\":\"', op.BuyDate, 
+                                    '\",\"Days\":\"', p.Days, '\"}'
+                        ) SEPARATOR ',') AS Packages
                         FROM 
                             {$this->organizationTable} o
                         INNER JOIN 
