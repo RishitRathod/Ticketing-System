@@ -193,6 +193,7 @@ function populateTicketTypes(tickets) {
         option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
         option.dataset.limitQuantity = tickets.LimitQuantity;
         option.dataset.price = tickets.Price;
+        option.dataset.availability = timeSlot.Availability; // Added availability dataset
         timeslotSelect.appendChild(option);
     });
 
@@ -201,9 +202,10 @@ function populateTicketTypes(tickets) {
     tickets.forEach(ticket => {
         const option = document.createElement('option');
         option.value = ticket.TicketID;
-        option.textContent = `${ticket.TicketType} - $${ticket.Price} (Limit: ${ticket.LimitQuantity})`;
+        option.textContent = `${ticket.TicketType} - $${ticket.Price} (Limit: ${ticket.LimitQuantity}) ${ticket.Availability}`;
         option.dataset.limitQuantity = ticket.LimitQuantity;
         option.dataset.price = ticket.Price;
+        option.dataset.availability = ticket.Availability; // Added availability dataset
         ticketTypeSelect.appendChild(option);
     });
 
@@ -233,21 +235,12 @@ function updateQuantityLimit() {
     quantityInput.max = limitQuantity;
 
     const ticketPrice = selectedOption ? parseFloat(selectedOption.dataset.price) : 0;
-    console.log(parseFloat(selectedOption.dataset.price));
+    const availability = selectedOption ? parseFloat(selectedOption.dataset.availability) : 0; // Corrected syntax
     const quantity = parseInt(quantityInput.value);
     const totalPrice = ticketPrice * quantity;
 
-    const availabelt = selectedOption ? parseFloat(selectedOption.dataset.Availability) : 0;
-    // const quantity1 = parseInt(quantityInput.value);
-    console.log(parseFloat(selectedOption.dataset.Availability));
-    const totalavail =quantity - availabelt;
-
     const priceDiv = document.getElementById('price');
-    priceDiv.textContent = 'Total Price: $' + totalPrice;
-
-    const priceDiv1 = document.getElementById('available_tickets');
-    console.log(totalavail);
-    priceDiv.textContent = 'Total Price: $' + totalavail;
+    priceDiv.textContent = `Total Price: $${totalPrice} (Availability: ${availability})`;
 }
 
 <?php
@@ -342,6 +335,7 @@ document.getElementById('ticket-type').addEventListener('change', updateHiddenFi
 document.getElementById('time-slot').addEventListener('change', updateHiddenFields);
 
 initialize();
+
 </script>
     
 </body>
