@@ -151,5 +151,54 @@ class Organizations{
 
         }
     }
+
+    public function AttendanceByEvent($EventID){
+       try {$sql="SELECT 
+    u.UserID,
+    u.Username,
+    u.Email,
+    u.UserPhoto,
+    u.userphonenumber,
+    ts.TicketSalesID,
+    ts.TicketID,
+    ts.EventID,
+    ts.TimeSlotID,
+    ts.Name AS BuyerName,
+    ts.Email AS BuyerEmail,
+    ts.Phone AS BuyerPhone,
+    ts.Quantity,
+    ts.PurchaseDate,
+    ts.Status AS TicketStatus,
+    ts.QR_CODE AS TicketQRCode,
+    ts.EventDate,
+    tu.TimeUsageID,
+    tu.EntryTime,
+    tu.ExitTime,
+    tu.TimeslotID AS TimeUsageSlotID,
+    tu.TicketSalesID AS TimeUsageSalesID
+FROM 
+    users u
+LEFT JOIN 
+    ticketsales ts ON u.UserID = ts.UserID
+LEFT JOIN 
+    timeusage tu ON ts.TicketSalesID = tu.TicketSalesID
+WHERE 
+    EventID = :EventID
+GROUP BY 
+    u.UserID;
+";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+    }
     
-}
+
+} 
+    
+?>

@@ -154,6 +154,16 @@ class DB
         return $Organizations->GetOrgDetails($OrgID);
     }
 
+    static function AttendanceByEvent($EventID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->AttendanceByEvent($EventID);
+    }
+
     static function FetchUserDetails($UserID){
         $host   = DB_HOST;
         $user   = DB_USER;
