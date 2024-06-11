@@ -183,7 +183,7 @@ LEFT JOIN
 LEFT JOIN 
     timeusage tu ON ts.TicketSalesID = tu.TicketSalesID
 WHERE 
-    EventID = :EventID
+    ts.EventID = :EventID
 GROUP BY 
     u.UserID;
 ";
