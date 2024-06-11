@@ -26,7 +26,7 @@
         }
         .poster-container {
             max-height: 400px !important;
-            width: max-content; !important;
+            width: max-content !important;
             overflow-y: auto;
             overflow-x: none;
             display: flex;
