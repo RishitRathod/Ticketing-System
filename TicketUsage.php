@@ -70,8 +70,8 @@ class TicketUsage{
                                                 T.EndTime,
                                                 T.Availability,
                                                 TK.TicketType,
-                                                TK.Quantity,
-                                                 TS.QR_CODEs
+                                                TS.Quantity,
+                                                 TS.QR_CODE
                                             FROM
                                                 ticketsales TS
                                             INNER JOIN
@@ -90,8 +90,8 @@ class TicketUsage{
         } catch (PDOException $e) {
             return "Update failed: " . $e->getMessage();
         }
-    
     }
+<<<<<<< HEAD
 
 // /**
 //  * Fetches ticket details based on TicketSalesID for insertion into the timeusage table.
@@ -163,6 +163,35 @@ public function UpdateEntryOrExitTimes($TicketSalesID){
         }
 
 
+=======
+    public function FetchTicketDetails($TicketSalesID){
+        try{
+            $sql ="SELECT
+                        TS.TicketID,
+                        TS.EventID,
+                        TS.TimeSlotID,
+                        TS.EventDate,
+                        TS.Quantity,
+                        E.Venue,
+                        E.EventName,
+                        O.Name AS OrgName
+                    FROM
+                        ticketsales TS
+                    INNER JOIN
+                        events E ON TS.EventID = E.EventID
+                    INNER JOIN
+                        organizations O ON E.OrgID = O.OrgID
+                    WHERE
+                        TS.TicketSalesID = :TicketSalesID;
+                    ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return "Update failed: " . $e->getMessage();
+        }
+>>>>>>> a46369b64ae301c0fbcf931e2c6744755bb9c1ea
     }
     catch(PDOException $e){
         return "Update failed: " . $e->getMessage();
@@ -170,8 +199,15 @@ public function UpdateEntryOrExitTimes($TicketSalesID){
   }
 }
 
+<<<<<<< HEAD
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // $obj= new TicketUsage($conn->connection());
 // echo json_encode($obj->UpdateEntryOrExitTimes(14));
 ?>
+=======
+//  $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+// $obj= new TicketUsage($conn->connection());
+// echo json_encode($obj->GetTicketsDataByUserID(25));
+>>>>>>> a46369b64ae301c0fbcf931e2c6744755bb9c1ea

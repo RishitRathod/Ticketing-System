@@ -175,7 +175,7 @@
 
         function updateprofile() {
             // Hide the submit button
-            document.getElementById('submit').style.display = 'none';
+            document.getElementById('submit').setAttribute('hidden', 'true');
             document.getElementById('name').setAttribute('disabled', 'true');
             document.getElementById('pass').setAttribute('disabled', 'true');
           

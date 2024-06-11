@@ -92,7 +92,7 @@
         .navbar-brand img {
             height: 90px;
         }
-        .events, .tickets {
+        .events {
             color: white;
             font-size: 30px;
             font-weight: bolder;
@@ -111,7 +111,7 @@
         }
 
         .tickets {
-            background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg");
+            /* background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg"); */
         }
 
         /* .events:hover, .tickets:hover {
