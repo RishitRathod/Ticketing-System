@@ -14,12 +14,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $response = DB::GetTicketsDataByUserID($UserID);
             if($response){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+                exit();
             }else{
                 echo json_encode(['status' => 'error', 'message' => 'No data found']);
             }
             break;
 
-        case 'SetTimes':
+            case 'SetTimes':
             $TicketSalesID = $input['TicketSalesID'];
             $response = DB::SetTimes($TicketSalesID);
             if($response){
@@ -35,6 +36,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             break;
 }
 
-    
+
 }    
 ?>
