@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Event Fetch Example</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <style>
+        .event-poster {
+    width: 100%;        /* Ensure the image takes up the full width of the card */
+    height: 200px;      /* Set a fixed height for the images */
+    object-fit: cover;  /* Ensure the image covers the entire area without distortion */
+}
+</style>
 </head>
 <body>
     <?php 
@@ -194,16 +201,16 @@
     const poster1 = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
 
     eventDiv.innerHTML = `
-        <div class="card h-100">
-            <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
-            <div class="card-body"></div>
-            <div class="card-footer text-center">
-                <form action="get_details.php" method="POST">
-                    <input type="hidden" name="id" value="${event.EventID}">
-                    <button type="submit" class="btn btn-primary">View Details</button>
-                </form>
-            </div>
-        </div>
+    <div class="card h-100">
+    <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
+    <div class="card-body"></div>
+    <div class="card-footer text-center">
+        <form action="get_details.php" method="POST">
+            <input type="hidden" name="id" value="${event.EventID}">
+            <button type="submit" class="btn btn-primary">View Details</button>
+        </form>
+    </div>
+</div>
     `;
 
     eventsContainer.appendChild(eventDiv);
