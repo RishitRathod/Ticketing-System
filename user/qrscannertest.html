@@ -14,6 +14,14 @@
             let html5QrCode;
             let scanning = true;
 
+            function UpdateTimeUsage(decodedText) {
+                const url = './updateTimeUsage.php';
+                const data = {
+                    'TicketSalesID': decodedText
+                };
+
+            }
+
             function onScanSuccess(decodedText, decodedResult) {
                 // Handle the result here
                 document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;

@@ -62,7 +62,27 @@ class TicketUsage{
 
     public function GetTicketsDataByUserID($UserID){
         try{
-            $stmt = $this->conn->prepare("SELECT * FROM $this->ticketSalesTable WHERE UserID = :UserID");
+            $stmt = $this->conn->prepare("SELECT
+                                                E.EventName,
+                                                O.Name AS OrgName,
+                                                TS.EventDate,
+                                                T.StartTime,
+                                                T.EndTime,
+                                                T.Availability,
+                                                TK.TicketType,
+                                                TK.Quantity
+                                            FROM
+                                                ticketsales TS
+                                            INNER JOIN
+                                                events E ON TS.EventID = E.EventID
+                                            INNER JOIN
+                                                organizations O ON E.OrgID = O.OrgID
+                                            INNER JOIN
+                                                timeslots T ON TS.TimeSlotID = T.TimeSlotID
+                                            INNER JOIN
+                                                tickets TK ON TS.TicketID = TK.TicketID
+                                            WHERE
+                                                TS.UserID = :UserID;");
             $stmt->bindParam(':UserID', $UserID);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -71,12 +91,40 @@ class TicketUsage{
         }
     
     }
+    public function FetchTicketDetails($TicketSalesID){
+        try{
+            $sql ="SELECT
+                        TS.TicketID,
+                        TS.EventID,
+                        TS.TimeSlotID,
+                        TS.EventDate,
+                        TS.Quantity,
+                        E.Venue,
+                        E.EventName,
+                        O.Name AS OrgName
+                    FROM
+                        ticketsales TS
+                    INNER JOIN
+                        events E ON TS.EventID = E.EventID
+                    INNER JOIN
+                        organizations O ON E.OrgID = O.OrgID
+                    WHERE
+                        TS.TicketSalesID = :TicketSalesID;
+                    ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return "Update failed: " . $e->getMessage();
+        }
+    }
 
 }
 
 
 
-//  $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+ $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// $obj= new TicketUsage($conn->connection());
-// echo json_encode($obj->GetTicketsDataByUserID(2));
+$obj= new TicketUsage($conn->connection());
+echo json_encode($obj->GetTicketsDataByUserID(25));
