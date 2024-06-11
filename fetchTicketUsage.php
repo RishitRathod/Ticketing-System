@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     {
         case 'GetTicketsDataByUserID':
             $UserID = $input['UserID'];
-            $response = DB::FetchUserDetails($UserID);
+            $response = DB::GetTicketsDataByUserID($UserID);
             if($response){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
             }else{
@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         case 'SetTimes':
             $TicketSalesID = $input['TicketSalesID'];
-            $response = DB::TicketInfo($UserID);
+            $response = DB::SetTimes($TicketSalesID);
             if($response){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
             }else{
@@ -29,17 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
             break;
 
-        case 'getTicketUsage':
-            $UserID = $input['UserID'];
-            $TicketSalesID = $input['TicketSalesID'];
-            $response = DB::getTicketUsage($UserID,$TicketSalesID);
-            if($response){
-                echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
-            }else{
-                echo json_encode(['status' => 'error', 'message' => 'No data found']);
-            }
-            break;
-
+        
       default :
             echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
             break;
