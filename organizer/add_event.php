@@ -105,7 +105,8 @@
                     'LimitQuantity' => $_POST['LimitQuantity'][$index],
                     'Discount' => $_POST['Discount'][$index],
                     'Price' => $_POST['Price'][$index],
-                    'TicketType' => $_POST['TicketType'][$index]
+                    'TicketType' => $_POST['TicketType'][$index],
+                    'Availability' => $_POST['Quantity'][$index]
                 ];
             }
             // Insert tickets into Table2 (tickets)

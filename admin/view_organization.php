@@ -157,30 +157,70 @@ require_once 'admin_headnav.php';
                     </div>
                 </div>
             </div>
-            <div class="list-group mt-3 d-sm-inlines">
-                <h5 class="card-subtitle d-sm-inline"><li>Packages:</li></h5>`;
+            <div class="row g-0">
+                <h5 class="mt-3"><li>Packages:</li></h5>
+                `;
             
+            //expiry date using time stamp 
+                function daysToTimestamp(days) {
+                    // Convert days to milliseconds
+                    let milliseconds = days * 24 * 60 * 60 * 1000;
+                    
+                    // Create a new Date object with the calculated milliseconds
+                    let date = new Date(milliseconds);
+                    
+                    // Return the timestamp
+                    return date.getTime();
+                }
 
-            function addDays(date, days) {
-                var result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
-            }
+                function dateToTimestamp(date) {
+                    // Create a new Date object from the provided date string
+                    var dateObject = new Date(date);
+                
+                    // Return the timestamp in milliseconds
+                    return dateObject.getTime();
+                }
+
+
+                function addDays(date, days) {
+                    // var result = new Date(date);
+                    // // days = daysToTimestamp(days);
+                    // result.setDate(result.getDate() + days);
+                    // return result.toISOString().split('T')[0]; 
+                    return timestampToDate(dateToTimestamp(date)+daysToTimestamp(days))
+
+                }
+
+                function timestampToDate(timestamp) {
+                    // Create a new Date object using the provided timestamp
+                    var dateObject = new Date(timestamp);
+                
+                    // Extract the date components
+                    var year = dateObject.getFullYear();
+                    var month = ("0" + (dateObject.getMonth() + 1)).slice(-2); // Months are zero-indexed, so we add 1
+                    var day = ("0" + dateObject.getDate()).slice(-2);
+                    
+                    // Return the date in the format "YYYY-MM-DD"
+                    return year + "-" + month + "-" + day;
+                }
 
 
             packages.forEach(pkg => {
                 orgDetailsHTML += `
-                    <div class="list-group-item pac card">
+                <div class="list-group col-sm-4 col-auto">
+                    <div class="list-group-item card pac g-0">
                         <h6 class="mb-1">${pkg.PackageName}</h6>
-                        <p class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</p>
-                        <p class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</p>
-                        <p class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</p>  ${pkg.Days}
-                        <p class="mb-1"><strong>Expire Date:</strong> `+ addDays(pkg.BuyDate,pkg.Days)+`</p>
-                    </div>`;
+                        <div class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</div>
+                        <div class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</div>
+                        <div class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</div>  ${pkg.Days}
+                        <div class="mb-1"><strong>Expire Date:</strong> `+ addDays(pkg.BuyDate,pkg.Days)+`</div>
+                    </div>
+                </div>
+                    `;
             });
             
             orgDetailsHTML += `       
-                </div>`;
+            </div>`;
 
             orgDetailsContainer.innerHTML += orgDetailsHTML;
         });

@@ -68,45 +68,60 @@
         .currentPack{
             display:block;
         }
-        .buyPack{
+        #table-Div{
             display:none;
         }
-        #togDiv{
-            display:block;
-            height: 3vmax;
-            width: 3vmax;
-            background-color: #00023c;
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+
+        .container {
+            /* Add some content height */
+            height: 70vh;
+        }
+
+        .btnC {
             position: fixed;
-            bottom: 6%;
-            right: 3%;
-            z-index: 1000;
+            bottom: 30px; /* Adjust as needed */
+            right: 30px; /* Adjust as needed */
+            padding: 10px;
+            background-color: #007bff; /* Example background color */
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+            z-index: 999; /* Ensure it's above other content */
         }
-        #closeBtn{
+        #btn1{
+            display:block;
+            background: none;
+            border:none;
+        }
+        #btn2{
             display:none;
-            height: 3vmax;
-            width: 3vmax;
-            background-color: #00023c;
-            border-radius: 10px;
+            border:none;
+            background: none;
+
         }
     </style>
 
 </head>
-<div class="position-absolute bottom-0 togDiv end-0">
-    <button type="button" id="buy" class="buy"><i class="fa fa-cart"></i></button>
-    <button type="button" id="closeBtn" class="closeBtn"><i class="fa fa-close"></i></button>
+<div class="btnC">
+    <button id="btn1"> <i class="fa fa-shopping-cart"></i></button>
+    <button id="btn2"> <i class="fa fa-close"></i></button>
 </div>
-<div class="row currentPack align-items-center px-2">
+<div class="row currentPack align-items-center px-2" id="currentPack">
     <div class="container d-block">
         <fieldset>
             <legend><h3>Active Packages</h3></legend>
-            <table id="SelectedPack" class="table table-bordered">
+            <table id="SelectedPack" class="table table-responsive table-bordered">
                 <thead class="thead-dark">
                     <tr>
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Package Price</th>
-
                         <th>Exp. Date</th>
                     </tr>
                 </thead>
@@ -116,6 +131,7 @@
             </table>
         </fieldset>
     </div>
+</div>
     <div id="table-Div" class="container buyPack mt-5">
         <fieldset>
         <legend><h3>Available Packages</h3></legend>
@@ -144,19 +160,70 @@
 <script src="../script.js"></script>
 <!-- script for toggle button -->
 <script>
-  function toggleButtons() {
-    const btn1 = document.getElementById('buy');
-    const btn2 = document.getElementById('closeBtn');
+        document.addEventListener('DOMContentLoaded', function() {
+        var button1 = document.getElementById('btn1');
+        var button2 = document.getElementById('btn2');
+        var div1 = document.getElementById('currentPack');
+        var div2 = document.getElementById('table-Div');
 
-    if(btn1.style.display=="none"){
-        btn1.style.display="display";
-        btn2.style.display="none";
-    }
-    else{
-        btn1.style.display="none";
-        btn2.style.display="display";
-    }
-  }
+        button1.addEventListener('click', function() {
+            button1.style.display = 'none';
+            button2.style.display = 'block';
+            div1.style.display = 'none';
+            div2.style.display = 'block';
+        });
+
+        button2.addEventListener('click', function() {
+            button2.style.display = 'none';
+            button1.style.display = 'block';
+            div1.style.display = 'block';
+            div2.style.display = 'none';
+        });
+        });
+
+        //for exp date
+                function daysToTimestamp(days) {
+                    // Convert days to milliseconds
+                    let milliseconds = days * 24 * 60 * 60 * 1000;
+                    
+                    // Create a new Date object with the calculated milliseconds
+                    let date = new Date(milliseconds);
+                    
+                    // Return the timestamp
+                    return date.getTime();
+                }
+
+                function dateToTimestamp(date) {
+                    // Create a new Date object from the provided date string
+                    var dateObject = new Date(date);
+                
+                    // Return the timestamp in milliseconds
+                    return dateObject.getTime();
+                }
+
+
+                function addDays(date, days) {
+                    // var result = new Date(date);
+                    // // days = daysToTimestamp(days);
+                    // result.setDate(result.getDate() + days);
+                    // return result.toISOString().split('T')[0]; 
+                    return timestampToDate(dateToTimestamp(date)+daysToTimestamp(days))
+
+                }
+
+                function timestampToDate(timestamp) {
+                    // Create a new Date object using the provided timestamp
+                    var dateObject = new Date(timestamp);
+                
+                    // Extract the date components
+                    var year = dateObject.getFullYear();
+                    var month = ("0" + (dateObject.getMonth() + 1)).slice(-2); // Months are zero-indexed, so we add 1
+                    var day = ("0" + dateObject.getDate()).slice(-2);
+                    
+                    // Return the date in the format "YYYY-MM-DD"
+                    return year + "-" + month + "-" + day;
+                }
+
 </script>
 <script>
 
@@ -237,6 +304,7 @@
                     console.log(data);
                     if (data.success) {
                         alert("Packages bought successfully");
+                        location.reload();
                     } else {
                         alert("Failed to buy packages");
                     }

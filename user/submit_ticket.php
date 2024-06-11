@@ -29,6 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['PurchaseDate'] = date('Y-m-d H:i:s');
     }
 
+    
+    // Insert into ticketsales table
+    $insert = DB::insertGetId(DB_NAME, 'ticketsales', $data);
+
+
+    if (!$insert) {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to submit ticket','ErrorMessage'=> $insert]);
+        exit();
+    }
     $qrCodePath = '../uploads/user/' . $UserID . '/events'.'Tickets'.'/'. $EventID .'/'.'ticket_qrcode/';
     $qrCodeFile = $qrCodePath .'/'. $EventID . '.svg';
     // Check if directory exists and if not, create it
@@ -36,27 +45,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mkdir($qrCodePath, 0777, true);
     }
     //pass link to eventpage
-    $QRdata = "http://". getHostByName(getHostName())."/ticketing-system/user/my_tickets.php?id=".$EventID;
+    $QRdata = "$insert";
     $QRCodeGeneratorBool = QRCodeGenerator::GenerateQRCode($QRdata, $qrCodeFile);
+    $update = DB::update(DB_NAME, 'ticketsales', ['QR_CODE' =>$qrCodeFile], $insert,'TicketSalesID');
     if($QRCodeGeneratorBool) {
         $response['success'] = true;
         $response['eventID'] = $EventID;
-        $data['QR_CODE']= $qrCodeFile;
+        
     }else{
         $response['success'] = false;
         $response['message'] = "Failed to generate QR code";
             exit();
-        }
-
-    // Insert into ticketsales table
-    $insert = DB::insertGetId(DB_NAME, 'ticketsales', $data);
-
-    if (!$insert) {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to submit ticket','ErrorMessage'=> $insert]);
-        exit();
     }
     echo json_encode(['status' => 'success', 'message' => 'Ticket submitted successfully', "TicketSaleID" => $insert]);
-    
+
+
 
     } else {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);

@@ -19,6 +19,7 @@
                 document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
                 console.log(`Code matched = ${decodedText}`, decodedResult);
 
+
                 if (scanning) {
                     scanning = false; // Prevent multiple stops
                     // Stop scanning and close the camera input after success
@@ -26,7 +27,9 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
+                        UpdateTimeUsage(decodedText);
                         
+
                     }).catch(err => {
                         console.error('Unable to stop scanning.', err);
                     });
