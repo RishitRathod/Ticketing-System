@@ -109,6 +109,7 @@ include 'userdashnav.php';
                     </div>
                 </div>
                 <div id="price"></div>
+                <div id="available_tickets"></div>
             </fieldset>
 
             <fieldset class="form-section">
@@ -151,14 +152,15 @@ include 'userdashnav.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-       async function fetchDetails(eventID) {
+   
+   async function fetchDetails(eventID) {
     try {
         const response = await fetch('../fetchUser.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ EventID: eventID, action: 'GetDetailsAtBuyTickets' }), // Pass event ID here
+            body: JSON.stringify({ EventID: eventID, action: 'GetDetailsAtBuyTickets' }),
         });
         const data = await response.json();
         if (data.status === 'success') {
@@ -168,7 +170,6 @@ include 'userdashnav.php';
             document.getElementById('event-date').value = eventDetails.StartDate;
             document.getElementById('eevent-date').value = eventDetails.EndDate;
             
-            // Set constraints on the date input
             const startDateInput = document.getElementById('startDate');
             startDateInput.min = eventDetails.StartDate;
             startDateInput.max = eventDetails.EndDate;
@@ -182,22 +183,18 @@ include 'userdashnav.php';
     }
 }
 
-
 function populateTicketTypes(tickets) {
     const timeslotSelect = document.getElementById('time-slot');
     timeslotSelect.innerHTML = '';
- 
-        tickets[0].TimeSlots.forEach(timeSlot => {
-            const option = document.createElement('option');
-            option.value = timeSlot.TimeSlotID;
-            option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
-            option.dataset.limitQuantity = tickets.LimitQuantity;
-            option.dataset.price = tickets.Price;
-            timeslotSelect.appendChild(option);
-            document.getElementById('timeslotid').value = option.value;
-            console.log(timeSlot.TimeSlotID);
-        });
- 
+
+    tickets[0].TimeSlots.forEach(timeSlot => {
+        const option = document.createElement('option');
+        option.value = timeSlot.TimeSlotID;
+        option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
+        option.dataset.limitQuantity = tickets.LimitQuantity;
+        option.dataset.price = tickets.Price;
+        timeslotSelect.appendChild(option);
+    });
 
     const ticketTypeSelect = document.getElementById('ticket-type');
     ticketTypeSelect.innerHTML = '';
@@ -208,60 +205,63 @@ function populateTicketTypes(tickets) {
         option.dataset.limitQuantity = ticket.LimitQuantity;
         option.dataset.price = ticket.Price;
         ticketTypeSelect.appendChild(option);
-        document.getElementById('ticketid').value = option.value;
-        console.log(ticket.TicketID);
     });
+
+    // Update hidden input fields for the initial selections
+    updateHiddenFields();
 }
 
+function updateHiddenFields() {
+    const timeslotSelect = document.getElementById('time-slot');
+    const ticketTypeSelect = document.getElementById('ticket-type');
 
+    const selectedTimeslot = timeslotSelect.options[timeslotSelect.selectedIndex];
+    const selectedTicketType = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
 
+    document.getElementById('timeslotid').value = selectedTimeslot ? selectedTimeslot.value : '';
+    document.getElementById('ticketid').value = selectedTicketType ? selectedTicketType.value : '';
 
+    updateQuantityLimit();
+}
 
 function updateQuantityLimit() {
-    const ee = document.getElementById("time-slot");
-    const selectedOption1 = ee.options[ee.selectedIndex]; // Get the actual selected option element
-    console.log(selectedOption1);
-   
-
-    const e = document.getElementById("ticket-type");
-    const selectedOption = e.options[e.selectedIndex]; // Get the actual selected option element
-    console.log(selectedOption);
+    const ticketTypeSelect = document.getElementById('ticket-type');
+    const selectedOption = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
     const quantityInput = document.getElementById('quantity');
     
-    // Set the maximum quantity based on the selected ticket
-    const limitQuantity = selectedOption ? selectedOption.dataset.limitQuantity : 10; // Default to 10 if no option is selected
+    const limitQuantity = selectedOption ? selectedOption.dataset.limitQuantity : 10;
     quantityInput.max = limitQuantity;
 
-    // Calculate the price
     const ticketPrice = selectedOption ? parseFloat(selectedOption.dataset.price) : 0;
+    console.log(parseFloat(selectedOption.dataset.price));
     const quantity = parseInt(quantityInput.value);
     const totalPrice = ticketPrice * quantity;
 
-    // Display the total price in the price div
+    const availabelt = selectedOption ? parseFloat(selectedOption.dataset.Availability) : 0;
+    // const quantity1 = parseInt(quantityInput.value);
+    console.log(parseFloat(selectedOption.dataset.Availability));
+    const totalavail =quantity - availabelt;
+
     const priceDiv = document.getElementById('price');
     priceDiv.textContent = 'Total Price: $' + totalPrice;
+
+    const priceDiv1 = document.getElementById('available_tickets');
+    console.log(totalavail);
+    priceDiv.textContent = 'Total Price: $' + totalavail;
 }
 
-
-        <?php
-    // Check if the 'id' parameter exists and is not empty
+<?php
     $eventID = isset($_GET['id']) ? $_GET['id'] : null;
-    ?>
-        async function initialize() {
-            // Encode the PHP variable as JSON to handle special characters or null values
-            const eventID = <?php echo json_encode($eventID); ?>;
-            if (eventID) {
-                await fetchDetails(eventID);
-                updateQuantityLimit();
-            } else {
-                console.error("No event ID provided.");
-            }
-        }
+?>
+async function initialize() {
+    const eventID = <?php echo json_encode($eventID); ?>;
+    if (eventID) {
+        await fetchDetails(eventID);
+    } else {
+        console.error("No event ID provided.");
+    }
+}
 
-//         var User = getUser();
-
-// // Log the User array to understand its structure
-// console.log(User);
 function getUserID() {
     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
     for (const cookie of cookies) {
@@ -270,9 +270,8 @@ function getUserID() {
         }
     }
     return null;
-
 }
-// Access and log the UserID of the first user in the array
+
 let User = getUserID();
 if (User) {
     console.log(User);
@@ -280,69 +279,70 @@ if (User) {
     console.log('No user found.');
 }
 
-        async function SubmitForm(event) {
-            const eventDate = document.getElementById('startDate').value;
-console.log(eventDate); // Verify the date value
-            event.preventDefault();
-            const formData = {
-                EventID: <?php echo json_encode($eventID); ?>,
-                EventDate: eventDate,
-                TicketID: document.getElementById('ticketid').value,
-                TimeSlotID: document.getElementById('timeslotid').value,
-                Quantity: document.getElementById('quantity').value,
-                Name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                // startDate: document.getElementById('StartDate').value,
-                UserID: 5
+async function SubmitForm(event) {
+    event.preventDefault();
+    
+    const eventDate = document.getElementById('startDate').value;
+    console.log(eventDate);
 
-            };
-            console.log(formData);
+    const formData = {
+        EventID: <?php echo json_encode($eventID); ?>,
+        EventDate: eventDate,
+        TicketID: document.getElementById('ticketid').value,
+        TimeSlotID: document.getElementById('timeslotid').value,
+        Quantity: document.getElementById('quantity').value,
+        Name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        UserID: 5
+    };
+    console.log(formData);
 
-
-            try {
-                const response = await fetch('./submit_ticket.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    alert('Ticket submitted successfully');
-                } else {
-                    alert('Failed to submit ticket: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                alert('Failed to submit ticket due to an error');
-            }
+    try {
+        const response = await fetch('./submit_ticket.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            alert('Ticket submitted successfully');
+        } else {
+            alert('Failed to submit ticket: ' + result.message);
         }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Failed to submit ticket due to an error');
+    }
+}
 
-        document.getElementById('form').addEventListener('submit', SubmitForm);
+document.getElementById('form').addEventListener('submit', SubmitForm);
 
-        document.getElementById('decrease-quantity').addEventListener('click', () => {
-            const quantityInput = document.getElementById('quantity');
-            let quantity = parseInt(quantityInput.value, 10);
-            if (quantity > 1) {
-                quantityInput.value = quantity - 1;
-            }
-        });
+document.getElementById('decrease-quantity').addEventListener('click', () => {
+    const quantityInput = document.getElementById('quantity');
+    let quantity = parseInt(quantityInput.value, 10);
+    if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+        updateQuantityLimit();
+    }
+});
 
-        document.getElementById('increase-quantity').addEventListener('click', () => {
-            const quantityInput = document.getElementById('quantity');
-            let quantity = parseInt(quantityInput.value, 10);
-            if (quantity < quantityInput.max) {
-                quantityInput.value = quantity + 1;
+document.getElementById('increase-quantity').addEventListener('click', () => {
+    const quantityInput = document.getElementById('quantity');
+    let quantity = parseInt(quantityInput.value, 10);
+    if (quantity < quantityInput.max) {
+        quantityInput.value = quantity + 1;
+        updateQuantityLimit();
+    }
+});
 
-            }
-        });
+document.getElementById('ticket-type').addEventListener('change', updateHiddenFields);
+document.getElementById('time-slot').addEventListener('change', updateHiddenFields);
 
-        document.getElementById('ticket-type').addEventListener('change', updateQuantityLimit);
-
-        initialize();
-    </script>
+initialize();
+</script>
     
 </body>
 <?php
