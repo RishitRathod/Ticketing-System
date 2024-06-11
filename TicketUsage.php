@@ -70,7 +70,8 @@ class TicketUsage{
                                                 T.EndTime,
                                                 T.Availability,
                                                 TK.TicketType,
-                                                TK.Quantity
+                                                TK.Quantity,
+                                                 TS.QR_CODE
                                             FROM
                                                 ticketsales TS
                                             INNER JOIN
@@ -89,7 +90,6 @@ class TicketUsage{
         } catch (PDOException $e) {
             return "Update failed: " . $e->getMessage();
         }
-    
     }
     public function FetchTicketDetails($TicketSalesID){
         try{
@@ -122,9 +122,7 @@ class TicketUsage{
 
 }
 
+//  $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-
- $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-$obj= new TicketUsage($conn->connection());
-echo json_encode($obj->GetTicketsDataByUserID(25));
+// $obj= new TicketUsage($conn->connection());
+// echo json_encode($obj->GetTicketsDataByUserID(25));

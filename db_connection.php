@@ -11,6 +11,7 @@ require_once 'QR-Code-Generator/QRCodeGenerator.php';
 require_once 'Events.php';
 require_once 'Organizations.php';
 require_once 'Users.php';
+require_once 'TicketUsage.php';
 
 class dbConnection
 {

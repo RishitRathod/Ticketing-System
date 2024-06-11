@@ -202,7 +202,7 @@ function populateTicketTypes(tickets) {
     tickets.forEach(ticket => {
         const option = document.createElement('option');
         option.value = ticket.TicketID;
-        option.textContent = `${ticket.TicketType} - $${ticket.Price} (Limit: ${ticket.LimitQuantity}) ${ticket.Availability}`;
+        option.textContent = `${ticket.TicketType}`;
         option.dataset.limitQuantity = ticket.LimitQuantity;
         option.dataset.price = ticket.Price;
         option.dataset.availability = ticket.Availability; // Added availability dataset
@@ -277,6 +277,7 @@ async function SubmitForm(event) {
     
     const eventDate = document.getElementById('startDate').value;
     console.log(eventDate);
+    // let User = getUserID();
 
     const formData = {
         EventID: <?php echo json_encode($eventID); ?>,
@@ -287,7 +288,8 @@ async function SubmitForm(event) {
         Name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
-        UserID: 5
+      
+        UserID:   getUserID()
     };
     console.log(formData);
 
