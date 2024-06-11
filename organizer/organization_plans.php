@@ -104,6 +104,10 @@
             background: none;
 
         }
+        /* #table-Div #buyButton{
+            position: fixed;
+            right: 0%;
+        } */
     </style>
 
 </head>
@@ -132,7 +136,7 @@
         </fieldset>
     </div>
 </div>
-    <div id="table-Div" class="container buyPack mt-5">
+    <div id="table-Div" class="container buyPack ">
         <fieldset>
         <legend><h3>Available Packages</h3></legend>
             <table id="packageTable" class="table table-bordered">
@@ -151,7 +155,9 @@
                 </tbody>
             </table>
         </fieldset>
-        <button id="buyButton" class="btn btn-primary">Buy Selected Packages</button>
+        <div class="row justify-content-center mt-3">
+            <button id="buyButton"  class="btn col-3 btn-primary">Buy Selected Packages</button>
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
