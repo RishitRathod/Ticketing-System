@@ -225,6 +225,8 @@ public function GetDetailsAtBuyTickets($EventID)
     } catch (PDOException $e) {
         return ['error' => "Fetch Details failed: " . $e->getMessage()];
     }
+
+    
 }
 
     

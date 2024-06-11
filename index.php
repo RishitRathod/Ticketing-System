@@ -173,6 +173,7 @@ class DB
         $Users= new Users($db->connection());
         return $Users->TicketInfo($UserID);
     }
+
     
     static function getTicketUsage($UserID, $TicketSalesID){
         $host   = DB_HOST;
@@ -192,6 +193,26 @@ class DB
         $db = new dbConnection($host, $user, $pass, $dbname);
         $Users= new Users($db->connection());
         return $Users->GetDetailsAtBuyTickets($EventID);
+    }
+
+    static function SetTimes($TicketSalesID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $TicketUsage= new TicketUsage($db->connection());
+        return $TicketUsage->SetTimes($TicketSalesID);
+    }
+
+    static function GetTicketsDataByUserID($UserID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $TicketUsage= new TicketUsage($db->connection());
+        return $TicketUsage->GetTicketsDataByUserID($UserID);
     }
 
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){
