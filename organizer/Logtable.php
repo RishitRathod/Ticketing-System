@@ -25,12 +25,9 @@
         <tr>
             <th>UserID</th>
             <th>Username</th>
-            <th>Contact Email</th>
-            <th>Contact Phone</th>
             <th>Entry Time</th>
             <th>Exit Time</th>
-            <th>Is Attending</th>
-            <th>Is Ticket Expired</th>
+            <th>View Details</th>
         </tr>
     </thead>
     <tbody>
@@ -54,35 +51,44 @@ function fetchAttendanceByEvent() {
         },
         body: JSON.stringify({
             action: 'AttendanceByEvent',
-            UserID: eventID // Ensure eventID is defined or passed as a parameter
+            EventID: eventID // Ensure eventID is defined or passed as a parameter
         })
     }).then(response => response.json())
     .then(data => {
         console.log(data);
         if (data.status === 'success') {
             const table = $('#userEventTable').DataTable();
-            data.data.forEach(row => {
+            table.clear();
+            data = data.data;
+            data.forEach(row => {
+                const entryTime = row.EntryTime ? row.EntryTime : 'Not entered';
+                const exitTime = row.ExitTime ? row.ExitTime : 'Not exited';
+
                 table.row.add([
                     row.UserID,
                     row.Username,
-                    row.ContactEmail,
-                    row.ContactPhone,
-                    row.EntryTime,
-                    row.ExitTime,
-                    row.IsAttending,
-                    row.IsTicketExpired
+                    entryTime,
+                    exitTime,
+                    `<button onclick="viewDetails(${row.UserID})">View Details</button>`
                 ]).draw();
             });
+
         } else {
             alert(data.message);
         }
     });
+}
+
+function viewDetails(userID) {
+    // Implement the logic to view details for the specified userID
+    alert('View details for user: ' + userID);
 }
     
 </script>
 
 </body>
 </html>
+
 
 
 <!-- <?php 
