@@ -15,10 +15,31 @@
             let scanning = true;
 
             function UpdateTimeUsage(decodedText) {
-                const url = './updateTimeUsage.php';
+                const url = '../fetchTicketUsage.php';
                 const data = {
-                    'TicketSalesID': decodedText
+                    TicketSalesID: decodedText,
+                    //action : 'GetDetailsToInsertintoTimeUsagetableatEntry'
+                    action : 'UpdateEntryOrExitTimes'
                 };
+
+                fetch (url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                //write on sucess consloe log
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                //write on failure consloe log
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+
 
             }
 

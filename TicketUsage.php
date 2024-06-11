@@ -70,7 +70,7 @@ class TicketUsage{
                                                 T.EndTime,
                                                 T.Availability,
                                                 TK.TicketType,
-                                                TK.Quantity,
+                                                TS.Quantity,
                                                  TS.QR_CODEs
                                             FROM
                                                 ticketsales TS
@@ -93,37 +93,37 @@ class TicketUsage{
     
     }
 
-/**
- * Fetches ticket details based on TicketSalesID for insertion into the timeusage table.
- *
- * @param int $TicketSalesID The TicketSalesID to fetch ticket details for.
- * @return array|string Returns an array of ticket details if successful, or an error message if failed.
- */
-public function GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID){
-    try {
-        $sql = "SELECT
-                    TS.TicketID,
-                    TS.EventID,
-                    TS.TimeSlotID,
-                    TS.TicketSalesID
-                FROM
-                    ticketsales TS
-                INNER JOIN
-                    events E ON TS.EventID = E.EventID
+// /**
+//  * Fetches ticket details based on TicketSalesID for insertion into the timeusage table.
+//  *
+//  * @param int $TicketSalesID The TicketSalesID to fetch ticket details for.
+//  * @return array|string Returns an array of ticket details if successful, or an error message if failed.
+//  */
+// public function GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID){
+//     try {
+//         $sql = "SELECT
+//                     TS.TicketID,
+//                     TS.EventID,
+//                     TS.TimeSlotID,
+//                     TS.TicketSalesID
+//                 FROM
+//                     ticketsales TS
+//                 INNER JOIN
+//                     events E ON TS.EventID = E.EventID
 
-                WHERE
-                    TS.TicketSalesID = :TicketSalesID;
-                ";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':TicketSalesID', $TicketSalesID);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC); // Use fetch instead of fetchAll
-        return $this->InsertIntoTimeUsage($result);
-      //  return $result;
-    } catch (PDOException $e) {
-        return "Fetch failed: " . $e->getMessage();
-    }
-}
+//                 WHERE
+//                     TS.TicketSalesID = :TicketSalesID;
+//                 ";
+//         $stmt = $this->conn->prepare($sql);
+//         $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+//         $stmt->execute();
+//         $result = $stmt->fetch(PDO::FETCH_ASSOC); // Use fetch instead of fetchAll
+//         return $this->InsertIntoTimeUsage($result);
+//       //  return $result;
+//     } catch (PDOException $e) {
+//         return "Fetch failed: " . $e->getMessage();
+//     }
+// }
 
 
 
@@ -131,26 +131,47 @@ public function GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID){
  * Inserts ticket usage data into the timeusage table.
  *
  * @param array $data An associative array containing the data to be inserted.
- * @return string Success message or error message in case of failure.
+ * @return array|string Success message or error message in case of failure.
  */
-private function InsertIntoTimeUsage($data){
+public function UpdateEntryOrExitTimes($TicketSalesID){
     try{
-        $insert=DB::insert(DB_NAME, $this->ticketusageTable, $data);
-        if(!$insert){
-            return "Insert failed";
+        
+        $checkEntrytime= $this->conn->prepare("SELECT EntryTime IS  NULL AS is_null FROM $this->ticketusageTable WHERE TicketSalesID = :TicketSalesID");
+        $checkEntrytime->bindParam(':TicketSalesID', $TicketSalesID);
+        $checkEntrytime->execute();
+        $result = $checkEntrytime->fetch(PDO::FETCH_ASSOC);
+         if($result['is_null']==1){
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET EntryTime = NOW(), isattending = 1  WHERE TicketSalesID = :TicketSalesID");
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+            
+
+            return ['status'=>'sucess' ,'message'=>'EntryTimeUpdated'];
+
+        }else{
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET ExitTime = NOW(),  isattending = 0 WHERE TicketSalesID = :TicketSalesID");
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+
+            // $stmt = $this->conn->prepare("UPDATE  $this->ticketusageTable set isattending = 0 WHERE TicketSalesID = :TicketSalesID");
+            // $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            // $stmt->execute();
+
+
+            return ['status'=>'sucess' ,'message'=>'ExitTimeUpdated'];
+
         }
-        return $insert;
 
-    } catch (PDOException $e) {
-        return "Insert failed: " . $e->getMessage();
+
     }
-
+    catch(PDOException $e){
+        return "Update failed: " . $e->getMessage();
+    }
+  }
 }
 
-}
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-$obj= new TicketUsage($conn->connection());
-echo json_encode($obj->GetDetailsToInsertintoTimeUsagetableatEntry(13));
+// $obj= new TicketUsage($conn->connection());
+// echo json_encode($obj->UpdateEntryOrExitTimes(14));
 ?>

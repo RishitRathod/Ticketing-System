@@ -215,6 +215,26 @@ class DB
         return $TicketUsage->GetTicketsDataByUserID($UserID);
     }
 
+    // static function GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID){
+    //     $host   = DB_HOST;
+    //     $user   = DB_USER;
+    //     $pass   = DB_PASS;
+    //     $dbname = DB_NAME;
+    //     $db = new dbConnection($host, $user, $pass, $dbname);
+    //     $TicketUsage= new TicketUsage($db->connection());
+    //     return $TicketUsage->GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID);
+    // }
+
+    static function UpdateEntryOrExitTimes($TicketSalesID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $TicketUsage= new TicketUsage($db->connection());
+        return $TicketUsage->UpdateEntryOrExitTimes($TicketSalesID);
+    }
+
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){
 
         $host   = DB_HOST;
