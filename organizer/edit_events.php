@@ -114,11 +114,11 @@
                                     <div class="row mx-auto">
                                         <div class="col-5 form-group">
                                             <label for="startDate">Start Date</label>
-                                            <input type="datetime-local" class="form-control" id="startDate" name="StartDate" >
+                                            <input type="date" class="form-control" id="startDate" name="StartDate" >
                                         </div>
                                         <div class="col-5 form-group">
                                             <label for="endDate">End Date</label>
-                                            <input type="datetime-local" class="form-control" id="endDate" name="EndDate" >
+                                            <input type="date" class="form-control" id="endDate" name="EndDate" >
                                         </div>
                                     </div>
                                 </fieldset>

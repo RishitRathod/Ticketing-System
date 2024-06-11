@@ -72,7 +72,7 @@ class TicketUsage{
                                                 TK.TicketType,
                                                 TK.Quantity,
                                                  TS.QR_CODE
-                                            FROM
+                                            FROM    
                                                 ticketsales TS
                                             INNER JOIN
                                                 events E ON TS.EventID = E.EventID
