@@ -4,13 +4,14 @@ require_once 'admin_headnav.php';
 
 <script>
     async function getUserData(){
-        fetch('fetch_user.php', {
+        fetch('../fetchUser.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                UserID: <?php echo $_POST['UserID'];?>
+                UserID: <?php echo $_POST['UserID'];?>,
+                action: 'FetchUserDetails'
             }),
         })
         .then(response => response.json())
