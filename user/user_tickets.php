@@ -19,9 +19,12 @@ include 'userdashnav.php';
         .ticket img {
             max-width: 100px;
         }
+        .beg{
+            margin-top: 150px;
+        }
     </style>
 </head>
-<body>
+<body class="beg">
     <div class="container mt-5">
         <h1 class="text-center">My Tickets</h1>
         <div class="row" id="tickets"></div>
