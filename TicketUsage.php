@@ -70,7 +70,7 @@ class TicketUsage{
                                                 T.EndTime,
                                                 T.Availability,
                                                 TK.TicketType,
-                                                TS.Quantity,
+                                                TK.Quantity,
                                                  TS.QR_CODEs
                                             FROM
                                                 ticketsales TS
