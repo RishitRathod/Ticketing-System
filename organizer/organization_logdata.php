@@ -281,7 +281,7 @@ console.log(uniqueEvents);
                                 <!--    <p class="card-text"><strong>Price:</strong> $${event.Price}</p> -->
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
-                                    <form action="organization_eventdetails.php" method="post" style="display:inline;">
+                                    <form action="Logtable.php" method="post" style="display:inline;">
                                         <input type="hidden" name="id" value="${event.EventID}">
                                         <!--  <button type="submit" class="btn btn-primary">View Details</button> -->
                                         <button type="submit" class="btn-22"><span>View Details</span></button>
