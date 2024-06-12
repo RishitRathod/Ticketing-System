@@ -148,6 +148,18 @@
             background-color: #000;
         }
 
+        fieldset {
+            /* border: solid 1px gray; */
+            border-radius: 10px;
+            padding-top: 5px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+        }
+        legend {
+            float: none;
+            width: inherit;
+        }
 
         @media (max-width: 768px) {
             .dropdown.open {
@@ -233,4 +245,4 @@
                 document.addEventListener('DOMContentLoaded', setActiveLink);
             </script>
             <div class="col p-3">
-                <div class="main-content mx-auto justify-content-center align-items-center">
+                <div class="main-content mx-auto justify-content-center align-items-center g-0">

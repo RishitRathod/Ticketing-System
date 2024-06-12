@@ -1,8 +1,43 @@
 <?php
-require_once 'admin_headnav.php';
+include 'admin_headnav.php';
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tickets</title>
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <style>
+        .ticket {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .ticket img {
+            max-width: 100px;
+        }
+      
+        .user-info {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">User Details</h1>
+        <div id="user-info" class="user-info"></div>
+        <div class="row" id="tickets"></div>
+    </div>
 
-<script>
+    <!-- Bootstrap JS and dependencies -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+
+    <script>
     async function getUserData(){
         fetch('../fetchUser.php', {
             method: 'POST',
@@ -21,9 +56,61 @@ require_once 'admin_headnav.php';
                 alert(data.error);
             } else {
                 console.log(data.data); 
+                displayUserData(data.data);
             }
         })
-    }  
-    getUserData();
+    }
 
-</script>
+    function displayUserData(user) {
+        const userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Information</h5>
+                    <p class="card-text"><strong>UserID:</strong> ${user.UserID}</p>
+                    <p class="card-text"><strong>Username:</strong> ${user.Username}</p>
+                    <p class="card-text"><strong>Email:</strong> ${user.Email}</p>
+                    <p class="card-text"><strong>Phone Number:</strong> ${user.userphonenumber}</p>
+                    <p class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" alt="User Photo">' : 'No photo available'}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    function displayTickets(tickets) {
+        const ticketsContainer = document.getElementById('tickets');
+        ticketsContainer.innerHTML = ''; // Clear previous tickets
+
+        tickets.forEach(ticket => {
+            const ticketElement = document.createElement('div');
+            ticketElement.className = 'col-md-4';
+
+            const ticketContent = `
+                <div class="ticket card">
+                    <div class="card-body">
+                        <h5 class="card-title">Event: ${ticket.EventName}</h5>
+                        <p class="card-text">Organization: ${ticket.OrgName}</p>
+                        <p class="card-text">Date: ${ticket.EventDate}</p>
+                        <p class="card-text">Time: ${ticket.StartTime} - ${ticket.EndTime}</p>
+                        <p class="card-text">Ticket Type: ${ticket.TicketType}</p>
+                        <p class="card-text">Quantity: ${ticket.Quantity}</p>
+                        <img src="${ticket.QR_CODE}" class="img-fluid" alt="QR Code">
+                    </div>
+                </div>
+            `;
+            ticketElement.innerHTML = ticketContent;
+            ticketsContainer.appendChild(ticketElement);
+        });
+    }
+
+    async function initialize() {
+        getUserData();
+    }
+
+    initialize();
+    </script>
+</body>
+<?php
+include 'admin_footer.php';
+?>
+</html>

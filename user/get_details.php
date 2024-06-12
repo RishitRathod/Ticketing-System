@@ -55,7 +55,7 @@
     
     <!-- <div class="container1"></div> -->
     <div class="heg pt-5 px-4" id="eventsContainer">   
-        <h2>Event</h2>
+        <h2>Event Details</h2>
         <div class="row px-md-5 px-0" id="eventsRow">
         
             <!-- Event cards will be dynamically populated here -->
@@ -118,11 +118,16 @@
                 `).join('');
 
                 const ticketsList = event.Tickets.map(ticket => `
-                    <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}</li><li><strong>Discount:</strong> ${ticket.Discount}%</span></li>
+                    <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}</li><li><strong>Discount:</strong> ${ticket.Discount}%</span>, <strong>Availability:</strong> ${ticket.Availability}</span></li> 
                 `).join('');
 
                 const timeSlotsList = event.TimeSlots.map(slot => `
                     <li><span class="card-text">${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span></li>
+                `).join('');
+
+                
+                const priceSlot = event.Tickets.map(slot => `
+                    <div class="card-text d-inline-block price"><s class="bg-danger  opacity-50 rounded-3"> ₹${slot.Price}</s>  ₹ ${slot.Price- (slot.Price * slot.Discount)/100}</div>
                 `).join('');
 
                 eventCard.innerHTML = `
@@ -134,10 +139,11 @@
                                     ${posterItems}
                                 </div>
                                 <h3 class="card-title position-absolute bottom-0 start-0 text-light m-4 evTitle">${event.EventName}</h3>
+
                             </div>
                             <div class="col-md-4 card overflow-auto">
                                 <div class="card-body event-details">
-                                    <div class="mt-3"><legend><strong>Available Tickets:</strong> ${event.Capacity}</legend></div>
+                                <!--   <div class="mt-3"><legend><strong>Available Tickets:</strong> ${event.Capacity}</legend></div> -->
                                     <fieldset><legend><strong>Date</strong></legend>
                                         <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong> ${event.EndDate}</div>
                                     </fieldset>
@@ -146,15 +152,19 @@
                                     </fieldset>
                                     <fieldset style="height:10vmax; overflow:auto;"><legend><strong>Tickets</strong></legend>
                                         ${ticketsList}
-                                <button class="btn btn-primary" onclick="window.location.href='buy_tickets.php?id=${event.EventID}'">Buy Tickets</button>
                                     </fieldset>
+                                    <button class="btn btn-primary col mt-3" onclick="window.location.href='buy_tickets.php?id=${event.EventID}'">Buy Tickets</button>
+
                                 </div>
                             </div>
                                 
                             <div class="col-md-12 card py-md-2 py-0">
-                                <fieldset>
+                                <fieldset >
                                     <legend> <strong> Discount </strong> </legend>
-                                    <div class="card-text price"><s class="bg-danger opacity-50 rounded-3"> ₹${event.Price}</s>  ₹ ${event.Price - (event.Price * event.Discount)/100}</div>
+                                <!--    <div class="card-text price"><s class="bg-danger opacity-50 rounded-3"> ₹${event.Tickets[0].Price}</s>  ₹ ${event.Tickets[0].Price- (event.Tickets[0].Price * event.Tickets[0].Discount)/100}</div> -->
+                                    <div class="d-block">
+                                        ${priceSlot}
+                                    </div>
                                 </fieldset>                                
 
                                 <fieldset>

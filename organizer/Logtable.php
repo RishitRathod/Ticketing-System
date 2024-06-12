@@ -1,5 +1,5 @@
 <?php
-// include 'navhead.php';
+include 'navhead.php';
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +14,11 @@
 </head>
 <body>
 
-<form id="eventForm">
+<!-- <form id="eventForm">
     <label for="eventID">Event ID:</label>
     <input type="text" id="eventID" name="eventID" required>
     <button type="submit">Load Data</button>
-</form>
+</form> -->
 
 <table id="userEventTable" class="display">
     <thead>
