@@ -73,10 +73,7 @@ class Organizations{
                             {$this->OrgPackageTable} op ON o.OrgID = op.OrgID
                         INNER JOIN 
                             {$this->Packages} p ON op.PackageID = p.PackageID
-<<<<<<< HEAD
-=======
                         WHERE o.OrgID = $OrgID
->>>>>>> 12cc6365753f67db2b86070ccbff4b8965f861c4
                         GROUP BY
                             o.OrgID,
                             o.Name,
