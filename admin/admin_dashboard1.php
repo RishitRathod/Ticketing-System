@@ -14,7 +14,7 @@
     <input type="hidden" name="UserID">
 </form>
 
-<div id="selectionButtonGroup" class="container d-block row mt-5">
+<div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2" id="gB" role="group" aria-label="Basic example">
         <button type="button" aria-selected="true" value="organizations" class="btn themecol" onclick="orgonly()">Organizations</button>
         <button type="button" value="events" class="btn themecol" onclick="eventonly()">Events</button>
