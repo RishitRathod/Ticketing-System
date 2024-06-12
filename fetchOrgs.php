@@ -40,6 +40,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
             break;
 
+        case 'FetchOrgPackages':
+            $OrgID = $input['OrgID'];
+            $response = DB::FetchOrgPackages($OrgID);
+            if($response){
+                echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+            }else{
+                echo json_encode(['status' => 'error', 'message' => 'No data found']);
+            }
+            break;
+
         case 'AttendanceByEvent':
             $EventID = $input['EventID'];
             $response = DB::AttendanceByEvent($EventID);

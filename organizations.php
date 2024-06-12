@@ -198,7 +198,40 @@ GROUP BY
     }
     }
     
-
+    //write doc comment for this function
+    
+    public function FetchOrgPackages($OrgID){
+        try {
+            $sql = "SELECT 
+                        p.PackageID, 
+                        p.PackageName, 
+                        p.Amount, 
+                        p.PackageType, 
+                        op.BuyDate, 
+                        p.Days
+                    FROM 
+                        {$this->OrgPackageTable} op
+                    INNER JOIN 
+                        {$this->Packages} p ON op.PackageID = p.PackageID
+                    WHERE 
+                        op.OrgID = :OrgID;";
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($data);
+            return $data;
+        } catch (PDOException $e) {
+            return ["error" => "Select failed: " . $e->getMessage()];
+        }
+    }
+    
 } 
+
+$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$org= new Organizations($conn->connection());
+echo json_encode($org->FetchOrgPackages(9));
+
     
 ?>

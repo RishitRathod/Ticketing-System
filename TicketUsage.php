@@ -135,44 +135,46 @@ class TicketUsage{
  */
 public function UpdateEntryOrExitTimes($TicketSalesID){
     try{
-        
-        $checkEntrytime= $this->conn->prepare("SELECT EntryTime IS  NULL AS is_null FROM $this->ticketusageTable WHERE TicketSalesID = :TicketSalesID");
+        // Prepare the statement to check EntryTime
+        $checkEntrytime = $this->conn->prepare("SELECT EntryTime IS NULL AS is_null FROM $this->ticketusageTable WHERE TicketSalesID = :TicketSalesID");
         $checkEntrytime->bindParam(':TicketSalesID', $TicketSalesID);
         $checkEntrytime->execute();
+        
+        // Fetch the result
         $result = $checkEntrytime->fetch(PDO::FETCH_ASSOC);
-         if($result['is_null']==1){
-            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET EntryTime = NOW(), isattending = 1  WHERE TicketSalesID = :TicketSalesID");
-            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
-            $stmt->execute();
-            
-
-            return ['status'=>'sucess' ,'message'=>'EntryTimeUpdated'];
-
-        }else{
-            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET ExitTime = NOW(),  isattending = 0 WHERE TicketSalesID = :TicketSalesID");
-            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
-            $stmt->execute();
-
-            // $stmt = $this->conn->prepare("UPDATE  $this->ticketusageTable set isattending = 0 WHERE TicketSalesID = :TicketSalesID");
-            // $stmt->bindParam(':TicketSalesID', $TicketSalesID);
-            // $stmt->execute();
-
-
-            return ['status'=>'sucess' ,'message'=>'ExitTimeUpdated'];
-
+        
+        // Check if the result is false
+        if ($result === false) {
+            return ['status' => 'error', 'message' => 'TicketSalesID not found or query failed'];
         }
-
-
+        
+        // Debugging: print the fetched result
+        echo "Debug: is_null value - " . $result['is_null'] . "\n";
+        
+        // Check if EntryTime is null (meaning the user is entering)
+        if ($result['is_null'] == 1) {
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET EntryTime = NOW(), isattending = 1 WHERE TicketSalesID = :TicketSalesID");
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+            return ['status' => 'success', 'message' => 'EntryTimeUpdated'];
+        } else {    
+            // Update ExitTime and set isattending to 0 (meaning the user is exiting)
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET ExitTime = NOW(), isattending = 0 WHERE TicketSalesID = :TicketSalesID");
+            $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->execute();
+            return ['status' => 'success', 'message' => 'ExitTimeUpdated'];
+        }
+    } catch (PDOException $e) {
+        // Catch and return the error message
+        return ['status' => 'error', 'message' => 'Update failed: ' . $e->getMessage()];
     }
-    catch(PDOException $e){
-        return "Update failed: " . $e->getMessage();
-    }
-  }
+}
+
 }
 
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // $obj= new TicketUsage($conn->connection());
-// echo json_encode($obj->UpdateEntryOrExitTimes(14));
+// echo ($obj->UpdateEntryOrExitTimes(14));
 ?>
