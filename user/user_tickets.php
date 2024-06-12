@@ -15,6 +15,7 @@ include 'userdashnav.php';
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 20px;
+            font-size: 15px;
         }
         .ticket img {
             max-width: 100px;
@@ -67,14 +68,24 @@ include 'userdashnav.php';
 
             const ticketContent = `
                 <div class="ticket card">
-                    <div class="card-body">
-                        <h5 class="card-title">Event: ${ticket.EventName}</h5>
-                        <p class="card-text">Organization: ${ticket.OrgName}</p>
-                        <p class="card-text">Date: ${ticket.EventDate}</p>
-                        <p class="card-text">Time: ${ticket.StartTime} - ${ticket.EndTime}</p>
-                        <p class="card-text">Ticket Type: ${ticket.TicketType}</p>
-                        <p class="card-text">Quantity: ${ticket.Quantity}</p>
-                        <img src="${ticket.QR_CODE}" class="img-fluid" alt="QR Code">
+                    <div class="card-body row g-0">
+                    <h4 class="card-title col my-auto"> ${ticket.EventName}</h4>
+                    <div class="col">
+                            <img src="${ticket.QR_CODE}" class="img-fluid float-md-end float-md-top " alt="QR Code">
+                    </div>
+                    <div class="row"> 
+
+                        <div class="row">                        
+                            <div class="card-text">Date: ${ticket.EventDate}</div>
+                            <div class="card-text">Time: ${ticket.StartTime} - ${ticket.EndTime}</div>
+                        </div>
+                        <div class="row ">                        
+                                <div class="card-text">Organization: ${ticket.OrgName}</div>
+                                <div class="card-text">Ticket Type: ${ticket.TicketType}</div>
+                                <div class="card-text">Quantity: ${ticket.Quantity}</div>
+                        </div>
+    
+                    </div>
                     </div>
                 </div>
             `;
