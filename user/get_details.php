@@ -154,7 +154,7 @@
                             <div class="col-md-12 card py-md-2 py-0">
                                 <fieldset>
                                     <legend> <strong> Discount </strong> </legend>
-                                    <div class="card-text price"><s class="bg-danger opacity-50 rounded-3"> ₹${event.Price}</s>  ₹ ${event.Price - (event.Price * event.Discount)/100}</div>
+                                    <div class="card-text price"><s class="bg-danger opacity-50 rounded-3"> ₹${event.Tickets[0].Price}</s>  ₹ ${event.Tickets[0].Price- (event.Tickets[0].Price * event.Tickets[0].Discount)/100}</div>
                                 </fieldset>                                
 
                                 <fieldset>
