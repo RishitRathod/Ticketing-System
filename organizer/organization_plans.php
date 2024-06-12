@@ -234,8 +234,8 @@
 <script>
 
     //get id from cookie
-    const OrgID =document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
-
+    const OrgID = document.cookie.split('; ').find(row => row.startsWith('id=')).split('=')[1];
+    console.log(OrgID);
 
     document.addEventListener("DOMContentLoaded", function() {
 
