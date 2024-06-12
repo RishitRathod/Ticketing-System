@@ -213,7 +213,7 @@ require_once 'admin_headnav.php';
                         <div class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</div>
                         <div class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</div>
                         <div class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</div>  ${pkg.Days}
-                        <div class="mb-1"><strong>Expire Date:</strong> + addDays(pkg.BuyDate,pkg.Days)+</div>
+                        <div class="mb-1"><strong>Expire Date:</strong> `+addDays(pkg.BuyDate,pkg.Days)+`</div>
                     </div>
                 </div>
                     `;
@@ -244,10 +244,10 @@ require_once 'admin_headnav.php';
                 { data: 'Description' },
                 { data: 'StartDate' },
                 { data: 'EndDate' },
-                { data: 'VenueAddress' }
-                // {data :null, render: function(data, type, row){
-                //     return <a  onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>;
-                // }}
+                { data: 'VenueAddress' },
+                {data :null, render: function(data, type, row){
+                    return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
+                }}
             ]
         });
     }
