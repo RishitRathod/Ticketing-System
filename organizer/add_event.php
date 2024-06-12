@@ -74,8 +74,7 @@
                     $timeSlotData = [
                         'EventID' => $lastEventID,
                         'StartTime' => $startTime,
-                        'EndTime' => $_POST['EndTimeSlot'][$index],
-                        'Availability' => $capacity
+                        'EndTime' => $_POST['EndTimeSlot'][$index]
                     ];
                     // Insert time slot into the database
                     DB::insert(DB_NAME, 'timeslots', $timeSlotData);
