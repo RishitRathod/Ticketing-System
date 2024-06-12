@@ -73,7 +73,7 @@ class Organizations{
                             {$this->OrgPackageTable} op ON o.OrgID = op.OrgID
                         INNER JOIN 
                             {$this->Packages} p ON op.PackageID = p.PackageID
-                        -- WHERE o.OrgID = $OrgID
+                        WHERE o.OrgID = $OrgID
                         GROUP BY
                             o.OrgID,
                             o.Name,
@@ -230,9 +230,9 @@ GROUP BY
     
 } 
 
-$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$org= new Organizations($conn->connection());
-echo json_encode($org->FetchOrgPackages(9));
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// $org= new Organizations($conn->connection());
+// echo json_encode($org->FetchOrgDetails(9));
 
     
 ?>
