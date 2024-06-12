@@ -198,6 +198,7 @@ public function FetchEventDetails($EventID) {
             ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
             '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
             ',\"Discount\":', COALESCE(t.Discount, 'null'), 
+            ',\"Availability\":', COALESCE(t.Availability, 'null'), 
             ',\"Price\":', COALESCE(t.Price, 'null'), '}'
         ) SEPARATOR ',') AS Tickets,
         GROUP_CONCAT(DISTINCT CONCAT(
