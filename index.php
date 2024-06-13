@@ -175,6 +175,17 @@ class DB
 
      }
 
+     static function AttendanceByEventForOrg($EventID){
+
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass,$dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->AttendanceByEventForOrg($EventID);
+     }
+
     static function AttendanceByEvent($EventID){
         $host   = DB_HOST;
         $user   = DB_USER;

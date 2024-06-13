@@ -267,7 +267,33 @@
 
 
     <script>
+
+
+       async function getOrgPackages(OrgID){
+            await fetch('../fetchOrgs.php',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'FetchOrgPackages',
+                    OrgID: OrgID
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.status === 'success'){
+                    const packages = data.data;
+                    console.log(packages);
+
+                }else{
+                    alert('No packages found');
+                }
+            })
+        }
        
+        // const OrgID=getCookieValue('id');
     
 
 function validateForm() {
@@ -396,15 +422,40 @@ function validateForm() {
     </script>
     
     <script>
+        async function validatePackage(OrgID,PackageID){
+            await fetch('../fetchOrgs.php',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'validatePackage',
+                    OrgID: OrgID,
+                    PackageID: PackageID
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.status === 'success'){
+                    const packages = data.data;
+                    console.log(packages);
+
+                }else{
+                    alert('No packages found');
+                }
+            })
+        } 
          const getCookieValue = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 };
 
-document.getElementById('orgid').value = getCookieValue('id');
-
-
+        document.getElementById('orgid').value = getCookieValue('id');
+        console.log(document.getElementById('orgid').value);
+        getOrgPackages(document.getElementById('orgid').value);
+        //validatePackage(document.getElementById(');
          console.log(getCookieValue('id'));
         document.addEventListener('DOMContentLoaded', function () {
             const addTimeSlotBtn = document.getElementById('addTimeSlot');

@@ -89,8 +89,9 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
+                        <th>No.of Days/Tickets</th>
+                        <th>Time Duration In Months</th>
                         <th>Amount</th>
-                        <th>Validity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -225,7 +226,49 @@
             }
         });
         
+        //for exp date
+        function daysToTimestamp(days) {
+                    // Convert days to milliseconds
+                    let milliseconds = days * 24 * 60 * 60 * 1000;
+                    
+                    // Create a new Date object with the calculated milliseconds
+                    let date = new Date(milliseconds);
+                    
+                    // Return the timestamp
+                    return date.getTime();
+                }
 
+                function dateToTimestamp(date) {
+                    // Create a new Date object from the provided date string
+                    var dateObject = new Date(date);
+                
+                    // Return the timestamp in milliseconds
+                    return dateObject.getTime();
+                }
+
+
+                function addDays(date, days) {
+                    // var result = new Date(date);
+                    // // days = daysToTimestamp(days);
+                    // result.setDate(result.getDate() + days);
+                    // return result.toISOString().split('T')[0]; 
+                    return timestampToDate(dateToTimestamp(date)+daysToTimestamp(days))
+
+                }
+
+                function timestampToDate(timestamp) {
+                    // Create a new Date object using the provided timestamp
+                    var dateObject = new Date(timestamp);
+                
+                    // Extract the date components
+                    var year = dateObject.getFullYear();
+                    var month = ("0" + (dateObject.getMonth() + 1)).slice(-2); // Months are zero-indexed, so we add 1
+                    var day = ("0" + dateObject.getDate()).slice(-2);
+                    
+                    // Return the date in the format "YYYY-MM-DD"
+                    return year + "-" + month + "-" + day;
+                }
+        
         //fetch the data from the database using fetch api and async and await function
         async function fetchPackages() {
             const response = await fetch('packages.php', {
@@ -247,6 +290,9 @@
                         <td>${package.PackageID}</td>
                         <td>${package.PackageName}</td>
                         <td>${package.PackageType}</td>
+                        <td>${row.No_of_Days_Or_Tickets}</td>
+                        <td>${addDays(new Date(),row.Exp_date)}</td>
+
                         <td>${package.Amount}</td>
                         <td>${package.Days}</td>
                         <td>

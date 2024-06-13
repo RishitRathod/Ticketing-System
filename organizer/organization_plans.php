@@ -126,8 +126,8 @@
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>No.of Days/Tickets</th>
-
-                        <!-- <th>Package Price</th> -->
+                        <th>Buy Date</th>
+                        <th>Package Price</th> 
                         <th>Exp. Date</th>
                     </tr>
                 </thead>
@@ -150,6 +150,7 @@
                         <th>Package Type</th>
                         <th>No.of Days/Tickets</th>
                         <th>Time Duration In Months</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -260,9 +261,12 @@
                     <td>${row.PackageID}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
+                    <td>${row.No_of_Days_Or_Tickets}</td>
+                    <td>${addDays(new Date(),row.Buy_Date)}</td>
                     <td>${row.Amount}</td>
-                    <td>${addDays(new Date(),row.Days)}</td>
-                    <!--<td>${row.Days}</td>.-->
+                    <td>${addDays(new Date(),row.Exp_date)}</td>
+
+
 
                     `;
                 selectedPack.appendChild(tr);
@@ -302,9 +306,9 @@
                     <td>${row.PackageID}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
+                    <td>${row.No_of_Days_Or_Tickets}</td>
+                    <td>${addDays(new Date(),row.Exp_date)}</td>
                     <td>${row.Amount}</td>
-                    <!--<td>${addDays(new Date(),row.Days)}</td> -->
-                    <td>${row.Days}</td>
 
                 `;
                 tableBody.appendChild(tr);

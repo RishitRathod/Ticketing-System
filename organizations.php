@@ -64,9 +64,10 @@ class Organizations{
                                     ',\"PackageName\":\"', p.PackageName, 
                                     '\",\"Amount\":', p.Amount, 
                                     ',\"PackageType\":\"', p.PackageType, 
-                                    '\",\"BuyDate\":\"', op.BuyDate, 
-                                    '\",\"Days\":\"', p.Days, '\"}'
-                        ) SEPARATOR ',') AS Packages
+                                    '\",\"BuyDate\":\"', op.BuyDate,
+                                    '\",\"No_of_Days_Or_Tickets\":', p.No_of_Days_Or_Tickets,  
+                                    '\",\"Exp_date\":\"', p.Exp_date, '\"}'
+                                ) SEPARATOR ',') AS Packages
                         FROM 
                             {$this->organizationTable} o
                         INNER JOIN 
@@ -198,6 +199,63 @@ GROUP BY
         return ["error" => "Select failed: " . $e->getMessage()];
     }
     }
+
+    public function AttendanceByEventForOrg($EventID){
+        try {$sql="SELECT 
+     u.UserID,
+     u.Username,
+     u.Email,
+    --  u.UserPhoto,
+     u.userphonenumber,
+    --  ts.TicketSalesID,
+    --  ts.TicketID,
+    --  ts.EventID,
+     ts.TimeSlotID,
+     ts.Name AS BuyerName,
+     ts.Email AS BuyerEmail,
+     ts.Phone AS BuyerPhone,
+     ts.Quantity,
+     ts.PurchaseDate,
+    --  ts.Status AS TicketStatus,
+    --  ts.QR_CODE AS TicketQRCode,
+     ts.EventDate,
+     t.TimeSlotID,
+     t.StartTime,
+     t.EndTime,
+    --  tu.TimeUsageID,
+    --  tu.EntryTime,
+    --  tu.ExitTime,
+    --  tu.TimeslotID AS TimeUsageSlotID,
+    --  tu.TicketSalesID AS TimeUsageSalesID
+    e.EventName
+
+ FROM 
+     users u
+ LEFT JOIN 
+     ticketsales ts ON u.UserID = ts.UserID
+LEFT JOIN
+    events e ON ts.EventID = e.EventID
+LEFT JOIN 
+    timeslots t ON ts.TimeSlotID = t.TimeSlotID
+
+--  LEFT JOIN 
+--      timeusage tu ON ts.TicketSalesID = tu.TicketSalesID
+ WHERE 
+     ts.EventID = :EventID
+ GROUP BY 
+     u.UserID;
+ ";
+         $stmt = $this->conn->prepare($sql);
+         $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+         $stmt->execute();
+         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+         return $result;
+     }
+     catch (PDOException $e) {
+         return ["error" => "Select failed: " . $e->getMessage()];
+     }
+     }
+
     
     //write doc comment for this function
     
@@ -209,7 +267,9 @@ GROUP BY
                         p.Amount, 
                         p.PackageType, 
                         op.BuyDate, 
-                        p.Days
+                        p.Exp_date,
+                        p.No_of_Days_Or_Tickets
+
                     FROM 
                         {$this->OrgPackageTable} op
                     INNER JOIN 
@@ -237,7 +297,8 @@ GROUP BY
                 p.Amount, 
                 p.PackageType, 
                 op.BuyDate, 
-                p.Days
+                p.Exp_date,
+                p.No_of_Days_Or_Tickets
                 FROM 
                 {$this->OrgPackageTable} op
                 INNER JOIN 
@@ -259,7 +320,7 @@ GROUP BY
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());
-// echo ($org->FetchOrgPackages(9));
+// echo json_encode($org->AttendanceByEventForOrg(241));
 
     
 ?>
