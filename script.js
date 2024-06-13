@@ -46,6 +46,7 @@ async function getUser() {
 }
 
 
+
 function logout() {
     // Delete all cookies
     const cookies = document.cookie.split(";");

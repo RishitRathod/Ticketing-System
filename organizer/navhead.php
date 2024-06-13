@@ -153,15 +153,15 @@
             }
             window.onload = function() {
                     if (isUserLoggedIn()) {
-                   document.getElementById('login').style.display = 'none';
-                   document.getElementById('profile').style.display = 'block';
+                //    document.getElementById('login').style.display = 'none';
+                //    document.getElementById('profile').style.display = 'block';
                 } else {
                    window.herf = "./organization_login.html";
                 }
             }
                 // Function to set active class to the clicked anchor tag
                 function setActiveLink() {
-                    logout()
+                    // logout()
                     // Get the current path
                     var currentPath = window.location.pathname;
                     
@@ -180,6 +180,28 @@
 
         // Add event listener to set the active class when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', setActiveLink);
+        const OrgID = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+        async function CheckOrgStatus(OrgID) {
+    try {
+        const response = await fetch('../fetchOrgs.php', {
+            method: 'POST'
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error fetching org status:', error);
+        return null;
+    }
+}
+
+const status = CheckOrgStatus(OrgID);
+console.log(status);
+console.log("hrllo");
+if (status != "Approved") {
+    window.location.href = './org_profile.html';
+}
+
 
         </script>
             
