@@ -125,7 +125,9 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
-                        <th>Package Price</th>
+                        <th>No.of Days/Tickets</th>
+
+                        <!-- <th>Package Price</th> -->
                         <th>Exp. Date</th>
                     </tr>
                 </thead>
@@ -146,7 +148,7 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
-                        <th>Package Price</th>
+                        <th>No.of Days/Tickets</th>
                         <th>Time Duration In Months</th>
                     </tr>
                 </thead>
@@ -260,7 +262,9 @@
                     <td>${row.PackageType}</td>
                     <td>${row.Amount}</td>
                     <td>${addDays(new Date(),row.Days)}</td>
-                `;
+                    <!--<td>${row.Days}</td>.-->
+
+                    `;
                 selectedPack.appendChild(tr);
             });
         } else {
@@ -299,7 +303,9 @@
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.Amount}</td>
-                    <td>${addDays(new Date(),row.Days)}</td>
+                    <!--<td>${addDays(new Date(),row.Days)}</td> -->
+                    <td>${row.Days}</td>
+
                 `;
                 tableBody.appendChild(tr);
             });

@@ -233,7 +233,7 @@ GROUP BY
             $sql= "SELECT 
                 op.PackageID, 
                 op.OrgID, 
-                -- p.PackageName, 
+                p.PackageName, 
                 p.Amount, 
                 p.PackageType, 
                 op.BuyDate, 
