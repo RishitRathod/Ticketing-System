@@ -99,6 +99,12 @@
             height: 30vmin;
             width: 30vmin;
         }
+        .navLogo{
+            height: 5vmax;
+        }
+        .navPf{
+            height: 3vmax;
+        }
         @media (min-width: 760px) {
             .sn{
                 width:225px;   
@@ -108,16 +114,16 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid w-100 p-3 backOnav  text-white">
+    <div class="container-fluid  p-3 backOnav  text-white">
         <div class="row align-items-center">
-            <a class="col-auto p-3 ml-3 mr-auto" href="./organization_dashboard.html" style="text-decoration: none;">
-                <img src="../img/logo.png" height="80" class="rounded-circle" alt="Logo">
+            <a class="col-auto p-3 ml-md-3 g-0 ml-1 mr-auto" href="./organization_dashboard.html" style="text-decoration: none;">
+                <img src="../img/logo.png" class="rounded-circle navLogo" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
-            <div class="col-auto">
-                <div class="dropdown open p-3 rounded-pills">
+            <div class="col-auto g-0">
+                <div class="dropdown open p-2 rounded-pills">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
+                        <img src="../img/user.png" class="rounded-circle navPf" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                         <a class="dropdown-item " href="./org_profile.html">Profile</a>
@@ -161,7 +167,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="modal fade" id="uploadNew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="uploadNew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -169,7 +175,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      ...
+                      .....
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -177,7 +183,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
             <div class="col p-3">
                 <div class="main-content mx-auto d-flex justify-content-center align-items-center rounded-5">
                     <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
@@ -266,8 +272,8 @@
     </footer>
     <script src="../script.js"></script>
     <script>
-        $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').trigger('focus')
+        $('#uploadNew').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
         })
     </script>
     <script>

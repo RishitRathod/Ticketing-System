@@ -90,7 +90,7 @@
         }
 
         .navbar-brand img {
-            height: 90px;
+            height: 5vmax;
         }
         .events {
             color: white;
@@ -110,15 +110,15 @@
             background-image: url("https://png.pngtree.com/background/20221109/original/pngtree-event-management-doodle-set-picture-image_1952957.jpg");
         }
 
-        .tickets {
-            /* background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg"); */
-        }
+        /* .tickets {
+            background-image: url("https://copycatjm.com/wp-content/uploads/2022/08/Tickets-Prod-Image.jpg"); 
+        } */
 
         /* .events:hover, .tickets:hover {
             color: black;
             box-shadow: 0 10px 20px #000000 inset, 0 0 200px #00000000 inset, 0 0 150px #00000000 inset, 0 0 100px #00000034 inset;
         } */
-
+        
         .ls {
             color: white;
             background-color: green;
@@ -209,14 +209,15 @@
             width:10vmin;
             top:20%;
         }
+
         
     </style>
 </head>
 <body>
 <nav class="navbar fixed-top nav navbar-dark p-3 navbar-expand-lg">
-    <div class="container-fluid">
+    <div class="container-fluid ">
         <a class="navbar-brand fs-4" href="./user_dashboard1.php">
-            <img src="../img/logo.png" class="rounded-circle mx-1 mx-sm-3" alt="Logo"> USER
+            <img src="../img/logo.png" class="rounded-circle pic  mx-1 mx-sm-3" alt="Logo"> USER
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
