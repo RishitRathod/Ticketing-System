@@ -57,6 +57,18 @@
         .card{
             border-radius:20px;
         }
+   
+    #packageType .table td {
+        vertical-align: middle; /* Center the content vertically */
+    }
+    #packageType .form-check-input {
+        margin: 0 auto; /*Center the radio button horizontally*/
+        /* vertical-align: middle; */
+        /* margin-left: 2px; */
+        display: inline-block;
+    }
+
+
 
     </style>
 </head>
@@ -113,6 +125,8 @@
 
                             <!-- Step 2: Date and Time -->
                             <div name="timeAndDate" id="timeAndDate" class="step">
+                            <div id="packageType"></div>
+
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date</legend>
                                     <div class="row mx-auto">
@@ -286,7 +300,7 @@
                 if(data.status === 'success'){
                     const packages = data.data;
                     console.log(packages);
-
+                    populateTicketTypes(packages);
                 }else{
                     alert('No packages found');
                 }
@@ -294,7 +308,70 @@
         }
        
         // const OrgID=getCookieValue('id');
-    
+        function populateTicketTypes(packages) {
+    const packageTypesContainer = document.getElementById('packageType');
+    packageTypesContainer.innerHTML = ''; // Clear existing content
+
+    const table = document.createElement('table');
+    table.classList.add('table', 'table-striped', 'table-bordered', 'mt-3');
+
+    // Create table header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+
+    const headers = ['Select', 'Package Name', 'Package Type', 'Amount', 'No. of Days/Tickets'];
+    headers.forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body
+    const tbody = document.createElement('tbody');
+    packages.forEach(package => {
+        const row = document.createElement('tr');
+
+        const radioCell = document.createElement('td');
+        radioCell.style.textAlign = 'center'; // Center the radio button
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.classList.add('form-check-input');
+        radio.id = `package-${package.PackageID}`;
+        radio.name = 'package'; // All radio buttons have the same name
+        radio.value = package.PackageID;
+        radioCell.appendChild(radio);
+        row.appendChild(radioCell);
+
+        const packageNameCell = document.createElement('td');
+        packageNameCell.textContent = package.PackageName;
+        row.appendChild(packageNameCell);
+
+        const packageTypeCell = document.createElement('td');
+        packageTypeCell.textContent = package.PackageType;
+        row.appendChild(packageTypeCell);
+
+        const amountCell = document.createElement('td');
+        amountCell.textContent = package.Amount;
+        row.appendChild(amountCell);
+
+        const noOfDaysTicketsCell = document.createElement('td');
+        noOfDaysTicketsCell.textContent = package.No_of_Days_Or_Tickets;
+        row.appendChild(noOfDaysTicketsCell);
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    packageTypesContainer.appendChild(table);
+}
+
+
+
+
+
 
 function validateForm() {
         const form = document.getElementById('registrationForm');
@@ -771,9 +848,8 @@ function validateForm() {
             }
         }
     </script>
-<?php
-include 'footer.php';
-?>
+
+
 
 </body>
 </html>
