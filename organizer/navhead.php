@@ -153,14 +153,15 @@
             }
             window.onload = function() {
                     if (isUserLoggedIn()) {
-                   // document.getElementById('login').style.display = 'none';
-                   // document.getElementById('profile').style.display = 'block';
+                   document.getElementById('login').style.display = 'none';
+                   document.getElementById('profile').style.display = 'block';
                 } else {
                    window.herf = "./organization_login.html";
                 }
             }
                 // Function to set active class to the clicked anchor tag
                 function setActiveLink() {
+                    logout()
                     // Get the current path
                     var currentPath = window.location.pathname;
                     
@@ -179,7 +180,6 @@
 
         // Add event listener to set the active class when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', setActiveLink);
-
 
         </script>
             
