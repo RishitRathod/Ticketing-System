@@ -259,7 +259,7 @@
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.Amount}</td>
-                    <td>${addDays(new Date(),row.TimeDurationInMonths)}</td>
+                    <td>${addDays(new Date(),row.Days)}</td>
                 `;
                 selectedPack.appendChild(tr);
             });
