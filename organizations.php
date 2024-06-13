@@ -50,42 +50,43 @@ class Organizations{
             $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
                 
-                $sql= "SELECT 
-                            o.OrgID,
-                            o.Name AS OrganizationName,
-                            o.Email AS OrganizationEmail,
-                            o.ContactNumber AS OrganizationContactNumber,
-                            o.ContactEmail AS OrganizationContactEmail,
-                            o.Address AS OrganizationAddress,
-                            o.Status AS OrganizationStatus,
-                            o.ContactName AS OrganizationContactName,
-                                GROUP_CONCAT(DISTINCT CONCAT(
-                                    '{\"PackageID\":', op.PackageID, 
-                                    ',\"PackageName\":\"', p.PackageName, 
-                                    '\",\"Amount\":', p.Amount, 
-                                    ',\"PackageType\":\"', p.PackageType, 
-                                    '\",\"BuyDate\":\"', op.BuyDate,
-                                    '\",\"No_of_Days_Or_Tickets\":', p.No_of_Days_Or_Tickets,  
-                                    '\",\"Exp_date\":\"', p.Exp_date, '\"}'
-                                ) SEPARATOR ',') AS Packages
-                        FROM 
-                            {$this->organizationTable} o
-                        INNER JOIN 
-                            {$this->OrgPackageTable} op ON o.OrgID = op.OrgID
-                        INNER JOIN 
-                            {$this->Packages} p ON op.PackageID = p.PackageID
-                        WHERE o.OrgID = $OrgID
-                        GROUP BY
-                            o.OrgID,
-                            o.Name,
-                            o.Email,
-                            o.ContactNumber,
-                            o.ContactEmail,
-                            o.Address,
-                            o.Status,
-                            o.ContactName;";
+            $sql = "SELECT 
+            o.OrgID,
+            o.Name AS OrganizationName,
+            o.Email AS OrganizationEmail,
+            o.ContactNumber AS OrganizationContactNumber,
+            o.ContactEmail AS OrganizationContactEmail,
+            o.Address AS OrganizationAddress,
+            o.Status AS OrganizationStatus,
+            o.ContactName AS OrganizationContactName,
+            GROUP_CONCAT(DISTINCT CONCAT(
+                '{\"PackageID\":', op.PackageID, 
+                ',\"PackageName\":\"', p.PackageName, 
+                '\",\"Amount\":', p.Amount, 
+                ',\"PackageType\":\"', p.PackageType, 
+                '\",\"BuyDate\":\"', op.BuyDate,
+                '\",\"No_of_Days_Or_Tickets\":', p.No_of_Days_Or_Tickets,  
+                ',\"Exp_date\":\"', p.Exp_date, '\"}'
+            )) AS Packages
+        FROM 
+            {$this->organizationTable} o
+        INNER JOIN 
+            {$this->OrgPackageTable} op ON o.OrgID = op.OrgID
+        INNER JOIN 
+            {$this->Packages} p ON op.PackageID = p.PackageID
+        WHERE o.OrgID = :OrgID
+        GROUP BY
+            o.OrgID,
+            o.Name,
+            o.Email,
+            o.ContactNumber,
+            o.ContactEmail,
+            o.Address,
+            o.Status,
+            o.ContactName";
 
             $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(":OrgID", $OrgID,PDO::PARAM_INT);
             $stmt->execute();
             $data= $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
@@ -322,9 +323,9 @@ LEFT JOIN
     
     } 
 }
-$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$org= new Organizations($conn->connection());
-echo json_encode($org->FetchOrgPackages(2));
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// $org= new Organizations($conn->connection());
+// echo json_encode($org->FetchOrgPackages(2));
 
     
 ?>
