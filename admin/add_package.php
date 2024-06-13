@@ -59,9 +59,11 @@
                             <input type="number" class="form-control" id="Amount" name="Amount">
                         </div>
 
-                        <div class="col-auto">
-                            <label for="Days">Validity( in NO. days):</label>
-                            <input type="number" class="form-control" id="Days" name="Days">
+                        
+
+                        <div class="col-2">
+                            <label for="Exp_date">Set Exp_date</label>
+                            <input type="number" class="form-control" id="Exp_date" name="Exp_date">
                         </div>
 
                       <div class="row justify-content-center">
@@ -90,8 +92,9 @@
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>No.of Days/Tickets</th>
-                        <th>Time Duration In Months</th>
+                        <th>Exp Date</th>
                         <th>Amount</th>
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -189,7 +192,7 @@
                 PackageType: document.getElementById('PackageType').value,
                 noofdays: document.getElementById('noofdays').value,
                 Amount: document.getElementById('Amount').value,
-                Days: document.getElementById('Days').value
+                Exp_date: document.getElementById('Exp_date').value
                 
             };
 
@@ -294,7 +297,7 @@
                         <td>${addDays(new Date(),row.Exp_date)}</td>
 
                         <td>${package.Amount}</td>
-                        <td>${package.Days}</td>
+                        
                         <td>
                         <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
                         <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>
