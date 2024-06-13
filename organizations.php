@@ -221,7 +221,7 @@ GROUP BY
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($result);
+            
             return $result;
         } catch (PDOException $e) {
             return ["error" => "Select failed: " . $e->getMessage()];
