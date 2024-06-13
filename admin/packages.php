@@ -19,6 +19,7 @@ function addPackage($input){
         'Days' => $input['Days'],
         'PackageName' => $input['PackageName'],
         'PackageType' => $input['PackageType'],
+        'noofdays' => $input['noofdays'],
         'Amount' => $input['Amount']
     ];
 

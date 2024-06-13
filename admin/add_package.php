@@ -48,8 +48,13 @@
                                 <option value="TicketBased">TicketBased</option>
                             </select>
                         </div>
-                        
-                        <div class="col-auto">
+
+                        <div class="col-2">
+                            <label for="noofdays">no. of days</label>
+                            <input type="number" class="form-control" id="noofdays" name="noofdays">
+                        </div>
+
+                        <div class="col-2">
                             <label for="Amount">Amount:</label>
                             <input type="number" class="form-control" id="Amount" name="Amount">
                         </div>
@@ -59,9 +64,11 @@
                             <input type="number" class="form-control" id="Days" name="Days">
                         </div>
 
-                        <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
-                        <button type="button" id="abortUdpatebtn" class="btn btn-warning col-1 m-sm-2 m-0">Abort Update</button>
-                        <button type="button" id="updatebtn" class="btn btn-primary col-1 m-sm-2 m-0" onclick="updatePackage()">Update</button>
+                      <div class="row justify-content-center">
+                      <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
+                        <button type="button" id="abortUdpatebtn" class="btn btn-warning col-2 m-sm-2 m-0">Abort Update</button>
+                        <button type="submit" id="updatebtn" class="btn btn-primary col-2 m-sm-2 m-0" onclick="updatePackage()">Update</button>
+                      </div>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="packageIDInput">
@@ -179,6 +186,7 @@
             const data = {
                 PackageName: document.getElementById('PackageName').value,
                 PackageType: document.getElementById('PackageType').value,
+                noofdays: document.getElementById('noofdays').value,
                 Amount: document.getElementById('Amount').value,
                 Days: document.getElementById('Days').value
                 
