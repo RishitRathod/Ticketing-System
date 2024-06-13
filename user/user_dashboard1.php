@@ -12,13 +12,15 @@
         height: 200px;      /* Set a fixed height for the images */
         object-fit: cover;  /* Ensure the image covers the entire area without distortion */
     }
-
+    p{
+        margin-top: 100px;
+    }
     .filterPanel{
         height: max-content;
         background-color: #1b155d;
         z-index: 999;
-        margin-top: 1000px;
-        position: relative;
+        margin: 10px;
+        /* position: relative; */
     }
     #searchButton{
         border-bottom-right-radius: 10px;
@@ -26,6 +28,14 @@
     }
 
 
+    .filt{
+        margin: 20px;
+        background-color: #1b155d;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px; 
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;       
+    }
     select {
         background-color: #1b155d;
         border-bottom-left-radius: 10px;
@@ -57,6 +67,17 @@
             .filterPanel .btn-check{
                 display: inline;
             }
+            p button{
+                position: fixed;
+                bottom: 30px; /* Adjust as needed */
+                right: 30px; /* Adjust as needed */
+                padding: 10px;
+                background-color: #1b155d; /* Example background color */
+                color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+                z-index: 999; 
+            }
 
         }
 </style>
@@ -64,73 +85,85 @@
 <body>
     <?php 
     include 'userdashnav.php'; ?>
-    <div class="row mx-auto g-0 p-0 mt-5">
-        <div class="col-2 text-light filterPanel g-0 p-2">
-            <div class="custom-wrapper row px-1 mt-5"> 
-                <div class="header"> 
-                    <p class="projtitle mt-5" align="center"> 
-                        <strong>Sort By</strong>
-                    </p> 
-                </div>
-                <div>
-                <strong> Duration </strong>
-                    <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="d1" autocomplete="off" checked>
-                        <label class="btn btn-outline-primary" for="d1">Today</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="d2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="d2">This Week</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="d3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="d3">This Month</label>
+    <div class="row mx-auto justify-content-center g-0 p-0 mt-5">
+        <div class="col-0 col-md-2 text-light mt-5 g-0 p-2">
+            <p align="center">
+                <button class="btn filt col mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                    Filter
+                </button>
+            </p>
+            <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                <div class="custom-wrapper filt row px-1 "> 
+                    <div class="header"> 
+                        <p class="projtitle mt-2" align="center"> 
+                            <strong>Sort By</strong>
+                        </p> 
                     </div>
-                <strong>Price</strong>
-                    <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
+                    <div>
+                    <strong> Duration </strong>
+                        <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="d1" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="d1">Today</label>
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="d2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="d2">This Week</label>
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="d3" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="d3">This Month</label>
+                        </div>
+                    <strong>Price</strong>
+                        <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
 
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="c1" autocomplete="off" checked>
-                        <label class="btn btn-outline-primary" for="c1"> High to Low</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="c2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="c2"> Low to High</label>
+                            <input type="radio" class="btn-check" name="h" id="c1" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="c1"> High to Low</label>
+                            <input type="radio" class="btn-check" name="h" id="c2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="c2"> Low to High</label>
+                        </div>
                     </div>
-                </div>
 
 
-            </div>
-            <div class="custom-wrapper row px-1 "> 
-                <div class="header"> 
-                    <p class="projtitle"> 
-                    <strong>Price Range Slider </strong>
-                    </p> 
                 </div>
-                <div class="price-input-container"> 
-                    <div class="price-input row d-block"> 
-                        <div class="price-field col-7 d-inline d-md-block"> 
-                            <span>Minimum Price</span> 
-                            <input type="number" class="min-input form-control" value="2500">
-                            <div class="range-input"> 
-                                <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
-                            </div>  
+                <div class="custom-wrapper filt row px-1 "> 
+                    <div class="header"> 
+                        <p class="projtitle"> 
+                        <strong>Price Range Slider </strong>
+                        </p> 
+                    </div>
+                    <div class="price-input-container"> 
+                        <div class="price-input row d-block"> 
+                            <div class="price-field col-8 d-inline d-md-block"> 
+                                <span>Minimum Price</span> 
+                                <input type="number" class="min-input form-control" value="2500">
+                                <!-- <div class="range-input"> 
+                                    <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
+                                </div>   -->
+                            </div> 
+                            <div class="price-field col-8 d-inline d-md-block"> 
+                                <span>Maximum Price</span> 
+                                <input type="number" class="max-input form-control" value="8500"> 
+                                <!-- <div class="range-input"> 
+                                    <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
+                                </div>  -->
+                            </div> 
                         </div> 
-                        <div class="price-field col-7  d-inline d-md-block"> 
-                            <span>Maximum Price</span> 
-                            <input type="number" class="max-input form-control" value="8500"> 
-                            <div class="range-input"> 
-                                <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
+                        <div class="slider-container"> 
+                            <div class="price-slider">
+                                <div class="range-input"> 
+                                    Min ₹- <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> <br>
+                                    Max ₹-<input type="range" class="max-range " min="0" max="10000" value="8500" step="1">
+                                </div> 
                             </div> 
                         </div> 
                     </div> 
-                    <div class="slider-container"> 
-                        <div class="price-slider"></div> 
-                    </div> 
-                </div> 
 
-                <!-- Slider -->
-                <!-- <div class="range-input"> 
-                    <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
-                    <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
-                </div>  -->
-            </div> 
+                    <!-- Slider -->
+                    <!-- <div class="range-input"> 
+                        <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
+                        <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
+                    </div>  -->
+                </div> 
+            </div>
         </div>
-        <div class="col-10 mt-5 g-0 p-0">
-            <div class="container mt-5">
+        <div class="col-12 col-md-10 mt-5 g-0 p-0">
+            <div class="container mt-5 g-0">
                 <!-- <div class="mb-3 mt-5">
                     <div class="row-5 sBox align-items-center">
                         <input type="text" class="form-control col-auto" placeholder="Search categories" id="categorySearch">
@@ -147,7 +180,7 @@
                             <option value="All">All</option>
                             <option value="City">City</option>
                             <option value="State">State</option>
-                            <option value="Region">Region</option>
+                            <option value="Country">Country</option>
                         </select>
                         </span>
 
@@ -173,12 +206,12 @@
                 </div>
             </div>
         
-            <div class="container table-responsive mt-3"></div>
-            <div id="events" class="mt-5">
+            <div class="container table-responsive mt-1"></div>
+            <div id="events" class="mt-3">
                 <!-- Events will be shown here -->
             </div>
         
-            <div id="events-container" class="container d-block mt-100"></div>
+            <div id="events-container" class="container d-block mt-1"></div>
         </div>
     </div>
 
