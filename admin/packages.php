@@ -84,8 +84,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         default:
             echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
-            
-
+            break;
 
         }
 

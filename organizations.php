@@ -281,8 +281,12 @@ LEFT JOIN
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            return $result;
+            if(count($result)> 0){
+                return $result;
+            }else{
+                return "No data found Please by a package first";
+            }
+
         } catch (PDOException $e) {
             return ["error" => "Select failed: " . $e->getMessage()];
         }
@@ -318,9 +322,9 @@ LEFT JOIN
     
     } 
 }
-// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// $org= new Organizations($conn->connection());
-// echo json_encode($org->AttendanceByEventForOrg(241));
+$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$org= new Organizations($conn->connection());
+echo json_encode($org->FetchOrgPackages(2));
 
     
 ?>
