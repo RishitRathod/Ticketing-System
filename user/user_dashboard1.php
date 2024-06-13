@@ -2,52 +2,293 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Event Fetch Example</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <style>
-        .event-poster {
-    width: 100%;        /* Ensure the image takes up the full width of the card */
-    height: 200px;      /* Set a fixed height for the images */
-    object-fit: cover;  /* Ensure the image covers the entire area without distortion */
-}
+    .event-poster {
+        width: 100%;        /* Ensure the image takes up the full width of the card */
+        height: 200px;      /* Set a fixed height for the images */
+        object-fit: cover;  /* Ensure the image covers the entire area without distortion */
+    }
+
+    .filterPanel{
+        height: max-content;
+        background-color: #1b155d;
+        z-index: 999;
+        margin-top: 1000px;
+        position: relative;
+    }
+    #searchButton{
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+
+    select {
+        background-color: #1b155d;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        /* background: transparent; */
+        color: white;
+        border: none;
+        padding: 6px 12px;
+    }
+    .input-group-addon button {
+        padding: 6px 12px;
+        color: white;
+        border: none;
+        background-color: #1b155d;
+    }
+    .input-group-addon {
+        padding: 0!important;
+    }
+    @media (min-width: 760px) {
+            .filterPanel{
+                width:225px;   
+            }
+        }
+     @media (max-width: 768px) {
+            .filterPanel{
+                display: inline-block;  
+                height: max-content; 
+            }
+            .filterPanel .btn-check{
+                display: inline;
+            }
+
+        }
 </style>
 </head>
 <body>
     <?php 
     include 'userdashnav.php'; ?>
+    <div class="row mx-auto g-0 p-0 mt-5">
+        <div class="col-2 text-light filterPanel g-0 p-2">
+            <div class="custom-wrapper row px-1 mt-5"> 
+                <div class="header"> 
+                    <p class="projtitle mt-5" align="center"> 
+                        <strong>Sort By</strong>
+                    </p> 
+                </div>
+                <div>
+                <strong> Duration </strong>
+                    <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="d1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="d1">Today</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="d2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="d2">This Week</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="d3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="d3">This Month</label>
+                    </div>
+                <strong>Price</strong>
+                    <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
 
-    <div class="container mt-5">
-        <div class="mb-3">
-            <div class="row-5 sBox align-items-center">
-                <input type="text" class="form-control col-auto" placeholder="Search categories" id="categorySearch">
-                <button class="btn btn-outline-secondary col-1 sbtn" type="button" id="searchButton">Search</button>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="c1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="c1"> High to Low</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="c2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="c2"> Low to High</label>
+                    </div>
+                </div>
+
+
             </div>
+            <div class="custom-wrapper row px-1 "> 
+                <div class="header"> 
+                    <p class="projtitle"> 
+                    <strong>Price Range Slider </strong>
+                    </p> 
+                </div>
+                <div class="price-input-container"> 
+                    <div class="price-input row d-block"> 
+                        <div class="price-field col-7 d-inline d-md-block"> 
+                            <span>Minimum Price</span> 
+                            <input type="number" class="min-input form-control" value="2500">
+                            <div class="range-input"> 
+                                <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
+                            </div>  
+                        </div> 
+                        <div class="price-field col-7  d-inline d-md-block"> 
+                            <span>Maximum Price</span> 
+                            <input type="number" class="max-input form-control" value="8500"> 
+                            <div class="range-input"> 
+                                <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
+                            </div> 
+                        </div> 
+                    </div> 
+                    <div class="slider-container"> 
+                        <div class="price-slider"></div> 
+                    </div> 
+                </div> 
+
+                <!-- Slider -->
+                <!-- <div class="range-input"> 
+                    <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
+                    <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
+                </div>  -->
+            </div> 
         </div>
-        <div class="row">
-            <h3>All Categories</h3>
-        </div>
-        <div class="scroll-container text-center" id="categoryButtons">
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterEvents(this.id)">Business</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterEvents(this.id)">Comedy</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterEvents(this.id)">Beauty</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterEvents(this.id)">Culture</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterEvents(this.id)">Dance</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterEvents(this.id)">Education</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterEvents(this.id)">Health</button>
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterEvents(this.id)">Music</button>   
-            <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterEvents(this.id)">Sports</button>            
+        <div class="col-10 mt-5 g-0 p-0">
+            <div class="container mt-5">
+                <!-- <div class="mb-3 mt-5">
+                    <div class="row-5 sBox align-items-center">
+                        <input type="text" class="form-control col-auto" placeholder="Search categories" id="categorySearch">
+                        <button class="btn btn-outline-secondary col-1 sbtn" type="button" id="searchButton">Search</button>
+                    </div>
+                </div> -->
+                
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                        <span class="input-group-addon">
+                        <select>
+                            <option value="All">All</option>
+                            <option value="City">City</option>
+                            <option value="State">State</option>
+                            <option value="Region">Region</option>
+                        </select>
+                        </span>
+
+                        <input id="categorySearch" type="text" class="form-control" placeholder="Search categories">
+                        <span class="input-group-addon"> <button  type="button" id="searchButton">Submit</button></span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <h3>All Categories</h3>
+                </div>
+                <div class="scroll-container text-center" id="categoryButtons">
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterEvents(this.id)">Business</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterEvents(this.id)">Comedy</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterEvents(this.id)">Beauty</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterEvents(this.id)">Culture</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterEvents(this.id)">Dance</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterEvents(this.id)">Education</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterEvents(this.id)">Health</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterEvents(this.id)">Music</button>   
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterEvents(this.id)">Sports</button>            
+                </div>
+            </div>
+        
+            <div class="container table-responsive mt-3"></div>
+            <div id="events" class="mt-5">
+                <!-- Events will be shown here -->
+            </div>
+        
+            <div id="events-container" class="container d-block mt-100"></div>
         </div>
     </div>
-
-    <div class="container table-responsive mt-3"></div>
-    <div id="events" class="mt-5">
-        <!-- Events will be shown here -->
-    </div>
-
-    <div id="events-container" class="container d-block mt-100"></div>
 
     <?php include 'user_footer.html'; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img[data-default]');
 
+            images.forEach(img => {
+                img.onerror = function() {
+                    this.src = this.getAttribute('data-default');
+                }
+            });
+        });
+    </script>
+    <script>
+
+
+        const rangevalue =  document.querySelector(".slider-container .price-slider"); 
+        const rangeInputvalue = document.querySelectorAll(".range-input input"); 
+        
+        // Set the price gap 
+        let priceGap = 500; 
+        
+        // Adding event listners to price input elements 
+        const priceInputvalue =  
+            document.querySelectorAll(".price-input input"); 
+        for (let i = 0; i < priceInputvalue.length; i++) { 
+            priceInputvalue[i].addEventListener("input", e => { 
+        
+                // Parse min and max values of the range input 
+                let minp = parseInt(priceInputvalue[0].value); 
+                let maxp = parseInt(priceInputvalue[1].value); 
+                let diff = maxp - minp 
+        
+                if (minp < 0) { 
+                    alert("minimum price cannot be less than 0"); 
+                    priceInputvalue[0].value = 0; 
+                    minp = 0; 
+                } 
+        
+                // Validate the input values 
+                if (maxp > 10000) { 
+                    alert("maximum price cannot be greater than 10000"); 
+                    priceInputvalue[1].value = 10000; 
+                    maxp = 10000; 
+                } 
+        
+                if (minp > maxp - priceGap) { 
+                    priceInputvalue[0].value = maxp - priceGap; 
+                    minp = maxp - priceGap; 
+        
+                    if (minp < 0) { 
+                        priceInputvalue[0].value = 0; 
+                        minp = 0; 
+                    } 
+                } 
+        
+                // Check if the price gap is met  
+                // and max price is within the range 
+                if (diff >= priceGap && maxp <= rangeInputvalue[1].max) { 
+                    if (e.target.className === "min-input") { 
+                        rangeInputvalue[0].value = minp; 
+                        let value1 = rangeInputvalue[0].max; 
+                        rangevalue.style.left = `${(minp / value1) * 100}%`; 
+                    } 
+                    else { 
+                        rangeInputvalue[1].value = maxp; 
+                        let value2 = rangeInputvalue[1].max; 
+                        rangevalue.style.right =  
+                            `${100 - (maxp / value2) * 100}%`; 
+                    } 
+                } 
+            }); 
+        
+            // Add event listeners to range input elements 
+            for (let i = 0; i < rangeInputvalue.length; i++) { 
+                rangeInputvalue[i].addEventListener("input", e => { 
+                    let minVal =  
+                        parseInt(rangeInputvalue[0].value); 
+                    let maxVal =  
+                        parseInt(rangeInputvalue[1].value); 
+        
+                    let diff = maxVal - minVal 
+                    
+                    // Check if the price gap is exceeded 
+                    if (diff < priceGap) { 
+                    
+                        // Check if the input is the min range input 
+                        if (e.target.className === "min-range") { 
+                            rangeInputvalue[0].value = maxVal - priceGap; 
+                        } 
+                        else { 
+                            rangeInputvalue[1].value = minVal + priceGap; 
+                        } 
+                    } 
+                    else { 
+                    
+                        // Update price inputs and range progress 
+                        priceInputvalue[0].value = minVal; 
+                        priceInputvalue[1].value = maxVal; 
+                        rangevalue.style.left = 
+                            `${(minVal / rangeInputvalue[0].max) * 100}%`; 
+                        rangevalue.style.right = 
+                            `${100 - (maxVal / rangeInputvalue[1].max) * 100}%`; 
+                    } 
+                }); 
+            } 
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const categoryButtons = document.querySelectorAll(".scroll-item");
@@ -202,7 +443,7 @@
 
     eventDiv.innerHTML = `
     <div class="card h-100">
-    <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
+    <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}" data-default="../img/default.jpg" >
     <div class="card-body"></div>
     <div class="card-footer text-center">
         <form action="get_details.php" method="POST">
