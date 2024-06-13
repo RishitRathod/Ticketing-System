@@ -235,8 +235,28 @@
 
     //get id from cookie
     const OrgID =document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
-
-
+    console.log(OrgID);
+    async function FetchOrgPackages(OrgID){
+        const response = await fetch("fetchOrgs.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: "FetchOrgPackages",
+                OrgID: OrgID
+            })
+        });
+        const data = await response.json();
+        console.log("My Packages ",data);
+        if (data.status === "success") {
+            const selectedPack = document.querySelector("#selectedPack");
+            console.log("My Packages ",data.data);
+        } else {
+            alert("Failed to fetch packages");
+        }
+    }
+        
     document.addEventListener("DOMContentLoaded", function() {
 
         if (isUserLoggedIn() === false) {
@@ -258,6 +278,8 @@
             console.log(data);
             const tableBody = document.querySelector("#tableBody");
             data = data.data;
+            
+            FetchOrgPackages(OrgID);
             data.forEach(row => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
@@ -321,6 +343,7 @@
             }
         });
     });
+
 </script>
 
 

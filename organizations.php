@@ -220,9 +220,9 @@ GROUP BY
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($data);
-            return $data;
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($result);
+            return $result;
         } catch (PDOException $e) {
             return ["error" => "Select failed: " . $e->getMessage()];
         }
@@ -232,7 +232,7 @@ GROUP BY
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());
-// echo json_encode($org->FetchOrgDetails(9));
+// echo ($org->FetchOrgPackages(9));
 
     
 ?>
