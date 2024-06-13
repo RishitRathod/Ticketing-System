@@ -163,6 +163,17 @@ class DB
         $Organizations= new Organizations($db->connection());
         return $Organizations->FetchOrgPackages($OrgID);
     }
+    
+     static function validatePackage($PackageID,$OrgID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass,$dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->ValidatePackage($PackageID,$OrgID);
+
+     }
 
     static function AttendanceByEvent($EventID){
         $host   = DB_HOST;

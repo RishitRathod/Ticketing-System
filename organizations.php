@@ -227,9 +227,36 @@ GROUP BY
             return ["error" => "Select failed: " . $e->getMessage()];
         }
     }
-    
-} 
 
+    function validatePackage($PackageID,$OrgID){
+        try {
+            $sql= "SELECT 
+                op.PackageID, 
+                op.OrgID, 
+                -- p.PackageName, 
+                p.Amount, 
+                p.PackageType, 
+                op.BuyDate, 
+                p.Days
+                FROM 
+                {$this->OrgPackageTable} op
+                INNER JOIN 
+                {$this->Packages} p ON op.PackageID = p.PackageID
+                WHERE
+                op.PackageID = :PackageID AND op.OrgID = :OrgID
+                GROUP BY p.PackageID;";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(":PackageID", $PackageID, PDO::PARAM_INT);
+                $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+    }catch (PDOException $e) {
+    return ["error"=> "failed to Fatch Package". $e->getMessage()];
+    }
+    
+    } 
+}
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());
 // echo ($org->FetchOrgPackages(9));
