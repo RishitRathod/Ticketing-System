@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             break;
         case 'validatePackage':
             $OrgID = $input['OrgID'];
-            $packageID = $input['packageID'];
+            $PackageID = $input['PackageID'];
             $response=DB::validatePackage($PackageID,$OrgID);
             if($response){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
