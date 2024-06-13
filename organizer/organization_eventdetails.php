@@ -206,7 +206,6 @@
                                         </form>
                                           <form action="view_members.php" method="post" style="display:inline;">
                                             <input type="hidden" name="eventID" value="${event.EventID}">
-                                            <input type="hidden" name="action" value="delete">
                                             <button type="submit" class="btn btn-primary mt-3">View registered users</button>
                                         </form>
                                     </div>
