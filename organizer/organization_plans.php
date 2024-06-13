@@ -299,7 +299,7 @@
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.Amount}</td>
-                    <td>${row.TimeDurationInMonths}</td>
+                    <td>${addDays(new Date(),row.Days)}</td>
                 `;
                 tableBody.appendChild(tr);
             });
