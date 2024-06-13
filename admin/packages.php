@@ -10,16 +10,16 @@ function addPackage($input){
         exit;
     }
 
-    if ( !isset($input['Days'])||!isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) ) {
+    if ( !isset($input['Exp_date'])||!isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) ) {
         echo json_encode(['status' => 'error', 'message' => 'Missing or invalid input data']);
         exit;
     }
 
     $data = [
-        'Days' => $input['Days'],
+        'Exp_date' => $input['Exp_date'],
         'PackageName' => $input['PackageName'],
         'PackageType' => $input['PackageType'],
-        'noofdays' => $input['noofdays'],
+        'No_of_Days_Or_Tickets' => $input['noofdays'],
         'Amount' => $input['Amount']
     ];
 
