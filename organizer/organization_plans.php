@@ -252,6 +252,17 @@
         if (data.status === "success") {
             const selectedPack = document.querySelector("#selectedPack");
             console.log("My Packages ",data.data);
+            data.data.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${row.PackageID}</td>
+                    <td>${row.PackageName}</td>
+                    <td>${row.PackageType}</td>
+                    <td>${row.Amount}</td>
+                    <td>${addDays(new Date(),row.TimeDurationInMonths)}</td>
+                `;
+                selectedPack.appendChild(tr);
+            });
         } else {
             alert("Failed to fetch packages");
         }
