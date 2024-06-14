@@ -161,7 +161,9 @@
             }
                 // Function to set active class to the clicked anchor tag
                 function setActiveLink() {
-                    // logout()
+
+
+  
                     // Get the current path
                     var currentPath = window.location.pathname;
                     
@@ -180,27 +182,41 @@
 
         // Add event listener to set the active class when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', setActiveLink);
-        const OrgID = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+       // Extract the OrgID from cookies
+
+
         async function CheckOrgStatus(OrgID) {
     try {
         const response = await fetch('../fetchOrgs.php', {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'CheckOrgStatus',
+                OrgID: OrgID
+            })
         });
+
         const data = await response.json();
         console.log(data);
-        return data;
+
+        if (data.data['Status'] !== 'Approved') {
+            window.location.href = './org_profile.html';
+        } 
     } catch (error) {
-        console.error('Error fetching org status:', error);
-        return null;
+        console.error('Error fetching organization status:', error);
     }
 }
 
-const status = CheckOrgStatus(OrgID);
-console.log(status);
-console.log("hrllo");
-if (status != "Approved") {
-    window.location.href = './org_profile.html';
-}
+// Call the function with the OrgID
+CheckOrgStatus(document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1]);
+
+// console.log(status);
+// console.log("hrllo");
+// if (status != "Approved") {
+//     window.location.href = './org_profile.html';
+// }
 
 
         </script>
