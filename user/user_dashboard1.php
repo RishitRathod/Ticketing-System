@@ -369,8 +369,14 @@
             } 
         }
     </script>
-
     <script>
+        let currentFilter = '';
+        let isLoading = false;
+        let offset = 0;
+        const limit = 19;
+        let noMoreEvents = false;
+        const displayedEventIDs = new Set();
+
         document.addEventListener("DOMContentLoaded", function() {
             const categoryButtons = document.querySelectorAll(".scroll-item");
 
@@ -387,6 +393,7 @@
             });
 
             setImages();
+            fetchEventPosters(); // Initial fetch of events
         });
 
         function setImages() {
@@ -395,11 +402,11 @@
             buttons.forEach(button => {
                 button.addEventListener("mouseover", function() {
                     const imageValue = button.value;
-                    button.style.backgroundImage = url('../uploads/event_types/${imageValue}.png');
+                    button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
                 });
                 button.addEventListener("click", function() {
                     const imageValue = button.value;
-                    button.style.backgroundImage = url('../uploads/event_types/${imageValue}.png');
+                    button.style.backgroundImage = `url('../uploads/event_types/${imageValue}.png')`;
                 });
 
                 button.addEventListener("mouseout", function() {
@@ -408,17 +415,11 @@
             });
         }
 
-        let isLoading = false;
-        let offset = 0;
-        const limit = 19    ;
-        let noMoreEvents = false;
-        const displayedEventIDs = new Set();
-
         async function fetchEventPosters() {
-            try {
-                if (isLoading || noMoreEvents) return;
-                isLoading = true;
+            if (isLoading || noMoreEvents) return;
+            isLoading = true;
 
+            try {
                 const response = await fetch('../fetchEvents.php', {
                     method: 'POST',
                     headers: {
@@ -447,14 +448,15 @@
                     const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
                     eventDiv.innerHTML = `
                         <div class="card h-100">
-                            <img src="${poster}" class="card-img-top img-fluid event-poster" alt="${event.EventID}">
-                            <div class="card-body">   <p>${event.EventName}</p>
-                            <p>${event.VenueAddress}</p></div>
+                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
+                            <div class="card-body">   
+                                <p>${event.EventName}</p>
+                                <p>${event.VenueAddress}</p>
+                            </div>
                             <div class="card-footer text-center">
                                 <form action="get_details.php" method="POST">
-                             
                                     <input type="hidden" name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-info"></i> Details</button>
+                                    <button type="submit" class="btn btn-primary">View Details</button>
                                 </form>
                             </div>
                         </div>
@@ -475,31 +477,35 @@
         function onScroll() {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
             if (scrollTop + clientHeight >= scrollHeight - 5) {
-                fetchEventPosters();
+                if (currentFilter) {
+                    filterEvents(currentFilter, false); // Fetch filtered events on scroll
+                } else {
+                    fetchEventPosters(); // Fetch more events if no filter is applied
+                }
             }
         }
 
         window.addEventListener('scroll', onScroll);
 
-        // Initial fetch
-        fetchEventPosters();
+        async function filterEvents(id, isNewFilter = true) {
+            currentFilter = id;
+            if (isNewFilter) {
+                offset = 0; // Reset the offset
+                noMoreEvents = false; // Reset the no more events flag
+                displayedEventIDs.clear(); // Clear the set of displayed event IDs
+                document.getElementById('events-container').innerHTML = ''; // Clear current events
+            }
 
-        async function filterEvents(id) {
-            offset = 0; // Reset the offset
-            noMoreEvents = false; // Reset the no more events flag
-            displayedEventIDs.clear(); // Clear the set of displayed event IDs
-            document.getElementById('events-container').innerHTML = ''; // Clear current events
+            if (isLoading || noMoreEvents) return;
+            isLoading = true;
 
             try {
-                if (isLoading) return;
-                isLoading = true;
-
                 const response = await fetch('../fetchEvents.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ action: 'GetEventsByCatagory', offset: offset,limit: limit, Catagory: id }),
+                    body: JSON.stringify({ action: 'GetEventsByCatagory', offset: offset, limit: limit, Catagory: id }),
                 });
 
                 const events = await response.json();
@@ -514,31 +520,29 @@
 
                 const eventsContainer = document.getElementById('events-container');
                 eventsArray.forEach(event => {
-    if (displayedEventIDs.has(event.EventID)) return;
+                    if (displayedEventIDs.has(event.EventID)) return;
 
-    const eventDiv = document.createElement('div');
-    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+                    const eventDiv = document.createElement('div');
+                    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
 
-    // Check if posters array exists and has at least one poster
-    const poster1 = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
+                    const poster1 = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
 
-    eventDiv.innerHTML = `
-    <div class="card h-100">
-    <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}" data-default="../img/default.jpg" >
-    <div class="card-body"></div>
-    <div class="card-footer text-center">
-        <form action="get_details.php" method="POST">
-            <input type="hidden" name="id" value="${event.EventID}">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-info"></i> Details</button>
-        </form>
-    </div>
-</div>
-    `;
+                    eventDiv.innerHTML = `
+                        <div class="card h-100">
+                            <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
+                            <div class="card-body"></div>
+                            <div class="card-footer text-center">
+                                <form action="get_details.php" method="POST">
+                                    <input type="hidden" name="id" value="${event.EventID}">
+                                    <button type="submit" class="btn btn-primary">View Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    `;
 
-    eventsContainer.appendChild(eventDiv);
-    displayedEventIDs.add(event.EventID);
-});
-
+                    eventsContainer.appendChild(eventDiv);
+                    displayedEventIDs.add(event.EventID);
+                });
 
                 offset += limit;
                 isLoading = false;

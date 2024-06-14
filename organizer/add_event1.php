@@ -641,7 +641,7 @@ const fetchPackages = () => {
     return fetch('../fetchOrgs.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'FetchOrgPackages', OrgID: getCookieValue('id') })
+        body: JSON.stringify({ action: 'getBalance', OrgID: getCookieValue('id') })
     })
     .then(response => {
         if (!response.ok) throw new Error('Failed to fetch data');
@@ -655,11 +655,12 @@ const validateStep = (currentStep, data) => {
         const endDate = new Date(document.getElementById('endDate').value);
         const totalDays = (endDate - startDate) / (1000 * 3600 * 24);
 
-        return totalDays < data.data[0].No_of_Days_Or_Tickets;
+        console.log("availble days",data.data[0].Amount_of_Days);
+        return totalDays < data.data[0].Amount_of_Days;
     } else if (currentStep === 0) {
         const capacity = parseInt(document.getElementById('capacity').value, 10);
-console.log("capacity",data.data[0].No_of_Days_Or_Tickets);
-        return capacity < data.data[0].No_of_Days_Or_Tickets;
+console.log("capacity",data.data[0].Amount_of_Tickets);
+        return capacity < data.data[0].Amount_of_Tickets;
     }
 
     return true; // Allow progression for steps other than 0 and 1
@@ -671,6 +672,7 @@ nextBtns.forEach(button => {
             if (currentStep === 0 || currentStep === 1) {
                 fetchPackages()
                     .then(data => {
+                        console.log("fetch",data);
                         if (validateStep(currentStep, data)) {
                             if (currentStep === 1 && !validateForm()) {
                                 console.log('Form validation failed. Staying on step 1.');

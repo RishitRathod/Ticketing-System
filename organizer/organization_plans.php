@@ -115,7 +115,7 @@
     <button id="btn1"> <i class="fa fa-shopping-cart"></i></button>
     <button id="btn2"> <i class="fa fa-close"></i></button>
 </div>
-<div class="row currentPack align-items-center px-2" id="currentPack">
+<div class="row overflow-auto currentPack align-items-center px-2" id="currentPack">
     <div class="container d-block">
         <fieldset>
             <legend><h3>Active Packages</h3></legend>
@@ -137,7 +137,7 @@
         </fieldset>
     </div>
 </div>
-    <div id="table-Div" class="container buyPack ">
+    <div id="table-Div" class="container buyPack overflow-auto">
         <fieldset>
         <legend><h3>Available Packages</h3></legend>
             <table id="packageTable" class="table table-bordered">
@@ -157,8 +157,8 @@
                 </tbody>
             </table>
         </fieldset>
-        <div class="row justify-content-center mt-3">
-            <button id="buyButton"  class="btn col-3 btn-primary">Buy Selected Packages</button>
+        <div class="row justify-content-center">
+            <button id="buyButton"  class="btn col-3 btn-primary position-absolute bottom-0 mb-5">Buy Selected Packages</button>
         </div>
     </div>
 </div>
