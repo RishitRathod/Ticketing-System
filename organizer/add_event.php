@@ -1,4 +1,5 @@
 <?php
+use Seld\JsonLint\Undefined;
 
     require_once '../config.php';
     require_once '../db_connection.php';
@@ -17,8 +18,37 @@
         $Country = $_POST['Country'];
         $State = $_POST['State'];
         $City = $_POST['City'];
-
         $orgid = $_POST['orgid'];
+        $Amount_of_Days=$_POST['Amount_of_Days'];
+        $Amount_of_Tickets=$_POST['Amount_of_Tickets'];
+        
+        if($Amount_of_Days==0 ){
+            $result=DB::setBalance($orgid,$Amount_of_Tickets,'Amount_of_Tickets');
+        
+            if($result){
+                $response['success'] = true;
+                $response['message'] = "Balance updated successfully";
+            }else{
+                $response['success'] = false;
+                $response['message'] = "Failed to update balance";
+                exit();
+            }
+        }
+        if($Amount_of_Tickets==0){
+        $result=DB::setBalance($orgid,$Amount_of_Days,'Amount_of_Days');
+
+        if($result){
+            $response['success'] = true;
+            $response['message'] = "Balance updated successfully";
+        }else{
+            $response['success'] = false;
+            $response['message'] = "Failed to update balance";
+            exit();
+        }
+    }
+
+        
+        //$orgid = $_POST['orgid'];
 
         $dataTable1 = [
             'OrgID' => $orgid,

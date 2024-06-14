@@ -102,6 +102,14 @@
                                     <label for="description">Description</label>
                                     <textarea class="form-control rounded-4" id="description" name="Description"></textarea>
                                 </div>
+                                <div class="form-group ml-2">
+                                    <label class="form-check-label mr-5">Select Which Balance you wish to use</label><br>
+                                    <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased">
+                                    <label class="form-check-label" for="TicketBased">Ticket Based</label><br>
+                                    <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased">
+                                    <label class="form-check-label" for="TimeBased">Time Based</label>
+
+                                </div>
                                 <div class="form-group">
                                     <label for="capacity">Capacity</label>
                                     <input type="number" class="form-control rounded-4" id="capacity" name="Capacity">
@@ -649,17 +657,29 @@ const fetchPackages = () => {
     });
 };
 
+var availbleDays;
+var availbleTickets;
+
 const validateStep = (currentStep, data) => {
-    if (currentStep === 1) {
+
+    choice = document.querySelector('input[name="choice"]:checked').value;
+    console.log("choice",choice);
+    if (currentStep === 1 && choice === 'TimeBased') {
         const startDate = new Date(document.getElementById('startDate').value);
         const endDate = new Date(document.getElementById('endDate').value);
         const totalDays = (endDate - startDate) / (1000 * 3600 * 24);
 
+        
+
         console.log("availble days",data.data[0].Amount_of_Days);
+        availbleDays=data.data[0].Amount_of_Days-totalDays;
+        console.log("availble days",availbleDays);
         return totalDays < data.data[0].Amount_of_Days;
-    } else if (currentStep === 0) {
+    } else if (currentStep === 0 && choice === 'TicketBased') {
         const capacity = parseInt(document.getElementById('capacity').value, 10);
 console.log("capacity",data.data[0].Amount_of_Tickets);
+        availbleTickets=data.data[0].Amount_of_Tickets-capacity;
+        console.log("availble tickets",availbleTickets);
         return capacity < data.data[0].Amount_of_Tickets;
     }
 
@@ -722,10 +742,17 @@ nextBtns.forEach(button => {
              console.log('Form submitted');
 
                 var formData = new FormData(form);
-
-                // for (let [key, value] of formData.entries()) {
-                //     console.log(${key}: ${value});
-                // }
+                if(choice === 'TimeBased'){
+                    formData.append('Amount_of_Tickets',0)
+                    formData.append('Amount_of_Days',availbleDays)
+                }else{
+                    formData.append('Amount_of_Tickets',availbleTickets)
+                    formData.append('Amount_of_Days',0)
+                }
+                
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
 
                 fetch('add_event.php', {
                     method: 'POST',

@@ -174,14 +174,14 @@ class DB
         return $Organizations->getBalance($OrgID);
     }
 
-    static function setBalance($OrgID,$Amount_of_Days,$Amount_of_Tickets){
+    static function setBalance($OrgID,$Amount,$columnname){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $dbname = DB_NAME;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $Organizations= new Organizations($db->connection());
-        return $Organizations->setBalance($OrgID,$Amount_of_Days,$Amount_of_Tickets);
+        return $Organizations->setBalance($OrgID,$Amount,$columnname);
     }
     
      static function validatePackage($PackageID,$OrgID){

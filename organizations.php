@@ -332,6 +332,10 @@ LEFT JOIN
             $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!$result){
+                return ["error" => "Organization not found", 'message'=> $result];
+            }
+
             return $result;
 
         } catch (PDOException $e) {
@@ -340,42 +344,34 @@ LEFT JOIN
 
     }
 
-    function setBalance($OrgID, $Amount_of_Days,$Amount_of_Tickets){
+    function setBalance($OrgID, $Amount,$columnname){
+                    
         try {
-            if($Amount_of_Days){
-                $sql = "UPDATE {$this->OrgPlansTable} SET Amount_of_Days = :Amount_of_Days WHERE OrgID = :OrgID";
-            }else{
-                $sql = "UPDATE {$this->OrgPlansTable} SET Amount_of_Tickets = :Amount_of_Tickets WHERE OrgID = :OrgID";
-            }
+            if($Amount===0){
+                return ["error" => "Amount cannot be negative"];
+                
+            }else
+            {
+            $sql = "UPDATE {$this->OrgPlansTable} SET $columnname = :Amount WHERE OrgID = :OrgID";
             $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":Amount", $Amount, PDO::PARAM_INT);
             $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
-            if($Amount_of_Days){
-                $stmt->bindParam(":Amount_of_Days", $Amount_of_Days, PDO::PARAM_INT);
-            }else{
-                $stmt->bindParam(":Amount_of_Tickets", $Amount_of_Tickets, PDO::PARAM_INT);
-            }
-            $result=$stmt->execute();
-            if($stmt->rowCount() == 0){
-                return ["error" => "Failed to update balance: No rows updated"];
-            }
-            if(!$result){
-                return ["error" => "Failed to update balance"];
-            }
-            return ["message"=>"Balance updated successfully"];
+            $stmt->execute();
+            return true;
+
+        }
+        
 
         }
         catch (PDOException $e) {
             return ["error" => "Failed to update balance: " . $e->getMessage()];
-        }
-
-
-    
+        }    
     }
 
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());
-// // echo json_encode($org->FetchOrgPackages(9));
+// echo json_encode($org->FetchOrgPackages(9));
 // echo json_encode($org->FetchOrgDetails(9));
 
     
