@@ -84,7 +84,7 @@
 <body>  
     <div class="container-fluid w-100 p-3 backOnav text-white">
         <div class="row align-items-center">
-            <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.html" style="text-decoration: none;">
+            <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.php" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
             </a>  
@@ -107,7 +107,7 @@
                 <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
-                            <a href="./organization_dashboard.html" class="nav-link text-white"> 
+                            <a href="./organization_dashboard.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-tachometer"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>

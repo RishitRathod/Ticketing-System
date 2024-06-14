@@ -216,7 +216,7 @@ include 'admin_headnav.php';
                     <td>${row.StartDate} - ${row.EndDate}</td>
                     <td>${row.City}</td>
                     <td>${row.EventType}</td>
-                    <td><button class="btn btn-primary view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+                    <td><button class="btn btn-primary fs-6 view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 `;
             } else if (tableName === 'users') {
                 tr.innerHTML = `
