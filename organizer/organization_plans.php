@@ -125,8 +125,9 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
-                        <th>Amount Of Days</th> 
-                        <th>Amount Of Tickets</th>    
+                        <th>Amount of Tickets or Days</th> 
+                        <th>Price</th>  
+                        <th>Buy Date</th> 
                     </tr>
                 </thead>
                 <tbody id="selectedPack">
@@ -235,7 +236,7 @@
 <script>
 
     //get id from cookie
-    const OrgID =document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+    const OrgID =document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1]
     console.log(OrgID);
     console.log(OrgID);
     async function FetchOrgPackages(OrgID){
@@ -262,6 +263,8 @@
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
                     <td>${row.Amount}</td>
+                    <td?>${row.BuyDate}</td>
+
 
 
 

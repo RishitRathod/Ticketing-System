@@ -59,6 +59,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
    if (!$orgPlan) {
        $response['success'] = false;
        $response['message'] = "Failed to fetch organization plans";
+       $response['data']=$orgPlan;
        echo json_encode($response);
        exit();
    }

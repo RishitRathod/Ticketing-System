@@ -31,7 +31,7 @@ public function selectBy($conditions)
         $query = "SELECT * FROM " . $this->table . " WHERE ";
         foreach ($conditions as $key => $value) {
             if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $key)) {
-                throw new PDOException("Invalid parameter name: $key");
+                return new PDOException("Invalid parameter name: $key");
             }
             $query .= "$key = :$key ";
         }

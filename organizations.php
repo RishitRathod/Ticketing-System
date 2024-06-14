@@ -26,6 +26,8 @@ class Organizations{
     private $OrgPlansTable = "org_plans";
     private $Packages = "packages";
 
+    private $OrgPackageTable = "org_package";
+
 /**
  * Represents a constructor for initializing a class with a database connection.
  */
@@ -256,37 +258,33 @@ LEFT JOIN
     
     //write doc comment for this function
     
-    public function FetchOrgPackages($OrgID) {
+    public function FetchOrgPackages($OrgID){
         try {
             $sql = "SELECT 
-                p.PackageID, 
-                p.PackageName, 
-                p.Amount, 
-                p.PackageType, 
-                op.Expiry_date, 
-                op.Amount_of_Days AS No_of_Days_Or_Tickets,
-                op.Amount_of_Tickets AS balance
-            FROM 
-                {$this->OrgPlansTable} op
-            INNER JOIN 
-                {$this->Packages} p ON op.PackageID = p.PackageID
-            WHERE 
-                op.OrgID = :OrgID";
-
+                        p.PackageID, 
+                        p.PackageName, 
+                        p.Amount, 
+                        p.PackageType, 
+                        op.BuyDate,
+                        p.No_of_Days_Or_Tickets
+                    FROM 
+                        {$this->OrgPackageTable} op
+                    INNER JOIN 
+                        {$this->Packages} p ON op.PackageID = p.PackageID
+                    WHERE 
+                        op.OrgID = :OrgID;";
+    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (count($result) > 0) {
-                return $result;
-            } else {
-                return "No data found. Please buy a package first.";
-            }
-
+            
+            return $result;
         } catch (PDOException $e) {
-            return ["error" => "Select failed: ". $e->getMessage()];
+            return ["error" => "Select failed: " . $e->getMessage()];
         }
     }
+
 
      public function validatePackage($PackageID, $OrgID) {
         try {
