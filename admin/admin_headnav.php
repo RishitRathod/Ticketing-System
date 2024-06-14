@@ -193,7 +193,7 @@
             <div class="col-sm-auto col-3">
                 <div class="dropdown open p-3 rounded-pills">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="../img/user.png" height="40" class="rounded-circle navPf" alt="User">
+                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="#">Profile</a>
@@ -258,4 +258,4 @@
                 document.addEventListener('DOMContentLoaded', setActiveLink);
             </script>
             <div class="col p-3">
-                <div class="main-content mx-auto d-flex justify-content-center align-items-center g-0">
+                <div class="main-content mx-auto justify-content-center align-items-center g-0">
