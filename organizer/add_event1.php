@@ -297,6 +297,7 @@
                     const packages = data.data;
                     console.log(packages);
                     console.log(packages[0].No_of_Days_Or_Tickets);
+
                     const totaldays = packages[0].No_of_Days_Or_Tickets;
                 }else{
                     alert('No packages found');
@@ -653,9 +654,25 @@ const fetchPackages = () => {
     })
     .then(response => {
         if (!response.ok) throw new Error('Failed to fetch data');
+        
         return response.json();
+        
     });
 };
+fetchPackages().then
+(function(data){
+    console.log("json",data);
+    checkbalance(data.data[0]);
+});
+    
+function checkbalance(data){
+
+        if(data.Amount_of_Days===0 && data.Amount_of_Tickets===0){
+            alert("You have no balance left");
+            window.location.href = './org_profile.html';
+        }
+
+}
 
 var availbleDays;
 var availbleTickets;
