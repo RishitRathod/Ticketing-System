@@ -43,13 +43,13 @@
             </div>
     <hr>
             <div class="d-inline" id="adminTableDiv">
-                <table class="table table-strip" id="adminTable">
+                <table class="table table-bordered" id="adminTable">
                     <thead>
                         <tr>
                             <th>Admin ID</th>
                             <th>Admin Name</th>
                             <th>Email</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody id="adminBody">
@@ -58,7 +58,7 @@
                 </table>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        
         <script>
 
             function resetform(){
@@ -130,13 +130,24 @@
                                 <td>${admin.AdminID}</td>
                                 <td>${admin.AdminUsername}</td>
                                 <td>${admin.Email}</td> 
-                                <td>
-                                    <button class="btn btn-primary" onclick="editAdmin(${admin.AdminID})">Edit</button>
-                                    <button class="btn btn-danger" onclick="deleteAdmin(${admin.AdminID})">Delete</button>
+                                
+                            
                             `;//add button to edit and delete admin
                             adminBody.appendChild(row);
                         });
-                        $('#adminTable').DataTable();
+                        // <!-- <td>   <button class="btn btn-primary" onclick="editAdmin(${admin.AdminID})">Edit</button> 
+                        // <button class="btn btn-danger" onclick="deleteAdmin(${admin.AdminID})">Delete</button>-->
+                        const numColumns = $("#adminTable thead th").length;
+
+                        const columnWidth =  (1* numColumns)/100 + '%';
+                        $('#adminTable').DataTable(
+                        //     { "responsive": true,
+                        //     "autoWidth": false, // Disable automatic column width calculation
+                        //     "destroy": true, // Added to reinitialize DataTable
+                        //     "columnDefs": [
+                        //     { "width": columnWidth, "targets": "_all" } // Set the width of all columns
+                        // ]}
+                    );
                     } else {
                         console.log('Error: ', data.message);
                     }

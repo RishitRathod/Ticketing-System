@@ -48,20 +48,29 @@
                                 <option value="TicketBased">TicketBased</option>
                             </select>
                         </div>
-                        
-                        <div class="col-auto">
+
+                        <div class="col-2">
+                            <label for="noofdays">no. of days</label>
+                            <input type="number" class="form-control" id="noofdays" name="noofdays">
+                        </div>
+
+                        <div class="col-2">
                             <label for="Amount">Amount:</label>
                             <input type="number" class="form-control" id="Amount" name="Amount">
                         </div>
 
-                        <div class="col-auto">
-                            <label for="Days">Validity( in NO. days):</label>
-                            <input type="number" class="form-control" id="Days" name="Days">
+                        
+
+                        <div class="col-2">
+                            <label for="Exp_date">Set Exp_date</label>
+                            <input type="number" class="form-control" id="Exp_date" name="Exp_date">
                         </div>
 
-                        <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
-                        <button type="button" id="abortUdpatebtn" class="btn btn-warning col-1 m-sm-2 m-0">Abort Update</button>
-                        <button type="button" id="updatebtn" class="btn btn-primary col-1 m-sm-2 m-0" onclick="updatePackage()">Update</button>
+                      <div class="row justify-content-center">
+                      <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
+                        <button type="button" id="abortUdpatebtn" class="btn btn-warning col-2 m-sm-2 m-0">Abort Update</button>
+                        <button type="submit" id="updatebtn" class="btn btn-primary col-2 m-sm-2 m-0" onclick="updatePackage()">Update</button>
+                      </div>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="packageIDInput">
@@ -82,8 +91,10 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
+                        <th>No.of Days/Tickets</th>
+                        <th>Exp Date</th>
                         <th>Amount</th>
-                        <th>Validity</th>
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -179,8 +190,9 @@
             const data = {
                 PackageName: document.getElementById('PackageName').value,
                 PackageType: document.getElementById('PackageType').value,
+                noofdays: document.getElementById('noofdays').value,
                 Amount: document.getElementById('Amount').value,
-                Days: document.getElementById('Days').value
+                Exp_date: document.getElementById('Exp_date').value
                 
             };
 
@@ -217,7 +229,49 @@
             }
         });
         
+        //for exp date
+        function daysToTimestamp(days) {
+                    // Convert days to milliseconds
+                    let milliseconds = days * 24 * 60 * 60 * 1000;
+                    
+                    // Create a new Date object with the calculated milliseconds
+                    let date = new Date(milliseconds);
+                    
+                    // Return the timestamp
+                    return date.getTime();
+                }
 
+                function dateToTimestamp(date) {
+                    // Create a new Date object from the provided date string
+                    var dateObject = new Date(date);
+                
+                    // Return the timestamp in milliseconds
+                    return dateObject.getTime();
+                }
+
+
+                function addDays(date, days) {
+                    // var result = new Date(date);
+                    // // days = daysToTimestamp(days);
+                    // result.setDate(result.getDate() + days);
+                    // return result.toISOString().split('T')[0]; 
+                    return timestampToDate(dateToTimestamp(date)+daysToTimestamp(days))
+
+                }
+
+                function timestampToDate(timestamp) {
+                    // Create a new Date object using the provided timestamp
+                    var dateObject = new Date(timestamp);
+                
+                    // Extract the date components
+                    var year = dateObject.getFullYear();
+                    var month = ("0" + (dateObject.getMonth() + 1)).slice(-2); // Months are zero-indexed, so we add 1
+                    var day = ("0" + dateObject.getDate()).slice(-2);
+                    
+                    // Return the date in the format "YYYY-MM-DD"
+                    return year + "-" + month + "-" + day;
+                }
+        
         //fetch the data from the database using fetch api and async and await function
         async function fetchPackages() {
             const response = await fetch('packages.php', {
@@ -239,8 +293,11 @@
                         <td>${package.PackageID}</td>
                         <td>${package.PackageName}</td>
                         <td>${package.PackageType}</td>
+                        <td>${row.No_of_Days_Or_Tickets}</td>
+                        <td>${addDays(new Date(),row.Exp_date)}</td>
+
                         <td>${package.Amount}</td>
-                        <td>${package.Days}</td>
+                        
                         <td>
                         <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
                         <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>

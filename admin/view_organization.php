@@ -127,7 +127,7 @@ require_once 'admin_headnav.php';
             if (data.error) {
                 alert(data.error);
             } else {
-                console.log(data);
+                // console.log(data);
                 console.log(data.data);
                 displayOrgData(data.data);
             }

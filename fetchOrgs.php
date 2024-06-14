@@ -59,6 +59,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(['status' => 'error', 'message' => 'No data found']);
             }
             break;
-        }
+        case 'validatePackage':
+            $OrgID = $input['OrgID'];
+            $PackageID = $input['PackageID'];
+            $response=DB::validatePackage($PackageID,$OrgID);
+            if($response){
+                echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+            }else{
+                echo json_encode(['status'=> 'error','message'=> 'No data found']);
+            }
+            break;
         
+        case "AttendanceByEventForOrg":
+            $EventID = $input["EventID"];
+            $response = DB::AttendanceByEventForOrg($EventID);
+            if($response){
+                echo json_encode(["status"=> "success","message"=> "Data fetched successfully","data"=> $response]);
+            }else{
+                echo json_encode(["status"=> "error", "message"=> "No data found"]);
+            break;
+
+            }
+
     }
+}else{
+    echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
+}

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Ticketing System</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
         .event-card {
             display: flex;
@@ -122,7 +122,8 @@
     </style>
 </head>
 <body>
-    <?php include 'navhead.php'; ?>
+    <?php 
+    include 'navhead.php'; ?>
 
     <!-- Main Content -->
     <div id="eventsContainer">
