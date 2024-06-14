@@ -56,26 +56,33 @@
         padding: 0 !important;
     }
     p button i{
-                position: fixed;
-                bottom: 40px; /* Adjust as needed */
-                right: 40px; /* Adjust as needed */
-                padding: 20px;
-                background-color: #1b155d; /* Example background color */
-                color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
-                z-index: 999; 
-            }
+        position: fixed;
+        bottom: 40px; /* Adjust as needed */
+        right: 40px; /* Adjust as needed */
+        padding: 20px;
+        background-color: #1b155d; /* Example background color */
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+        z-index: 999; 
+    }
     .collapse-horizontal{
         position: fixed;
         top: 100px; 
         left: 20px;
         z-index: 990; 
     }
+    #toggleDiv1{
+        height: 1px;
+    }
+        .custom-wrapper{
+            width: 225px;
+        } 
     @media (min-width: 760px) {
             .filterPanel{
                 width:225px;   
             }
+
         }
      @media (max-width: 768px) {
             .filterPanel{
@@ -96,6 +103,9 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
                 z-index: 999; 
             }
+            .custom-wrapper{
+                width: 270px;
+            } 
 
         }
 </style>
@@ -129,7 +139,6 @@
                         </div>
                         <strong>Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
-
                             <input type="radio" class="btn-check" name="h" id="c1" autocomplete="off" checked>
                             <label class="btn btn-outline-primary" for="c1"> High to Low</label>
                             <input type="radio" class="btn-check" name="h" id="c2" autocomplete="off">
@@ -139,7 +148,7 @@
                 </div>
                 <div class="custom-wrapper filt p-1"> 
                     <div class="header"> 
-                        <p class="projtitle"> 
+                        <p class="projtitle p-3"> 
                         <strong>Price Range Slider </strong>
                         </p> 
                     </div>
@@ -251,6 +260,7 @@
             if (div1.classList.contains('col-md-2')) {
                 div1.classList.remove('col-md-2');
                 div1.classList.add('col-md-0');
+                // div1.style.display = 'none';
                 div2.classList.remove('col-md-10');
                 div2.classList.add('col-md-12');
             } else {
@@ -258,6 +268,8 @@
                 div2.classList.add('col-md-10');
                 div1.classList.remove('col-md-0');
                 div1.classList.add('col-md-2');
+                // div1.style.display = 'block';
+
             }
 
         }
