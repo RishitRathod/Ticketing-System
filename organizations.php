@@ -319,10 +319,10 @@ LEFT JOIN
         }
     }
 }
-$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$org= new Organizations($conn->connection());
-// echo json_encode($org->FetchOrgPackages(9));
-echo json_encode($org->FetchOrgDetails(9));
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// $org= new Organizations($conn->connection());
+// // echo json_encode($org->FetchOrgPackages(9));
+// echo json_encode($org->FetchOrgDetails(9));
 
     
 ?>
