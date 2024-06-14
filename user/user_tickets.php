@@ -17,6 +17,9 @@ include 'userdashnav.php';
             margin-bottom: 20px;
             font-size: 15px;
         }
+        .tic{
+            background: linear-gradient(to right bottom, #020ff725,#f7020225);
+        }
         .ticket img {
             max-width: 100px;
         }
@@ -26,7 +29,6 @@ include 'userdashnav.php';
     </style>
 </head>
 <body class="beg">
-    
     <div class="container mt-5">
         <h1 class="text-center">My Tickets</h1>
         <div class="row" id="tickets"></div>
@@ -36,7 +38,6 @@ include 'userdashnav.php';
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 
     <script>
     async function fetchDetails(UserID) {
@@ -69,7 +70,7 @@ include 'userdashnav.php';
             ticketElement.className = 'col-md-4';
 
             const ticketContent = `
-                <div class="ticket card">
+                <div class="ticket card tic">
                     <div class="card-body row g-0">
                     <h4 class="card-title col my-auto"> ${ticket.EventName}</h4>
                     <div class="col">
@@ -78,52 +79,23 @@ include 'userdashnav.php';
                     <div class="row"> 
 
                         <div class="row">                        
-                            <div class="card-text">Date: ${ticket.EventDate}</div>
-                            <div class="card-text">Time: ${ticket.StartTime} - ${ticket.EndTime}</div>
+                            <div class="card-text"><strong>Date: </strong>${ticket.EventDate}</div>
+                            <div class="card-text"><strong>Time: </strong> ${ticket.StartTime} - ${ticket.EndTime}</div>
                         </div>
                         <div class="row ">                        
-                                <div class="card-text">Organization: ${ticket.OrgName}</div>
-                                <div class="card-text">Ticket Type: ${ticket.TicketType}</div>
-                                <div class="card-text">Quantity: ${ticket.Quantity}</div>
+                                <div class="card-text"><strong> Organization: </strong> ${ticket.OrgName}</div>
+                                <div class="card-text"><strong>Ticket Type: </strong> ${ticket.TicketType}</div>
+                                <div class="card-text"><strong> Quantity: </strong> ${ticket.Quantity}</div>
                         </div>
-                        <button type="button" class="button btn-primary rounded" value=${ticket.TicketSalesID} onclick="SaveTicketTOPDF('${ticket.EventName}', '${ticket.EventDate}', '${ticket.StartTime}', '${ticket.EndTime}', '${ticket.OrgName}', '${ticket.TicketType}', '${ticket.Quantity}', '${ticket.QR_CODE}')">Save Ticket</button>
+    
                     </div>
                     </div>
                 </div>
-                 
             `;
             ticketElement.innerHTML = ticketContent;
             ticketsContainer.appendChild(ticketElement);
         });
     }
-
-    function SaveTicketTOPDF(eventName, eventDate, startTime, endTime, orgName, ticketType, quantity, qrCode) {
-    const doc = new jsPDF();
-    const filename = eventName + '_ticket.pdf';
-    const ticketContent = `
-        Event Name: ${eventName}
-        Date: ${eventDate}
-        Time: ${startTime} - ${endTime}
-        Organization: ${orgName}
-        Ticket Type: ${ticketType}
-        Quantity: ${quantity}
-    `;
-    doc.text(ticketContent, 10, 10);
-
-    // Add QR code
-    const qrCodeImage = new Image();
-    qrCodeImage.src = qrCode;
-    qrCodeImage.onload = function() {
-        const canvas = document.createElement('canvas');
-        canvas.width = qrCodeImage.width;
-        canvas.height = qrCodeImage.height;
-        const context = canvas.getContext('2d');
-        context.drawImage(qrCodeImage, 0, 0);
-        const imageData = canvas.toDataURL('image/png');
-        doc.addImage(imageData, 'PNG', 10, 40, 50, 50); // Adjust position and size as needed
-        doc.save(filename);
-    };
-}
 
     function getUserID() {
         const cookies = document.cookie.split(';').map(cookie => cookie.trim());
