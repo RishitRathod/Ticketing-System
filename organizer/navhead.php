@@ -10,6 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- datatable Bootstrap -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script>
+function isUserLoggedIn() {
+                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                   if(!cookies){
+                       console.log("User is not logged in");
+                       return false;}
+                    for (const cookie of cookies) {
+                        if (cookie.startsWith('role=')) {
+                            console.log("User is logged in");
+                            return true;
+                        }
+                    }
+                    console.log("User is not logged in");
+                    return false;
+            }
+
+            if (!isUserLoggedIn()) {
+                window.location.href = './organization_login.html';
+            }
+
+    </script>
 
     <!-- CSS -->
     <style>
@@ -138,10 +159,34 @@
                 <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center">
 
             <script src="../script.js"></script>
-           <script>
+           <script> 
+            
+            document.addEventListener('DOMContentLoaded', ()=>{
+                if (!isUserLoggedIn()) {
+                //    document.getElementById('login').style.display = 'none';
+                //    document.getElementById('profile').style.display = 'block';
+                } else {
+                   window.herf = "./organization_login.html";
+                }
+            
+            });
+
+            window.onload = function() {
+                    if (!isUserLoggedIn()) {
+                //    document.getElementById('login').style.display = 'none';
+                //    document.getElementById('profile').style.display = 'block';
+                } else {
+                   window.herf = "./organization_login.html";
+                }
+            }
+            window.onload(setActiveLink());
+
                
             function isUserLoggedIn() {
                     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                   if(!cookies){
+                       console.log("User is not logged in");
+                       return false;}
                     for (const cookie of cookies) {
                         if (cookie.startsWith('role=')) {
                             console.log("User is logged in");
@@ -150,14 +195,6 @@
                     }
                     console.log("User is not logged in");
                     return false;
-            }
-            window.onload = function() {
-                    if (isUserLoggedIn()) {
-                //    document.getElementById('login').style.display = 'none';
-                //    document.getElementById('profile').style.display = 'block';
-                } else {
-                   window.herf = "./organization_login.html";
-                }
             }
                 // Function to set active class to the clicked anchor tag
                 function setActiveLink() {

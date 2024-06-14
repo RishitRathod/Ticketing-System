@@ -138,6 +138,32 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script src="../script.js"></script>
     <script>
+        
+        function isUserLoggedIn() {
+                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                    for (const cookie of cookies) {
+                        if (cookie.startsWith('role=')) {
+                            console.log("User is logged in");
+                            return true;
+                        }
+                    }
+                    console.log("User is not logged in");
+                    return false;
+            }
+            window.onload = function() {
+                    if (!isUserLoggedIn()) {
+                //    document.getElementById('login').style.display = 'none';
+                //    document.getElementById('profile').style.display = 'block';
+                } else {
+                   window.herf = "./organization_login.html";
+                }
+            }
+ 
+        
+        window.onload = initialize;
+
+
+
            const getCookieValue = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -175,6 +201,12 @@
         }
 
         async function initialize() {
+            if (!isUserLoggedIn()) {
+                //    document.getElementById('login').style.display = 'none';
+                //    document.getElementById('profile').style.display = 'block';
+                } else {
+                   window.herf = "./organization_login.html";
+                }
             const value = 'events';
             const data = await fetchData(value);
             populateEvents(data);
@@ -296,10 +328,6 @@ console.log(uniqueEvents);
                 eventsRow.appendChild(eventCard);
             });
         }
-
- 
-        
-        window.onload = initialize;
 
     </script>
 

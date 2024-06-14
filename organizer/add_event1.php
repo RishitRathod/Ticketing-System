@@ -8,6 +8,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
+    <script>
+function isUserLoggedIn() {
+                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                   if(!cookies){
+                       console.log("User is not logged in");
+                       return false;}
+                    for (const cookie of cookies) {
+                        if (cookie.startsWith('role=')) {
+                            console.log("User is logged in");
+                            return true;
+                        }
+                    }
+                    console.log("User is not logged in");
+                    return false;
+            }
+
+            if (!isUserLoggedIn()) {
+                window.location.href = './login.html';
+            }
+
+    </script>
+
     <!-- date picker ui -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.0.2/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-39e9UaGkm/+yp6spIsVfzcs3j7ac7G2cg0hzmDvtG11pT1d7YMnOC26w4wMPhzsL" crossorigin="anonymous"> -->
     <style>
@@ -899,9 +921,11 @@ nextBtns.forEach(button => {
             // Initialize dayDifference element
             document.getElementById('dayDifference').innerText = 'Select dates to calculate difference';
         });
+
+
+
     </script>
-
-
+    
 <?php
 include 'footer.php';
 ?>

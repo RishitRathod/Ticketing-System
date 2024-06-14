@@ -1,5 +1,5 @@
 <?php
-include 'navhead.php';
+    include 'navhead.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
