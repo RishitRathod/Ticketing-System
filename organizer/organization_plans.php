@@ -125,10 +125,8 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
-                        <th>No.of Days/Tickets</th>
-                        <th>Buy Date</th>
-                        <th>Package Price</th> 
-                        <th>Exp. Date</th>
+                        <th>Amount Of Days</th> 
+                        <th>Amount Of Tickets</th>    
                     </tr>
                 </thead>
                 <tbody id="selectedPack">
@@ -148,9 +146,9 @@
                         <th>Package ID</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
-                        <th>No.of Days/Tickets</th>
-                        <th>Time Duration In Months</th>
+                        <th>Amount Of Days/Tickets</th>
                         <th>Amount</th>
+                       
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -262,9 +260,8 @@
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
-                    <td>${addDays(new Date(),row.Buy_Date)}</td>
                     <td>${row.Amount}</td>
-                    <td>${addDays(new Date(),row.Exp_date)}</td>
+
 
 
 
@@ -307,7 +304,7 @@
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
-                    <td>${addDays(new Date(),row.Exp_date)}</td>
+                    <!-- <td>${addDays(new Date(),row.Exp_date)}</td> -->
                     <td>${row.Amount}</td>
 
                 `;
@@ -327,42 +324,53 @@
         });
 
         document.querySelector("#buyButton").addEventListener("click", function() {
-            const selectedPackages = [];
-            document.querySelectorAll(".package-checkbox:checked").forEach(checkbox => {
-                selectedPackages.push(checkbox.getAttribute("data-package-id"));
-            });
+    const selectedPackages = [];
+    let totalDaysTickets = []; // Variable to store the total number of days/tickets
+    
+    document.querySelectorAll(".package-checkbox:checked").forEach(checkbox => {
+        const packageId = checkbox.getAttribute("data-package-id");
+        selectedPackages.push(packageId);
 
-            if (selectedPackages.length > 0) {
-                console.log("Selected Packages: ", selectedPackages);
-                // You can now send selectedPackages array to your server or handle it as needed.
-                alert("Selected Packages: " + selectedPackages.join(", "));
-                
-                //console.log(OrgID);
-                fetch("buy_packages.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        orgid: OrgID,
-                        selectedPackages: selectedPackages
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.success) {
-                        alert("Packages bought successfully");
-                        location.reload();
-                    } else {
-                        alert("Failed to buy packages");
-                    }
-                });
-                
+        // Get the number of days/tickets for the current package and add it to the total
+        const daysTickets = parseInt(checkbox.closest("tr").querySelector("td:nth-child(5)").textContent);
+        totalDaysTickets.push(daysTickets);
+    });
+
+    if (selectedPackages.length > 0) {
+        console.log("Selected Packages: ", selectedPackages);
+        console.log("Total Days/Tickets: ", totalDaysTickets); // Log the total days/tickets
+
+        // You can now send selectedPackages array along with totalDaysTickets to your server or handle it as needed.
+        alert("Selected Packages: " + selectedPackages.join(", ") + "\nTotal Days/Tickets: " + totalDaysTickets);
+        
+        // Send selectedPackages array and totalDaysTickets to the server
+        fetch("buy_packages.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                orgid: OrgID,
+                selectedPackages: selectedPackages,
+                totalDaysTickets: totalDaysTickets // Include totalDaysTickets in the request
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.success) {
+                alert("Packages bought successfully");
+                location.reload();
             } else {
-                alert("Please select at least one package to buy.");
+                alert("Failed to buy packages");
             }
         });
+        
+    } else {
+        alert("Please select at least one package to buy.");
+    }
+});
+
     });
 
 </script>

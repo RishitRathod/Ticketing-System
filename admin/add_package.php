@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-2">
-                            <label for="noofdays">no. of days</label>
+                            <label for="noofdays">no. of days/Tickets</label>
                             <input type="number" class="form-control" id="noofdays" name="noofdays">
                         </div>
 
@@ -61,15 +61,15 @@
 
                         
 
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <label for="Exp_date">Set Exp_date</label>
                             <input type="number" class="form-control" id="Exp_date" name="Exp_date">
-                        </div>
+                        </div> -->
 
                       <div class="row justify-content-center">
                       <button type="submit" id="submitbtn" class="btn btn-success col-auto m-sm-2 m-0">Submit</button>
                         <button type="button" id="abortUdpatebtn" class="btn btn-warning col-2 m-sm-2 m-0">Abort Update</button>
-                        <button type="submit" id="updatebtn" class="btn btn-primary col-2 m-sm-2 m-0" onclick="updatePackage()">Update</button>
+                        <button type="button" id="updatebtn" class="btn btn-primary col-2 m-sm-2 m-0" onclick="updatePackage()">Update</button>
                       </div>
                     </div>
                     <div class="form-group">
@@ -92,7 +92,6 @@
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>No.of Days/Tickets</th>
-                        <th>Exp Date</th>
                         <th>Amount</th>
 
                         <th>Actions</th>
@@ -192,7 +191,7 @@
                 PackageType: document.getElementById('PackageType').value,
                 noofdays: document.getElementById('noofdays').value,
                 Amount: document.getElementById('Amount').value,
-                Exp_date: document.getElementById('Exp_date').value
+               // Exp_date: document.getElementById('Exp_date').value
                 
             };
 
@@ -293,8 +292,8 @@
                         <td>${package.PackageID}</td>
                         <td>${package.PackageName}</td>
                         <td>${package.PackageType}</td>
-                        <td>${row.No_of_Days_Or_Tickets}</td>
-                        <td>${addDays(new Date(),row.Exp_date)}</td>
+                        <td>${package.No_of_Days_Or_Tickets}</td>
+                        <!-- <td>${addDays(new Date(),row.Exp_date)}</td> -->
 
                         <td>${package.Amount}</td>
                         
@@ -302,8 +301,7 @@
                         <button class="btn btn-primary" onclick="editPackage(${package.PackageID})">Edit</button>
                         <button class="btn btn-danger" onclick="deletePackage(${package.PackageID})">Delete</button>
                         </td>
-                    `;
-                  
+                    `;  
                 });
                 $('#packagesTable').DataTable(); 
             } else {
@@ -325,6 +323,7 @@
             const responseData = await response.json();
             if (responseData.status === 'success') {
                 alert('Data deleted successfully');
+                $('#packagesTable').DataTable().destroy();
                 fetchPackages();
             } else {
                 alert('Failed to delete package');
@@ -341,16 +340,16 @@
                 PackageID: packageRow.children[0].textContent,
                 PackageName: packageRow.children[1].textContent,
                 PackageType: packageRow.children[2].textContent,
-                Amount: packageRow.children[3].textContent,
-                Days: packageRow.children[4].textContent
+                No_of_Days_Or_Tickets: packageRow.children[3].textContent,
+                Amount: packageRow.children[4].textContent,
+        
             };
 
             //populate the form with the package data
             document.getElementById('PackageName').value = packageData.PackageName;
             document.getElementById('PackageType').value = packageData.PackageType;
-            document.getElementById('Days').value = packageData.Days;
+            document.getElementById('noofdays').value = packageData.No_of_Days_Or_Tickets;
             document.getElementById('Amount').value = packageData.Amount;
-
 
             //set the packageID in the hidden input field
             document.querySelector('input[name="packageIDInput"]').value = packageData.PackageID;
@@ -360,9 +359,6 @@
             document.getElementById('updatebtn').style.display = 'inline';
             document.getElementById('submitbtn').style.display = 'none';
             document.getElementById('abortUdpatebtn').style.display = 'inline';
-
-            
-
         }
 
         document.getElementById('abortUdpatebtn').addEventListener('click', function(){
@@ -380,16 +376,14 @@
             if (!validateForm()) return;
 
             const data = {
-
+                action: 'update',
+                id: document.querySelector('input[name="packageIDInput"]').value,
                 PackageName: document.getElementById('PackageName').value,
                 PackageType: document.getElementById('PackageType').value,
                 Amount: document.getElementById('Amount').value,
-                Days: document.getElementById('Days').value,
-                action: 'update',
-                id: document.querySelector('input[name="packageIDInput"]').value
-
+                No_of_Days_Or_Tickets: document.getElementById('noofdays').value
+                // Days: document.getElementById('Days').value
             };
-
             console.log(data);
 
             const response = await fetch('packages.php', {
@@ -406,6 +400,8 @@
                 alert('Data updated successfully');
                 // Clear the form
                 document.getElementById('packageForm').reset();
+                //destory datatable
+                $('#packagesTable').DataTable().destroy();
                 fetchPackages();
             } else {
                 console.log(responseData);

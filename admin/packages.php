@@ -10,13 +10,13 @@ function addPackage($input){
         exit;
     }
 
-    if ( !isset($input['Exp_date'])||!isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) ) {
+    if ( !isset($input['PackageName']) || !isset($input['PackageType']) || !isset($input['Amount']) ) {
         echo json_encode(['status' => 'error', 'message' => 'Missing or invalid input data']);
         exit;
     }
 
     $data = [
-        'Exp_date' => $input['Exp_date'],
+      //  'Exp_date' => $input['Exp_date'],
         'PackageName' => $input['PackageName'],
         'PackageType' => $input['PackageType'],
         'No_of_Days_Or_Tickets' => $input['noofdays'],
@@ -74,6 +74,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             $id = $input['id'];
             unset($input['id']);
+           
             $update = DB::update(DB_NAME, 'packages', $input, $id, 'PackageID');
             if($update){
                 echo json_encode(['status' => 'success', 'message' => 'Data updated successfully']);

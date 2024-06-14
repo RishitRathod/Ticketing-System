@@ -23,7 +23,7 @@ class Organizations{
   * @var string
 */
     private $organizationTable = "organizations";
-    private $OrgPackageTable = "org_package";
+    private $OrgPlansTable = "org_plans";
     private $Packages = "packages";
 
 /**
@@ -44,58 +44,54 @@ class Organizations{
      * @return array Associative array containing organization and package details, or an error message.
      * @throws PDOException If there is an error with the database operation.
      */
-    public function FetchOrgDetails($OrgID){
+    public function FetchOrgDetails($OrgID) {
         try {
-
             $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
-                
             $sql = "SELECT 
-            o.OrgID,
-            o.Name AS OrganizationName,
-            o.Email AS OrganizationEmail,
-            o.ContactNumber AS OrganizationContactNumber,
-            o.ContactEmail AS OrganizationContactEmail,
-            o.Address AS OrganizationAddress,
-            o.Status AS OrganizationStatus,
-            o.ContactName AS OrganizationContactName,
-            GROUP_CONCAT(DISTINCT CONCAT(
-                '{\"PackageID\":', op.PackageID, 
-                ',\"PackageName\":\"', p.PackageName, 
-                '\",\"Amount\":', p.Amount, 
-                ',\"PackageType\":\"', p.PackageType, 
-                '\",\"BuyDate\":\"', op.BuyDate,
-                '\",\"No_of_Days_Or_Tickets\":', p.No_of_Days_Or_Tickets,  
-                ',\"Exp_date\":\"', p.Exp_date, '\"}'
-            )) AS Packages
-        FROM 
-            {$this->organizationTable} o
-        INNER JOIN 
-            {$this->OrgPackageTable} op ON o.OrgID = op.OrgID
-        INNER JOIN 
-            {$this->Packages} p ON op.PackageID = p.PackageID
-        WHERE o.OrgID = :OrgID
-        GROUP BY
-            o.OrgID,
-            o.Name,
-            o.Email,
-            o.ContactNumber,
-            o.ContactEmail,
-            o.Address,
-            o.Status,
-            o.ContactName";
+                o.OrgID,
+                o.Name AS OrganizationName,
+                o.Email AS OrganizationEmail,
+                o.ContactNumber AS OrganizationContactNumber,
+                o.ContactEmail AS OrganizationContactEmail,
+                o.Address AS OrganizationAddress,
+                o.Status AS OrganizationStatus,
+                o.ContactName AS OrganizationContactName,
+                GROUP_CONCAT(DISTINCT CONCAT(
+                    '{\"PackageID\":', op.PackageID, 
+                    ',\"PackageName\":\"', p.PackageName, 
+                    '\",\"Amount\":', p.Amount, 
+                    ',\"PackageType\":\"', p.PackageType, 
+                    '\",\"Expiry_date\":\"', op.Expiry_date,
+                    '\",\"Amount_of_Days\":', op.Amount_of_Days,  
+                    ',\"Amount_of_Tickets\":', op.Amount_of_Tickets, '\"}'
+                )) AS Packages
+            FROM 
+                {$this->organizationTable} o
+            INNER JOIN 
+                {$this->OrgPlansTable} op ON o.OrgID = op.OrgID
+            INNER JOIN 
+                {$this->Packages} p ON op.PackageID = p.PackageID
+            WHERE o.OrgID = :OrgID
+            GROUP BY
+                o.OrgID,
+                o.Name,
+                o.Email,
+                o.ContactNumber,
+                o.ContactEmail,
+                o.Address,
+                o.Status,
+                o.ContactName";
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(":OrgID", $OrgID,PDO::PARAM_INT);
+            $stmt->bindparam(":OrgID", $OrgID, PDO::PARAM_INT);
             $stmt->execute();
-            $data= $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
-            
 
         } catch (PDOException $e) {
             return ["error" => "Select failed: " . $e->getMessage()];
-        }   
-
+        }
     }
 
   /**
@@ -260,72 +256,73 @@ LEFT JOIN
     
     //write doc comment for this function
     
-    public function FetchOrgPackages($OrgID){
+    public function FetchOrgPackages($OrgID) {
         try {
             $sql = "SELECT 
-                        p.PackageID, 
-                        p.PackageName, 
-                        p.Amount, 
-                        p.PackageType, 
-                        op.BuyDate, 
-                        p.Exp_date,
-                        p.No_of_Days_Or_Tickets
+                p.PackageID, 
+                p.PackageName, 
+                p.Amount, 
+                p.PackageType, 
+                op.Expiry_date, 
+                op.Amount_of_Days AS No_of_Days_Or_Tickets,
+                op.Amount_of_Tickets AS balance
+            FROM 
+                {$this->OrgPlansTable} op
+            INNER JOIN 
+                {$this->Packages} p ON op.PackageID = p.PackageID
+            WHERE 
+                op.OrgID = :OrgID";
 
-                    FROM 
-                        {$this->OrgPackageTable} op
-                    INNER JOIN 
-                        {$this->Packages} p ON op.PackageID = p.PackageID
-                    WHERE 
-                        op.OrgID = :OrgID;";
-    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if(count($result)> 0){
+            if (count($result) > 0) {
                 return $result;
-            }else{
-                return "No data found Please by a package first";
+            } else {
+                return "No data found. Please buy a package first.";
             }
 
         } catch (PDOException $e) {
-            return ["error" => "Select failed: " . $e->getMessage()];
+            return ["error" => "Select failed: ". $e->getMessage()];
         }
     }
 
-    function validatePackage($PackageID,$OrgID){
+     public function validatePackage($PackageID, $OrgID) {
         try {
-            $sql= "SELECT 
+            $sql = "SELECT 
                 op.PackageID, 
                 op.OrgID, 
                 p.PackageName, 
                 p.Amount, 
                 p.PackageType, 
-                op.BuyDate, 
-                p.Exp_date,
-                p.No_of_Days_Or_Tickets
-                FROM 
-                {$this->OrgPackageTable} op
-                INNER JOIN 
+                op.Expiry_date,
+                op.Amount_of_Days AS No_of_Days_Or_Tickets,
+                op.Amount_of_Tickets AS balance
+            FROM 
+                {$this->OrgPlansTable} op
+            INNER JOIN 
                 {$this->Packages} p ON op.PackageID = p.PackageID
-                WHERE
+            WHERE
                 op.PackageID = :PackageID AND op.OrgID = :OrgID
-                GROUP BY p.PackageID;";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bindParam(":PackageID", $PackageID, PDO::PARAM_INT);
-                $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $result;
-    }catch (PDOException $e) {
-    return ["error"=> "failed to Fatch Package". $e->getMessage()];
+            GROUP BY p.PackageID";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":PackageID", $PackageID, PDO::PARAM_INT);
+            $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+
+        } catch (PDOException $e) {
+            return ["error" => "Failed to fetch package: " . $e->getMessage()];
+        }
     }
-    
-    } 
 }
-// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// $org= new Organizations($conn->connection());
-// echo json_encode($org->FetchOrgPackages(2));
+$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$org= new Organizations($conn->connection());
+// echo json_encode($org->FetchOrgPackages(9));
+echo json_encode($org->FetchOrgDetails(9));
 
     
 ?>

@@ -63,6 +63,7 @@ class TicketUsage{
     public function GetTicketsDataByUserID($UserID){
         try{
             $stmt = $this->conn->prepare("SELECT
+                                                TS.TicketSalesID,
                                                 E.EventName,
                                                 O.Name AS OrgName,
                                                 TS.EventDate,
@@ -71,7 +72,7 @@ class TicketUsage{
                                                 T.Availability,
                                                 TK.TicketType,
                                                 TS.Quantity,
-                                                 TS.QR_CODE
+                                                TS.QR_CODE
                                             FROM
                                                 ticketsales TS
                                             INNER JOIN
