@@ -29,13 +29,13 @@
 
 
     .filt{
-        margin-top: 8%;
-        padding: 5%;
+        /* margin-top: 8%; */
+        padding: 2%;
         background-color: #1b155d;
-        border-bottom-left-radius: 10px;
+        /* border-bottom-left-radius: 10px;
         border-top-left-radius: 10px; 
         border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;       
+        border-top-right-radius: 10px;        */
     }
     select {
         background-color: #1b155d;
@@ -75,9 +75,9 @@
     #toggleDiv1{
         height: 1px;
     }
-        .custom-wrapper{
-            width: 225px;
-        } 
+    .custom-wrapper{
+        width: 225px;
+    } 
     @media (min-width: 760px) {
             .filterPanel{
                 width:225px;   
@@ -123,7 +123,7 @@
             <div class="collapse collapse-horizontal " id="collapseWidthExample">
                 <div class="custom-wrapper filt p-1"> 
                     <div class="header"> 
-                        <p class="projtitle mt-2" align="center"> 
+                        <p class="projtitle mt-4" align="center"> 
                             <strong>Sort By</strong>
                         </p> 
                     </div>
@@ -148,9 +148,9 @@
                 </div>
                 <div class="custom-wrapper filt p-1"> 
                     <div class="header"> 
-                        <p class="projtitle p-3"> 
+                        <div class="projtitle p-3"> 
                         <strong>Price Range Slider </strong>
-                        </p> 
+                        </div> 
                     </div>
                     <div class="price-input-container pl-3"> 
                         <div class="price-input row-12 justify-content-center d-block"> 
