@@ -658,7 +658,7 @@ const validateStep = (currentStep, data) => {
         return totalDays < data.data[0].No_of_Days_Or_Tickets;
     } else if (currentStep === 0) {
         const capacity = parseInt(document.getElementById('capacity').value, 10);
-
+console.log("capacity",data.data[0].No_of_Days_Or_Tickets);
         return capacity < data.data[0].No_of_Days_Or_Tickets;
     }
 
@@ -672,6 +672,10 @@ nextBtns.forEach(button => {
                 fetchPackages()
                     .then(data => {
                         if (validateStep(currentStep, data)) {
+                            if (currentStep === 1 && !validateForm()) {
+                                console.log('Form validation failed. Staying on step 1.');
+                                return; // Stay on the current step if form validation fails
+                            }
                             steps[currentStep].classList.remove('active');
                             currentStep++;
                             steps[currentStep].classList.add('active');
@@ -690,6 +694,9 @@ nextBtns.forEach(button => {
 });
 
 
+                     
+
+
 
 
 
@@ -705,10 +712,10 @@ nextBtns.forEach(button => {
 
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
-            //    if(!validateForm()) {
+               if(!validateForm()) {
                     
-            //         return;
-            //     }
+                    return;
+                }
                 console.log('Form submitted');
              console.log('Form submitted');
 
