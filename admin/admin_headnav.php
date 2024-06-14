@@ -7,11 +7,11 @@
     <!-- Bootstrap -->
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"> -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     
     <!-- Bootstrap JS and Popper.js (required for tooltips) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -90,7 +90,7 @@
         }
         body{
             background: linear-gradient(to bottom right, #7774ff7e, #a85bff47);
-            width: 95%;
+            width: 100%;
 
         }
         .nav-pills li a:hover {
@@ -112,7 +112,7 @@
             margin: 20px auto;
             padding: 20px;
             background-color: #f9f9f9;
-            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
         .stic {
             /* height: 200px; */
@@ -165,10 +165,18 @@
             float: none;
             width: inherit;
         }
-
+        td button, td button i{
+            font-size: 14px !important;
+        }
+        .navLogo{
+            height: 5vmax;
+        }
+        .navPf{
+            height: 3vmax;
+        }
         @media (max-width: 768px) {
             .dropdown.open {
-                width: 100%;
+                /* width: 100%; */
                 text-align: center;
             }
         }
@@ -179,13 +187,13 @@
     <div class="container-fluid w-100 container-sm p-3 backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard1.php"  style="text-decoration: none;">
-                <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
+                <img src="../img/logo.png" class="rounded-circle mx-1 navLogo mx-sm-3" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Admins</b>
             </a>  
             <div class="col-sm-auto col-3">
                 <div class="dropdown open p-3 rounded-pills">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
+                        <img src="../img/user.png" height="40" class="rounded-circle navPf" alt="User">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="#">Profile</a>
@@ -250,4 +258,4 @@
                 document.addEventListener('DOMContentLoaded', setActiveLink);
             </script>
             <div class="col p-3">
-                <div class="main-content mx-auto justify-content-center align-items-center g-0">
+                <div class="main-content mx-auto d-flex justify-content-center align-items-center g-0">

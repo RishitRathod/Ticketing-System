@@ -49,36 +49,54 @@
             color: #00111b;
             font-family: 'Ubuntu', sans-serif;
             font-weight: bold;
-            font-size: 23px;
-        }
-        #accepted{
-            display: none;
-            background-color: rgb(161, 255, 161);
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5); 
-            box-shadow: 0 0 10px 5px rgba(14, 187, 14, 0.5); 
-            padding: 10px;
-            border-radius: 5px; 
-        }
-        #pending{
-            display:none;
-            background-color: rgb(246, 255, 161);
-            text-shadow: 0 0 10px rgba(229, 255, 0, 0.5); 
-            box-shadow: 0 0 10px 5px rgba(158, 187, 14, 0.5); 
-            padding: 10px;
-            border-radius: 5px; 
-        }
-        #rejected{
-            display: none;
-            background-color: rgb(255, 161, 161);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); 
-            box-shadow: 0 0 10px 5px rgba(187, 14, 14, 0.5); 
-            padding: 10px;
-            border-radius: 5px;  
+            font-size: 30px;
         }
         #pfp{
             height: 30vmin;
             width: 30vmin;
+            min-width: 150px;
+            min-height: 150px;
+
         }
+        .changeP {
+            position: absolute;
+            right: 10px;
+            bottom: 10vmin;
+            background-color: #00023c;
+            height: 4vmax;
+            width: 4vmax;
+            font-size: 2vmin;
+
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 30px;
+        }
+        .password-container .eye {
+            position: absolute;
+            right: 20px;
+            top: 35px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }   
+        @media (max-width: 760px) {
+            .justMove{
+                position: fixed;
+                bottom: 8%;
+                z-index: 999;  
+            }
+            .justMove button{
+                border-radius: 10px;
+                background-color:#00023c !important; 
+            }
+            fieldset label{
+                font-size: 10px;
+                margin-bottom: -5px;
+            }
+        }
+
 
     </style>
 </head>
@@ -92,41 +110,69 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             
-            <div class="col p-3 mr-5 ml-5 mt-5">
+            <div class="col p-3 mx-0 mx-md-5 mt-5 rounded-5">
                 <div class="main-content mx-auto mt-5 d-flex justify-content-center align-items-center rounded-5">
-                    <form id="registrationForm" class="form-container justify-content-center flex-wrap" action="" method="POST" id="editForm"> 
-                        <p class="sign" align="center">Profile</p>
-                        <div class="d-flex flex-column align-items-center mb-3">
-                            <img src="../img/user.png" id="pfp" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary rounded-circle">
+                    <div class="modal fade" id="uploadNew" role="dialog">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Upload New PHoto</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <input type="file" id="photoInput" name="photo" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                          </div>
                         </div>
-                
-                        <fieldset class="mt-3 p-4 rounded-4">
+                    </div>
+                    <form id="registrationForm" class="form-container justify-content-center row flex-wrap" action="" method="POST" id="editForm"> 
+                        <p class="sign" align="center">Profile</p>
+                        <div class="d-flex col-auto mr-0 mr-md-4 flex-column align-items-center ">
+                            <img src="../img/user.png" id="pfp" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary position-relative rounded-circle">
+                            <button type="button" class="changeP rounded-5 mt-2" id="changeP" data-toggle="modal" data-target="#uploadNew"><i class="fa fa-pencil text-light"></i></button>      
+                            <div class="row justMove justify-content-center mt-3">
+                                <button type="button" id="edit" name="edit" class="col-auto m-2 btn btn-outline-primary" onclick="editProfile()">Edit</button>
+                                <button type="submit" id="submit" name="submit" class="col-auto m-2 btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
+                            </div>                   
+                        </div>
+                        
+                        <fieldset class="p-2 p-md-4 mx-5 mx-md-1 col-auto rounded-4">
                             <legend>User Details</legend>
                             <div class="row">
                                 <div class="col">
-                                <label for="name" class="ml-3"> User Name </label>
-                                <input type="text" name="name" id="name" class="my-2 m-sm-1 form-control" disabled> 
+                                    <label for="name" class="ml-3"> User Name </label>
+                                    <input type="text" name="name" id="name" class="my-2 m-sm-1 form-control" disabled> 
+                                </div>
+                                <div class="col">
+                                    <label for="cno" class="ml-3"> Contact Number </label>
+                                    <input type="text" name="cno" id="cno" class="my-2 m-sm-1 form-control" disabled>
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="cno" class="ml-3"> Contact Number </label>
-                                <input type="text" name="cno" id="cno" class="my-2 m-sm-1 form-control" disabled>
-                            </div>
-                        </div>
-                        <label for="email"> Email </label>
+                            <label for="email"> Email </label>
                             <input type="email" name="email" id="email" class="form-control" disabled>
-                            <label for="pass"> Password </label>
-                            <input type="password" name="pass" id="pass" class="form-control"disabled >
-                                <input type="checkbox" onclick="togglePassword()"> Show Password
+                            <div class="password-container">
+                                <label for="PassWord"> Password </label>
+                                <input type="password" name="pass" id="PassWord" class="form-control"disabled >
+                                <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
+                            </div>
+                            <!-- <input type="checkbox" onclick="togglePassword()"> Show Password -->
                       
                         </fieldset>
+                        <input type="hidden" id="UserID" name="UserID">
+                        <!-- <div class="row mt-3 justify-content-center">
+                            <button type="button" id="edit" name="edit" class="col-2 m-auto btn btn-outline-primary" onclick="editProfile()">Edit</button>
+                            <button type="submit" id="submit" name="submit" class="col-2 m-auto btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
+                        </div> -->
+                    </form>             
+                    </div>
     
                        
-                        <input type="hidden" id="UserID" name="UserID">
-                        <div class="row justify-content-center">
-                            <button type="button" id="edit" name="edit" class="col-2 m-auto mt-3 btn btn-outline-primary" onclick="editProfile()">Edit</button>
-                            <button type="submit" id="submit" name="submit" class="col-2 m-auto mt-3 btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
-                        </div>
-                    </form>             
                 </div>
             </div>
         </div>
@@ -146,6 +192,8 @@
     <!-- Copyright -->
     </footer>
     <script src="../script.js"></script>
+    <script src="../script_o_pass.js"></script>
+
     <script>
         let userData;
     
@@ -160,7 +208,7 @@
             if (userData && userData.length > 0) {
                 document.getElementById('name').value = userData[0].Username;
                 document.getElementById('email').value = userData[0].Email;
-                document.getElementById('pass').value = pass;
+                document.getElementById('PassWord').value = pass;
                 document.getElementById('cno').value = userData[0].userphonenumber;
                 document.getElementById('pfp').src = userData[0].UserPhoto;
                 document.getElementById('UserID').value = userData[0].UserID;
@@ -170,21 +218,21 @@
         function editProfile() {
             document.getElementById('submit').removeAttribute('hidden');
             document.getElementById('name').removeAttribute('disabled');
-            document.getElementById('pass').removeAttribute('disabled');
+            document.getElementById('PassWord').removeAttribute('disabled');
            }
 
         function updateprofile() {
             // Hide the submit button
             document.getElementById('submit').setAttribute('hidden', 'true');
             document.getElementById('name').setAttribute('disabled', 'true');
-            document.getElementById('pass').setAttribute('disabled', 'true');
+            document.getElementById('PassWord').setAttribute('disabled', 'true');
           
             // Prevent the default form submission behavior
             event.preventDefault();
             
             // Get the form data
             const name = document.querySelector("#name").value;
-            const Password = document.querySelector("#pass").value;
+            const Password = document.querySelector("#PassWord").value;
             const UserID = document.querySelector("#UserID").value;
             // Construct the data object
             var data = {
@@ -218,7 +266,7 @@
     }
 
     function togglePassword() {
-            var passwordField = document.getElementById("pass");
+            var passwordField = document.getElementById("PassWord");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
             } else {
