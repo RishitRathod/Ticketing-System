@@ -90,7 +90,7 @@
         }
         body{
             background: linear-gradient(to bottom right, #7774ff7e, #a85bff47);
-            width: 95%;
+            width: 100%;
 
         }
         .nav-pills li a:hover {
@@ -150,7 +150,7 @@
             box-shadow: 1px 6px 20px #6f21ff47;
         }
         .backOnav{
-            background-color: #110047;
+            background-color: #000;
         }
 
         fieldset {
