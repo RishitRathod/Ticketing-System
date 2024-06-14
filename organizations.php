@@ -316,6 +316,62 @@ LEFT JOIN
             return ["error" => "Failed to fetch package: " . $e->getMessage()];
         }
     }
+
+    public function getBalance($OrgID){
+
+        try {
+            $sql = "SELECT 
+                op.Amount_of_Days AS No_of_Days_Or_Tickets,
+                op.Amount_of_Tickets AS balance
+            FROM 
+                {$this->OrgPlansTable} op
+            WHERE
+                op.OrgID = :OrgID";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+
+        } catch (PDOException $e) {
+            return ["error" => "Failed to fetch package: " . $e->getMessage()];
+        }
+
+    }
+
+    function setBalance($OrgID, $Amount_of_Days,$Amount_of_Tickets){
+        try {
+            if($Amount_of_Days){
+                $sql = "UPDATE {$this->OrgPlansTable} SET Amount_of_Days = :Amount_of_Days WHERE OrgID = :OrgID";
+            }else{
+                $sql = "UPDATE {$this->OrgPlansTable} SET Amount_of_Tickets = :Amount_of_Tickets WHERE OrgID = :OrgID";
+            }
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+            if($Amount_of_Days){
+                $stmt->bindParam(":Amount_of_Days", $Amount_of_Days, PDO::PARAM_INT);
+            }else{
+                $stmt->bindParam(":Amount_of_Tickets", $Amount_of_Tickets, PDO::PARAM_INT);
+            }
+            $result=$stmt->execute();
+            if($stmt->rowCount() == 0){
+                return ["error" => "Failed to update balance: No rows updated"];
+            }
+            if(!$result){
+                return ["error" => "Failed to update balance"];
+            }
+            return ["message"=>"Balance updated successfully"];
+
+        }
+        catch (PDOException $e) {
+            return ["error" => "Failed to update balance: " . $e->getMessage()];
+        }
+
+
+    
+    }
+
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());

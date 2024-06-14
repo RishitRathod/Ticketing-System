@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
             }else{
                 echo json_encode(['status' => 'error', 'message' => 'No data found']);
-                
+
             }
             break;
             
@@ -78,11 +78,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(["status"=> "success","message"=> "Data fetched successfully","data"=> $response]);
             }else{
                 echo json_encode(["status"=> "error", "message"=> "No data found"]);
+            }
             break;
 
+        case 'getBalance':
+            $OrgID = $input['OrgID'];
+            $response = DB::getBalance($OrgID);
+            if($response){
+                echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+            }else{
+                echo json_encode(['status' => 'error', 'message' => 'No data found']);
             }
+            break;
+            
+        case 'setBalance':
+            $OrgID = $input['OrgID'];
+            $Amount_of_Days = $input['Amount_of_Days'];
+            $Amount_of_Tickets = $input['Amount_of_Tickets'];
+            $response = DB::setBalance($OrgID, $Amount_of_Days, $Amount_of_Tickets);
+            if($response){
+                echo json_encode(['status' => 'success', 'message' => 'Balance updated successfully']);
+            }else{
+                echo json_encode(['status' => 'error', 'message' => 'Failed to update balance']);
+            }
+            break;
+        }
 
-    }
 }else{
     echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
 }
