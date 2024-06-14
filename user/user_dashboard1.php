@@ -29,7 +29,8 @@
 
 
     .filt{
-        margin: 20px;
+        margin-top: 8%;
+        padding: 5%;
         background-color: #1b155d;
         border-bottom-left-radius: 10px;
         border-top-left-radius: 10px; 
@@ -52,7 +53,24 @@
         background-color: #1b155d;
     }
     .input-group-addon {
-        padding: 0!important;
+        padding: 0 !important;
+    }
+    p button i{
+                position: fixed;
+                bottom: 40px; /* Adjust as needed */
+                right: 40px; /* Adjust as needed */
+                padding: 20px;
+                background-color: #1b155d; /* Example background color */
+                color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+                z-index: 999; 
+            }
+    .collapse-horizontal{
+        position: fixed;
+        top: 100px; 
+        left: 20px;
+        z-index: 990; 
     }
     @media (min-width: 760px) {
             .filterPanel{
@@ -85,21 +103,21 @@
 <body>
     <?php 
     include 'userdashnav.php'; ?>
-    <div class="row mx-auto justify-content-center g-0 p-0 mt-5">
-        <div class="col-0 col-md-2 text-light mt-5 g-0 p-2">
-            <p align="center">
-                <button class="btn filt col mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-                    Filter
+    <div class="row mx-auto justify-content-center g-0 p-0">
+        <div class="col-0 col-md-auto text-light g-0 p-2" id="toggleDiv1">
+            <p>
+                <button class="btn btn-light filt col mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" onclick="toggleDivClass()">
+                    <i class="fa fa-filter"></i>Filter
                 </button>
             </p>
-            <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                <div class="custom-wrapper filt row px-1 "> 
+            <div class="collapse collapse-horizontal " id="collapseWidthExample">
+                <div class="custom-wrapper filt p-1"> 
                     <div class="header"> 
                         <p class="projtitle mt-2" align="center"> 
                             <strong>Sort By</strong>
                         </p> 
                     </div>
-                    <div>
+                    <div class="p-2">
                     <strong> Duration </strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
                             <input type="radio" class="btn-check" name="vbtn-radio" id="d1" autocomplete="off" checked>
@@ -109,7 +127,7 @@
                             <input type="radio" class="btn-check" name="vbtn-radio" id="d3" autocomplete="off">
                             <label class="btn btn-outline-primary" for="d3">This Month</label>
                         </div>
-                    <strong>Price</strong>
+                        <strong>Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
 
                             <input type="radio" class="btn-check" name="h" id="c1" autocomplete="off" checked>
@@ -118,32 +136,31 @@
                             <label class="btn btn-outline-primary" for="c2"> Low to High</label>
                         </div>
                     </div>
-
-
                 </div>
-                <div class="custom-wrapper filt row px-1 "> 
+                <div class="custom-wrapper filt p-1"> 
                     <div class="header"> 
                         <p class="projtitle"> 
                         <strong>Price Range Slider </strong>
                         </p> 
                     </div>
-                    <div class="price-input-container"> 
-                        <div class="price-input row d-block"> 
-                            <div class="price-field col-8 d-inline d-md-block"> 
-                                <span>Minimum Price</span> 
-                                <input type="number" class="min-input form-control" value="2500">
+                    <div class="price-input-container pl-3"> 
+                        <div class="price-input row-12 justify-content-center d-block"> 
+                            <div class="price-field col-5 d-inline"> 
+                                <span>Min. Price</span> 
+                                <input type="number" class="min-input w-75 form-control" value="2500">
                                 <!-- <div class="range-input"> 
                                     <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
                                 </div>   -->
                             </div> 
-                            <div class="price-field col-8 d-inline d-md-block"> 
-                                <span>Maximum Price</span> 
-                                <input type="number" class="max-input form-control" value="8500"> 
+                            <div class="price-field col-5 d-inline"> 
+                                <span>Max. Price</span> 
+                                <input type="number" class="max-input w-75 form-control" value="8500"> 
                                 <!-- <div class="range-input"> 
                                     <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
                                 </div>  -->
                             </div> 
                         </div> 
+                        <br>
                         <div class="slider-container"> 
                             <div class="price-slider">
                                 <div class="range-input"> 
@@ -162,7 +179,7 @@
                 </div> 
             </div>
         </div>
-        <div class="col-12 col-md-10 mt-5 g-0 p-0">
+        <div class="col-12 col-md-12 mt-5 g-0 p-0" id="toggleDiv2">
             <div class="container mt-5 g-0">
                 <!-- <div class="mb-3 mt-5">
                     <div class="row-5 sBox align-items-center">
@@ -171,9 +188,9 @@
                     </div>
                 </div> -->
                 
-                <div class="row">
+                <div class="row ">
                     <div class="col-md-2"></div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mt-5">
                         <div class="input-group">
                         <span class="input-group-addon">
                         <select>
@@ -185,7 +202,7 @@
                         </span>
 
                         <input id="categorySearch" type="text" class="form-control" placeholder="Search categories">
-                        <span class="input-group-addon"> <button  type="button" id="searchButton">Submit</button></span>
+                        <span class="input-group-addon"> <button  type="button" id="searchButton">Search</button></span>
                         </div>
                     </div>
                     
@@ -211,7 +228,7 @@
                 <!-- Events will be shown here -->
             </div>
         
-            <div id="events-container" class="container d-block mt-1"></div>
+            <div id="events-container" class="container d-block mt-1 p-0"></div>
         </div>
     </div>
 
@@ -226,6 +243,24 @@
                 }
             });
         });
+    </script>
+    <script>
+        function toggleDivClass() {
+            const div1 = document.getElementById('toggleDiv1');
+            const div2 = document.getElementById('toggleDiv2');
+            if (div1.classList.contains('col-md-2')) {
+                div1.classList.remove('col-md-2');
+                div1.classList.add('col-md-0');
+                div2.classList.remove('col-md-10');
+                div2.classList.add('col-md-12');
+            } else {
+                div2.classList.remove('col-md-12');
+                div2.classList.add('col-md-10');
+                div1.classList.remove('col-md-0');
+                div1.classList.add('col-md-2');
+            }
+
+        }
     </script>
     <script>
 
@@ -399,14 +434,14 @@
                     const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
                     eventDiv.innerHTML = `
                         <div class="card h-100">
-                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
+                            <img src="${poster}" class="card-img-top img-fluid event-poster" alt="${event.EventID}">
                             <div class="card-body">   <p>${event.EventName}</p>
                             <p>${event.VenueAddress}</p></div>
                             <div class="card-footer text-center">
                                 <form action="get_details.php" method="POST">
                              
                                     <input type="hidden" name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary">View Details</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-info"></i> Details</button>
                                 </form>
                             </div>
                         </div>
@@ -481,7 +516,7 @@
     <div class="card-footer text-center">
         <form action="get_details.php" method="POST">
             <input type="hidden" name="id" value="${event.EventID}">
-            <button type="submit" class="btn btn-primary">View Details</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-info"></i> Details</button>
         </form>
     </div>
 </div>

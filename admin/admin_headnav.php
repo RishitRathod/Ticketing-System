@@ -85,7 +85,7 @@
         }
         body{
             background: linear-gradient(to bottom right, #7774ff7e, #a85bff47);
-            width: 100%;
+            width: 95%;
 
         }
         .nav-pills li a:hover {
