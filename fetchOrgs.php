@@ -17,6 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
             }else{
                 echo json_encode(['status' => 'error', 'message' => 'No data found']);
+                
             }
             break;
             

@@ -187,6 +187,7 @@
 
         async function CheckOrgStatus(OrgID) {
     try {
+        console.log(OrgID);
         const response = await fetch('../fetchOrgs.php', {
             method: 'POST',
             headers: {
@@ -200,8 +201,8 @@
 
         const data = await response.json();
         console.log(data);
-
-        if (data.data['Status'] !== 'Approved') {
+        //return;
+        if (data.data['Status'] !== "Approved" ) {
             window.location.href = './org_profile.html';
         } 
     } catch (error) {
@@ -209,8 +210,9 @@
     }
 }
 
+console.log(document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1]);
 // Call the function with the OrgID
-CheckOrgStatus(document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1]);
+CheckOrgStatus(document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1]);
 
 // console.log(status);
 // console.log("hrllo");
@@ -220,4 +222,3 @@ CheckOrgStatus(document.cookie.split('; ').find(row => row.startsWith('id')).spl
 
 
         </script>
-            

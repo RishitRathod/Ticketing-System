@@ -300,7 +300,7 @@
             data.forEach(row => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td><input type="checkbox" class="package-checkbox" data-package-id="${row.PackageID}"></td>
+                    <td><input type="checkbox" class="package-checkbox" data-package-id="${row.PackageID}" data-package-type="${row.PackageType}"></td>
                     <td>${row.PackageID}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
@@ -326,23 +326,26 @@
 
         document.querySelector("#buyButton").addEventListener("click", function() {
     const selectedPackages = [];
-    let totalDaysTickets = []; // Variable to store the total number of days/tickets
-    
+    const totalDaysTickets = []; // Variable to store the total number of days/tickets
+    const packageType=[];
     document.querySelectorAll(".package-checkbox:checked").forEach(checkbox => {
         const packageId = checkbox.getAttribute("data-package-id");
         selectedPackages.push(packageId);
-
+        
         // Get the number of days/tickets for the current package and add it to the total
         const daysTickets = parseInt(checkbox.closest("tr").querySelector("td:nth-child(5)").textContent);
         totalDaysTickets.push(daysTickets);
+        const type = checkbox.getAttribute("data-package-type");
+        packageType.push(type);
     });
 
     if (selectedPackages.length > 0) {
         console.log("Selected Packages: ", selectedPackages);
         console.log("Total Days/Tickets: ", totalDaysTickets); // Log the total days/tickets
+        console.log("Package Type: ", packageType);
 
         // You can now send selectedPackages array along with totalDaysTickets to your server or handle it as needed.
-        alert("Selected Packages: " + selectedPackages.join(", ") + "\nTotal Days/Tickets: " + totalDaysTickets);
+        alert("Selected Packages: " + selectedPackages.join(", ") + "\nTotal Days/Tickets: " + totalDaysTickets+"\nPackage Type: "+packageType);
         
         // Send selectedPackages array and totalDaysTickets to the server
         fetch("buy_packages.php", {
@@ -353,7 +356,8 @@
             body: JSON.stringify({
                 orgid: OrgID,
                 selectedPackages: selectedPackages,
-                totalDaysTickets: totalDaysTickets // Include totalDaysTickets in the request
+                totalDaysTickets: totalDaysTickets, // Include totalDaysTickets in the request
+                packageType: packageType
             })
         })
         .then(response => response.json())

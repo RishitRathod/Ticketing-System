@@ -112,7 +112,7 @@ class Organizations{
             $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($result===false){
+            if(!$result){
                 return ["error" => "Organization not found", 'message'=> $result];
             }
             return $result;

@@ -153,8 +153,11 @@
 
         document.querySelector("#buyButton").addEventListener("click", function() {
             const selectedPackages = [];
+            const packageType=[];
             document.querySelectorAll(".package-checkbox:checked").forEach(checkbox => {
                 selectedPackages.push(checkbox.getAttribute("data-package-id"));
+                packageType.push(checkbox.getAttribute("data-package-type"));
+                
             });
 
             if (selectedPackages.length > 0) {

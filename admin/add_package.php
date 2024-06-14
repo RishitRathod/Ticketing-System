@@ -192,6 +192,7 @@
                 noofdays: document.getElementById('noofdays').value,
                 Amount: document.getElementById('Amount').value,
                // Exp_date: document.getElementById('Exp_date').value
+               
                 
             };
 
