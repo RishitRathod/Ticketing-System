@@ -321,8 +321,8 @@ LEFT JOIN
 
         try {
             $sql = "SELECT 
-                op.Amount_of_Days AS No_of_Days_Or_Tickets,
-                op.Amount_of_Tickets AS balance
+                op.Amount_of_Days ,
+                op.Amount_of_Tickets
             FROM 
                 {$this->OrgPlansTable} op
             WHERE
