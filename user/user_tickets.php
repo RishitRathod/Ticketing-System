@@ -17,6 +17,9 @@ include 'userdashnav.php';
             margin-bottom: 20px;
             font-size: 15px;
         }
+        .tic{
+            background: linear-gradient(to right bottom, #020ff725,#f7020225);
+        }
         .ticket img {
             max-width: 100px;
         }
@@ -69,7 +72,7 @@ include 'userdashnav.php';
             ticketElement.className = 'col-md-4';
 
             const ticketContent = `
-                <div class="ticket card">
+                <div class="ticket card tic">
                     <div class="card-body row g-0">
                     <h4 class="card-title col my-auto"> ${ticket.EventName}</h4>
                     <div class="col">
@@ -78,13 +81,13 @@ include 'userdashnav.php';
                     <div class="row"> 
 
                         <div class="row">                        
-                            <div class="card-text">Date: ${ticket.EventDate}</div>
-                            <div class="card-text">Time: ${ticket.StartTime} - ${ticket.EndTime}</div>
+                            <div class="card-text"><strong>Date: </strong>${ticket.EventDate}</div>
+                            <div class="card-text"><strong>Time: </strong> ${ticket.StartTime} - ${ticket.EndTime}</div>
                         </div>
                         <div class="row ">                        
-                                <div class="card-text">Organization: ${ticket.OrgName}</div>
-                                <div class="card-text">Ticket Type: ${ticket.TicketType}</div>
-                                <div class="card-text">Quantity: ${ticket.Quantity}</div>
+                                <div class="card-text"><strong> Organization: </strong> ${ticket.OrgName}</div>
+                                <div class="card-text"><strong>Ticket Type: </strong> ${ticket.TicketType}</div>
+                                <div class="card-text"><strong> Quantity: </strong> ${ticket.Quantity}</div>
                         </div>
                         <button type="button" class="button btn-primary rounded" value=${ticket.TicketSalesID} onclick="SaveTicketTOPDF('${ticket.EventName}', '${ticket.EventDate}', '${ticket.StartTime}', '${ticket.EndTime}', '${ticket.OrgName}', '${ticket.TicketType}', '${ticket.Quantity}', '${ticket.QR_CODE}')">Save Ticket</button>
                     </div>

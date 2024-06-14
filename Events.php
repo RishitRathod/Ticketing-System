@@ -327,15 +327,19 @@ public function fetchPaginatedEventData($limit, $offset) {
         $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
         $sql = "SELECT 
-                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,EventType,
-                GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
-            FROM 
-                events e
-            LEFT JOIN 
-                eventposter ep ON e.EventID = ep.EventID
-            GROUP BY 
-                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,e.EventType
-            LIMIT :limit OFFSET :offset";
+                    e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress, e.EventType,
+                    GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+                FROM 
+                    events e
+                LEFT JOIN 
+                    eventposter ep ON e.EventID = ep.EventID
+                LEFT JOIN 
+                    organizations o ON e.OrgID = o.OrgID
+                WHERE  
+                    o.Status = 'Approved'   
+                GROUP BY 
+                    e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress, e.EventType
+                LIMIT :limit OFFSET :offset";
         
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -352,6 +356,7 @@ public function fetchPaginatedEventData($limit, $offset) {
         return ["error" => "Select failed: " . $e->getMessage()];
     }
 }
+
 
 /**
  * Fetches all events from the database based on the organization ID.

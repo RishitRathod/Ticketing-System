@@ -57,18 +57,6 @@
         .card{
             border-radius:20px;
         }
-   
-    #packageType .table td {
-        vertical-align: middle; /* Center the content vertically */
-    }
-    #packageType .form-check-input {
-        margin: 0 auto; /*Center the radio button horizontally*/
-        /* vertical-align: middle; */
-        /* margin-left: 2px; */
-        display: inline-block;
-    }
-
-
 
     </style>
 </head>
@@ -125,20 +113,19 @@
 
                             <!-- Step 2: Date and Time -->
                             <div name="timeAndDate" id="timeAndDate" class="step">
-                            <div id="packageType"></div>
-
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date</legend>
-                                    <div class="row mx-auto">
-                                        <div class="col-5 form-group">
-                                            <label for="startDate">Start Date</label>
-                                            <input type="date" class="form-control datepicker" id="startDate" name="StartDate" >
-                                        </div>
-                                        <div class="col-5 form-group">
-                                            <label for="endDate">End Date</label>
-                                            <input type="date" class="form-control" id="endDate" name="EndDate" >
-                                        </div>
-                                    </div>
+                               <div class="row mx-auto">
+    <div class="col-5 form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
+    </div>
+    <div class="col-5 form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" class="form-control" id="endDate" name="EndDate">
+    </div>
+</div>
+<p id="dayDifference"></p>
                                 </fieldset>
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Time</legend>
@@ -296,11 +283,13 @@
             })
             .then(response => response.json())
             .then(data => {
+                return data;
                 console.log(data);
                 if(data.status === 'success'){
                     const packages = data.data;
                     console.log(packages);
-                    populateTicketTypes(packages);
+                    console.log(packages[0].No_of_Days_Or_Tickets);
+                    const totaldays = packages[0].No_of_Days_Or_Tickets;
                 }else{
                     alert('No packages found');
                 }
@@ -308,71 +297,8 @@
         }
        
         // const OrgID=getCookieValue('id');
-        function populateTicketTypes(packages) {
-    const packageTypesContainer = document.getElementById('packageType');
-    packageTypesContainer.innerHTML = ''; // Clear existing content
-
-    const table = document.createElement('table');
-    table.classList.add('table', 'table-striped', 'table-bordered', 'mt-3');
-
-    // Create table header
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-
-    const headers = ['Select', 'Package Name', 'Package Type', 'Amount', 'No. of Days/Tickets'];
-    headers.forEach(headerText => {
-        const th = document.createElement('th');
-        th.textContent = headerText;
-        headerRow.appendChild(th);
-    });
-
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    // Create table body
-    const tbody = document.createElement('tbody');
-    packages.forEach(package => {
-        const row = document.createElement('tr');
-
-        const radioCell = document.createElement('td');
-        radioCell.style.textAlign = 'center'; // Center the radio button
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.classList.add('form-check-input');
-        radio.id = `package-${package.PackageID}`;
-        radio.name = 'package'; // All radio buttons have the same name
-        radio.value = package.PackageID;
-        radioCell.appendChild(radio);
-        row.appendChild(radioCell);
-
-        const packageNameCell = document.createElement('td');
-        packageNameCell.textContent = package.PackageName;
-        row.appendChild(packageNameCell);
-
-        const packageTypeCell = document.createElement('td');
-        packageTypeCell.textContent = package.PackageType;
-        row.appendChild(packageTypeCell);
-
-        const amountCell = document.createElement('td');
-        amountCell.textContent = package.Amount;
-        row.appendChild(amountCell);
-
-        const noOfDaysTicketsCell = document.createElement('td');
-        noOfDaysTicketsCell.textContent = package.No_of_Days_Or_Tickets;
-        row.appendChild(noOfDaysTicketsCell);
-
-        tbody.appendChild(row);
-    });
-
-    table.appendChild(tbody);
-    packageTypesContainer.appendChild(table);
-}
-
-
-
-
-
-
+    
+// console.log(totaldays);
 function validateForm() {
         const form = document.getElementById('registrationForm');
         const startDateInput = document.getElementById('startDate');
@@ -707,23 +633,65 @@ function validateForm() {
             const ticketContainer = document.getElementById('ticketContainer');
             let currentStep = 0;
 
-            nextBtns.forEach(button => {
-                button.addEventListener('click', () => {
-                    if (currentStep < steps.length - 1) {
-                        steps[currentStep].classList.remove('active');
-                        //check if we are on the step of time and date and validate the form
-                        // if(currentStep == 1){
-                        //     if(!validateForm()) {
-                        //         currentStep =0;
-                                
-                        //     }
-                        // }
-                        currentStep++;
+       
 
-                        steps[currentStep].classList.add('active');
-                    }
-                });
-            });
+
+
+const fetchPackages = () => {
+    return fetch('../fetchOrgs.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'FetchOrgPackages', OrgID: getCookieValue('id') })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch data');
+        return response.json();
+    });
+};
+
+const validateStep = (currentStep, data) => {
+    if (currentStep === 1) {
+        const startDate = new Date(document.getElementById('startDate').value);
+        const endDate = new Date(document.getElementById('endDate').value);
+        const totalDays = (endDate - startDate) / (1000 * 3600 * 24);
+
+        return totalDays < data.data[0].No_of_Days_Or_Tickets;
+    } else if (currentStep === 0) {
+        const capacity = parseInt(document.getElementById('capacity').value, 10);
+
+        return capacity < data.data[0].No_of_Days_Or_Tickets;
+    }
+
+    return true; // Allow progression for steps other than 0 and 1
+};
+
+nextBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+            if (currentStep === 0 || currentStep === 1) {
+                fetchPackages()
+                    .then(data => {
+                        if (validateStep(currentStep, data)) {
+                            steps[currentStep].classList.remove('active');
+                            currentStep++;
+                            steps[currentStep].classList.add('active');
+                        } else {
+                            console.log('Validation failed. Cannot proceed to the next step.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching or processing data:', error));
+            } else {
+                steps[currentStep].classList.remove('active');
+                currentStep++;
+                steps[currentStep].classList.add('active');
+            }
+        }
+    });
+});
+
+
+
+
 
             prevBtns.forEach(button => {
                 button.addEventListener('click', () => {
@@ -849,7 +817,41 @@ function validateForm() {
         }
     </script>
 
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to calculate and update days difference
+            function calculateAndDisplayDaysDifference() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
 
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Calculate the difference in milliseconds
+                    const differenceInTime = end - start;
+
+                    // Convert milliseconds to days
+                    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+                    // Display the difference in days
+                    document.getElementById('dayDifference').innerText = `Number of days between dates: ${differenceInDays}`;
+                }
+            }
+
+            // Attach event listeners to date inputs
+            document.getElementById('startDate').addEventListener('change', calculateAndDisplayDaysDifference);
+            document.getElementById('endDate').addEventListener('change', calculateAndDisplayDaysDifference);
+
+            // Initialize dayDifference element
+            document.getElementById('dayDifference').innerText = 'Select dates to calculate difference';
+        });
+    </script>
+
+
+<?php
+include 'footer.php';
+?>
 
 </body>
 </html>
