@@ -100,11 +100,11 @@ function isUserLoggedIn() {
                                 </div>
                                 <div class="form-group">
                                     <label for="eventName" class="form-label">Event Name</label>
-                                    <input type="text" class="form-control rounded-4" id="eventName" name="EventName" >
+                                    <input type="text" class="form-control rounded-4" id="eventName" name="EventName" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="eventType">Event Type</label>
-                                    <select class="form-control rounded-4" id="eventType" name="EventType" >
+                                    <select class="form-control rounded-4" id="eventType" name="EventType" required>
                                         <option value="">Select event type</option>
                                         <option value="Beauty">Beauty</option>
                                         <option value="Business">Business</option>
@@ -122,7 +122,7 @@ function isUserLoggedIn() {
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control rounded-4" id="description" name="Description"></textarea>
+                                    <textarea class="form-control rounded-4" id="description" name="Description" required></textarea>
                                 </div>
                                 <div class="form-group ml-2">
                                     <label class="form-check-label mr-5">Select Which Balance you wish to use</label><br>
