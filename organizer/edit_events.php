@@ -98,6 +98,14 @@
                                     <label for="description">Description</label>
                                     <textarea class="form-control rounded-4" id="description" name="Description"></textarea>
                                 </div>
+                                <div class="form-group ml-2">
+    <label class="form-check-label mr-5">Select Which Balance you wish to use</label><br>
+    <input class="form-check-input" type="radio" name="choice" id="TicketBased" value="TicketBased" disabled>
+    <label class="form-check-label" for="TicketBased">Ticket Based</label><br>
+    <input class="form-check-input" type="radio" name="choice" id="TimeBased" value="TimeBased" disabled>
+    <label class="form-check-label" for="TimeBased">Time Based</label>
+</div>
+
                                 <div class="form-group">
                                     <label for="capacity">Capacity</label>
                                     <input type="number" class="form-control rounded-4" id="capacity" name="Capacity">
