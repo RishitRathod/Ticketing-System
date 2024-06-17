@@ -42,7 +42,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         case 'UpdateEntryOrExitTimes':
             $TicketSalesID = $input['TicketSalesID'];
-            $response = DB::UpdateEntryOrExitTimes($TicketSalesID);
+            $amountPeopleEnterOrExit = $input['amountPeopleEnterOrExit'];
+            $EntryOrExit = $input['EntryOrExit'];
+            $response = DB::UpdateEntryOrExitTimes($TicketSalesID,$amountPeopleEnterOrExit,$EntryOrExit);
+            if($response){
+                echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+            }else{
+                echo json_encode(['status' => 'error', 'message' => 'No data found']);
+            }
+            break;
+
+        case 'GetTciektDetails':
+            $TicketSalesID = $input['TicketSalesID'];
+
+            $response = DB::GetTciektDetails($TicketSalesID);
             if($response){
                 echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
             }else{

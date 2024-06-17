@@ -61,6 +61,16 @@
             box-shadow: 0  10px 1px rgba(0, 0, 0, 0.04);
 
         }
+        .req{
+            color:red;
+        }
+        .error {
+            /* color: red; */
+            display: none;
+        }
+        .jm{
+            font-size: xx-small;
+        }
     </style>
 </head>
 <body>
@@ -70,23 +80,27 @@
                     <div class="header">
                         <h3 class="sign" align="center">Organization Registration</h3>
                     </div>
-                        <form  id="registrationForm" class="row row-cols-1 row-cols-md-2 g-2 p-3">
+                        <form  id="registrationForm" class="row row-cols-1 row-cols-md-2 g-2 p-3 needs-validation">
                             <div class="col-auto card rounded-5 rounded-end-0">
                                 <div class="d-flex justify-content-center align-items-center">
                                     <img src="https://www.surveylegend.com/wordpress/wp-content/uploads/2021/05/event-planning.png" class="img-fluid w-100">
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter name">
+                                    <label for="name">Username<span class="req">*</span></label>
+                                    <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter Username" required>
+                                    <span class="error invalid-feedback" id="name-error">invalid name</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter email" autocomplete="email">
+                                    <label for="email">Email<span class="req">*</span></label>
+                                    <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter email" autocomplete="email" required> 
+                                    <span class="error invalid-feedback" id="email-error">invalid email</span>
                                 </div>
                                 <div class="form-group password-container">
-                                    <label for="PassWord">Password</label>
-                                    <input type="password" name="password" id="PassWord" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Your Password">
+                                    <label for="PassWord">Password<span class="req">*</span></label><span class="jm req">include a number,a special character</span>
+                                    <input type="password" name="password" id="PassWord" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Your Password" required>
                                     <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
+                                    <span class="error invalid-feedback" id="">invalid password</span>
+
         
                                     <!-- <input type="checkbox" onclick="togglePassword()"> Show Password -->
                                 </div>
@@ -95,37 +109,43 @@
                                 <fieldset class="form-group mt-3">
                                     <legend>Contact Details</legend>
                                     <div class="form-group">
-                                        <label for="contactNumber">Contact Number</label>
-                                        <input type="tel" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
+                                        <label for="contactNumber">Contact Person Name <span class="req">*</span> </label>
+                                        <input type="text" class="form-control rounded-pill" id="contactName" name="contactName" placeholder="Enter Name" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="contactEmail">Contact Email</label>
-                                        <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email">
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="contactNumber">Contact Number<span class="req">*</span> </label>
+                                            <input type="tel" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number" required>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="contactEmail">Contact Email<span class="req">*</span> </label>
+                                            <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email" required>
+                                        </div>
                                     </div>
                                 </fieldset>
                                 <div class="form-group row mt-3">
                                     <div class="col-md-4">
-                                        <label for="country">Country: </label>
-                                        <select name="Country" id="country" class="form-control rounded-pill"> 
-                                            <option value="" selected="Selected">Select Country</option>
+                                        <label for="country">Country<span class="req">*</span> </label>
+                                        <select name="Country" id="country" class="form-control rounded-pill" required> 
+                                            <option selected="Selected" selected disabled value="">Select Country</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="state">State:</label> 
-                                        <select name="State" id="state" class="form-control rounded-pill"> 
-                                            <option value="" selected="Selected">Select State</option>
+                                        <label for="state">State<span class="req">*</span></label> 
+                                        <select name="State" id="state" class="form-control rounded-pill" required> 
+                                            <option selected="Selected" selected disabled value="">Select State</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="city">City: </label> 
-                                        <select name="City" id="city" class="form-control rounded-pill"> 
-                                            <option value="" selected="Selected">Select City</option>
+                                        <label for="city">City<span class="req">*</span> </label>   
+                                        <select name="City" id="city" class="form-control rounded-pill" required> 
+                                            <option selected="Selected" selected disabled value="">Select City</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control rounded-5" id="address" name="address" placeholder="Enter address"></textarea>
+                                    <label for="address">Address<span class="req">*</span></label>
+                                    <textarea class="form-control rounded-5" id="address" name="address" placeholder="Enter address" required   ></textarea>
                                     <input id="btn" type="submit" name="submit" value="Register" class="btn submit rounded-pill "></input>
                                 </div>
                             </div>
@@ -143,6 +163,64 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../script_o_pass.js"></script>
+    <script>
+        const usernameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const emailInput1 = document.getElementById('email');
+
+        const passwordInput = document.getElementById('PassWord');
+        
+        const usernameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+
+        const usernameRegex = /^[a-zA-Z0-9_]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+
+        usernameInput.addEventListener('input', function (event) {
+            if (usernameRegex.test(event.target.value)) {
+                usernameInput.setCustomValidity('');
+                usernameError.style.display = 'none';
+            } else {
+                usernameInput.setCustomValidity('Invalid input.');
+                usernameError.style.display = 'inline';
+            }
+        });
+
+        emailInput.addEventListener('input', function (event) {
+            if (emailRegex.test(event.target.value)) {
+                emailInput.setCustomValidity('');
+                emailError.style.display = 'none';
+            } else {
+                emailInput.setCustomValidity('Invalid email format.');
+                emailError.style.display = 'inline';
+            }
+        });
+
+        passwordInput.addEventListener('input', function (event) {
+            if (passwordRegex.test(event.target.value)) {
+                passwordInput.setCustomValidity('');
+                passwordError.style.display = 'none';
+            } else {
+                passwordInput.setCustomValidity('Invalid password.');
+                passwordError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            if (!usernameRegex.test(usernameInput.value)) {
+                event.preventDefault();
+                usernameInput.focus();
+            } else if (!emailRegex.test(emailInput.value)) {
+                event.preventDefault();
+                emailInput.focus();
+            } else if (!passwordRegex.test(passwordInput.value)) {
+                event.preventDefault();
+                passwordInput.focus();
+            }
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#registrationForm").addEventListener('submit', function(event) {
