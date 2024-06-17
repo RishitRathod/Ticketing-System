@@ -103,6 +103,19 @@ function isUserLoggedIn() {
     </style>
 </head>
 <body>  
+<!-- <div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div> -->
     <div class="container-fluid w-100 p-3 backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.php" style="text-decoration: none;">
@@ -160,7 +173,11 @@ function isUserLoggedIn() {
 
             <script src="../script.js"></script>
            <script> 
-            
+            // $(document).ready(function() {
+            //     // Show toast automatically when the page is loaded
+            //     $('.toast').toast({ delay: 2000 });
+            //     $('.toast').toast('show');
+            // });
             document.addEventListener('DOMContentLoaded', ()=>{
                 if (!isUserLoggedIn()) {
                 //    document.getElementById('login').style.display = 'none';
@@ -240,7 +257,11 @@ function isUserLoggedIn() {
         console.log(data);
         //return;
         if (data.data['Status'] !== "Approved" ) {
+            // event.preventDefault();
+            alert('Your Profle is not verified ...!')
             window.location.href = './org_profile.html';
+            // $('#liveToast').toast({ delay: 2000 });
+            // $('#liveToast').toast('show');
         } 
     } catch (error) {
         console.error('Error fetching organization status:', error);
