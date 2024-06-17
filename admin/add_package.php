@@ -51,12 +51,12 @@
 
                         <div class="col-2">
                             <label for="noofdays">no. of days/Tickets</label>
-                            <input type="number" class="form-control" id="noofdays" name="noofdays">
+                            <input type="number" class="form-control" id="noofdays" min="1" name="noofdays" required>
                         </div>
 
                         <div class="col-2">
                             <label for="Amount">Amount:</label>
-                            <input type="number" class="form-control" id="Amount" name="Amount">
+                            <input type="number" class="form-control" id="Amount" min="0" name="Amount" required>
                         </div>
 
                         
