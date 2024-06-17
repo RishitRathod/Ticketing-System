@@ -137,7 +137,7 @@ function isUserLoggedIn() {
                         <h2>Event Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form id="registrationForm" class="fs-5 needs-validation was-validated" method="post" enctype="multipart/form-data" novalidate>
+                        <form id="registrationForm" class="fs-5 needs-validation " method="post" enctype="multipart/form-data" novalidate>
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
@@ -192,7 +192,7 @@ function isUserLoggedIn() {
                                     <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
-                                    <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill" onclick="myFunction()">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
                             </div>
 
@@ -201,14 +201,15 @@ function isUserLoggedIn() {
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date <span class="req">*</span></legend>
                                <div class="row mx-auto">
-                                    <div class="col-5 form-group">
-                                        <label for="startDate">Start Date</label>
-                                        <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
-                                    </div>
-                                    <div class="col-5 form-group">
-                                        <label for="endDate">End Date</label>
-                                        <input type="date" class="form-control" id="endDate" name="EndDate">
-                                    </div>
+                               <div class="col-5 form-group">
+    <label for="startDate">Start Date</label>
+    <input type="date"  class="form-control datepicker" id="startDate" name="StartDate">
+</div>
+<div class="col-5 form-group">
+    <label for="endDate">End Date</label>
+    <input type="date" class="form-control" id="endDate" name="EndDate">
+</div>
+
                                 </div>
                                 <p id="dayDifference"></p>
                                 </fieldset>
@@ -281,14 +282,17 @@ function isUserLoggedIn() {
                                                 <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="row">
+                                        <div class="form-group col">
                                             <label for="discount">Discount</label>
                                             <input type="number" id="discount" step="0.01"  class="form-control rounded-4" min="0" name="Discount[]" placeholder="%" required>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col">
                                             <label for="price">Price<span class="req">*</span></label>
                                             <input type="number" id="price" class="form-control rounded-4" min="0" name="Price[]" placeholder="₹" required>
                                         </div>
+                                        </div>
+
                                         <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
                                     </fieldset>
                                 </div>
@@ -360,18 +364,18 @@ function isUserLoggedIn() {
     
 
     <script>
-        function vaidationFields(){
-            var textareaValue = document.getElementById('description').value.trim(); //description
-            var wordCountRegex = /\b\w+\b(?:\W+\b\w+\b){19,}/;
+        // function vaidationFields(){
+        //     var textareaValue = document.getElementById('description').value.trim(); //description
+        //     var wordCountRegex = /\b\w+\b(?:\W+\b\w+\b){19,}/;
     
-            if (wordCountRegex.test(textareaValue)) {
-                // alert('Textarea contains at least 20 words.');
-                console.log('Description pass');
-            } else {
-                alert('Textarea does not contain at least 20 words.');
-                return false;
-            }
-        }
+        //     if (wordCountRegex.test(textareaValue)) {
+        //         // alert('Textarea contains at least 20 words.');
+        //         console.log('Description pass');
+        //     } else {
+        //         alert('Textarea does not contain at least 20 words.');
+        //         return false;
+        //     }
+        // }
         function myFunction() {
 
             var x = document.getElementById("snackbar");
@@ -428,7 +432,24 @@ function isUserLoggedIn() {
         }
        
         // const OrgID=getCookieValue('id');
-    
+function validateForm0() {  
+        if (document.getElementById('eventName').value === '') {
+            alert('Please enter event name');
+            return false;
+        }
+
+        if (document.getElementById('eventType').value === '') {
+            alert('Please enter eventType');
+            return false;
+        }
+
+        if (document.getElementById('description').value === '') {
+            alert('Please enter description');
+            return false;
+        }
+        return true;
+    }
+
 // console.log(totaldays);
 function validateForm() {
         const form = document.getElementById('registrationForm');
@@ -441,13 +462,13 @@ function validateForm() {
         const currentDate = new Date();
 
         // Check if the start date and time are before the end date and time
-        if (startDate >= endDate) {
+        if (startDate >endDate) {
             alert('Start date and time must be before end date and time.');
             return false;
         }
 
         // Check if the start date and time are greater than today's date and time
-        if (startDate <= currentDate) {
+        if (startDate <= currentDate  ) {
             alert('Start date and time must be greater than today.');
             return false;
         }
@@ -818,6 +839,10 @@ const validateStep = (currentStep, data) => {
         const capacity = parseInt(document.getElementById('capacity').value, 10);
 console.log("capacity",data.data[0].Amount_of_Tickets);
         availbleTickets=data.data[0].Amount_of_Tickets-capacity;
+        if(availbleTickets<=0){
+            alert("Not Enough Balance");
+            return false; 
+        }
         console.log("availble tickets",availbleTickets);
         return capacity < data.data[0].Amount_of_Tickets;
     }
@@ -829,13 +854,17 @@ nextBtns.forEach(button => {
     button.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
             if (currentStep === 0 || currentStep === 1) {
-                vaidationFields();
+                // vaidationFields();
                 fetchPackages()
                     .then(data => {
                         console.log("fetch",data);
                         if (validateStep(currentStep, data)) {
                             if (currentStep === 1 && !validateForm()) {
                                 console.log('Form validation failed. Staying on step 1.');
+                                return; // Stay on the current step if form validation fails
+                            }
+                            if (currentStep === 0 && !validateForm0()) {
+                                console.log('Form validation failed. Staying on step 0.');
                                 return; // Stay on the current step if form validation fails
                             }
                             steps[currentStep].classList.remove('active');
@@ -1023,6 +1052,16 @@ nextBtns.forEach(button => {
             document.getElementById('dayDifference').innerText = 'Select dates to calculate difference';
         });
 
+
+
+        // Get today's date
+var today = new Date().toISOString().split('T')[0];
+
+// Set the minimum date for start date input
+document.getElementById('startDate').setAttribute('min', today);
+
+// Set the minimum date for end date input (optional, if you want to limit end date too)
+document.getElementById('endDate').setAttribute('min', today);
 
 
     </script>

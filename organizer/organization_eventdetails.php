@@ -156,65 +156,64 @@
             console.log(uniqueEvents);
 
             eventsRow.innerHTML = '';
-            Object.values(uniqueEvents).forEach((event) => {
-                const eventCard = document.createElement('div');
-                eventCard.classList.add('col-12', 'mb-4');
+Object.values(uniqueEvents).forEach((event) => {
+    const eventCard = document.createElement('div');
+    eventCard.classList.add('col-12', 'mb-4');
 
-                const posterItems = event.posters.map(poster => `
-                    <img src="${poster}" class="event-poster img-fluid" alt="Event Poster">
-                `).join('');
+    const posterItems = event.posters.map(poster => `
+        <img src="${poster}" class="event-poster img-fluid" alt="Event Poster">
+    `).join('');
 
-                const ticketsList = event.tickets.map(ticket => `
-                    <li><span class="card-text"><b> ${ticket.TicketType}</b >, <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
-                `).join('');
+    const ticketsList = event.tickets.map(ticket => `
+        <li><span class="card-text"><strong>TicketType:</strong> ${ticket.TicketType}   , <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
+    `).join('');
 
-                const timeSlotsList = event.timeSlots.map(slot => `
-                    <li><span class="card-text"> ${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span> </li>
-                `).join('');
+    const timeSlotsList = event.timeSlots.map(slot => `
+        <li><span class="card-text"> <strong>From:</strong> ${slot.StartTime} - <strong>To:</strong> ${slot.EndTime}, <strong>Availability:</strong> ${event.Capacity}</span> </li>
+    `).join('');
 
-                eventCard.innerHTML = `
-                    <div class="card event-card p-5">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 overflow-auto d-block poster-container">
-                            <strong>Event Photos</strong>
-                                ${posterItems}
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body event-details pl-4">
-                                    <h3 class="card-title">${event.EventName}</h3>
-                                    <p class="card-text"><strong>Price:</strong> $${event.Price}</p>
-                                    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
-                                    <fieldset><legend><strong>Date</strong></legend>
-                                        <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong>${event.EndDate}</div>
-                                    </fieldset>
-                                    <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
-                                    <fieldset><legend><strong>Time Slots</strong></legend>
-                                        ${timeSlotsList}
-                                    </fieldset>
-                                    <fieldset><legend><strong>Tickets</strong></legend>
-                                        ${ticketsList}
-                                    </fieldset>
-                                    <div class="text-center">
-                                        <form action="edit_events.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary mt-3">Edit Details</button>
-                                        </form>
-                                        <form action="update_event.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="eventID" value="${event.EventID}">
-                                            <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="btn btn-primary mt-3">Delete Event</button>
-                                        </form>
-                                          <form action="view_members.php" method="post" style="display:inline;">
-                                            <input type="hidden" name="eventID" value="${event.EventID}">
-                                            <button type="submit" class="btn btn-primary mt-3">View registered users</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+    eventCard.innerHTML = `
+        <div class="card event-card p-5">
+            <div class="row no-gutters">
+                <div class="col-md-4 overflow-auto d-block poster-container">
+                    <strong>Event Photos</strong>
+                    ${posterItems}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body event-details pl-4">
+                        <h3 class="card-title">${event.EventName}</h3>
+                        <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
+                        <fieldset><legend><strong>Date</strong></legend>
+                            <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong> ${event.EndDate}</div>
+                        </fieldset>
+                        <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
+                            <div><strong>Time Slots</strong></div>
+                            <ul>${timeSlotsList}</ul>
+                            <div><strong>Tickets</strong></div>
+                            <ul>${ticketsList}</ul>
+                        </fieldset>
+                        <div class="text-center">
+                            <form action="edit_events.php" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="${event.EventID}">
+                                <button type="submit" class="btn btn-primary mt-3">Edit Details</button>
+                            </form>
+                            <form action="update_event.php" method="post" style="display:inline;">
+                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="btn btn-primary mt-3">Delete Event</button>
+                            </form>
+                            <form action="view_members.php" method="post" style="display:inline;">
+                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <button type="submit" class="btn btn-primary mt-3">View registered users</button>
+                            </form>
                         </div>
                     </div>
-                `;
-                eventsRow.appendChild(eventCard);
+                </div>
+            </div>
+        </div>
+    `;
+ 
+        eventsRow.appendChild(eventCard);
             });
         }
 
