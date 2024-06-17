@@ -43,14 +43,15 @@ include 'userdashnav.php';
             line-height: 30px;
             border: 1px solid #ced4da;
             background-color: #f8f9fa;
+            
         }
-        .quantity-controls input {
+       /* .quantity-controls input {
             width: 50px;
             text-align: center;
             margin: 0 5px;
             border: 1px solid #ced4da;
             border-radius: 5px;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -65,25 +66,35 @@ include 'userdashnav.php';
                     <input class="form-control" id="event" name="event">
 
                 </div>
-                <div class="form-group">
+                <div class="form-group row justify-content-center">
+                
+                <div class="form-group col-6">
                     <label for="event-date">Start Date:</label>
-                    <input class="form-control" id="event-date" name="event-date">
+                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="event-date" name="event-date" disabled>
+                    <!-- <input class="form-control" id="event-date" name="event-date"> -->
+                </div>
+                <div class="form-group col-6">
                     <label for="eevent-date">End Date:</label>
-                    <input class="form-control" id="eevent-date" name="eevent-date">
-                 
+                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="eevent-date"  name="eevent-date" disabled>
+                    <!-- <input class="form-control" id="eevent-date" name="eevent-date"> -->
+                </div>
+                <div class="row col-4 form-group">
+                    <label for="startDate">Select Date</label>
+                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="startDate">
+
+                    <!-- <input type="date" class="form-control datepicker" id="startDate" name="StartDate"> -->
+                </div>
                 </div>
 
-                <div class="col-5 form-group">
-                    <label for="startDate">Select Date</label>
-                    <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
-                </div>
+                
             </fieldset>
 
             <fieldset class="form-section">
                 <legend>Ticket Information</legend>
 
+                <div class="form-group row">
                 
-                <div class="form-group">
+                <div class="form-group col-4">
                     <label for="time-slot">Time-Slot:</label>
                     <select class="form-control" id="time-slot" name="time-slot">
                         <!-- Options populated by fetchTicketType function -->
@@ -91,7 +102,7 @@ include 'userdashnav.php';
                     <input type="hidden" id="timeslotid" name="timeslotid">
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group col-4">
                     <label for="ticket-type">Ticket Type:</label>
                     <select class="form-control" id="ticket-type" name="ticket-type">
                         <!-- Options populated by fetchTicketType function -->
@@ -100,14 +111,16 @@ include 'userdashnav.php';
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group col-4">
                     <label for="quantity">Quantity:</label>
                     <div class="quantity-controls">
                         <button type="button" id="decrease-quantity">-</button>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
-                        <button type="button" id="increase-quantity">+</button>
+                        <button type="button" id="increase-quantity" >+</button>
                     </div>
                 </div>
+                </div>
+
                 <div id="price"></div>
                 <div id="available_tickets"></div>
             </fieldset>
@@ -118,19 +131,22 @@ include 'userdashnav.php';
                     <label for="name">Full Name:</label>
                     <input type="text" class="form-control" id="name" name="name" >
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
+                
+                <div class="form-group col-6">
                     <label for="email">Email Address:</label>
                     <input type="email" class="form-control" id="email" name="email" >
                 </div>
-                <div class="form-group">
+                <div class="form-group col-6">
                     <label for="phone">Phone Number:</label>
                     <input type="tel" class="form-control" id="phone" name="phone" >
+                </div>
                 </div>
             </fieldset>
 
             <fieldset class="form-section">
                 <legend>Confirmation</legend>
-                <p>Review Order:</p>
+                <!-- <p>Review Order:</p> -->
                 <!-- Order summary here -->
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
