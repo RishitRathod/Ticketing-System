@@ -439,32 +439,51 @@
                 }
 
                 const eventsContainer = document.getElementById('events-container');
-               
-                eventsArray.forEach(event => {
-                    if (displayedEventIDs.has(event.EventID)) return;
+if (!eventsContainer) {
+    console.error('eventsContainer element not found');
+}
 
-                    const eventDiv = document.createElement('div');
-                    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
-                    const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
-                    eventDiv.innerHTML = `
-                        <div class="card h-100">
-                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
-                            <div class="card-body">   
-                                <p>${event.EventName}</p>
-                                <p>${event.VenueAddress}</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <form action="get_details.php" method="POST">
-                                    <input type="hidden" name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary">View Details</button>
-                                </form>
-                            </div>
-                        </div>
-                    `;
+eventsArray.forEach(event => {
+    if (displayedEventIDs.has(event.EventID)) return;
 
-                    eventsContainer.appendChild(eventDiv);
-                    displayedEventIDs.add(event.EventID);
-                });
+    // Debugging logs
+    console.log('Processing event:', event);
+
+    if (!event.EventID) {
+        console.error('EventID is missing for event:', event);
+        return;
+    }
+
+    const eventDiv = document.createElement('div');
+    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+
+    const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
+    if (!poster) {
+        console.warn('No poster found for event:', event);
+    }
+
+    const eventName = event.EventName ? event.EventName : 'Event name not available';
+    const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
+
+    eventDiv.innerHTML = `
+        <div class="card h-100">
+            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
+            <div class="card-body">   
+                <p>${eventName}</p>
+                <p>${venueAddress}</p>
+            </div>
+            <div class="card-footer text-center">
+                <form action="get_details.php" method="POST">
+                    <input type="hidden" name="id" value="${event.EventID}">
+                    <button type="submit" class="btn btn-primary">View Details</button>
+                </form>
+            </div>
+        </div>
+    `;
+
+    eventsContainer.appendChild(eventDiv);
+    displayedEventIDs.add(event.EventID);
+});
 
                 offset += limit;
                 isLoading = false;
@@ -519,30 +538,46 @@
                 }
 
                 const eventsContainer = document.getElementById('events-container');
-                eventsArray.forEach(event => {
-                    if (displayedEventIDs.has(event.EventID)) return;
+if (!eventsContainer) {
+    console.error('eventsContainer element not found');
+}
 
-                    const eventDiv = document.createElement('div');
-                    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+eventsArray.forEach(event => {
+    if (displayedEventIDs.has(event.EventID)) return;
 
-                    const poster1 = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
+    // Debugging logs
+    console.log('Processing event:', event);
 
-                    eventDiv.innerHTML = `
-                        <div class="card h-100">
-                            <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
-                            <div class="card-body"></div>
-                            <div class="card-footer text-center">
-                                <form action="get_details.php" method="POST">
-                                    <input type="hidden" name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary">View Details</button>
-                                </form>
-                            </div>
-                        </div>
-                    `;
+    if (!event.EventID) {
+        console.error('EventID is missing for event:', event);
+        return;
+    }
 
-                    eventsContainer.appendChild(eventDiv);
-                    displayedEventIDs.add(event.EventID);
-                });
+    const eventDiv = document.createElement('div');
+    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+
+    const poster1 = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
+    if (!poster1) {
+        console.warn('No poster found for event:', event);
+    }
+
+    eventDiv.innerHTML = `
+        <div class="card h-100">
+            <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
+            <div class="card-body"></div>
+            <div class="card-footer text-center">
+                <form action="get_details.php" method="POST">
+                    <input type="hidden" name="id" value="${event.EventID}">
+                    <button type="submit" class="btn btn-primary">View Details</button>
+                </form>
+            </div>
+        </div>
+    `;
+
+    eventsContainer.appendChild(eventDiv);
+    displayedEventIDs.add(event.EventID);
+});
+
 
                 offset += limit;
                 isLoading = false;
