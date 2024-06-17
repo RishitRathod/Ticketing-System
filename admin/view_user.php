@@ -23,6 +23,15 @@ include 'admin_headnav.php';
         .user-info {
             margin-bottom: 20px;
         }
+        .tagName{
+            padding: 0.5vmax;
+            background-color: #2a0275;
+            color:aliceblue; 
+        }
+        .tagDetails{
+            padding: 0.5vmax;
+            background-color: #e0dee3;
+        }
     </style>
 </head>
 <body>
@@ -66,12 +75,21 @@ include 'admin_headnav.php';
         userInfoContainer.innerHTML = `
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">User Information</h5>
-                    <p class="card-text"><strong>UserID:</strong> ${user.UserID}</p>
-                    <p class="card-text"><strong>Username:</strong> ${user.Username}</p>
-                    <p class="card-text"><strong>Email:</strong> ${user.Email}</p>
-                    <p class="card-text"><strong>Phone Number:</strong> ${user.userphonenumber}</p>
-                    <p class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" alt="User Photo">' : 'No photo available'}</p>
+                <h5 class="card-title">User Information</h5>
+                <div class="row">
+                <div class="col-3">
+                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
+                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
+                </div>
+                <div class="col-3">
+                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
+                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
+                </div>
+                <div class="col">
+                    <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" alt="User Photo">' : 'No photo available'}</div>
+                </div>
+                
+                </div>
                 </div>
             </div>
         `;
