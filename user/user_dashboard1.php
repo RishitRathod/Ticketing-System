@@ -11,7 +11,7 @@
         width: 100%;        /* Ensure the image takes up the full width of the card */
         height: 200px;      /* Set a fixed height for the images */
         object-fit: cover;  /* Ensure the image covers the entire area without distortion */
-        size: 1:1;
+        aspect-ratio: 1/1;
     }
     p{
         margin-top: 100px;
@@ -69,8 +69,13 @@
     }
     .collapse-horizontal{
         position: fixed;
+        width:250px !important;
+        height: 1100px !important;
+        
+        background: #1b155d; /* Example background color */
+        height: inherit;
         top: 100px; 
-        left: 20px;
+        left: 0px;
         z-index: 990; 
     }
     #toggleDiv1{
@@ -107,6 +112,11 @@
             .custom-wrapper{
                 width: 270px;
             } 
+            .collapse-horizontal{
+                top: 80px; 
+                left: 0px;
+                z-index: 990; 
+            }
 
         }
 </style>
@@ -115,9 +125,9 @@
     <?php 
     include 'userdashnav.php'; ?>
     <div class="row mx-auto justify-content-center g-0 p-0">
-        <div class="col-0 col-md-auto text-light g-0 p-2" id="toggleDiv1">
+        <div class="col-0 col-md-auto text-light filt g-0 p-2" id="toggleDiv1">
             <p>
-                <button class="btn btn-light filt col mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" onclick="toggleDivClass()">
+                <button class="btn btn-light filt col mt-md-5 mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" onclick="toggleDivClass()">
                     <i class="fa fa-filter"></i>Filter
                 </button>
             </p>
@@ -234,7 +244,7 @@
             </div>
         
             <div class="container table-responsive mt-1"></div>
-            <div id="events" class="mt-3">
+            <div id="events" class="mt-3 d-block">
                 <!-- Events will be shown here -->
             </div>
         
@@ -458,7 +468,7 @@ eventsArray.forEach(event => {
     }
 
     const eventDiv = document.createElement('div');
-    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-6', 'mb-4', 'd-inline-block');
+    eventDiv.classList.add('col-lg-3', 'col-md-3', 'col-sm-6', 'col-12', 'mb-4', 'd-inline-block');
 
     const poster = event.Posters && event.Posters.length > 0 ? event.Posters[0] : '';
     if (!poster) {
@@ -469,7 +479,7 @@ eventsArray.forEach(event => {
     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
     eventDiv.innerHTML = `
-        <div class="card h-100">
+        <div class="card d-block h-100">
             <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
             <div class="card-body">   
                 <p>${eventName}</p>

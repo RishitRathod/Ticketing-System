@@ -137,7 +137,7 @@ function isUserLoggedIn() {
                         <h2>Event Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form id="registrationForm" class="fs-5 needs-validation " method="post" enctype="multipart/form-data" novalidate>
+                        <form id="registrationForm" class="fs-5  " method="post" enctype="multipart/form-data" novalidate>
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
@@ -171,7 +171,7 @@ function isUserLoggedIn() {
                                 </div>
                                 <div class="form-group col">
                                     <label for="capacity">Capacity</label><span class="req">*</span>
-                                    <input type="number" class="form-control rounded-4" id="capacity" min="1" name="Capacity" required>
+                                    <input type="number" onblur="setTicketQuantity()" class="form-control rounded-4" id="capacity" min="1" name="Capacity" required>
                                     <div class="invalid-feedback">Please provide a valid Capacity.</div>
                                 </div>
                                 </div>
@@ -203,11 +203,11 @@ function isUserLoggedIn() {
                                <div class="row mx-auto">
                                <div class="col-5 form-group">
     <label for="startDate">Start Date</label>
-    <input type="date"  class="form-control datepicker" id="startDate" name="StartDate">
+    <input type="text"  class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="StartDate">
 </div>
 <div class="col-5 form-group">
     <label for="endDate">End Date</label>
-    <input type="date" class="form-control" id="endDate" name="EndDate">
+    <input type="text" class="form-control" id="endDate" onfocus="(this.type = 'date')" placeholder="dd-mm-yyyy" name="EndDate">
 </div>
 
                                 </div>
@@ -263,9 +263,10 @@ function isUserLoggedIn() {
                                                 </select>
                                                 <div id="addTicType"></div>
                                             </div>
+                                            <script></script>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
-                                                <input type="number" id="quantity" class="form-control rounded-4" min="1" name="Quantity[]" required>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity()" required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -361,10 +362,95 @@ function isUserLoggedIn() {
             </div>
         </div>
     </div>
-    
+        
+    <script>
+        
+        function validateFormStep2(){
+            const ticketTypes = document.getElementsByName('TicketType[]');
+            const quantities = document.getElementsByName('Quantity[]');
+            const returnables = document.getElementsByName('Returnable[]');
+            const limitQuantities = document.getElementsByName('LimitQuantity[]');
+            const discounts = document.getElementsByName('Discount[]');
+            const prices = document.getElementsByName('Price[]');
+
+            let isValid = true;
+            let messages = [];
+            let NoOfTickets=ticketTypes.length;
+            let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
+            let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
+            for (let i = 0; i < ticketTypes.length; i++) {
+
+                if (ticketTypes[i].value === '') {
+                    currentStep = 2;
+                    isValid = false;
+                    alert('Please select a ticket type.');
+                }
+                if (quantities[i].value === '' || quantities[i].value <= 0) {
+                    currentStep = 2;
+                    isValid = false;
+                    messages.push('Please enter a valid quantity.');
+                }
+                if (returnables[i].value === '') {
+                    currentStep = 2;
+                    isValid = false;
+                    messages.push('Please select if the ticket is refundable.');
+                }
+                if (limitQuantities[i].value === '' || limitQuantities[i].value <= 0) {
+                    currentStep = 2;
+                    isValid = false;
+                    messages.push('Please enter a valid limit quantity.');
+                }
+                if (discounts[i].value === '' || discounts[i].value < 0) {
+                    currentStep = 2;
+                    isValid = false;
+                    messages.push('Please enter a valid discount.');
+                }
+                if (prices[i].value === '' || prices[i].value < 0) {
+                    currentStep = 2;
+                    isValid = false;
+                    messages.push('Please enter a valid price.');
+                }
+            }
+
+            if (!isValid) {
+                alert(messages.join('\n'));
+            } else {
+                // Proceed to the next step or submit the form
+                alert('Form is valid and ready to proceed.');
+                // You can add form submission logic here
+            }
+        }
+
+        function setTicketQuantity(){
+            var capacity = document.getElementById('capacity').value;
+            document.getElementById('quantity').setAttribute('max', capacity);
+            document.getElementById('quantity').value = capacity;
+        }
+        function givecapacity(id){
+
+            var capacity = document.getElementById('capacity').value;
+            document.getElementById(id).setAttribute('max', capacity);
+        }
+
+        function validateTicektQuntity(){
+            var quantity = document.getElementById('quantity').value;
+            var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
+            if(quantity < limitQuantity){
+                alert('Limit Quantity cannot be greater than quantity');
+                return false;
+            }
+            var EventCapacity = document.getElementById('capacity').value;
+            if(quantity > EventCapacity){
+                alert('Quantity cannot be greater than Event Capacity');
+                document.getElementById(id).setAttribute('max', EventCapacity);
+
+                return false;
+            }   
+        }
+    </script>
 
     <script>
-        // function vaidationFields(){
+        //// function vaidationFields(){
         //     var textareaValue = document.getElementById('description').value.trim(); //description
         //     var wordCountRegex = /\b\w+\b(?:\W+\b\w+\b){19,}/;
     
@@ -827,20 +913,24 @@ const validateStep = (currentStep, data) => {
     if (currentStep === 1 && choice === 'TimeBased') {
         const startDate = new Date(document.getElementById('startDate').value);
         const endDate = new Date(document.getElementById('endDate').value);
-        const totalDays = (endDate - startDate) / (1000 * 3600 * 24);
+        const totalDays = (endDate - startDate) / (1000 * 3600 * 24)+1;
 
         
 
         console.log("availble days",data.data[0].Amount_of_Days);
         availbleDays=data.data[0].Amount_of_Days-totalDays;
         console.log("availble days",availbleDays);
+        if(availbleDays<=0){
+            alert("Not Enough Balance Please Recharge!");
+            return false; 
+        }
         return totalDays < data.data[0].Amount_of_Days;
     } else if (currentStep === 0 && choice === 'TicketBased') {
         const capacity = parseInt(document.getElementById('capacity').value, 10);
 console.log("capacity",data.data[0].Amount_of_Tickets);
         availbleTickets=data.data[0].Amount_of_Tickets-capacity;
         if(availbleTickets<=0){
-            alert("Not Enough Balance");
+            alert("Not Enough Balance Please Recharge");
             return false; 
         }
         console.log("availble tickets",availbleTickets);
@@ -853,12 +943,18 @@ console.log("capacity",data.data[0].Amount_of_Tickets);
 nextBtns.forEach(button => {
     button.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
-            if (currentStep === 0 || currentStep === 1) {
+
+            if (currentStep === 0 || currentStep === 1  || currentStep === 2) {
                 // vaidationFields();
                 fetchPackages()
                     .then(data => {
                         console.log("fetch",data);
+                       
                         if (validateStep(currentStep, data)) {
+                            if(currentStep===2 && !validateFormStep2()){
+                                console.log('Form validation failed. Staying on step 2.');
+                                return;
+                            }
                             if (currentStep === 1 && !validateForm()) {
                                 console.log('Form validation failed. Staying on step 1.');
                                 return; // Stay on the current step if form validation fails
@@ -867,6 +963,7 @@ nextBtns.forEach(button => {
                                 console.log('Form validation failed. Staying on step 0.');
                                 return; // Stay on the current step if form validation fails
                             }
+                            
                             steps[currentStep].classList.remove('active');
                             currentStep++;
                             steps[currentStep].classList.add('active');
@@ -938,9 +1035,10 @@ nextBtns.forEach(button => {
 
             addTicketBtn.addEventListener('click', function() {
                 const newTicketGroup = document.querySelector('.ticket-group.m-3.rounded-4').cloneNode(true);
+                
                 ticketTypes++;
                 console.log("tickets",ticketTypes);
-
+                
                 newTicketGroup.querySelectorAll('input, select').forEach(input => input.value = '');
                 newTicketGroup.querySelector('.remove-ticket').addEventListener('click', function() {
                     if (event.target.classList.contains('remove-ticket')) {
@@ -953,7 +1051,23 @@ nextBtns.forEach(button => {
                         }
                     }});
                 ticketContainer.appendChild(newTicketGroup);
+                addDetailforstep2();
             });
+
+            function addDetailforstep2(){
+                const ticketTypes1 = document.getElementsByName('TicketType[]');
+                const quantities = document.getElementsByName('Quantity[]');
+             
+                let NoOfTickets=ticketTypes1.length;
+                let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
+                let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
+                console.log("amountOfTikcetsPerTypeRounded1",amountOfTikcetsPerTypeRounded1);
+                quantities.forEach(quantity => {
+                    quantity.value = amountOfTikcetsPerTypeRounded1;
+        
+                });
+               
+            }
 
             ticketContainer.addEventListener('click', function(event) {
                 if (event.target.classList.contains('remove-ticket')) {
@@ -1040,7 +1154,7 @@ nextBtns.forEach(button => {
                     const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
                     // Display the difference in days
-                    document.getElementById('dayDifference').innerText = `Number of days between dates: ${differenceInDays}`;
+                    document.getElementById('dayDifference').innerText = `Number of days between dates: ${differenceInDays+1}`;
                 }
             }
 
