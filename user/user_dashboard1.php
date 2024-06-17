@@ -11,6 +11,7 @@
         width: 100%;        /* Ensure the image takes up the full width of the card */
         height: 200px;      /* Set a fixed height for the images */
         object-fit: cover;  /* Ensure the image covers the entire area without distortion */
+        size: 1:1;
     }
     p{
         margin-top: 100px;
@@ -130,19 +131,19 @@
                     <div class="p-2">
                     <strong> Duration </strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="d1" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary" for="d1">Today</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="d2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="d2">This Week</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="d3" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="d3">This Month</label>
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="Today" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="Today">Today</label>
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="ThisWeek" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="ThisWeek">This Week</label>
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="ThisMonth" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="ThisMonth">This Month</label>
                         </div>
-                        <strong>Price</strong>
+                        <strong>Sort By Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="h" id="c1" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary" for="c1"> High to Low</label>
-                            <input type="radio" class="btn-check" name="h" id="c2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="c2"> Low to High</label>
+                            <input type="radio" class="btn-check" name="h" id="HighToLow" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="HighToLow"> High to Low</label>
+                            <input type="radio" class="btn-check" name="h" id="LowToHigh" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="LowToHigh"> Low to High</label>
                         </div>
                     </div>
                 </div>
@@ -156,14 +157,14 @@
                         <div class="price-input row-12 justify-content-center d-block"> 
                             <div class="price-field col-5 d-inline"> 
                                 <span>Min. Price</span> 
-                                <input type="number" class="min-input w-75 form-control" value="2500">
+                                <input type="number" name="MinPrice" id="MinPrice"  class="min-input w-75 form-control" value="2500">
                                 <!-- <div class="range-input"> 
                                     <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
                                 </div>   -->
                             </div> 
                             <div class="price-field col-5 d-inline"> 
                                 <span>Max. Price</span> 
-                                <input type="number" class="max-input w-75 form-control" value="8500"> 
+                                <input type="number" name="MaxPrice" id="MaxPrice" class="max-input w-75 form-control" value="8500"> 
                                 <!-- <div class="range-input"> 
                                     <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
                                 </div>  -->
@@ -202,7 +203,7 @@
                     <div class="col-md-8 mt-5">
                         <div class="input-group">
                         <span class="input-group-addon">
-                        <select>
+                        <select id="SearchBarSelect" name="SearchBarSelect">
                             <option value="All">All</option>
                             <option value="City">City</option>
                             <option value="State">State</option>
@@ -273,6 +274,8 @@
             }
 
         }
+
+        
     </script>
     <script>
 

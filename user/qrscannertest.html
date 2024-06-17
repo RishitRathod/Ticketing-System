@@ -10,16 +10,104 @@
         <div id="reader" style="width: 500px;"></div>
         <p id="qr-result">QR Code Result: None</p>
 
-        <script>
-            let html5QrCode;
-            let scanning = true;
+        <div class="form-div container-fluid">
+            <form id="FetchDetails"  method="POST">
+                <input type="nunmber" name="TicketSalesID" id="TicketSalesID" placeholder="TicketSalesID">
+                <input type="hidden" name="action" id="action" value="UpdateEntryOrExitTimes">
+                <input type="button" value="Submit" onclick="dosubmit(event)">
+            </form>
+            <form style="display:none;" id="UpdateDatabase"  method="POST">
+                <span>Slect the no of people that are Entering or Exiting the Event</span>
+                <input type="numbeer" name="amountPeopleEnterOrExit" placeholder="Enter no of person entring or exiting the Event" id="amountPeopleEnterOrExit">
+                <input type="radio" name="EntryOrExit" value="Entry" id="Entry">Entry
+                <input type="radio" name="EntryOrExit" value="Exit" id="Exit">Exit
+                <input type="hidden" name="action" id="action" value="GetTciektDetails">
+                <input type="button" value="Submit" onclick="UpdateTheEntryAndxitTimes(event)" >
+            </form>
+            
 
-            function UpdateTimeUsage(decodedText) {
-                const url = '../fetchTicketUsage.php';
+        </div>
+        <p id="QuatityTag">Number of Tickets associated with this ticket:- <div id="Quatity"> </div> </p>
+
+        <script>
+
+            function UpdateTheEntryAndxitTimes(event){
+                event.preventDefault();
+                //document.getElementById('UpdateDatabase').style.display = 'none';
+                const TicketSalesID= document.getElementById('TicketSalesID').value;
+                const amountPeopleEnterOrExit = document.getElementById('amountPeopleEnterOrExit').value;
+                const EntryOrExit = document.querySelector('input[name="EntryOrExit"]:checked').value;
+                const data={
+                    TicketSalesID:TicketSalesID,
+                    amountPeopleEnterOrExit:amountPeopleEnterOrExit,
+                    EntryOrExit:EntryOrExit,
+                    action:"UpdateEntryOrExitTimes"
+                };
+                console.log(data); 
+                UpdateDatabase(data);
+
+            }
+
+            async function UpdateDatabase(data){
+                const url = '../fetchTicketUsage.php'; 
+               await fetch (url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                //write on sucess consloe log
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Data Updated Successfully');
+                    document.getElementById('UpdateDatabase').style.display = 'none';
+                    document.getElementById('FetchDetails').style.display = 'block';
+                    document.getElementById('QuatityTag').style.display = 'none';
+                    document.getElementById('amountPeopleEnterOrExit').style.display = 'none';
+                    document.getElementById('TicketSalesID').value = '';
+                    document.getElementById('amountPeopleEnterOrExit').value = '';
+                    document.getElementById('Entry').checked = false;
+                    document.getElementById('Exit').checked = false;
+                    html5QrCode.start(
+                        { facingMode: "environment" }, // camera settings
+                        {
+                            fps: 10, // frames per second
+                            qrbox: { width: 300, height: 300 } // QR code scanning box size
+                        },
+                        onScanSuccess,
+                        onScanFailure
+                    ).catch(err => {
+                        // Start failed, handle it.
+                        console.error(`Unable to start scanning, error: ${err}`);
+                    });
+                })
+                //write on failure consloe log
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+
+            
+            let html5QrCode;
+            let scanning = true; // Prevent multiple calls
+            function dosubmit(event){
+                event.preventDefault();
+                    const TicketSalesID= document.getElementById('TicketSalesID').value;
+                    if(TicketSalesID == ''){
+                        alert('Please enter TicketSalesID');
+                    }
+                    FetchDetails(TicketSalesID);
+
+            }
+
+            function FetchDetails(decodedText,action) {
+                const url = '../fetchTicketUsage.php'; 
                 const data = {
                     TicketSalesID: decodedText,
-                    //action : 'GetDetailsToInsertintoTimeUsagetableatEntry'
-                    action : 'UpdateEntryOrExitTimes'
+                    //action : 'UpdateEntryOrExitTimes'
+                    action : 'GetTciektDetails'
                 };
 
                 fetch (url, {
@@ -33,6 +121,27 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
+                    document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
+                    document.getElementById('Quatity').textContent   =  data.Quantity;
+                    document.getElementById('QuatityTag').style.display = 'block';
+                    document.getElementById('amountPeopleEnterOrExit').style.display = 'block';
+                    document.getElementById('FetchDetails').style.display = 'none';
+                    document.getElementById('UpdateDatabase').style.display = 'block';
+                    html5QrCode.stop().then(ignore => {
+                        console.log('QR Code scanning stopped.');
+                        // Optionally clear the video element
+                        document.getElementById('reader').innerHTML = '';
+                        UpdateTimeUsage(decodedText);
+                        
+
+                    }).catch(err => {
+                        console.error('Unable to stop scanning.', err);
+                    });
+
+                    if(data.Quantity == 0){
+                        alert('No Tickets associated with this TicketSalesID');
+                    }
+
                 })
                 //write on failure consloe log
                 .catch((error) => {
@@ -56,7 +165,7 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
-                        UpdateTimeUsage(decodedText);
+                        FetchDetails(decodedText,);
                         
 
                     }).catch(err => {

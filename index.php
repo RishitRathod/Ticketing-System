@@ -256,6 +256,16 @@ class DB
         $Users= new Users($db->connection());
         return $Users->GetDetailsAtBuyTickets($EventID);
     }
+    static function GetTciektDetails($TicketSalesID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $TicketUsage= new TicketUsage($db->connection());
+        return $TicketUsage->GetTciektDetails($TicketSalesID);
+    }
+
 
     static function SetTimes($TicketSalesID){
         $host   = DB_HOST;
@@ -287,14 +297,14 @@ class DB
     //     return $TicketUsage->GetDetailsToInsertintoTimeUsagetableatEntry($TicketSalesID);
     // }
 
-    static function UpdateEntryOrExitTimes($TicketSalesID){
+    static function UpdateEntryOrExitTimes($TicketSalesID,$amountPeopleEnterOrExit,$EntryOrExit){
         $host   = DB_HOST;
         $user   = DB_USER;
         $pass   = DB_PASS;
         $dbname = DB_NAME;
         $db = new dbConnection($host, $user, $pass, $dbname);
         $TicketUsage= new TicketUsage($db->connection());
-        return $TicketUsage->UpdateEntryOrExitTimes($TicketSalesID);
+        return $TicketUsage->UpdateEntryOrExitTimes($TicketSalesID,$amountPeopleEnterOrExit,$EntryOrExit);
     }
 
     static function checkUser($dbname, $table,$name,$id,$idColumnName,$role){

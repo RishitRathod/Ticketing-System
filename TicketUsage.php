@@ -134,34 +134,19 @@ class TicketUsage{
  * @param array $data An associative array containing the data to be inserted.
  * @return array|string Success message or error message in case of failure.
  */
-public function UpdateEntryOrExitTimes($TicketSalesID){
-    try{
-        // Prepare the statement to check EntryTime
-        $checkEntrytime = $this->conn->prepare("SELECT EntryTime IS NULL AS is_null FROM $this->ticketusageTable WHERE TicketSalesID = :TicketSalesID");
-        $checkEntrytime->bindParam(':TicketSalesID', $TicketSalesID);
-        $checkEntrytime->execute();
-        
-        // Fetch the result
-        $result = $checkEntrytime->fetch(PDO::FETCH_ASSOC);
-        
-        // Check if the result is false
-        if ($result === false) {
-            return ['status' => 'error', 'message' => 'TicketSalesID not found or query failed'];
-        }
-        
-        // Debugging: print the fetched result
-        echo "Debug: is_null value - " . $result['is_null'] . "\n";
-        
-        // Check if EntryTime is null (meaning the user is entering)
-        if ($result['is_null'] == 1) {
-            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET EntryTime = NOW(), isattending = 1 WHERE TicketSalesID = :TicketSalesID");
+public function UpdateEntryOrExitTimes($TicketSalesID, $amountPeopleEnterOrExit, $EntryOrExit) {
+    try {
+        // Check if EntryOrExit is 'Entry'
+        if ($EntryOrExit == 'Entry') {
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET EntryTime = NOW(), isattending = 1, Quantity = Quantity - :amountPeopleEnterOrExit WHERE TicketSalesID = :TicketSalesID");
             $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+            $stmt->bindParam(':amountPeopleEnterOrExit', $amountPeopleEnterOrExit);
             $stmt->execute();
             return ['status' => 'success', 'message' => 'EntryTimeUpdated'];
-        } else {    
-            // Update ExitTime and set isattending to 0 (meaning the user is exiting)
-            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET ExitTime = NOW(), isattending = 0 WHERE TicketSalesID = :TicketSalesID");
+        } else { // EntryOrExit is 'Exit'
+            $stmt = $this->conn->prepare("UPDATE $this->ticketusageTable SET ExitTime = NOW(), isattending = 0, Quantity = 0 WHERE TicketSalesID = :TicketSalesID");
             $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+         //   $stmt->bindParam(':amountPeopleEnterOrExit', $amountPeopleEnterOrExit);
             $stmt->execute();
             return ['status' => 'success', 'message' => 'ExitTimeUpdated'];
         }
@@ -169,6 +154,24 @@ public function UpdateEntryOrExitTimes($TicketSalesID){
         // Catch and return the error message
         return ['status' => 'error', 'message' => 'Update failed: ' . $e->getMessage()];
     }
+}
+
+
+function GetTciektDetails($TicketSalesID){
+    try {$sql="SELECT Quantity FROM $this->ticketSalesTable WHERE TicketSalesID = :TicketSalesID";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':TicketSalesID', $TicketSalesID);
+    $result=$stmt->execute();
+    if($result){
+        return $stmt->fetchAll();
+    }else{
+        return "No data found";
+    }
+
+    }catch (PDOException $e) {
+        return "Update failed: " . $e->getMessage();
+    }
+
 }
 
 }
