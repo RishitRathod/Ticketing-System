@@ -163,7 +163,7 @@ class DB
         $Organizations= new Organizations($db->connection());
         return $Organizations->FetchOrgPackages($OrgID);
     }
-
+    
     static function getBalance($OrgID){
         $host   = DB_HOST;
         $user   = DB_USER;
@@ -358,6 +358,9 @@ class DB
         return $User->getUserID();
     
     }
+
+    
+   
     
 
 }

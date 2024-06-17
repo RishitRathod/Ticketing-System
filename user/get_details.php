@@ -47,9 +47,10 @@
         }
 
     </style>
-
-    
-
+</head>
+<body >
+<?php 
+    include 'userdashnav.php'; ?>
     
     <!-- <div class="container1"></div> -->
     <div class="heg pt-5 px-4" id="eventsContainer">   
@@ -130,7 +131,7 @@
                 `).join('');
 
                 const timeSlotsList = event.TimeSlots.map(slot => `
-                    <li><span class="card-text">${slot.StartTime} - ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span></li>
+                    <li><span class="card-text"><strong>From:</strong>${slot.StartTime} - <strong>To:</strong>${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span></li>
                 `).join('');
 
                 
@@ -141,7 +142,7 @@
                 eventCard.innerHTML = `
                     <div class="card event-card">
                         <div class="row row-cols-1 row-cols-md-2 g-2 p-3">
-                            <div class="col-md-8 overflow-auto card d-block poster-container ">
+                            <div class="col-md-6 overflow-auto card d-block poster-container ">
                                 <legend><strong>Event Photos</strong></legend>
                                 <div class="posters d-flex overflow-auto">
                                     ${posterItems}
@@ -149,7 +150,7 @@
                                 <h3 class="card-title position-absolute bottom-0 start-0 text-light m-4 evTitle">${event.EventName}</h3>
 
                             </div>
-                            <div class="col-md-4 card overflow-auto">
+                            <div class="col-md-6 card overflow-auto">
                                 <div class="card-body event-details">
                                 <!--   <div class="mt-3"><legend><strong>Available Tickets:</strong> ${event.Capacity}</legend></div> -->
                                     <fieldset><legend><strong>Date</strong></legend>

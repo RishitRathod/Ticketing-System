@@ -164,10 +164,10 @@
                             <div class="col-auto card rounded-5 p-5 formCard rounded-start-0 border-start-0">   
                                 <form method="POST"  id="registrationForm" class="form-container form1">
                                     <div class="mb-3">
-                                        <input type="text" class="form-control un" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
+                                        <input type="text" class="form-control un" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username" required>
                                     </div>
                                     <div class="mb-3 password-container">
-                                        <input type="password" class="form-control pass" id="PassWord" name="Password" placeholder="Password">
+                                        <input type="password" class="form-control pass" id="PassWord" name="Password" placeholder="Password" required>
                                         <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
                                         <!-- <input type="checkbox" onclick="togglePassword()"> Show Password -->
                                     </div>
@@ -238,6 +238,7 @@
 
             .catch((error) => {
                 console.error('Error:', error);
+                alert("No User Found !!");
             });
         });
     });
