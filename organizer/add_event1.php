@@ -79,11 +79,57 @@ function isUserLoggedIn() {
         .card{
             border-radius:20px;
         }
+        .req{
+            color:red;
+        }
+        /* toast button */
+        #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+        }
+
+        #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;} 
+        to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+        }
+
 
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card rounded-4">
@@ -91,7 +137,7 @@ function isUserLoggedIn() {
                         <h2>Event Registration</h2>
                     </div>
                     <div class="card-body">
-                        <form id="registrationForm" class="fs-5" method="post" enctype="multipart/form-data">
+                        <form id="registrationForm" class="fs-5 needs-validation was-validated" method="post" enctype="multipart/form-data" novalidate>
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
@@ -99,11 +145,13 @@ function isUserLoggedIn() {
                                     <input type="hidden" class="form-control rounded-4" id="orgid"  name="orgid" >
                                 </div>
                                 <div class="form-group">
-                                    <label for="eventName" class="form-label">Event Name</label>
+                                    <label for="eventName" class="form-label">Event Name</label><span class="req">*</span>
                                     <input type="text" class="form-control rounded-4" id="eventName" name="EventName" required>
+                                    <div class="invalid-feedback">enter event name.</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="eventType">Event Type</label>
+                                <div class="form-group row"> 
+                                <div class="form-group col">
+                                    <label for="eventType">Event Type</label><span class="req">*</span>
                                     <select class="form-control rounded-4" id="eventType" name="EventType" required>
                                         <option value="">Select event type</option>
                                         <option value="Beauty">Beauty</option>
@@ -119,46 +167,53 @@ function isUserLoggedIn() {
                                         <option value="custom">custom</option>
                                     </select>
                                     <div id="addEventType"></div>
+                                    <div class="invalid-feedback">Select an Event type</div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="capacity">Capacity</label><span class="req">*</span>
+                                    <input type="number" class="form-control rounded-4" id="capacity" min="1" name="Capacity" required>
+                                    <div class="invalid-feedback">Please provide a valid Capacity.</div>
+                                </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Description</label>
+                                    <label for="description">Description</label><span class="req">*</span>
                                     <textarea class="form-control rounded-4" id="description" name="Description" required></textarea>
                                 </div>
-                                <div class="form-group ml-2">
-                                    <label class="form-check-label mr-5">Select Which Balance you wish to use</label><br>
-                                    <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased">
-                                    <label class="form-check-label" for="TicketBased">Ticket Based</label><br>
-                                    <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased">
-                                    <label class="form-check-label" for="TimeBased">Time Based</label>
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="capacity">Capacity</label>
-                                    <input type="number" class="form-control rounded-4" id="capacity" name="Capacity">
+                                <div class="form-group row justify-content-evenly">
+                                    <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
+                                    <div class="col-auto">
+                                        <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required>
+                                        <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required>
+                                        <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+                                    </div>
+                                    <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
-                                    <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill" onclick="myFunction()">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
                             </div>
 
                             <!-- Step 2: Date and Time -->
                             <div name="timeAndDate" id="timeAndDate" class="step">
                                 <fieldset class="mt-3 rounded-4">
-                                    <legend> Event Date</legend>
+                                    <legend> Event Date <span class="req">*</span></legend>
                                <div class="row mx-auto">
-    <div class="col-5 form-group">
-        <label for="startDate">Start Date</label>
-        <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
-    </div>
-    <div class="col-5 form-group">
-        <label for="endDate">End Date</label>
-        <input type="date" class="form-control" id="endDate" name="EndDate">
-    </div>
-</div>
-<p id="dayDifference"></p>
+                                    <div class="col-5 form-group">
+                                        <label for="startDate">Start Date</label>
+                                        <input type="date" class="form-control datepicker" id="startDate" name="StartDate">
+                                    </div>
+                                    <div class="col-5 form-group">
+                                        <label for="endDate">End Date</label>
+                                        <input type="date" class="form-control" id="endDate" name="EndDate">
+                                    </div>
+                                </div>
+                                <p id="dayDifference"></p>
                                 </fieldset>
                                 <fieldset class="mt-3 rounded-4">
-                                    <legend> Event Time</legend>
+                                    <legend> Event Time <span class="req">*</span></legend>
                                     <div id="timeSlotsContainer">
                                         <div class="time-slot-group">
                                             <div class="row mx-auto">
@@ -193,8 +248,8 @@ function isUserLoggedIn() {
                                         <legend> Ticket </legend>
                                         <div class="row">
                                             <div class="form-group col-6">
-                                                <label for="ticketType">Ticket Type</label>
-                                                <select class="form-control rounded-4" id="ticketType" name="TicketType[]" >
+                                                <label for="ticketType">Ticket Type<span class="req">*</span></label>
+                                                <select class="form-control rounded-4" id="ticketType" name="TicketType[]" required>
                                                     <option value="">Select ticket type</option>
                                                     <option value="VIP">VIP</option>
                                                     <option value="Normal">Normal</option>
@@ -208,14 +263,14 @@ function isUserLoggedIn() {
                                                 <div id="addTicType"></div>
                                             </div>
                                             <div class="form-group col-5">
-                                                <label for="quantity">Quantity</label>
-                                                <input type="number" id="quantity" class="form-control rounded-4" name="Quantity[]" >
+                                                <label for="quantity">Quantity<span class="req">*</span></label>
+                                                <input type="number" id="quantity" class="form-control rounded-4" min="1" name="Quantity[]" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-6">
-                                                <label for="returnable">Refundable</label>
-                                                <select class="form-control rounded-4" id="returnable" name="Returnable[]" >
+                                                <label for="returnable">Refundable<span class="req">*</span></label>
+                                                <select class="form-control rounded-4" id="returnable" name="Returnable[]" required>
                                                     <option value="">Select returnable option</option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
@@ -223,16 +278,16 @@ function isUserLoggedIn() {
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="limitQuantity">Limit Quantity</label>
-                                                <input type="number" id="limitQuantity" class="form-control rounded-4" name="LimitQuantity[]" >
+                                                <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="discount">Discount</label>
-                                            <input type="number" id="discount" step="0.01"  class="form-control rounded-4" name="Discount[]" placeholder="%" >
+                                            <input type="number" id="discount" step="0.01"  class="form-control rounded-4" min="0" name="Discount[]" placeholder="%" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="number" id="price" class="form-control rounded-4" name="Price[]" placeholder="₹">
+                                            <label for="price">Price<span class="req">*</span></label>
+                                            <input type="number" id="price" class="form-control rounded-4" min="0" name="Price[]" placeholder="₹" required>
                                         </div>
                                         <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
                                     </fieldset>
@@ -250,37 +305,45 @@ function isUserLoggedIn() {
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
                                 <div class="container">
-                                    <label for="eventPoster" class="d-block">Event Poster</label>
+                                    <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
                                     <div id="posterContainer" class="mb-3">
                                         <div class="form-group poster-input">
-                                            <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)">
+                                            <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)" multiple>
                                         </div>
                                     </div>
-                                    <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
-                                    <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button>
+                                    <!-- <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
+                                    <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button> -->
                                     <div id="posterPreview" class="mt-3"></div>
                                 </div>
                                 <!-- <fieldset> -->
-                                    <div class="form-group">
-                                        <label for="country">Country: </label>
-                                         <select name="Country" id="country" class="form-control"> 
-                                             <option value="" selected="Selected">Select Country</option>
-                                         </select>
-                                         <label for="state">State:</label> 
-                                         <select name="State" id="state" class="form-control"> 
-                                             <option value="" selected="Selected">Select State</option>
-                                         </select>
-                                         <label for="city">City: </label> 
-                                         <select name="City" id="city" class="form-control"> 
-                                             <option value="" selected="Selected">Select City</option>
-                                         </select>
+                                <div class="container">
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label for="country">Country<span class="req">*</span></label>
+                                             <select name="Country" id="country" class="form-control" required> 
+                                                 <option value="" selected="Selected">Select Country</option>
+                                             </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="state">State<span class="req">*</span></label> 
+                                            <select name="State" id="state" class="form-control" required> 
+                                                <option value="" selected="Selected">Select State</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="city">City <span class="req">*</span></label> 
+                                            <select name="City" id="city" class="form-control" required> 
+                                                <option value="" selected="Selected">Select City</option>
+                                            </select>
+                                        </div>
                                     </div>
      
                                      <div class="form-group">
-                                         <label for="venueAddress">Venue Address</label>
-                                         <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
+                                         <label for="venueAddress">Venue Address<span class="req">*</span></label>
+                                         <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress" required></textarea>
                                          <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
                                      </div>
+                                </div>
                                 <!-- </fieldset> -->
                                
                                 <div class="d-grid d-flex mt-3 justify-content-center gap-5">
@@ -296,7 +359,44 @@ function isUserLoggedIn() {
     </div>
     
 
+    <script>
+        function vaidationFields(){
+            var textareaValue = document.getElementById('description').value.trim(); //description
+            var wordCountRegex = /\b\w+\b(?:\W+\b\w+\b){19,}/;
+    
+            if (wordCountRegex.test(textareaValue)) {
+                // alert('Textarea contains at least 20 words.');
+                console.log('Description pass');
+            } else {
+                alert('Textarea does not contain at least 20 words.');
+                return false;
+            }
+        }
+        function myFunction() {
 
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        } 
+        (() => {
+        'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
     <script>
 
 
@@ -729,6 +829,7 @@ nextBtns.forEach(button => {
     button.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
             if (currentStep === 0 || currentStep === 1) {
+                vaidationFields();
                 fetchPackages()
                     .then(data => {
                         console.log("fetch",data);
@@ -837,42 +938,42 @@ nextBtns.forEach(button => {
                 }
             });
         });
-        document.getElementById('addPosterButton').addEventListener('click', function() {
-            // Create a new div for the new input field
-            const newDiv = document.createElement('div');
-            newDiv.classList.add('form-group', 'poster-input');
+        // document.getElementById('addPosterButton').addEventListener('click', function() {
+        //     // Create a new div for the new input field
+        //     const newDiv = document.createElement('div');
+        //     newDiv.classList.add('form-group', 'poster-input');
 
-            // Create a new label
-            // const newLabel = document.createElement('label');
-            // newLabel.innerText = 'Event Poster';
+        //     // Create a new label
+        //     // const newLabel = document.createElement('label');
+        //     // newLabel.innerText = 'Event Poster';
 
-            // Create a new input field
-            const newInput = document.createElement('input');
-            newInput.type = 'file';
-            newInput.classList.add('form-control','form-control-sm');
-            newInput.name = 'EventPoster[]';
-            newInput.accept = 'image/*';
-            newInput.setAttribute('onchange', 'previewImage(event)');
+        //     // Create a new input field
+        //     const newInput = document.createElement('input');
+        //     newInput.type = 'file';
+        //     newInput.classList.add('form-control','form-control-sm');
+        //     newInput.name = 'EventPoster[]';
+        //     newInput.accept = 'image/*';
+        //     newInput.setAttribute('onchange', 'previewImage(event)');
 
-            // Append the label and input to the new div
-           // newDiv.appendChild(newLabel);
-            newDiv.appendChild(newInput);
+        //     // Append the label and input to the new div
+        //    // newDiv.appendChild(newLabel);
+        //     newDiv.appendChild(newInput);
 
-            // Append the new div to the poster container
-            document.getElementById('posterContainer').appendChild(newDiv);
-        });
+        //     // Append the new div to the poster container
+        //     document.getElementById('posterContainer').appendChild(newDiv);
+        // });
 
-        document.getElementById('removePosterButton').addEventListener('click', function() {
-            const posterPreviewDiv = document.getElementById('posterPreview');
-            const posterInputs = document.querySelectorAll('.poster-input');
-            if (posterInputs.length > 1) {
-                // Correctly select the last input and remove it
-                posterInputs[posterInputs.length - 1].remove();
-                posterPreviewDiv.lastElementChild.remove();
-            } else {
-                alert('There should be at least one poster');
-            }
-        });
+        // document.getElementById('removePosterButton').addEventListener('click', function() {
+        //     const posterPreviewDiv = document.getElementById('posterPreview');
+        //     const posterInputs = document.querySelectorAll('.poster-input');
+        //     if (posterInputs.length > 1) {
+        //         // Correctly select the last input and remove it
+        //         posterInputs[posterInputs.length - 1].remove();
+        //         posterPreviewDiv.lastElementChild.remove();
+        //     } else {
+        //         alert('There should be at least one poster');
+        //     }
+        // });
 
         function previewImage(event) {
             const posterPreviewDiv = document.getElementById('posterPreview');
