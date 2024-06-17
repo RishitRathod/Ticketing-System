@@ -1,9 +1,10 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Event Fetch Example</title>
+ 
+<?php
+     include 'userdashnav.php'; ?>
+    <!-- Navigation bar inclusion -->
+  
+    <!-- <meta charset="UTF-8"> -->
+    <!-- <title>Event Fetch Example</title> -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
     <style>
         .heg{
@@ -46,12 +47,9 @@
         }
 
     </style>
-</head>
-<body >
-<?php
-     include 'userdashnav.php'; ?>
-    <!-- Navigation bar inclusion -->
-  
+
+    
+
     
     <!-- <div class="container1"></div> -->
     <div class="heg pt-5 px-4" id="eventsContainer">   
@@ -62,7 +60,9 @@
         </div>
     </div>
 
-    <script>
+    
+    <script>  
+      
         async function fetchData(tableName) {
             try {
                 const EventID = <?php echo isset($_REQUEST['id']) ? json_encode($_REQUEST['id']) : 'null'; ?>;
@@ -95,6 +95,14 @@
         }
 
         async function initialize() {
+            if (isUserLoggedIn()) {
+                        document.getElementById('login').style.display = 'none';
+                        document.getElementById('profile').style.display = 'block';
+                    } else {
+                        document.getElementById('login').style.display = 'block';
+                        document.getElementById('profile').style.display = 'none';
+                    }
+                
             const value = 'events';
             const data = await fetchData(value);
             populateEvents(data);
@@ -179,9 +187,53 @@
                 eventsRow.appendChild(eventCard);
             });
         }
+        function isUserLoggedIn() {
+       const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            console.log("User is logged in");
+            return true;
+        }
+         }
+    console.log("User is not logged in");
+    return false;
+}
+               window.onload = function() {
+                    if (isUserLoggedIn()) {
+                        document.getElementById('login').style.display = 'none';
+                        document.getElementById('profile').style.display = 'block';
+                    } else {
+                        document.getElementById('login').style.display = 'block';
+                        document.getElementById('profile').style.display = 'none';
+                    }
+                }
+                // function setActiveLink() {
+                //     // Get the current path
+                //     var currentPath = window.location.pathname;
+                                
+                //     // Get all anchor tags within the parent div
+                //     var links = document.querySelectorAll('#parentDiv .nav-link');
+            
+                //     // Remove 'active' class from all anchor tags and set to active if href matches current path
+                //     links.forEach(function(link) {
+                //         if (link.href.endsWith(currentPath)) {
+                //             link.classList.add('active');
+                //         } else {
+                //             link.classList.remove('active');
+                //         }
+                //     });
+                // }
+                // document.addEventListener('DOMContentLoaded', setActiveLink);
+            
+            
+            
 
         window.onload = initialize;
+
     </script>
+    
+
+
 
     <?php
 include 'user_footer.html'

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
     
-    
+
 
 <style>
         body {
@@ -177,6 +177,17 @@
             
             <script src="../script.js"></script>
             <script>
+                function isUserLoggedIn() {
+       const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+        if (cookie.startsWith('role=')) {
+            console.log("User is logged in");
+            return true;
+        }
+         }
+    console.log("User is not logged in");
+    return false;
+}
                window.onload = function() {
                     if (isUserLoggedIn()) {
                         document.getElementById('login').style.display = 'none';
