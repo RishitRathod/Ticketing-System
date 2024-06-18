@@ -308,7 +308,7 @@ function isUserLoggedIn() {
 
 
                             <!-- Step 4: Venue and Capacity -->
-                            <div class="step">
+                            <div class="step ">
                                 <div class="container">
                                 <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
                                     <div id="posterContainer" class="mb-3">
@@ -347,8 +347,8 @@ function isUserLoggedIn() {
      
                                      <div class="form-group">
                                          <label for="venueAddress">Venue Address<span class="req">*</span></label>
-                                         <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress" required></textarea>
-                                         <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
+                                         <!-- <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress" required></textarea> -->
+                                         <input type="textarea" class="form-control rounded-4" id="venueAddress"  name="VenueAddress" required>
                                      </div>
                                 </div>
                                 <!-- </fieldset> -->
@@ -359,7 +359,7 @@ function isUserLoggedIn() {
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -391,33 +391,34 @@ function isUserLoggedIn() {
                 if (quantities[i].value === '' || quantities[i].value <= 0) {
                     currentStep = 2;
                     isValid = false;
-                    messages.push('Please enter a valid quantity.');
+                    alert('Please enter a valid quantity.');
                 }
                 if (returnables[i].value === '') {
                     currentStep = 2;
                     isValid = false;
-                    messages.push('Please select if the ticket is refundable.');
+                    alert('Please select if the ticket is refundable.');
                 }
-                if (limitQuantities[i].value === '' || limitQuantities[i].value > quantities[i].value || limitQuantities[i].value <= 0) {
+                if (limitQuantities[i].value > quantities[i].value ) {
                     currentStep = 2;
                     isValid = false;
-                    messages.push('Please enter a valid limit quantity.');
+                    console.log("ll",limitQuantities[i].value);
+                    console.log("tt",quantities[i].value);
+                    alert('Please enter a valid limit quantity.');
                 }
                 if (discounts[i].value === '' || discounts[i].value < 0) {
                     currentStep = 2;
                     isValid = false;
-                    messages.push('Please enter a valid discount.');
+                    alert('Please enter a valid discount.');
                 }
                 if (prices[i].value === '' || prices[i].value < 0) {
                     currentStep = 2;
                     isValid = false;
-                    messages.push('Please enter a valid price.');
+                    alert('Please enter a valid price.');
                 }
             }
 
-            if (!isValid) {
-                alert(messages.join('\n'));
-            } else {
+            if (isValid) {
+                //alert(messages.join('\n'));
                 // Proceed to the next step or submit the form
                 alert('Form is valid and ready to proceed.');
                 return true;
@@ -1168,32 +1169,60 @@ nextBtns.forEach(button => {
     // Clear previous posters
     posterPreviewDiv.innerHTML = '';
 
+    // Create a new DataTransfer object to store the current files
+    const dataTransfer = new DataTransfer();
+
+    // Iterate through the files and create previews and remove buttons
     for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         const file = files[i];
 
         reader.onload = function(e) {
+            const imgWrapper = document.createElement('div');
+            imgWrapper.classList.add('d-inline-block', 'position-relative', 'm-2');
+
             const img = document.createElement('img');
             img.src = e.target.result;
-            img.classList.add('img-thumbnail', 'm-2');
+            img.classList.add('img-thumbnail');
             img.style.maxWidth = '150px';
 
             // Create remove button
             const removeBtn = document.createElement('button');
-            removeBtn.textContent = 'Remove';
-            removeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'mx-2');
-            removeBtn.addEventListener('click', function() {
-                posterPreviewDiv.removeChild(img); // Remove the image element
-                posterPreviewDiv.removeChild(removeBtn); // Remove the remove button
-                document.getElementById('eventPoster').value = ''; // Clear the file input value
-            });
+            removeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'position-absolute', 'top-0', 'end-0');
+            const i = document.createElement('i');
+            i.classList.add('fa', 'fa-close');
+            removeBtn.style.transform = 'translate(50%, -50%)';
 
-            posterPreviewDiv.appendChild(img); // Append the image
-            posterPreviewDiv.appendChild(removeBtn); // Append the remove button
+            removeBtn.addEventListener('click', function() {
+                posterPreviewDiv.removeChild(imgWrapper); // Remove the image wrapper
+
+                // Remove the file from the DataTransfer object
+                const newDataTransfer = new DataTransfer();
+                for (let j = 0; j < dataTransfer.files.length; j++) {
+                    if (dataTransfer.files[j] !== file) {
+                        newDataTransfer.items.add(dataTransfer.files[j]);
+                    }
+                }
+
+                // Update the file input with the new FileList
+                event.target.files = newDataTransfer.files;
+                dataTransfer.items.clear();
+                for (let k = 0; k < newDataTransfer.files.length; k++) {
+                    dataTransfer.items.add(newDataTransfer.files[k]);
+                }
+            });
+            removeBtn.appendChild(i);
+            imgWrapper.appendChild(img);
+            imgWrapper.appendChild(removeBtn);
+            posterPreviewDiv.appendChild(imgWrapper);
         };
 
         reader.readAsDataURL(file);
+        dataTransfer.items.add(file); // Add the file to DataTransfer
     }
+
+    // Update the file input with the new FileList
+    event.target.files = dataTransfer.files;
 }
 
     </script>
