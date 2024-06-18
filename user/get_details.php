@@ -123,7 +123,7 @@
                 eventCard.classList.add('col-12', 'mb-4');
 
                 const posterItems = event.Posters.map(poster => `
-                    <img src="${poster}" class="event-poster img-fluid d-inline m-2 " alt="Event Poster">
+                    <img src="${poster}" class="event-poster img-fluid m-2" alt="Event Poster">
                 `).join('');
 
                 const ticketsList = event.Tickets.map(ticket => `

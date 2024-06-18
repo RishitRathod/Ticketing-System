@@ -69,7 +69,7 @@ function isUserLoggedIn() {
             max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #25252510;
+            background-color: #B3D9FF20;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2) ;
         }
         .backOnav{
@@ -116,7 +116,7 @@ function isUserLoggedIn() {
     </div>
   </div>
 </div> -->
-    <div class="container-fluid w-100 p-3 backOnav text-white">
+    <div class="container-fluid w-100 backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.php" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
@@ -137,7 +137,7 @@ function isUserLoggedIn() {
     </div>
     <div class="container-fluid">
         <div class="row stic flex-nowrap">  
-            <div class="backOnav  col-auto col-xl-2 col-md-4 sn min-vh-100 d-flex flex-column justify-content-between">
+            <div class="backOnav  col-auto col-xl-2 col-md-4 sn min-vh-100 d-flex flex-column justify-content-between g-0">
                 <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
@@ -168,8 +168,8 @@ function isUserLoggedIn() {
                     </ul>
                 </div>
             </div>
-            <div class="col p-3">
-                <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center">
+            <div class="col">
+                <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center g-0">
 
             <script src="../script.js"></script>
            <script> 

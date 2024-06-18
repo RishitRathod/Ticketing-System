@@ -187,11 +187,16 @@
                 text-align: center;
             }
         }
+        @media (min-width: 760px) {
+            .sn{
+                width:225px;   
+            }
+        }
         /* @table-bg-accent: #c8b6eb; */
     </style>
 </head>
 <body>
-    <div class="container-fluid w-100 container-sm p-3 backOnav text-white">
+    <div class="container-fluid w-100 container-sm backOnav text-white">
         <div class="row align-items-center">
             <a class="col-auto me-auto p-3 ml-3 mr-auto" href="./admin_dashboard1.php"  style="text-decoration: none;">
                 <img src="../img/logo.png" class="rounded-circle mx-1 navLogo mx-sm-3" alt="Logo">
@@ -212,7 +217,7 @@
     </div>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="backOnav col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between">
+            <div class="backOnav col-auto col-xl-2 col-md-4 col-lg-3 min-vh-100 d-flex flex-column justify-content-between sn g-0">
                 <div class="backOnav p-2">
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">

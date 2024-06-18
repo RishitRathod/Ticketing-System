@@ -18,7 +18,7 @@
             box-shadow: 3px 3px 20px #3E00FF20;
         }
         .event-poster {
-            max-height: 200px;
+            max-height: 350px;
             object-fit: cover;
             width: 90%;
             margin: 3vmin;
@@ -127,7 +127,7 @@
 
     <!-- Main Content -->
     <div id="eventsContainer">
-        <h2 class="py-2">Events</h2>
+        <h2 class="py-2" align="center">All Events</h2>
         <div id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
         </div>
@@ -309,7 +309,7 @@ console.log(uniqueEvents);
                             <div class="col-md-7">
                                 <div class="card-body event-details">
                                     <b><h5 class="card-title">${event.EventName}</h5></b>
-                                    <div class="card-text date rounded-end-circle"><strong>Time:</strong> <div class=""><div class="startD d-inline"> ${event.StartDate}</div> <div class="d-inline">to </div> <div class="endD d-inline">${event.EndDate}</div></div>
+                                    <div class="card-text date rounded-end-circle"><strong>Time:</strong> <span class=""><div class="startD d-inline"> ${event.StartDate}</div> <div class="d-inline">to </div> <div class="endD d-inline">${event.EndDate}</span></div>
                                 <!--    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p> -->
                                 <!--    <p class="card-text"><strong>Price:</strong> $${event.Price}</p> -->
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>

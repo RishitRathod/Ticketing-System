@@ -13,11 +13,12 @@
             width: 100% !important;
         }
         .event-poster {
-            max-height: 200px;
+            max-height: 600px;
             object-fit: cover;
-            width: 80%;
+            width: 90%;
             margin: 4vmin;
             border-radius: 10px !important;
+            box-shadow: 0px 0px 30px black;
         }
         .event-details {
             display: flex;
@@ -44,14 +45,23 @@
             float: none;
             width: inherit;
         }
+        .card-body{
+            background-color: #ffffff30;
+            box-shadow: 0px 0px 10px black;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
     <?php include 'navhead.php'; ?>
 
     <!-- Main Content -->
-    <div class="container mt-5" id="eventsContainer">
-        <h2>Events</h2>
+    <div class="container p-2 g-0" id="eventsContainer">
+        <h2>Event</h2>
         <div class="row" id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
         </div>
@@ -158,10 +168,10 @@
             eventsRow.innerHTML = '';
 Object.values(uniqueEvents).forEach((event) => {
     const eventCard = document.createElement('div');
-    eventCard.classList.add('col-12', 'mb-4');
+    eventCard.classList.add('col-12');
 
     const posterItems = event.posters.map(poster => `
-        <img src="${poster}" class="event-poster img-fluid" alt="Event Poster">
+        <img src="${poster}" class="event-poster img-fluid g-0" alt="Event Poster">
     `).join('');
 
     const ticketsList = event.tickets.map(ticket => `
@@ -173,17 +183,35 @@ Object.values(uniqueEvents).forEach((event) => {
     `).join('');
 
     eventCard.innerHTML = `
-        <div class="card event-card p-5">
+        <div class="event-card ">
             <div class="row no-gutters">
-                <div class="col-md-4 overflow-auto d-block poster-container">
-                    <strong>Event Photos</strong>
+                <div class="col-md-6 d-block">
+                    <strong class="ml-3">Event Photos</strong>
+                    <div class="posters d-flex g-0 overflow-auto">
                     ${posterItems}
+                    </div>
+                    <div class="text-center">
+                            <form action="edit_events.php" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="${event.EventID}">
+                                <button type="submit" class="btn btn-primary shadow-sm mt-3">Edit Details</button>
+                            </form>
+                            <form action="update_event.php" method="post" style="display:inline;">
+                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="btn btn-danger shadow-sm mt-3">Delete Event</button>
+                            </form>
+                            <form action="view_members.php" method="post" style="display:inline;">
+                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <button type="submit" class="btn btn-primary shadow-sm mt-3">View registered users</button>
+                            </form>
+                        </div>
                 </div>
-                <div class="col-md-8">
+
+                <div class="col-md-6">
                     <div class="card-body event-details pl-4">
-                        <h3 class="card-title">${event.EventName}</h3>
+                        <h3 class="card-title"><strong>${event.EventName}</strong></h3>
                         <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
-                        <fieldset><legend><strong>Date</strong></legend>
+                        <fieldset class=""><legend><strong>Date</strong></legend>
                             <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong> ${event.EndDate}</div>
                         </fieldset>
                         <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
@@ -192,21 +220,6 @@ Object.values(uniqueEvents).forEach((event) => {
                             <div><strong>Tickets</strong></div>
                             <ul>${ticketsList}</ul>
                         </fieldset>
-                        <div class="text-center">
-                            <form action="edit_events.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="${event.EventID}">
-                                <button type="submit" class="btn btn-primary mt-3">Edit Details</button>
-                            </form>
-                            <form action="update_event.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
-                                <input type="hidden" name="action" value="delete">
-                                <button type="submit" class="btn btn-primary mt-3">Delete Event</button>
-                            </form>
-                            <form action="view_members.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
-                                <button type="submit" class="btn btn-primary mt-3">View registered users</button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
