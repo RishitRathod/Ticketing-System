@@ -1,3 +1,4 @@
+
 <?php
     include 'navhead.php';
 ?>
@@ -7,13 +8,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <!-- Bootstrap CSS -->
-    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script>
+function isUserLoggedIn() {
+                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+                   if(!cookies){
+                       console.log("User is not logged in");
+                       return false;}
+                    for (const cookie of cookies) {
+                        if (cookie.startsWith('role=')) {
+                            console.log("User is logged in");
+                            return true;
+                        }
+                    }
+                    console.log("User is not logged in");
+                    return false;
+            }
+
+            if (!isUserLoggedIn()) {
+                window.location.href = './login.html';
+            }
+
+    </script>
+
+    <!-- date picker ui -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.0.2/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-39e9UaGkm/+yp6spIsVfzcs3j7ac7G2cg0hzmDvtG11pT1d7YMnOC26w4wMPhzsL" crossorigin="anonymous"> -->
     <style>
 
-      .poster-input {
+        .poster-input {
             margin-bottom: 10px;
         }
         .poster-preview-img {
@@ -22,6 +43,7 @@
             height: 150px;
             margin-top: 10px;
         }
+    
         .step {
             display: none;
         }
@@ -30,6 +52,7 @@
         }
         fieldset {
             border: solid 1px gray;
+            border-radius: 10px;
             padding-top: 5px;
             padding-right: 12px;
             padding-bottom: 10px;
@@ -54,20 +77,67 @@
             margin-right: 10px;
         }
         .card{
-            border-radius: 20px;
+            border-radius:20px;
         }
+        .req{
+            color:red;
+        }
+        /* toast button */
+        #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+        }
+
+        #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;} 
+        to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+        }
+
+
     </style>
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card rounded-5">
+                <div class="card rounded-4">
                     <div class="card-header">
                         <h2>Edit Event</h2>
                     </div>
                     <div class="card-body">
-                        <form id="registrationForm" class="fs-5" method="post" enctype="multipart/form-data">
+                        <form id="registrationForm" class="fs-5  " method="post" enctype="multipart/form-data" novalidate>
                             <!-- Step 1: Basic Information -->
                             <div class="step active">
                                 <div class="form-group">
@@ -75,12 +145,14 @@
                                     <input type="hidden" class="form-control rounded-4" id="orgid"  name="orgid" >
                                 </div>
                                 <div class="form-group">
-                                    <label for="eventName" class="form-label">Event Name</label>
-                                    <input type="text" class="form-control rounded-4" id="eventName" name="EventName" >
+                                    <label for="eventName" class="form-label">Event Name</label><span class="req">*</span>
+                                    <input type="text" class="form-control rounded-4" id="eventName" name="EventName" required>
+                                    <div class="invalid-feedback">enter event name.</div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="eventType">Event Type</label>
-                                    <select class="form-control rounded-4" id="eventType" name="EventType" >
+                                <div class="form-group row"> 
+                                <div class="form-group col">
+                                    <label for="eventType">Event Type</label><span class="req">*</span>
+                                    <select class="form-control rounded-4" id="eventType" name="EventType" required>
                                         <option value="">Select event type</option>
                                         <option value="Beauty">Beauty</option>
                                         <option value="Business">Business</option>
@@ -95,22 +167,29 @@
                                         <option value="custom">custom</option>
                                     </select>
                                     <div id="addEventType"></div>
+                                    <div class="invalid-feedback">Select an Event type</div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="capacity">Capacity</label><span class="req">*</span>
+                                    <input type="number" onblur="setTicketQuantity()" class="form-control rounded-4" id="capacity" min="1" name="Capacity" required>
+                                    <div class="invalid-feedback">Please provide a valid Capacity.</div>
+                                </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control rounded-4" id="description" name="Description"></textarea>
+                                    <label for="description">Description</label><span class="req">*</span>
+                                    <textarea class="form-control rounded-4" id="description" name="Description" required></textarea>
                                 </div>
-                                <div class="form-group ml-2">
-    <label class="form-check-label mr-5">Select Which Balance you wish to use</label><br>
-    <input class="form-check-input" type="radio" name="choice" id="TicketBased" value="TicketBased" disabled>
-    <label class="form-check-label" for="TicketBased">Ticket Based</label><br>
-    <input class="form-check-input" type="radio" name="choice" id="TimeBased" value="TimeBased" disabled>
-    <label class="form-check-label" for="TimeBased">Time Based</label>
-</div>
-
-                                <div class="form-group">
-                                    <label for="capacity">Capacity</label>
-                                    <input type="number" class="form-control rounded-4" id="capacity" name="Capacity">
+                                <div class="form-group row justify-content-evenly">
+                                    <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
+                                    <div class="col-auto">
+                                        <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required>
+                                        <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required>
+                                        <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+                                    </div>
+                                    <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
                                     <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
@@ -120,20 +199,22 @@
                             <!-- Step 2: Date and Time -->
                             <div name="timeAndDate" id="timeAndDate" class="step">
                                 <fieldset class="mt-3 rounded-4">
-                                    <legend> Event Date</legend>
-                                    <div class="row mx-auto">
-                                        <div class="col-5 form-group">
-                                            <label for="startDate">Start Date</label>
-                                            <input type="date" class="form-control" id="startDate" name="StartDate" >
-                                        </div>
-                                        <div class="col-5 form-group">
-                                            <label for="endDate">End Date</label>
-                                            <input type="date" class="form-control" id="endDate" name="EndDate" >
-                                        </div>
+                                    <legend> Event Date <span class="req">*</span></legend>
+                                <div class="row mx-auto">
+                                    <div class="col-5 form-group">
+                                        <label for="startDate">Start Date</label>
+                                        <input type="text"  class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="StartDate">
                                     </div>
+                                <div class="col-5 form-group">
+    <label for="endDate">End Date</label>
+    <input type="text" class="form-control" id="endDate" onfocus="(this.type = 'date')" placeholder="dd-mm-yyyy" name="EndDate">
+</div>
+
+                                </div>
+                                <p id="dayDifference"></p>
                                 </fieldset>
                                 <fieldset class="mt-3 rounded-4">
-                                    <legend> Event Time</legend>
+                                    <legend> Event Time <span class="req">*</span></legend>
                                     <div id="timeSlotsContainer">
                                         <div class="time-slot-group">
                                             <div class="row mx-auto">
@@ -168,8 +249,8 @@
                                         <legend> Ticket </legend>
                                         <div class="row">
                                             <div class="form-group col-6">
-                                                <label for="ticketType">Ticket Type</label>
-                                                <select class="form-control rounded-4" id="ticketType" name="TicketType[]" >
+                                                <label for="ticketType">Ticket Type<span class="req">*</span></label>
+                                                <select class="form-control rounded-4" id="ticketType" name="TicketType[]" required>
                                                     <option value="">Select ticket type</option>
                                                     <option value="VIP">VIP</option>
                                                     <option value="Normal">Normal</option>
@@ -182,15 +263,16 @@
                                                 </select>
                                                 <div id="addTicType"></div>
                                             </div>
+                                            <script></script>
                                             <div class="form-group col-5">
-                                                <label for="quantity">Quantity</label>
-                                                <input type="number" id="quantity" class="form-control rounded-4" name="Quantity[]" >
+                                                <label for="quantity">Quantity<span class="req">*</span></label>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity()" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-6">
-                                                <label for="returnable">Returnable</label>
-                                                <select class="form-control rounded-4" id="returnable" name="Returnable[]" >
+                                                <label for="returnable">Refundable<span class="req">*</span></label>
+                                                <select class="form-control rounded-4" id="returnable" name="Returnable[]" required>
                                                     <option value="">Select returnable option</option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
@@ -198,17 +280,20 @@
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="limitQuantity">Limit Quantity</label>
-                                                <input type="number" id="limitQuantity" class="form-control rounded-4" name="LimitQuantity[]" >
+                                                <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="row">
+                                        <div class="form-group col">
                                             <label for="discount">Discount</label>
-                                            <input type="number" id="discount" class="form-control rounded-4" name="Discount[]" placeholder="%" >
+                                            <input type="number" id="discount" step="0.01"  class="form-control rounded-4" min="0" name="Discount[]" placeholder="%" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="number" id="price" class="form-control rounded-4" name="Price[]" placeholder="₹">
+                                        <div class="form-group col">
+                                            <label for="price">Price<span class="req">*</span></label>
+                                            <input type="number" id="price" class="form-control rounded-4" min="0" name="Price[]" placeholder="₹" required>
                                         </div>
+                                        </div>
+
                                         <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
                                     </fieldset>
                                 </div>
@@ -223,108 +308,129 @@
 
 
                             <!-- Step 4: Venue and Capacity -->
-                                <div class="step">
-                                <div id="posterContainer" class="form-group">
-                                <label for="eventPoster">Event Poster</label>
-                                <input type="file" class="form-control-file" id="eventPoster" accept="image/*" onchange="previewImage(event)">
-                                <div id="posterPreview"></div>
+                            <div class="step ">
+                                <div class="container">
+                                <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
+                                    <div id="posterContainer" class="mb-3">
+                                        <div class="form-group poster-input">
+                                            <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)" multiple>
+                                        </div>
+                                    <div id="posterPreview" class="d-flex flex-wrap"></div>
                             </div>
-                            <button type="button" class="btn btn-primary" id="addPosterButton1">Add Poster</button>
-                            <button type="button" class="btn btn-danger" id="removePosterButton">Remove Poster</button>
 
-                                <div class="form-group">
-                                    <label for="country">Country: </label>
-                                        <select name="Country" id="country" class="form-control"> 
-                                            <option value="" selected="Selected">Select Country</option>
-                                        </select>
-                                        <label for="state">State:</label> 
-                                        <select name="State" id="state" class="form-control"> 
-                                            <option value="" selected="Selected">Select State</option>
-                                        </select>
-                                        <label for="city">City: </label> 
-                                        <select name="City" id="city" class="form-control"> 
-                                            <option value="" selected="Selected">Select City</option>
-                                        </select>
+                                    <!-- <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
+                                    <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button> -->
+                                    <div id="posterPreview" class="mt-3"></div>
                                 </div>
-
-                                    <div class="form-group">
-                                        <label for="venueAddress">Venue Address</label>
-                                        <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress"></textarea>
-                                        <!-- <input type="text" class="form-control rounded-4" id="venueAddress" name="VenueAddress"> -->
+                                <!-- <fieldset> -->
+                                <div class="container">
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label for="country">Country<span class="req">*</span></label>
+                                             <select name="Country" id="country" class="form-control" required> 
+                                                 <option value="" selected="Selected">Select Country</option>
+                                             </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="state">State<span class="req">*</span></label> 
+                                            <select name="State" id="state" class="form-control" required> 
+                                                <option value="" selected="Selected">Select State</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="city">City <span class="req">*</span></label> 
+                                            <select name="City" id="city" class="form-control" required> 
+                                                <option value="" selected="Selected">Select City</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                
-                                    <div class="d-grid d-flex justify-content-center gap-5">
-                                        <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                        <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Update <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
-                                    </div>
+     
+                                     <div class="form-group">
+                                         <label for="venueAddress">Venue Address<span class="req">*</span></label>
+                                         <!-- <textarea class="form-control rounded-4" id="venueAddress" name="VenueAddress" required></textarea> -->
+                                         <input type="textarea" class="form-control rounded-4" id="venueAddress"  name="VenueAddress" required>
+                                     </div>
+                                </div>
+                                <!-- </fieldset> -->
+                               
+                                <div class="d-grid d-flex mt-3 justify-content-center gap-5">
+                                    <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                </div>
                             </div>
                         </form>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>
     </div>
 
+
     <script src="edit_eventjs.js"></script>
     <script>
 
-        
 function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const newPreviewImg = document.createElement('img');
-                newPreviewImg.src = reader.result;
-                newPreviewImg.alt = 'Event Poster';
-                newPreviewImg.classList.add('poster-preview-img');
+    const posterPreviewDiv = document.getElementById('posterPreview');
+    const files = event.target.files;
 
-                const posterPreviewDiv = document.getElementById('posterPreview');
-                posterPreviewDiv.appendChild(newPreviewImg);
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
+    // Clear previous posters
+    posterPreviewDiv.innerHTML = '';
 
-        document.getElementById('addPosterButton1').addEventListener('click', function() {
-           // Create a new div for the new input field
-    const newDiv = document.createElement('div');
-    newDiv.classList.add('form-group', 'poster-input');
+    // Create a new DataTransfer object to store the current files
+    const dataTransfer = new DataTransfer();
 
-    // Create a new label
-    const newLabel = document.createElement('label');
-    newLabel.innerText = 'Event Poster';
+    // Iterate through the files and create previews and remove buttons
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
 
-    // Create a new input field
-    const newInput = document.createElement('input');
-    newInput.type = 'file';
-    newInput.classList.add('form-control-file');
-    newInput.name = 'EventPoster[]';
-    newInput.accept = 'image/*';
-    newInput.setAttribute('onchange', 'previewImage(event)');
+        reader.onload = function(e) {
+            const imgWrapper = document.createElement('div');
+            imgWrapper.classList.add('d-inline-block', 'position-relative', 'm-2');
 
-    // Append the label and input to the new div
-    newDiv.appendChild(newLabel);
-    newDiv.appendChild(newInput);
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('img-thumbnail');
+            img.style.maxWidth = '150px';
 
-    // Append the new div to the poster container
-    document.getElementById('posterContainer').appendChild(newDiv);
-        });
+            // Create remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'position-absolute', 'top-0', 'end-0');
+            const i = document.createElement('i');
+            i.classList.add('fa', 'fa-close');
+            removeBtn.style.transform = 'translate(50%, -50%)';
 
-            // document.getElementById('eventPoster').addEventListener('change', function(event) {
-            //     previewImage(event);
-            // });
-        //remove Poster and poster preview for that input there should be alteast 1 psoter
-        document.getElementById('removePosterButton').addEventListener('click', function() {
-            const posterPreviewDiv = document.getElementById('posterPreview');
-            const posterInputs = document.querySelectorAll('.poster-input');
-            if (posterInputs.length > 0) {
-                posterInputs[posterInputs.length - 1].remove();
-                posterPreviewDiv.lastElementChild.remove();
-            } else {
-                alert('There should be at least one poster');
-            }
-        });
+            removeBtn.addEventListener('click', function() {
+                posterPreviewDiv.removeChild(imgWrapper); // Remove the image wrapper
 
-        
+                // Remove the file from the DataTransfer object
+                const newDataTransfer = new DataTransfer();
+                for (let j = 0; j < dataTransfer.files.length; j++) {
+                    if (dataTransfer.files[j] !== file) {
+                        newDataTransfer.items.add(dataTransfer.files[j]);
+                    }
+                }
 
+                // Update the file input with the new FileList
+                event.target.files = newDataTransfer.files;
+                dataTransfer.items.clear();
+                for (let k = 0; k < newDataTransfer.files.length; k++) {
+                    dataTransfer.items.add(newDataTransfer.files[k]);
+                }
+            });
+            removeBtn.appendChild(i);
+            imgWrapper.appendChild(img);
+            imgWrapper.appendChild(removeBtn);
+            posterPreviewDiv.appendChild(imgWrapper);
+        };
+
+        reader.readAsDataURL(file);
+        dataTransfer.items.add(file); // Add the file to DataTransfer
+    }
+
+    // Update the file input with the new FileList
+    event.target.files = dataTransfer.files;
+}
         async function fetchData(tableName) {
             try {
                 const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
