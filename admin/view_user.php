@@ -35,7 +35,7 @@ include 'admin_headnav.php';
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-2">
         <h1 class="text-center">User Details</h1>
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>

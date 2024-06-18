@@ -30,32 +30,33 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5 ">
+    <div class="container mt-2 ">
         <h2>Add Packages</h2>
         <form id="packageForm" action="" method="POST">
             <div id="packageContainer">
                 <hr>
                 <div class="package-form mx-auto">
                     <div class="row form-group justify-content-evenly">
-                        <div class="col-auto">
-                            <label for="PackageName">Package Name:</label>
+                        <div class="col-3">
+                            <label for="PackageName">Package Name<span class="req">*</span></label>
                             <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+                            <div id="error" style="color:red; font-size:10px;"></div>
                         </div>
-                        <div class="col-auto">
-                            <label for="PackageType">Package Type:</label>
+                        <div class="col-3">
+                            <label for="PackageType">Package Type<span class="req">*</span></label>
                             <select class="form-control" id="PackageType" name="PackageType" required>
                                 <option value="TimeBased">TimeBased</option>
                                 <option value="TicketBased">TicketBased</option>
                             </select>
                         </div>
 
-                        <div class="col-2">
-                            <label for="noofdays">no. of days/Tickets</label>
+                        <div class="col-3">
+                            <label for="noofdays">No. of Days/Tickets<span class="req">*</span></label>
                             <input type="number" class="form-control" id="noofdays" min="1" name="noofdays" required>
                         </div>
 
-                        <div class="col-2">
-                            <label for="Amount">Amount:</label>
+                        <div class="col-3">
+                            <label for="Amount">Amount<span class="req">*</span></label>
                             <input type="number" class="form-control" id="Amount" min="0" name="Amount" required>
                         </div>
 
@@ -106,8 +107,25 @@
 
     <script>
 
+        document.getElementById('PackageName').addEventListener('input', function () {
+            var input = this.value.trim().toLowerCase();
+            var table = document.getElementById('packagesTable');
+            var errorElement = document.getElementById('error');
+            var packageNames = [];
+            // Collect column names from the table header
+            var rows = table.tBodies[0].rows;
+            for (var i = 0; i < rows.length; i++) {
+                packageNames.push(rows[i].cells[1].textContent.trim().toLowerCase());
+            }
+            // Check if the input value matches any column name
+            if (packageNames.includes(input)) {
+                errorElement.textContent = 'Please choose a different name.';
+            } else {
+                errorElement.textContent = '';
+            }
+        });
 
-    function validateForm() {
+        function validateForm() {
                 let isValid = true;
                 const packageForms = document.getElementsByClassName('package-form');
                 //regex for package name and amount amount must be a number with only postive values
@@ -138,9 +156,21 @@
                         break;
                     }
                 }
-
+                var input = document.getElementById('PackageName').value.trim().toLowerCase();
+                var table = document.getElementById('packagesTable');
+                var packageNames = [];
+                // Collect column names from the table header
+                var rows = table.tBodies[0].rows;
+                for (var i = 0; i < rows.length; i++) {
+                    packageNames.push(rows[i].cells[1].textContent.trim().toLowerCase());
+                }
+                // Check if the input value matches any column name
+                if (packageNames.includes(input)) {
+                    alert('Name is Invalid');
+                    isValid=false;
+                } 
                 return isValid;
-            }
+        }
         
         // function addPackage() {
         //     const packageForm = `
