@@ -75,6 +75,10 @@
             height: 4vmin;
             width: 4vmin;
         }
+        .req{
+            color:red;
+            /* font-size: 9px; */
+        }
         
         #tooltip:hover #tooltiptext{
             visibility: visible;
@@ -173,6 +177,9 @@
         }
         .navPf{
             height: 3vmax;
+        }
+        .in, .in i{
+            font-size: small !important;
         }
         @media (max-width: 768px) {
             .dropdown.open {

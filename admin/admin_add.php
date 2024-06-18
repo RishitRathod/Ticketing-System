@@ -4,27 +4,28 @@
         <div class="contentainer d-block">
             <div class="d-inline">
                 <div class="modal-header">
-                    <h5 class="modal-title">ADD ADMIN</h5>
+                    <h2 class="modal-title">Add Admin</h2>
                 </div>
                 <form method="POST" id="registrationForm">
                     <div class="row justify-content-evenly mt-3">
                         <div class="col-auto mb-3">
                             <div class="d-inline-block">
-                                <label for="AdminUsername" class="form-label">Admin Username</label>
+                                <label for="AdminUsername" class="form-label">Username<span class="req">*</span></label>
+                                <span id="error" style="color:red; font-size:10px;"></span>
                                 <input type="text" autocomplete='off' name="AdminUsername" class="form-control mb-1" id="AdminUsername">
                             </div>
                             <div class="d-inline-block">
-                                <label for='AdminEmail' class='form-label'>Email</label>
+                                <label for='AdminEmail' class='form-label'>Email<span class="req">*</span></label>
                                 <input type='email' name='AdminEmail' class="form-control mb-1" id="AdminEmail">
                             </div>
                             <div id="passID" style="display: inline-block">
                                 <div id="passwordDiv" class="password-container d-inline-block adBox">
-                                    <label for='AdminPassword' class='form-label'>Password</label>
+                                    <label for='AdminPassword' class='form-label'>Password<span class="req">*</span></label>
                                     <input type='password' name='Password' class='form-control' id="AdminPassword">
                                     <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
                                 </div>
                                 <div class="d-inline-block">
-                                    <label for='ConfirmPass' class='form-label'>Confirm Password</label>
+                                    <label for='ConfirmPass' class='form-label'>Confirm Password<span class="req">*</span></label>
                                     <input type="password" name="Password1" class="form-control mb-3" id="ConfirmPass">
                                 </div>
                             </div>
@@ -61,6 +62,23 @@
         
         <script>
 
+        document.getElementById('AdminUsername').addEventListener('input', function () {
+            var input = this.value.trim().toLowerCase();
+            var table = document.getElementById('adminTable');
+            var errorElement = document.getElementById('error');
+            var packageNames = [];
+            // Collect column names from the table header
+            var rows = table.tBodies[0].rows;
+            for (var i = 0; i < rows.length; i++) {
+                packageNames.push(rows[i].cells[1].textContent.trim().toLowerCase());
+            }
+            // Check if the input value matches any column name
+            if (packageNames.includes(input)) {
+                errorElement.textContent = 'Please choose a different name.';
+            } else {
+                errorElement.textContent = '';
+            }
+        });
             function resetform(){
                 document.querySelector("#registrationForm").reset();
                 document.querySelector("#AdminUsername").disabled = false;
@@ -155,29 +173,42 @@
             }
 
             async function addadmin() {
-        const adminUsername = document.querySelector("#AdminUsername").value;
-        const password = document.querySelector("#AdminPassword").value;
-        const AdminEmail = document.querySelector('#AdminEmail').value;
-        const tablename = document.querySelector('#tablename').value;
-        // var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric, 3-20 characters
-        //     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
-        //     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
+            const adminUsername = document.querySelector("#AdminUsername").value;
+            const password = document.querySelector("#AdminPassword").value;
+            const AdminEmail = document.querySelector('#AdminEmail').value;
+            const tablename = document.querySelector('#tablename').value;
+            var usernamePattern = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric, 3-20 characters
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/; // Minimum 8 characters, at least one letter, one number and one special character
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
     
-            // // Validate fields
-            // if (!usernamePattern.test(adminUsername)) {
-            //     alert("Invalid username. Please enter 3-20 alphanumeric characters.");
-            //     return;
-            // }
+            // Validate fields
+            if (!usernamePattern.test(adminUsername)) {
+                var input = document.getElementById('AdminUsername').value.trim().toLowerCase();
+                var table = document.getElementById('adminTable');
+                var adNames = [];
+                // Collect column names from the table header
+                var rows = table.tBodies[0].rows;
+                for (var i = 0; i < rows.length; i++) {
+                    adNames.push(rows[i].cells[1].textContent.trim().toLowerCase());
+                }
+                // Check if the input value matches any column name
+                if (adNames.includes(input)) {
+                    alert('Name is Invalid');
+                    return ;
+                } 
+                alert("Invalid username. Please enter 3-20 alphanumeric characters.");
+                return;
+            }
     
-            // if (!passwordPattern.test(password)) {
-            //     alert("Invalid password. Please enter at least 8 characters, including at least one letter, one number, and one special character.");
-            //     return;
-            // }
+            if (!passwordPattern.test(password)) {
+                alert("Invalid password. Please enter at least 8 characters, including at least one letter, one number, and one special character.");
+                return;
+            }
     
-            // if (!emailPattern.test(AdminEmail)) {
-            //     alert("Invalid email address.");
-            //     return;
-            // }
+            if (!emailPattern.test(AdminEmail)) {
+                alert("Invalid email address.");
+                return;
+            }
             let pass1 = $('#AdminPassword').val();
             let pass2 = $('#ConfirmPass').val();
 

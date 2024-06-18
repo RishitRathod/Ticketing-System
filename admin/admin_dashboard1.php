@@ -16,15 +16,14 @@ include 'admin_headnav.php';
 
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2" id="gB" role="group" aria-label="Basic example">
-        <button type="button" aria-selected="true" value="organizations" class="btn themecol"
-            onclick="orgonly()">Organizations</button>
+        <button type="button" aria-selected="true" value="organizations" class="btn themecol" onclick="orgonly()">Organizations</button>
         <button type="button" value="events" class="btn themecol" onclick="eventonly()">Events</button>
         <button type="button" value="users" class="btn themecol" onclick="useronly()">Users</button>
     </div>
 </div>
 <div id="a" style="display: none;">
     <div class="container table-responsive mt-5" id="orgDiv">
-        <h2>Organizations</h2>
+        <h2 align="center">Organizations</h2>
         <table id="orgTable" class="table table-bordered" style="width:100%; ">
             <thead style="width:100%;">
                 <tr>
@@ -43,7 +42,7 @@ include 'admin_headnav.php';
 </div>
 <div id="b" style="display: none;">
     <div class="container table-responsive mt-5 mx-auto" id="userDiv">
-        <h2>Users</h2>
+        <h2 align="center">Users</h2>
         <table id="userTable" class="table table-bordered" style="width:100%; background-color: white;">
             <thead>
                 <tr>
@@ -62,7 +61,7 @@ include 'admin_headnav.php';
 </div>
 <div id="c" style="display: none;">
     <div class="container table-responsive mt-5 mx-auto" id="eventDiv">
-        <h2>Events</h2>
+        <h2 align="center">Events</h2>
         <table id="eventTable" class="table table-bordered" style="width:100%;">
             <thead style="width:100%;">
                 <tr>
@@ -194,7 +193,7 @@ include 'admin_headnav.php';
                     <td>${row.Status}</td>
                     <td>
                    
-                    <button type="button" id="tooltip" class="btn btn-outline-success border-3 acBtn approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
+                    <button type="button" id="tooltip" class="btn btn-outline-success border-3 acBtn ${(row.Status === "Approved") ? 'd-none' : ''} approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
                     <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
                     </button>
                     
@@ -216,7 +215,7 @@ include 'admin_headnav.php';
                     <td>${row.StartDate} - ${row.EndDate}</td>
                     <td>${row.City}</td>
                     <td>${row.EventType}</td>
-                    <td><button class="btn btn-primary fs-6 view-btn" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+                    <td><button class="btn btn-primary fs-6 view-btn in" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 `;
             } else if (tableName === 'users') {
                 tr.innerHTML = `
@@ -224,7 +223,7 @@ include 'admin_headnav.php';
                     <td>${row.Username}</td>
                     <td>${row.Email}</td>
                     <td><img src="${row.UserPhoto}" alt="User Photo" width="50"></td>
-                    <td><button class="btn btn-primary view-btn" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+                    <td><button class="btn btn-primary view-btn in" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
                 
                     `;
             }
