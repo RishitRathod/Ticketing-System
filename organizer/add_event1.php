@@ -379,7 +379,8 @@ function isUserLoggedIn() {
             let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
             let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
             for (let i = 0; i < ticketTypes.length; i++) {
-
+                console.log(limitQuantities[i].value);
+                console.log(quantities[i].value );
                 if (ticketTypes[i].value === '') {
                     currentStep = 2;
                     isValid = false;
@@ -395,7 +396,7 @@ function isUserLoggedIn() {
                     isValid = false;
                     messages.push('Please select if the ticket is refundable.');
                 }
-                if (limitQuantities[i].value === '' || limitQuantities[i].value <= 0) {
+                if (limitQuantities[i].value === '' || limitQuantities[i].value > quantities[i].value || limitQuantities[i].value <= 0) {
                     currentStep = 2;
                     isValid = false;
                     messages.push('Please enter a valid limit quantity.');
@@ -417,8 +418,10 @@ function isUserLoggedIn() {
             } else {
                 // Proceed to the next step or submit the form
                 alert('Form is valid and ready to proceed.');
+                return true;
                 // You can add form submission logic here
             }
+          
         }
 
         function setTicketQuantity(){
@@ -1054,20 +1057,58 @@ nextBtns.forEach(button => {
                 addDetailforstep2();
             });
 
-            function addDetailforstep2(){
-                const ticketTypes1 = document.getElementsByName('TicketType[]');
-                const quantities = document.getElementsByName('Quantity[]');
-             
-                let NoOfTickets=ticketTypes1.length;
-                let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
-                let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
-                console.log("amountOfTikcetsPerTypeRounded1",amountOfTikcetsPerTypeRounded1);
-                quantities.forEach(quantity => {
-                    quantity.value = amountOfTikcetsPerTypeRounded1;
-        
-                });
-               
-            }
+            function addDetailforstep2() {
+    const ticketTypes1 = document.getElementsByName('TicketType[]');
+    const quantities = document.getElementsByName('Quantity[]');
+
+    let capacity = parseInt(document.getElementById('capacity').value);
+    console.log("capacity", capacity);
+    let NoOfTickets = ticketTypes1.length;
+    console.log("length", NoOfTickets);
+
+    // Initialize cumulative sum
+    let cc = 0;
+
+    // Iterate through the tickets and calculate the remaining capacity
+    for (let i = 0; i < NoOfTickets; i++) {
+        let currentQuantity = parseInt(quantities[i].value) || 0;
+
+        // If it's the first ticket and quantity is not manually changed, set it to the capacity
+        if (i === 0 && quantities[i].value === '') {
+            quantities[i].value = capacity;
+            currentQuantity = capacity;
+        }
+
+        // Update cumulative sum
+        cc += currentQuantity;
+
+        // Calculate remaining capacity
+        let remainingCapacity = capacity - cc;
+
+        // Ensure the remaining capacity is not negative
+        if (remainingCapacity < 0) {
+            alert("no more capacity");
+            remainingCapacity = 0;
+            let lastChild=ticketContainer.lastChild
+            ticketContainer.removeChild(lastChild);
+            
+            return;
+        }
+
+        // Update the quantity of the current ticket if it hasn't been manually changed
+        if (i > 0 && quantities[i].value === '') {
+            quantities[i].value = remainingCapacity;
+        }
+    }
+
+    console.log("First ticket quantity:", quantities[0].value);
+    for (let i = 1; i < NoOfTickets; i++) {
+        console.log(`Ticket ${i + 1} quantity:`, quantities[i].value);
+    }
+}
+
+
+
 
             ticketContainer.addEventListener('click', function(event) {
                 if (event.target.classList.contains('remove-ticket')) {
