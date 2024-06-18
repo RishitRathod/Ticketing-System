@@ -310,12 +310,14 @@ function isUserLoggedIn() {
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
                                 <div class="container">
-                                    <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
+                                <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
                                     <div id="posterContainer" class="mb-3">
                                         <div class="form-group poster-input">
                                             <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)" multiple>
                                         </div>
-                                    </div>
+                                    <div id="posterPreview" class="d-flex flex-wrap"></div>
+                            </div>
+
                                     <!-- <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
                                     <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button> -->
                                     <div id="posterPreview" class="mt-3"></div>
@@ -379,7 +381,8 @@ function isUserLoggedIn() {
             let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
             let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
             for (let i = 0; i < ticketTypes.length; i++) {
-
+                console.log(limitQuantities[i].value);
+                console.log(quantities[i].value );
                 if (ticketTypes[i].value === '') {
                     currentStep = 2;
                     isValid = false;
@@ -395,7 +398,7 @@ function isUserLoggedIn() {
                     isValid = false;
                     messages.push('Please select if the ticket is refundable.');
                 }
-                if (limitQuantities[i].value === '' || limitQuantities[i].value <= 0) {
+                if (limitQuantities[i].value === '' || limitQuantities[i].value > quantities[i].value || limitQuantities[i].value <= 0) {
                     currentStep = 2;
                     isValid = false;
                     messages.push('Please enter a valid limit quantity.');
@@ -417,8 +420,10 @@ function isUserLoggedIn() {
             } else {
                 // Proceed to the next step or submit the form
                 alert('Form is valid and ready to proceed.');
+                return true;
                 // You can add form submission logic here
             }
+          
         }
 
         function setTicketQuantity(){
@@ -1054,20 +1059,58 @@ nextBtns.forEach(button => {
                 addDetailforstep2();
             });
 
-            function addDetailforstep2(){
-                const ticketTypes1 = document.getElementsByName('TicketType[]');
-                const quantities = document.getElementsByName('Quantity[]');
-             
-                let NoOfTickets=ticketTypes1.length;
-                let amountOfTikcetsPerType=document.getElementById('capacity').value/NoOfTickets;
-                let amountOfTikcetsPerTypeRounded1=Math.floor(amountOfTikcetsPerType);
-                console.log("amountOfTikcetsPerTypeRounded1",amountOfTikcetsPerTypeRounded1);
-                quantities.forEach(quantity => {
-                    quantity.value = amountOfTikcetsPerTypeRounded1;
-        
-                });
-               
-            }
+            function addDetailforstep2() {
+    const ticketTypes1 = document.getElementsByName('TicketType[]');
+    const quantities = document.getElementsByName('Quantity[]');
+
+    let capacity = parseInt(document.getElementById('capacity').value);
+    console.log("capacity", capacity);
+    let NoOfTickets = ticketTypes1.length;
+    console.log("length", NoOfTickets);
+
+    // Initialize cumulative sum
+    let cc = 0;
+
+    // Iterate through the tickets and calculate the remaining capacity
+    for (let i = 0; i < NoOfTickets; i++) {
+        let currentQuantity = parseInt(quantities[i].value) || 0;
+
+        // If it's the first ticket and quantity is not manually changed, set it to the capacity
+        if (i === 0 && quantities[i].value === '') {
+            quantities[i].value = capacity;
+            currentQuantity = capacity;
+        }
+
+        // Update cumulative sum
+        cc += currentQuantity;
+
+        // Calculate remaining capacity
+        let remainingCapacity = capacity - cc;
+
+        // Ensure the remaining capacity is not negative
+        if (remainingCapacity < 0) {
+            alert("no more capacity");
+            remainingCapacity = 0;
+            let lastChild=ticketContainer.lastChild
+            ticketContainer.removeChild(lastChild);
+            
+            return;
+        }
+
+        // Update the quantity of the current ticket if it hasn't been manually changed
+        if (i > 0 && quantities[i].value === '') {
+            quantities[i].value = remainingCapacity;
+        }
+    }
+
+    console.log("First ticket quantity:", quantities[0].value);
+    for (let i = 1; i < NoOfTickets; i++) {
+        console.log(`Ticket ${i + 1} quantity:`, quantities[i].value);
+    }
+}
+
+
+
 
             ticketContainer.addEventListener('click', function(event) {
                 if (event.target.classList.contains('remove-ticket')) {
@@ -1119,21 +1162,40 @@ nextBtns.forEach(button => {
         // });
 
         function previewImage(event) {
-            const posterPreviewDiv = document.getElementById('posterPreview');
-            const files = event.target.files;
-            
-            for (let i = 0; i < files.length; i++) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.classList.add('img-thumbnail', 'm-2');
-                    img.style.maxWidth = '150px';
-                    posterPreviewDiv.appendChild(img);
-                }
-                reader.readAsDataURL(files[i]);
-            }
-        }
+    const posterPreviewDiv = document.getElementById('posterPreview');
+    const files = event.target.files;
+
+    // Clear previous posters
+    posterPreviewDiv.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('img-thumbnail', 'm-2');
+            img.style.maxWidth = '150px';
+
+            // Create remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'mx-2');
+            removeBtn.addEventListener('click', function() {
+                posterPreviewDiv.removeChild(img); // Remove the image element
+                posterPreviewDiv.removeChild(removeBtn); // Remove the remove button
+                document.getElementById('eventPoster').value = ''; // Clear the file input value
+            });
+
+            posterPreviewDiv.appendChild(img); // Append the image
+            posterPreviewDiv.appendChild(removeBtn); // Append the remove button
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
     </script>
 
 <script>
