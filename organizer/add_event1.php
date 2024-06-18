@@ -310,12 +310,14 @@ function isUserLoggedIn() {
                             <!-- Step 4: Venue and Capacity -->
                             <div class="step">
                                 <div class="container">
-                                    <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
+                                <label for="eventPoster" class="d-block">Event Poster<span class="req">*</span></label>
                                     <div id="posterContainer" class="mb-3">
                                         <div class="form-group poster-input">
                                             <input type="file" class="form-control form-control-sm" id="eventPoster" name="EventPoster[]" accept="image/*" onchange="previewImage(event)" multiple>
                                         </div>
-                                    </div>
+                                    <div id="posterPreview" class="d-flex flex-wrap"></div>
+                            </div>
+
                                     <!-- <button type="button" id="addPosterButton" class="btn btn-primary">Add Poster</button>
                                     <button type="button" id="removePosterButton" class="btn btn-danger">Remove Poster</button> -->
                                     <div id="posterPreview" class="mt-3"></div>
@@ -1160,21 +1162,40 @@ nextBtns.forEach(button => {
         // });
 
         function previewImage(event) {
-            const posterPreviewDiv = document.getElementById('posterPreview');
-            const files = event.target.files;
-            
-            for (let i = 0; i < files.length; i++) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.classList.add('img-thumbnail', 'm-2');
-                    img.style.maxWidth = '150px';
-                    posterPreviewDiv.appendChild(img);
-                }
-                reader.readAsDataURL(files[i]);
-            }
-        }
+    const posterPreviewDiv = document.getElementById('posterPreview');
+    const files = event.target.files;
+
+    // Clear previous posters
+    posterPreviewDiv.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('img-thumbnail', 'm-2');
+            img.style.maxWidth = '150px';
+
+            // Create remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'mx-2');
+            removeBtn.addEventListener('click', function() {
+                posterPreviewDiv.removeChild(img); // Remove the image element
+                posterPreviewDiv.removeChild(removeBtn); // Remove the remove button
+                document.getElementById('eventPoster').value = ''; // Clear the file input value
+            });
+
+            posterPreviewDiv.appendChild(img); // Append the image
+            posterPreviewDiv.appendChild(removeBtn); // Append the remove button
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
     </script>
 
 <script>
