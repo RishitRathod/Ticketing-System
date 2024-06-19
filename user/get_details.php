@@ -1,11 +1,13 @@
  
 <?php
      include 'userdashnav.php'; ?>
-    <!-- Navigation bar inclusion -->
-  
-    <!-- <meta charset="UTF-8"> -->
-    <!-- <title>Event Fetch Example</title> -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Purchase Form</title>
+    
     <style>
         .heg{
             margin-top: 15vmin;
@@ -236,8 +238,9 @@
 
 
 
-    <?php
+   
+</body>
+<?php
 include 'user_footer.html'
     ?>
-</body>
 </html>

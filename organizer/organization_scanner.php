@@ -3,7 +3,7 @@
     include '../user/qrscannertest.html';
 ?>
 <!-- The Main buttons come here -->
-QR Scanner
+<!-- QR Scanner -->
 <?php
     include 'footer.php';
 ?>
