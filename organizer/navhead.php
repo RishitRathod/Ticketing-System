@@ -121,7 +121,7 @@ function isUserLoggedIn() {
             <a class="col-auto me-auto p-3 ml-3 mr-auto"    href="./organization_dashboard.php" style="text-decoration: none;">
                 <img src="../img/logo.png" height="60" class="rounded-circle" alt="Logo">
                 <b class="h5 ml-2 text-light text-decoration-none">The Organizer</b>
-            </a>  
+            </a> 
             <div class="col-sm-auto col-3 ">
                 <div class="dropdown open p-3 rounded-pill">
                     <button class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

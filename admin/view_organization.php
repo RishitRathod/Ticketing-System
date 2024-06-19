@@ -49,7 +49,7 @@ require_once 'admin_headnav.php';
             <tr>
                 <th>EventID</th>
                 <th>EventName</th>
-                <th>Description</th>
+                <!-- <th>Description</th> -->
                 <th>StartDate</th>
                 <th>EndDate</th>
                 <th>Venue</th>
@@ -241,7 +241,7 @@ require_once 'admin_headnav.php';
             columns: [
                 { data: 'EventID' },
                 { data: 'EventName' },
-                { data: 'Description' },
+                // { data: 'Description' },
                 { data: 'StartDate' },
                 { data: 'EndDate' },
                 { data: 'VenueAddress' },
