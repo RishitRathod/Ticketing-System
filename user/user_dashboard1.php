@@ -38,6 +38,7 @@
 
         .filt {
             /* margin-top: 8%; */
+            margin-left: 4%;
             padding: 2%;
             background-color: #1b155d;
             /* border-bottom-left-radius: 10px;
@@ -116,7 +117,12 @@
                 display: inline-block;
                 height: max-content;
             }
-
+            p button i {
+            bottom: 20px;
+            right: 20px;
+            padding: 20px;
+            color: #fff;
+        }
             .filterPanel .btn-check {
                 display: inline;
             }
@@ -175,18 +181,17 @@
                         <strong> Duration </strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group"
                             aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="Today" autocomplete="off"
-                                checked>
-                            <label class="btn btn-outline-primary" for="Today">Today</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="ThisWeek" autocomplete="off">
+                            <input type="checkbox" class="btn-check" name="thisD" id="Today" autocomplete="off">      <!--here-->
+                            <label class="btn btn-outline-primary" for="Today">Today</label>                                    
+                            <input type="checkbox" class="btn-check" name="thisW" id="ThisWeek" autocomplete="off">                <!--here-->
                             <label class="btn btn-outline-primary" for="ThisWeek">This Week</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="ThisMonth" autocomplete="off">
+                            <input type="checkbox" class="btn-check" name="thisM" id="ThisMonth" autocomplete="off">               <!--here-->
                             <label class="btn btn-outline-primary" for="ThisMonth">This Month</label>
                         </div>
                         <strong>Sort By Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group"
                             aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="h" id="HighToLow" autocomplete="off" checked>
+                            <input type="radio" class="btn-check" name="h" id="HighToLow" autocomplete="off">
                             <label class="btn btn-outline-primary" for="HighToLow"> High to Low</label>
                             <input type="radio" class="btn-check" name="h" id="LowToHigh" autocomplete="off">
                             <label class="btn btn-outline-primary" for="LowToHigh"> Low to High</label>
@@ -218,7 +223,6 @@
                                 </div>  -->
                             </div>
                         </div>
-                        <br>
                         <div class="slider-container">
                             <div class="price-slider">
                                 <div class="range-input">
@@ -229,11 +233,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-2">
-                            <button type="sumibt" class="btn btn-outline-success col-5 m-1" id="" onclick="applyFilters(event)">Apply
-                                </button>
-                            <button type="button" class="btn btn-outline-danger col-5 m-1" id=""
-                                onclick="window.location.href='user_dashboard1.php'">Clear </button>
+                        <div class="row g-2 mt-2">
+                            <button type="sumibt" class="btn btn-outline-success col-5 m-1" id="applyFil" onclick="applyFilters(event)">Apply</button>
+                            <button type="button" class="btn btn-outline-danger col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear </button>
                         </div>
                     </div>
 

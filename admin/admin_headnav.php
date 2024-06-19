@@ -67,7 +67,7 @@
         }
         .inf{
             background-image: url('https://icons.iconarchive.com/icons/aniket-suvarna/box-regular/256/bx-info-circle-icon.png');
-            background-size: 75%;
+            background-size: 90%;
             background-repeat: no-repeat;
             background-position: center;
         }
@@ -141,16 +141,23 @@
         }
         
         .themecol{
-            color: #fff;
-            background-color: #8341fe;
+            color: #8341fe;
+            border: 3px solid #8341fe;
+            background-color: #fff;
         }
         .themecol:hover{
-            color: #fff;
+            color: #000;
             box-shadow: 0 5px 10px #6f21ffd1;
         }
         .themecol:active{
             color: #fff;
             font-weight: bolder;
+            box-shadow: 1px 6px 20px #6f21ff47;
+        }
+        .active-button{
+            color: #fff;
+            background-color: #8341fe;
+            border: 3px solid #8341fe;
             box-shadow: 1px 6px 20px #6f21ff47;
         }
         .backOnav{
@@ -227,12 +234,12 @@
                         </li>
                         <li class="nav-item py-2">
                             <a href="./admin_add.php" role="button"  class="nav-link text-white" data-bs-toggle="modal">
-                                <i class="fs-5 fa fa-user"></i><span class="fs-5 ms-3 d-none d-sm-inline">Manage Admin</span>
+                                <i class="fs-5 fa fa-user"></i><span class="fs-5 ms-3 d-none d-sm-inline">Add Admin</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
                             <a type="button" class="nav-link text-white" href="./add_package.php"> 
-                                <i class="fs-5 fa fa-plus"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Manage Package</span>
+                                <i class="fs-5 fa fa-plus"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Add Package</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
