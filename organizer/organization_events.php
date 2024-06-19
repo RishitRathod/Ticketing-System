@@ -131,6 +131,12 @@
 
     <!-- Main Content -->
     <div id="eventsContainer">
+    <div class="input-group rounded">
+  <input type="search" name="searchbar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+  <span class="input-group-text border-0" id="search-addon">
+   <button name="searchbt" id="searchbtn" onclick=perfromSerch() ><i class="fas fa-search"></i></button>
+  </span>
+</div>
         <h2 class="py-2" align="center">All Events</h2>
         <div id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
@@ -142,7 +148,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
     <script src="../script.js"></script>
     <script>
-        
+        function perfromSerch(){
+            var search = document.getElementsByName("searchbar")[0].value;
+            console.log(search);
+
+            if(search == ""){
+                alert("Please enter a search value");
+            }else{
+                const OrgID =  getCookieValue('id');
+                var data ={
+                    OrgID: OrgID,
+                    searchTerm: search,
+                    action:'SearchEvents'
+                } 
+                fetch("../fetchOrgs.php", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: data
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    populateEvents(data);
+                })
+            }
+        }
+
         function isUserLoggedIn() {
                     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
                     for (const cookie of cookies) {

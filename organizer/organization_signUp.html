@@ -86,8 +86,8 @@
                                     <img src="https://www.surveylegend.com/wordpress/wp-content/uploads/2021/05/event-planning.png" class="img-fluid w-100">
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Username<span class="req">*</span></label>
-                                    <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter Username" required>
+                                    <label for="name">Organization Name<span class="req">*</span></label>
+                                    <input type="text" class="form-control rounded-pill" id="name" name="OrgName" placeholder="Enter Orgnization Name" required>
                                     <span class="error invalid-feedback" id="name-error">invalid name</span>
                                 </div>
                                 <div class="form-group">
@@ -96,56 +96,57 @@
                                     <span class="error invalid-feedback" id="email-error">invalid email</span>
                                 </div>
                                 <div class="form-group password-container">
-                                    <label for="PassWord">Password<span class="req">*</span></label><span class="jm req">include a number,a special character</span>
-                                    <input type="password" name="password" id="PassWord" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Your Password" required>
+                                    <label for="PassWord">Password<span class="req">*</span></label><span class="jm req">include a number,a special character and total of 8 character</span>
+                                    <input type="password" name="password" id="PassWord" class="form-control  rounded-pill" autocomplete="current-password" placeholder="Enter Your Password" required>
                                     <div id="eye" class="d-inline eye mt-3"><i class="fa fa-eye-slash"></i></div>
                                     <span class="error invalid-feedback" id="">invalid password</span>
-
-        
                                     <!-- <input type="checkbox" onclick="togglePassword()"> Show Password -->
                                 </div>
                             </div>
+                            
                             <div class="col-auto card rounded-5 rounded-start-0">   
-                                <fieldset class="form-group mt-3">
+                                <div><p>Below Details are not required at sign Up and Organization can add them through Profile page</p></div>
+
+                                <fieldset class="form-group">
                                     <legend>Contact Details</legend>
                                     <div class="form-group">
-                                        <label for="contactNumber">Contact Person Name <span class="req">*</span> </label>
-                                        <input type="text" class="form-control rounded-pill" id="contactName" name="contactName" placeholder="Enter Name" required>
+                                        <label for="contactNumber">Contact Person Name <span class="req">   </span> </label>
+                                        <input type="text" class="form-control rounded-pill" id="contactName" name="contactName" placeholder="Enter Name" >
                                     </div>
                                     <div class="row">
                                         <div class="form-group col">
-                                            <label for="contactNumber">Contact Number<span class="req">*</span> </label>
-                                            <input type="tel" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number" required>
+                                            <label for="contactNumber">Contact Number<span class="req"></span> </label>
+                                            <input type="tel" pattern="\d{3}-\d{3}-\d{4}" class="form-control rounded-pill" id="contactNumber" name="contactNumber" placeholder="Enter contact number" >
                                         </div>
                                         <div class="form-group col">
-                                            <label for="contactEmail">Contact Email<span class="req">*</span> </label>
-                                            <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email" required>
+                                            <label for="contactEmail">Contact Email<span class="req"></span> </label>
+                                            <input type="email" class="form-control rounded-pill" id="contactEmail" name="contactEmail" placeholder="Enter contact email">
                                         </div>
                                     </div>
                                 </fieldset>
                                 <div class="form-group row mt-3">
                                     <div class="col-md-4">
-                                        <label for="country">Country<span class="req">*</span> </label>
-                                        <select name="Country" id="country" class="form-control rounded-pill" required> 
+                                        <label for="country">Country<span class="req"></span> </label>
+                                        <select name="Country" id="country" class="form-control rounded-pill" > 
                                             <option selected="Selected" selected disabled value="">Select Country</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="state">State<span class="req">*</span></label> 
-                                        <select name="State" id="state" class="form-control rounded-pill" required> 
+                                        <label for="state">State<span class="req"></span></label> 
+                                        <select name="State" id="state" class="form-control rounded-pill" > 
                                             <option selected="Selected" selected disabled value="">Select State</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="city">City<span class="req">*</span> </label>   
-                                        <select name="City" id="city" class="form-control rounded-pill" required> 
+                                        <label for="city">City<span class="req"></span> </label>   
+                                        <select name="City" id="city" class="form-control rounded-pill" > 
                                             <option selected="Selected" selected disabled value="">Select City</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address">Address<span class="req">*</span></label>
-                                    <textarea class="form-control rounded-5" id="address" name="address" placeholder="Enter address" required   ></textarea>
+                                    <label for="address">Address<span class="req"></span></label>
+                                    <textarea class="form-control rounded-5" id="address" name="address" placeholder="Enter address"></textarea>
                                     <input id="btn" type="submit" name="submit" value="Register" class="btn submit rounded-pill "></input>
                                 </div>
                             </div>
@@ -227,9 +228,9 @@
                 event.preventDefault(); // prevent the form from submitting normally
                 var name = document.querySelector("#name").value;
                 var email = document.querySelector("#email").value;
-                var contactNumber = document.querySelector("#contactNumber").value;
-                var contactEmail = document.querySelector("#contactEmail").value;
-                var address = document.querySelector("#address").value;
+                var contactNumber = document.querySelector("#contactNumber").value || null || undefined;
+                var contactEmail = document.querySelector("#contactEmail").value || null || undefined;
+                var address = document.querySelector("#address").value || null || undefined;
                 var password = document.querySelector("#PassWord").value;
                 var tablename = document.querySelector("input[name=tablename]").value;
                 var data = {
@@ -240,6 +241,7 @@
                     "Address": address,
                     "Password": password,
                     "tablename": tablename
+                    
                 };
                 fetch("organization_signUp.php", {
                     method: "POST",
@@ -249,11 +251,15 @@
                     body: JSON.stringify(data),
                 })
                 .then(response => response.json())
-                .then(data => console.log(data),
-                window.location.href = './organization_login.html'
-
-            
-            )
+                .then(data => {
+                    console.log(data);
+                    if (data.message == "Email already registered" || data.message == "Organization already registered") {
+                        alert(data.message);
+                        return;
+                    }
+                    alert("Registration Successful");
+                    window.location.href = './organization_login.html';
+                })
                 .catch((error) => {
                     console.error('Error:', error);
                 });

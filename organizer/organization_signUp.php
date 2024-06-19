@@ -26,15 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the organization is already registered
     $check = DB::selectBy(DB_NAME, $tablename, ['email' => $data['Email']]);
     if ($check) {
-        echo json_encode(['status' => 'error', 'message' => 'Organization already registered']);
+        echo json_encode(['status' => 'error', 'message' => 'Email already registered']);
         exit;
     }
+    $check =DB::selectBy(DB_NAME, $tablename, ['Name' => $data['Name']]);
+    if ($check) {
+        echo json_encode(['status' => 'error', 'message' => 'Organization Name already registered Please change the Organization Name']);
+        exit;
+    }
+
+
 
     // Insert the organization data
     $insert = DB::insert(DB_NAME, $tablename, $data);
     if ($insert == insertSuccess) {
         echo json_encode(['status' => 'success', 'message' => 'Organization registered successfully']);
-        include "organization_login.html";
+        //include "organization_login.html";
     } else {
         echo json_encode(['status' => 'error', 'message' => $insert]);
     }

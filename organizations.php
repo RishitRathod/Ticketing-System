@@ -95,7 +95,7 @@ class Organizations{
                     o.Address,
                     o.Status,
                     o.ContactName";
-                    
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(":OrgID", $OrgID, PDO::PARAM_INT);
             $stmt->execute();
@@ -378,6 +378,38 @@ LEFT JOIN
             return ["error" => "Failed to update balance: " . $e->getMessage()];
         }    
     }
+
+function SearchEvents($OrgID,$SearchTerm){
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,EventType,
+                GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+            FROM 
+                events e
+            LEFT JOIN 
+                eventposter ep ON e.EventID = ep.EventID
+            WHERE 
+                e.OrgID = :OrgID AND e.EventName LIKE :SearchTerm OR e.EventType LIKE :SearchTerm 
+            GROUP BY 
+                e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress,e.EventType
+            LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
 
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
