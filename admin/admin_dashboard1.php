@@ -106,7 +106,6 @@ include 'admin_headnav.php';
         document.getElementById('a').style.display = 'block';
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'none';
-        document.getElementById('a').style.backgroundColor = 'white';
         updateButtonStyles(button);
     }
 

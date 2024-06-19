@@ -32,8 +32,9 @@ require_once 'admin_headnav.php';
 
 <div class="container mt-2 row justify-content-center">
     <div class="btn-group mx-auto col mb-4">
-        <button type="button" class="col btn" onclick="showOrg()">Organization</button>
-        <button type="button" class="col btn" onclick="showEvents()">Events</button>
+        <button type="button" class="col themecol btn" onclick="showOrg(this)">Organization</button>
+        <button type="button" class="col themecol btn" onclick="showEvents(this)">Events</button>
+        
     </div>
 </div>
 <div id="orgInfo">
@@ -64,14 +65,23 @@ require_once 'admin_headnav.php';
 </form>
 
 <script>
-    function showOrg() {
+    function updateButtonStyles(clickedButton) {
+            const buttons = document.querySelectorAll('.btn.themecol');
+            buttons.forEach(button => {
+                button.classList.remove('active-button');
+            });
+            clickedButton.classList.add('active-button');
+    }
+    function showOrg(button) {
         document.getElementById("orgInfo").style.display = "block";
         document.getElementById("orgEvents").style.display = "none";
+        updateButtonStyles(button);
     }
 
-    function showEvents() {
+    function showEvents(button) {
         document.getElementById("orgInfo").style.display = "none";
         document.getElementById("orgEvents").style.display = "block";
+        updateButtonStyles(button);
     }
 
     const OrgID = parseInt(<?php echo $_POST['OrgID']; ?>);
