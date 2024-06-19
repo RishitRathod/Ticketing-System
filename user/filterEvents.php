@@ -31,7 +31,7 @@ try {
         $params[] = $category;
     }
 
-    if ($location && $location !== 'All') {
+    if ($location) {
         $conditions[] = "(e.City LIKE ? OR e.State LIKE ? OR e.Country LIKE ?)";
         $paramValue = "%$location%";
         $params = array_merge($params, [$paramValue, $paramValue, $paramValue]);

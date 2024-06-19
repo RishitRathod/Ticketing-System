@@ -50,7 +50,8 @@ class Organizations{
         try {
             $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
-            $sql = "SELECT 
+            
+        $sql = "SELECT 
                 o.OrgID,
                 o.Name AS OrganizationName,
                 o.Email AS OrganizationEmail,
@@ -59,32 +60,42 @@ class Organizations{
                 o.Address AS OrganizationAddress,
                 o.Status AS OrganizationStatus,
                 o.ContactName AS OrganizationContactName,
-                GROUP_CONCAT(DISTINCT CONCAT(
-                    '{\"PackageID\":', op.PackageID, 
-                    ',\"PackageName\":\"', p.PackageName, 
-                    '\",\"Amount\":', p.Amount, 
-                    ',\"PackageType\":\"', p.PackageType, 
-                    '\",\"Expiry_date\":\"', op.Expiry_date,
-                    '\",\"Amount_of_Days\":', op.Amount_of_Days,  
-                    ',\"Amount_of_Tickets\":', op.Amount_of_Tickets, '\"}'
-                )) AS Packages
-            FROM 
-                {$this->organizationTable} o
-            INNER JOIN 
-                {$this->OrgPlansTable} op ON o.OrgID = op.OrgID
-            INNER JOIN 
-                {$this->Packages} p ON op.PackageID = p.PackageID
-            WHERE o.OrgID = :OrgID
-            GROUP BY
-                o.OrgID,
-                o.Name,
-                o.Email,
-                o.ContactNumber,
-                o.ContactEmail,
-                o.Address,
-                o.Status,
-                o.ContactName";
-
+                  CONCAT('[',
+                GROUP_CONCAT(
+                    DISTINCT JSON_OBJECT(
+                        'PackageID', op.PackageID,
+                        'PackageName', REPLACE(p.PackageName, '\"', '\\\"'),
+                        'Amount', p.Amount,
+                        'PackageType', REPLACE(p.PackageType, '\"', '\\\"'),
+                        'No_of_Days_Or_Tickets', REPLACE(op.No_of_Days_Or_Tickets, '\"', '\\\"'),
+                        'BuyDate', op.BuyDate,
+                        'Expiry_date', pl.Expiry_date,
+                        'Amount_of_Days', pl.Amount_of_Days,
+                        'Amount_of_Tickets', pl.Amount_of_Tickets
+                    )
+                    ORDER BY op.PackageID
+                ),
+                ']'
+            ) AS Packages
+                FROM 
+                    " . $this->organizationTable . " o
+                INNER JOIN 
+                    " . $this->OrgPackageTable . " op ON o.OrgID = op.OrgID
+                INNER JOIN 
+                    " . $this->Packages . " p ON op.PackageID = p.PackageID
+                LEFT JOIN 
+                    " . $this->OrgPlansTable . " pl ON o.OrgID = pl.OrgID
+                WHERE o.OrgID = :OrgID
+                GROUP BY
+                    o.OrgID,
+                    o.Name,
+                    o.Email,
+                    o.ContactNumber,
+                    o.ContactEmail,
+                    o.Address,
+                    o.Status,
+                    o.ContactName";
+                    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(":OrgID", $OrgID, PDO::PARAM_INT);
             $stmt->execute();
