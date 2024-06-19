@@ -279,7 +279,7 @@ function isUserLoggedIn() {
                                                 </select>
                                             </div>
                                             <div class="form-group col-5">
-                                                <label for="limitQuantity">Limit Quantity</label>
+                                                <label for="limitQuantity">Limit Quantity<span class="req">*</span></label>
                                                 <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
                                         </div>
@@ -398,7 +398,7 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select if the ticket is refundable.');
                 }
-                if (parseFloat(limitQuantities[i].value) >= parseFloat(quantities[i].value)) {
+                if ((parseFloat(limitQuantities[i].value) >= parseFloat(quantities[i].value)) || (limitQuantities[i].value == "")) {
     currentStep = 2;
     isValid = false;
     console.log("ll", limitQuantities[i].value);
@@ -406,11 +406,11 @@ function isUserLoggedIn() {
     alert('Please enter a valid limit quantity.');
 }
 
-                if (discounts[i].value === '' || discounts[i].value < 0) {
-                    currentStep = 2;
-                    isValid = false;
-                    alert('Please enter a valid discount.');
-                }
+                // if (discounts[i].value === '' || discounts[i].value < 0) {
+                //     currentStep = 2;
+                //     isValid = false;
+                //     alert('Please enter a valid discount.');
+                // }
                 if (prices[i].value === '' || prices[i].value < 0) {
                     currentStep = 2;
                     isValid = false;
@@ -430,7 +430,7 @@ function isUserLoggedIn() {
                 //alert(messages.join('\n'));
                 // Proceed to the next step or submit the form
                
-                alert('Form is valid and ready to proceed.');
+                // alert('Form is valid and ready to proceed.');
                 return true;
                 // You can add form submission logic here
             }
@@ -1042,6 +1042,8 @@ nextBtns.forEach(button => {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    alert("event created successfully");
+                    window.location.href = './organization_events.php';
                 })
                 .catch(error => {
                     console.error('Error:', error);
