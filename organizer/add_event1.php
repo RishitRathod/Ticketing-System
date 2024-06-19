@@ -266,7 +266,7 @@ function isUserLoggedIn() {
                                             <script></script>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
-                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity(this.id)" required>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]"  required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -374,6 +374,7 @@ function isUserLoggedIn() {
             const limitQuantities = document.getElementsByName('LimitQuantity[]');
             const discounts = document.getElementsByName('Discount[]');
             const prices = document.getElementsByName('Price[]');
+            const capacity = document.getElementById('capacity').value;
 
             let isValid = true;
             let messages = [];
@@ -388,6 +389,17 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select a ticket type.');
                 }
+                if(quantities[i].value > capacity){
+                alert('Quantity cannot be greater than Event Capacity');
+                document.getElementById(id).setAttribute('max', capacity);
+
+                isValid = false;
+            }   
+            if(quantities[i].value < limitQuantities[i].value){
+                alert('Limit Quantity cannot be greater than quantity');
+                isValid = false;
+            }
+
                 if (quantities[i].value === '' || quantities[i].value <= 0) {
                     currentStep = 2;
                     isValid = false;
@@ -451,10 +463,6 @@ function isUserLoggedIn() {
         function validateTicektQuntity(id){
             var quantity = document.getElementById('quantity').value;
             var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
-            if(quantity < limitQuantity){
-                alert('Limit Quantity cannot be greater than quantity');
-                return false;
-            }
             var EventCapacity = document.getElementById('capacity').value;
             if(quantity > EventCapacity){
                 alert('Quantity cannot be greater than Event Capacity');
@@ -462,6 +470,12 @@ function isUserLoggedIn() {
 
                 return false;
             }   
+            if(quantity < limitQuantity){
+                alert('Limit Quantity cannot be greater than quantity');
+                return false;
+            }
+            re
+          
         }
     </script>
 
