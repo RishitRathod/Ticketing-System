@@ -233,6 +233,7 @@
                 var address = document.querySelector("#address").value || null || undefined;
                 var password = document.querySelector("#PassWord").value;
                 var tablename = document.querySelector("input[name=tablename]").value;
+                var ContactName = document.querySelector("#contactName").value || null || undefined;
                 var data = {
                     "Name": name,
                     "Email": email,
@@ -240,7 +241,10 @@
                     "contactEmail": contactEmail,
                     "Address": address,
                     "Password": password,
-                    "tablename": tablename
+                    "tablename": tablename,
+                    "ContactName": ContactName
+
+
                     
                 };
                 fetch("organization_signUp.php", {
