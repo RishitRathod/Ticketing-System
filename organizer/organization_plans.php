@@ -273,7 +273,7 @@
                 selectedPack.appendChild(tr);
             });
         } else {
-            alert("Failed to fetch packages");
+            alert("you don't have any packages. Please buy it.");
         }
     }
         
