@@ -266,7 +266,7 @@ function isUserLoggedIn() {
                                             <script></script>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
-                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity()" required>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity(this.id)" required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -398,13 +398,14 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select if the ticket is refundable.');
                 }
-                if (limitQuantities[i].value > quantities[i].value ) {
-                    currentStep = 2;
-                    isValid = false;
-                    console.log("ll",limitQuantities[i].value);
-                    console.log("tt",quantities[i].value);
-                    alert('Please enter a valid limit quantity.');
-                }
+                if (parseFloat(limitQuantities[i].value) >= parseFloat(quantities[i].value)) {
+    currentStep = 2;
+    isValid = false;
+    console.log("ll", limitQuantities[i].value);
+    console.log("tt", quantities[i].value);
+    alert('Please enter a valid limit quantity.');
+}
+
                 if (discounts[i].value === '' || discounts[i].value < 0) {
                     currentStep = 2;
                     isValid = false;
@@ -417,9 +418,18 @@ function isUserLoggedIn() {
                 }
             }
 
+            let kk=0;
+            for (let i = 0; i < ticketTypes.length; i++) {
+                    kk=kk+quantities[i].value;
+                }
+                if(kk>capacity){
+                    alert('total quantity should not exceeds capacity');
+                    isValid = false;
+                }
             if (isValid) {
                 //alert(messages.join('\n'));
                 // Proceed to the next step or submit the form
+               
                 alert('Form is valid and ready to proceed.');
                 return true;
                 // You can add form submission logic here
@@ -438,7 +448,7 @@ function isUserLoggedIn() {
             document.getElementById(id).setAttribute('max', capacity);
         }
 
-        function validateTicektQuntity(){
+        function validateTicektQuntity(id){
             var quantity = document.getElementById('quantity').value;
             var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
             if(quantity < limitQuantity){
@@ -527,6 +537,10 @@ function isUserLoggedIn() {
 function validateForm0() {  
         if (document.getElementById('eventName').value === '') {
             alert('Please enter event name');
+            return false;
+        }
+        if (document.getElementById('capacity').value === '' || document.getElementById('capacity').value < 0) {
+            alert('Please enter valid Capacity');
             return false;
         }
 
@@ -949,18 +963,16 @@ console.log("capacity",data.data[0].Amount_of_Tickets);
 nextBtns.forEach(button => {
     button.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
-
-            if (currentStep === 0 || currentStep === 1  || currentStep === 2) {
-                // vaidationFields();
+            if (currentStep === 2 && !validateFormStep2()) {
+                console.log('Form validation failed. Staying on step 2.');
+                return;
+            }
+            if (currentStep === 0 || currentStep === 1) {
                 fetchPackages()
                     .then(data => {
-                        console.log("fetch",data);
-                       
+                        console.log("fetch", data);
+                        
                         if (validateStep(currentStep, data)) {
-                            if(currentStep===2 && !validateFormStep2()){
-                                console.log('Form validation failed. Staying on step 2.');
-                                return;
-                            }
                             if (currentStep === 1 && !validateForm()) {
                                 console.log('Form validation failed. Staying on step 1.');
                                 return; // Stay on the current step if form validation fails
@@ -986,6 +998,7 @@ nextBtns.forEach(button => {
         }
     });
 });
+
 
 
                      
@@ -1269,7 +1282,7 @@ document.getElementById('startDate').setAttribute('min', today);
 document.getElementById('endDate').setAttribute('min', today);
 
 
-    </script>
+</script>
     
 <?php
 include 'footer.php';

@@ -17,16 +17,20 @@
             border-radius:20px !important;
             box-shadow: 3px 3px 20px #3E00FF20;
         }
-        .event-poster {
-            max-height: 350px;
-            object-fit: cover;
-            width: 90%;
-            margin: 3vmin;
-            border-radius:20px !important;
+        .card{
+            max-height: 350px !important;
         }
-
-        .event-details {
-            
+        .event-poster {
+            max-height: 350px !important;
+            object-fit: cover;
+            max-width: 90%;
+            margin: 3vmin;
+            border-radius:20px !important;;
+        }
+        .event-poster img{
+            object-fit: cover;
+        }
+        .event-details { 
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -281,7 +285,7 @@ console.log(uniqueEvents);
 
                 const posterItems = event.posters.map((poster, index) => `
                     <div class="poster carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="${poster}" class=" event-poster" alt="Event Poster">
+                        <img src="${poster}" class=" event-poster " alt="Event Poster">
                     </div>
                 `).join('');
 
