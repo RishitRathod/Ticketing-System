@@ -389,16 +389,16 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select a ticket type.');
                 }
-                if(quantities[i].value > capacity){
-                alert('Quantity cannot be greater than Event Capacity');
-                document.getElementById(id).setAttribute('max', capacity);
+            //     if(quantities[i].value > capacity){
+            //     alert('Quantity cannot be greater than Event Capacity');
+            //     document.getElementById(id).setAttribute('max', capacity);
 
-                isValid = false;
-            }   
-            if(quantities[i].value < limitQuantities[i].value){
-                alert('Limit Quantity cannot be greater than quantity');
-                isValid = false;
-            }
+            //     isValid = false;
+            // }   
+            // if(quantities[i].value < limitQuantities[i].value){
+            //     alert('Limit Quantity cannot be greater than quantity');
+            //     isValid = false;
+            // }
 
                 if (quantities[i].value === '' || quantities[i].value <= 0) {
                     currentStep = 2;
@@ -430,14 +430,21 @@ function isUserLoggedIn() {
                 }
             }
 
-            let kk=0;
-            for (let i = 0; i < ticketTypes.length; i++) {
-                    kk=kk+quantities[i].value;
-                }
-                if(kk>capacity){
-                    alert('total quantity should not exceeds capacity');
-                    isValid = false;
-                }
+            let kk = 0;
+var capacity1 = parseInt(document.getElementById('capacity').value, 10); // Convert capacity to an integer
+
+for (let i = 0; i < ticketTypes.length; i++) {
+    kk = kk + parseInt(quantities[i].value, 10); // Ensure quantities are also treated as integers
+}
+
+console.log("capacity", capacity1);
+console.log("kk", kk);
+
+if (kk > capacity1) {
+    alert('Total quantity should not exceed capacity');
+    isValid = false;
+}
+
             if (isValid) {
                 //alert(messages.join('\n'));
                 // Proceed to the next step or submit the form
@@ -464,17 +471,17 @@ function isUserLoggedIn() {
             var quantity = document.getElementById('quantity').value;
             var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
             var EventCapacity = document.getElementById('capacity').value;
-            if(quantity > EventCapacity){
-                alert('Quantity cannot be greater than Event Capacity');
-                document.getElementById(id).setAttribute('max', EventCapacity);
+            // if(quantity > EventCapacity){
+            //     alert('Quantity cannot be greater than Event Capacity');
+            //     document.getElementById(id).setAttribute('max', EventCapacity);
 
-                return false;
-            }   
+            //     return false;
+            // }   
             if(quantity < limitQuantity){
                 alert('Limit Quantity cannot be greater than quantity');
                 return false;
             }
-            re
+            return true;
           
         }
     </script>
