@@ -7,6 +7,9 @@
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
+        .main-content{
+            background-color: #00023c !important;
+        }
         .event-card {
             border-radius: 20px !important;
             height: 100% !important;
@@ -46,7 +49,7 @@
             width: inherit;
         }
         .card-body{
-            background-color: #ffffff30;
+            background-color: #c9d6ff;
             box-shadow: 0px 0px 10px black;
             border-radius: 10px;
         }
@@ -61,7 +64,7 @@
 
     <!-- Main Content -->
     <div class="container p-2 g-0" id="eventsContainer">
-        <h2>Event</h2>
+        <h2 class="text-light">Event</h2>
         <div class="row" id="eventsRow">
             <!-- Event cards will be dynamically populated here -->
         </div>
@@ -186,7 +189,7 @@ Object.values(uniqueEvents).forEach((event) => {
         <div class="event-card ">
             <div class="row no-gutters">
                 <div class="col-md-6 d-block">
-                    <strong class="ml-3">Event Photos</strong>
+                    <strong class="ml-3 text-light">Event Photos</strong>
                     <div class="posters d-flex g-0 overflow-auto">
                     ${posterItems}
                     </div>

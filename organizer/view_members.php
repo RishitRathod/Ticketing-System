@@ -17,7 +17,7 @@
     <!-- Main Content -->
     <div id="eventsContainer">
         <h2 class="py-2">Events</h2>
-        <div id="eventsRow">
+        <div id="allUser">
             <!-- Event cards will be dynamically populated here -->
         </div>
     </div>
@@ -56,10 +56,44 @@
         async function initialize() {
    
             const data = await fetchData();
+            showUsers(data);
             // console.log(data);
             // populateEvents(data);
         }
 
+        function showUsers(users){
+            const ticketsContainer = document.getElementById('allUser');
+            ticketsContainer.innerHTML = ''; // Clear previous tickets  
+            users.forEach(user => {
+            const ticketElement = document.createElement('div');
+            ticketElement.className = 'col-md-4';
+
+            const ticketContent = `
+                <div class="ticket card tic">
+                    <div class="card-body row g-0">
+                    <h4 class="card-title col my-auto"> ${user.EventName}</h4>
+                    <div class="col">
+                            <img src="${user.QR_CODE}" class="img-fluid float-md-end float-md-top " alt="QR Code">
+                    </div>
+                    <div class="row"> 
+                        <div class="row">                        
+                            <div class="card-text"><strong>Date: </strong>${user.EventDate}</div>
+                            <div class="card-text"><strong>Purchase Date: </strong> ${user.PurchaseDate}</div>
+                        </div>
+                        <div class="row ">                        
+                                <div class="card-text"><strong>Ticket Type: </strong> ${user.TicketType}</div>
+                                <div class="card-text"><strong> Quantity: </strong> ${user.Quantity}</div>
+                        </div>
+    
+                    </div>
+                    </div>
+                </div>
+            `;
+            ticketElement.innerHTML = ticketContent;
+            ticketsContainer.appendChild(ticketElement);
+        });
+        }
+        
         
         window.onload = initialize;
 
