@@ -39,6 +39,7 @@ include 'admin_headnav.php';
         <h1 class="text-center">User Details</h1>
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>
+        <button onclick="window.location.href='registered-events.html'" class="button">View Registered Events</button>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
