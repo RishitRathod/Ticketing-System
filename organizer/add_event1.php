@@ -125,7 +125,6 @@ function isUserLoggedIn() {
         to {bottom: 0; opacity: 0;}
         }
 
-
     </style>
 </head>
 <body>
@@ -139,7 +138,7 @@ function isUserLoggedIn() {
                     <div class="card-body">
                         <form id="registrationForm" class="fs-5  " method="post" enctype="multipart/form-data" novalidate>
                             <!-- Step 1: Basic Information -->
-                            <div class="step active">
+                            <div class="step active ">
                                 <div class="form-group">
                                     <!-- <label for="orgid" class="form-label">Organization ID</label> -->
                                     <input type="hidden" class="form-control rounded-4" id="orgid"  name="orgid" >
@@ -197,18 +196,18 @@ function isUserLoggedIn() {
                             </div>
 
                             <!-- Step 2: Date and Time -->
-                            <div name="timeAndDate" id="timeAndDate" class="step">
+                            <div name="timeAndDate" id="timeAndDate" class="step ">
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date <span class="req">*</span></legend>
                                <div class="row mx-auto">
                                <div class="col-5 form-group">
-    <label for="startDate">Start Date</label>
-    <input type="text"  class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="StartDate">
-</div>
-<div class="col-5 form-group">
-    <label for="endDate">End Date</label>
-    <input type="text" class="form-control" id="endDate" onfocus="(this.type = 'date')" placeholder="dd-mm-yyyy" name="EndDate">
-</div>
+                                    <label for="startDate">Start Date</label>
+                                    <input type="text"  class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="StartDate">
+                                </div>
+                                <div class="col-5 form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input type="text" class="form-control" id="endDate" onfocus="(this.type = 'date')" placeholder="dd-mm-yyyy" name="EndDate">
+                                </div>
 
                                 </div>
                                 <p id="dayDifference"></p>
@@ -217,16 +216,17 @@ function isUserLoggedIn() {
                                     <legend> Event Time <span class="req">*</span></legend>
                                     <div id="timeSlotsContainer">
                                         <div class="time-slot-group">
-                                            <div class="row mx-auto">
-                                                <div class="col-5 form-group">
-                                                    <label for="startTimeSlot1">Start Time Slot </label>
-                                                    <input type="time" class="form-control" id="startTimeSlot1" name="StartTimeSlot[]">
-                                                </div>
-                                                <div class="col-5 form-group">
-                                                    <label for="endTimeSlot1">End Time Slot </label>
-                                                    <input type="time" class="form-control" id="endTimeSlot1" name="EndTimeSlot[]">
-                                                </div>
-                                            </div>
+                                        <div class="row mx-auto">
+                                        <div class="col-5 form-group">
+                                            <label for="startTimeSlot1">Start Time Slot</label>
+                                            <input type="time"  class="form-control" id="startTimeSlot1" name="StartTimeSlot[]">
+                                        </div>
+                                        <div class="col-5 form-group">
+                                            <label for="endTimeSlot1">End Time Slot</label>
+                                            <input type="time"  class="form-control" id="endTimeSlot1" name="EndTimeSlot[]">
+                                        </div>
+                                    </div>
+
                                                 <button type="button" class="btn btn-danger m-2 remove-time-slot" id="removeTime"><i class="fa fa-trash mr-2"></i>Remove</button>
                                         </div>
                                     </div>
@@ -583,7 +583,7 @@ function validateForm() {
 
         // Check if the start date and time are before the end date and time
         if (startDate >endDate) {
-            alert('Start date and time must be before end date and time.');
+            alert('Start date must be before end date.');
             return false;
         }
 
@@ -597,50 +597,46 @@ function validateForm() {
             return false;
         }
         const startTimeInputs = document.querySelectorAll('input[name="StartTimeSlot[]"]');
-    // Get all end time inputs
-    const endTimeInputs = document.querySelectorAll('input[name="EndTimeSlot[]"]');
+const endTimeInputs = document.querySelectorAll('input[name="EndTimeSlot[]"]');
 
-    // Iterate over each pair of start and end time inputs
-    for (let i = 0; i < startTimeInputs.length; i++) {
-        const startTime = new Date(startDate.toDateString() + ' ' + startTimeInputs[i].value);
-        const endTime = new Date(startDate.toDateString() + ' ' + endTimeInputs[i].value);
+// Iterate over each pair of start and end time inputs
+for (let i = 0; i < startTimeInputs.length; i++) {
+    const startTime = new Date(`1970-01-01T${startTimeInputs[i].value}:00`);
+    const endTime = new Date(`1970-01-01T${endTimeInputs[i].value}:00`);
 
-        // Check if the start time is before the end time
-        if (startTime >= endTime) {
-            alert('Start time must be before end time for each time slot.');
-            return false;
-        }
-        if(startTime <= currentDate){
-            alert('Start time must be greater than today.');
-            return false;
-        }
-        if(endTime <= currentDate){
-            alert('End time must be greater than today.');
-            return false;
-        }
-
-        if(endTime <= startTime){
-            alert('End time must be greater than start time.');
-            return false;
-        }
-        if(startTimeInputs[i].value === '' || endTimeInputs[i].value === '') {
-            alert('Please fill in all time slots.');
-            return false;
-        }
-
-        // Check if the start time of the next slot is greater than or equal to the end time of the previous slot
-        if (i > 0) {
-            const prevEndTime = new Date(startDate.toDateString() + ' ' + endTimeInputs[i - 1].value);
-            const nextStartTime = new Date(startDate.toDateString() + ' ' + startTimeInputs[i].value);
-            if (nextStartTime < prevEndTime) {
-                alert('Start time of the next slot must be after the end time of the previous slot.');
-                return false;
-            }
-        }
+    // Check if the start and end time inputs are filled
+    if (startTimeInputs[i].value === '' || endTimeInputs[i].value === '') {
+        alert('Please fill in all time slots.');
+        return false;
     }
 
-    // If all validations pass, return true to submit the form
-    return true;
+    // Check if the end time is greater than the start time
+    // if (endTime <= startTime) {
+    //     alert('End time must be greater than start time.');
+    //     return false;
+    // }
+
+    // Check for overlaps with other time slots
+    for (let j = 0; j < i; j++) {
+        const prevStartTime = new Date(`1970-01-01T${startTimeInputs[j].value}:00`);
+        const prevEndTime = new Date(`1970-01-01T${endTimeInputs[j].value}:00`);
+
+        if (
+            (startTime < prevEndTime && startTime >= prevStartTime) ||
+            (endTime > prevStartTime && endTime <= prevEndTime) ||
+            (prevStartTime < endTime && prevStartTime >= startTime) ||
+            (prevEndTime > startTime && prevEndTime <= endTime)
+        ) {
+            alert('Time slots must not overlap.');
+            return false;
+        }
+    }
+}
+
+// If no issues found, return true
+return true;
+
+
 }
 
 

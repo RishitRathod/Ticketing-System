@@ -184,6 +184,16 @@ class DB
         return $Organizations->setBalance($OrgID,$Amount,$columnname);
     }
     
+    static function SearchEvents($OrgID,$SearchTerm){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Orgs= new Organizations($db->connection());
+        return $Orgs->SearchEvents($OrgID,$SearchTerm);
+    }
+
      static function validatePackage($PackageID,$OrgID){
         $host = DB_HOST;
         $user = DB_USER;

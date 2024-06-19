@@ -307,9 +307,10 @@
                 document.getElementById('pass').value = document.cookie.split('; ').find(row => row.startsWith('password')).split('=')[1];
                 document.getElementById('co_email').value = userData[0].ContactEmail;
                 document.getElementById('co_number').value = userData[0].ContactNumber;
-                document.getElementById('co_name').value = userData[0].ContactName;
+                // document.getElementById('co_name').value = userData[0].ContactName;
                 document.getElementById('OrgID').value = userData[0].OrgID;
                 document.getElementById('pfp').src = userData[0].UserPhoto;
+                document.getElementById('co_name').value = userData[0].ContactName;
 
                 status = userData[0].Status;
                 resasonofrejection= userData[0].ReasonOfRejection;
