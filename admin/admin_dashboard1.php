@@ -15,19 +15,19 @@ include 'admin_headnav.php';
 </form>
 
 <div id="selectionButtonGroup" class="container d-block row mt-2">
-    <div class="btn-group m-2" id="gB" role="group" aria-label="Basic example">
-        <button type="button" aria-selected="true" value="organizations" class="btn themecol" onclick="orgonly()">Organizations</button>
-        <button type="button" value="events" class="btn themecol" onclick="eventonly()">Events</button>
-        <button type="button" value="users" class="btn themecol" onclick="useronly()">Users</button>
+    <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
+        <button type="button" value="organizations" class="btn themecol" onclick="orgonly(this)">Organizations</button>
+        <button type="button" value="events" class="btn themecol" onclick="eventonly(this)">Events</button>
+        <button type="button" value="users" class="btn themecol" onclick="useronly(this)">Users</button>
     </div>
 </div>
 <div id="a" style="display: none;">
-    <div class="container table-responsive mt-5" id="orgDiv">
+    <div class="container table-responsive mt-2" id="orgDiv">
         <h2 align="center">Organizations</h2>
         <table id="orgTable" class="table table-bordered" style="width:100%; ">
             <thead style="width:100%;">
                 <tr>
-                    <th>ID</th>
+                    <th>Sr. No</th>
                     <th>Name</th>
                     <th>Contact Number</th>
                     <th>Status</th>
@@ -41,12 +41,12 @@ include 'admin_headnav.php';
     </div>
 </div>
 <div id="b" style="display: none;">
-    <div class="container table-responsive mt-5 mx-auto" id="userDiv">
+    <div class="container table-responsive mt-2 mx-auto" id="userDiv">
         <h2 align="center">Users</h2>
         <table id="userTable" class="table table-bordered" style="width:100%; background-color: white;">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Sr. No</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>User Photo</th>
@@ -60,14 +60,14 @@ include 'admin_headnav.php';
     </div>
 </div>
 <div id="c" style="display: none;">
-    <div class="container table-responsive mt-5 mx-auto" id="eventDiv">
+    <div class="container table-responsive mt-2 mx-auto" id="eventDiv">
         <h2 align="center">Events</h2>
         <table id="eventTable" class="table table-bordered" style="width:100%;">
             <thead style="width:100%;">
                 <tr>
-                    <th>ID</th>
+                    <th>Sr. No</th>
                     <th>Event Name</th>
-                    <th>Organization ID</th>
+                    <th>Organization Name</th>
                     <th>Event Time</th>
                     <th>Location:City</th>
                     <th>Event Type</th>
@@ -93,23 +93,36 @@ include 'admin_headnav.php';
         document.querySelector('#userTable').style.display = 'block';
         document.querySelector('#orgTable').style.display = 'block';
     };
+        
+    function updateButtonStyles(clickedButton) {
+            const buttons = document.querySelectorAll('.btn.themecol');
+            buttons.forEach(button => {
+                button.classList.remove('active-button');
+            });
+            clickedButton.classList.add('active-button');
+    }
 
-    function orgonly() {
+    function orgonly(button) {
         document.getElementById('a').style.display = 'block';
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'none';
+        document.getElementById('a').style.backgroundColor = 'white';
+        updateButtonStyles(button);
     }
 
-    function useronly() {
+    function useronly(button) {
         document.getElementById('a').style.display = 'none';
         document.getElementById('b').style.display = 'block';
         document.getElementById('c').style.display = 'none';
+        updateButtonStyles(button);
+
     }
 
-    function eventonly() {
+    function eventonly(button) {
         document.getElementById('a').style.display = 'none';
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'block';
+        updateButtonStyles(button);
     }
 
     let currentTableName = '';
@@ -185,6 +198,7 @@ include 'admin_headnav.php';
         tbody.innerHTML = '';
         data.forEach((row) => {
             const tr = document.createElement('tr');
+            console.log(row);
             if (tableName === 'organizations') {
                 tr.innerHTML = `
                     <td>${row.OrgID}</td>
@@ -198,7 +212,7 @@ include 'admin_headnav.php';
                     </button>
                     
                     
-                    <button type="button" id="tooltip" class="btn btn-outline-danger border-3 acBtn reject-btn" data-id="${row.OrgID}" data-table="${tableName}" >
+                    <button type="button" id="tooltip" class="btn btn-outline-danger border-3 acBtn  ${((row.Status === "Approved" || row.Status === "Rejected")) ? 'd-none' : ''} reject-btn " data-id="${row.OrgID}" data-table="${tableName}" >
                     
                     </button>
                     <button type="button" id="tooltip" class="btn btn-outline-primary border-3 acBtn inf view-btn" data-id="${row.OrgID}" data-table="${tableName}">
@@ -211,8 +225,8 @@ include 'admin_headnav.php';
                 tr.innerHTML = `
                     <td>${row.EventID}</td>
                     <td>${row.EventName}</td>
-                    <td>${row.OrgID}</td>
-                    <td>${row.StartDate} - ${row.EndDate}</td>
+                    <td>${row.Name}</td>
+                    <td>${new Date(row.StartDate).toLocaleDateString('en-GB')} - ${new Date(row.EndDate).toLocaleDateString('en-GB')}</td>
                     <td>${row.City}</td>
                     <td>${row.EventType}</td>
                     <td><button class="btn btn-primary fs-6 view-btn in" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
@@ -327,6 +341,9 @@ include 'admin_headnav.php';
             } else {
                 console.error('Error:', result.message);
             }
+        }else{
+            alert("Enter a reason...!");
+            rejectOrganization(orgID, tableName);
         }
     }
 

@@ -27,6 +27,7 @@ require_once 'admin_headnav.php';
     .pac {
         max-width: 20vmax;
     }
+
 </style>
 
 <div class="container mt-2 row justify-content-center">
@@ -174,8 +175,8 @@ require_once 'admin_headnav.php';
                         <h6 class="mb-1">${pkg.PackageName}</h6>
                         <div class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</div>
                         <div class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</div>
-                        <div class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</div>
-                        <div class="mb-1"><strong>Expire Date:</strong> ${pkg.PackageType === 'TimeBased' ? addDays(pkg.BuyDate, pkg.Amount_of_Days) : pkg.Expiry_date}</div>
+                        <div class="mb-1"><strong>Buy Date:</strong> ${new Date(pkg.BuyDate).toLocaleDateString('en-GB')}</div>
+                        <div class="mb-1"><strong>Expire Date:</strong> ${pkg.PackageType === 'TimeBased' ? addDays(pkg.BuyDate, pkg.Amount_of_Days) : new Date(pkg.Expiry_date).toLocaleDateString('en-GB')}</div>
                     </div>
                 </div>
                 `;
@@ -206,7 +207,7 @@ require_once 'admin_headnav.php';
                 {
                     data: null,
                     render: function(data, type, row) {
-                        return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2">View</a>`;
+                        return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
                     }
                 }
             ]

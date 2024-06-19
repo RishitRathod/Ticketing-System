@@ -67,7 +67,7 @@
         }
         .inf{
             background-image: url('https://icons.iconarchive.com/icons/aniket-suvarna/box-regular/256/bx-info-circle-icon.png');
-            background-size: 75%;
+            background-size: 90%;
             background-repeat: no-repeat;
             background-position: center;
         }
@@ -145,12 +145,18 @@
             background-color: #8341fe;
         }
         .themecol:hover{
-            color: #fff;
+            color: #000;
             box-shadow: 0 5px 10px #6f21ffd1;
         }
         .themecol:active{
             color: #fff;
             font-weight: bolder;
+            box-shadow: 1px 6px 20px #6f21ff47;
+        }
+        .active-button{
+            color: #8341fe;
+            background-color: #fff;
+            border: 3px solid #8341fe;
             box-shadow: 1px 6px 20px #6f21ff47;
         }
         .backOnav{
