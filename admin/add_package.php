@@ -119,7 +119,7 @@
             }
             // Check if the input value matches any column name
             if (packageNames.includes(input)) {
-                // errorElement.textContent = 'Please choose a different name.';
+                errorElement.textContent = 'Please choose a different name.';
             } else {
                 errorElement.textContent = '';
             }
@@ -166,12 +166,49 @@
                 }
                 // Check if the input value matches any column name
                 if (packageNames.includes(input)) {
-                    alert('Package name is already existing, please enter a different package name.');
+                    alert('Name is Invalid');
                     isValid=false;
                 } 
                 return isValid;
         }
         
+        // function addPackage() {
+        //     const packageForm = `
+        //     <hr>
+        //         <div class="row package-form w-50 mx-auto">
+        //             <div class="form-group">
+        //                 <label for="PackageName">Package Name:</label>
+        //                 <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+        //             </div>            
+        //             <div class="row form-group justify-content-evenly">
+        //                 <div class="col-auto">
+        //                     <label for="PackageType">Package Type:</label>
+        //                     <select class="form-control" id="PackageType" name="PackageType" required>
+        //                         <option value="TimeBased">TimeBased</option>
+        //                         <option value="TicketBased">TicketBased</option>
+        //                     </select>
+        //                     </div>
+        //                 <div class="col-auto">
+        //                     <label for="Amount">Amount:</label>
+        //                     <input type="number" class="form-control" id="Amount" name="Amount">
+        //                 </div>
+        //             </div>
+        //             <div class="form-group">
+        //                 <input type="hidden" name="packageIDInput">
+        //             </div>
+        //         </div>
+        //     `;
+        //     document.getElementById('packageContainer').insertAdjacentHTML('beforeend', packageForm);
+        // }
+
+        // function removePackage() {
+        //     const packageForms = document.getElementsByClassName('package-form');
+        //     if (packageForms.length > 1) {
+        //         packageForms[packageForms.length - 1].remove();
+        //     } else {
+        //         alert('At least one package is required.');
+        //     }
+        // }
 
 
         //submit the Form data using json format using fetch api and async and await function
@@ -367,7 +404,7 @@
             //send the data to the server with the action update
             //update the data in the database
             //fetch the data from the database and show it in the table
-            // if (!validateForm()) return;
+            if (!validateForm()) return;
 
             const data = {
                 action: 'update',
