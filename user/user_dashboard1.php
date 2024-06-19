@@ -156,7 +156,7 @@
     include 'userdashnav.php'; ?>
     <div class="row mx-auto justify-content-center g-0 p-0">
     <form action="filterEvents.php" method="get"></form>
-        <div class="col-0 col-md-auto text-light filt g-0 p-2" id="toggleDiv1">
+        <div class="col-0 col-md-auto text-light filt g-0 " id="toggleDiv1">
             <p>
                 <button class="btn btn-light filt col mt-md-5 mt-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample"
@@ -165,13 +165,13 @@
                 </button>
             </p>
             <div class="collapse collapse-horizontal " id="collapseWidthExample">
-                <div class="custom-wrapper filt p-1">
+                <div class="custom-wrapper filt">
                     <div class="header">
                         <p class="projtitle mt-4" align="center">
                             <strong>Sort By</strong>
                         </p>
                     </div>
-                    <div class="p-2">
+                    <div class="">
                         <strong> Duration </strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group"
                             aria-label="Vertical radio toggle button group">
@@ -195,7 +195,7 @@
                 </div>
                 <div class="custom-wrapper filt p-1">
                     <div class="header">
-                        <div class="projtitle p-3">
+                        <div class="projtitle ">
                             <strong>Price Range Slider </strong>
                         </div>
                     </div>
@@ -229,11 +229,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row inline-block">
-                            <button type="sumibt" class="btn btn-outline-success" id="" onclick="applyFilters(event)">Apply
-                                Filters</button>
-                            <button type="button" class="btn btn-outline-danger" id=""
-                                onclick="window.location.href='user_dashboard1.php'">Clear Filters</button>
+                        <div class="row g-2">
+                            <button type="sumibt" class="btn btn-outline-success col-5 m-1" id="" onclick="applyFilters(event)">Apply
+                                </button>
+                            <button type="button" class="btn btn-outline-danger col-5 m-1" id=""
+                                onclick="window.location.href='user_dashboard1.php'">Clear </button>
                         </div>
                     </div>
 
@@ -297,6 +297,8 @@
                         onclick="filterEvents(this.id)">Music</button>
                     <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports"
                         onclick="filterEvents(this.id)">Sports</button>
+                        <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="Experience" value="Experience"
+                        onclick="filterEvents(this.id)">Experience</button>
                 </div>
             </div>
 
@@ -566,7 +568,7 @@
                         console.warn('No poster found for event:', event);
                     }
 
-                    const eventName = event.EventName ? event.EventName : 'Event name not available';
+                   const  eventName = event.EventName ? event.EventName : 'Event name not available';
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
                     eventDiv.innerHTML = `
@@ -665,10 +667,17 @@
                         console.warn('No poster found for event:', event);
                     }
 
+                    const  eventName = event.EventName ? event.EventName : 'Event name not available';
+                    const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
+
                     eventDiv.innerHTML = `
         <div class="card h-100">
             <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
             <div class="card-body"></div>
+             <div class="card-body">   
+                <p>${eventName}</p>
+                <p>${venueAddress}</p>
+            </div>
             <div class="card-footer text-center">
                 <form action="get_details.php" method="POST">
                     <input type="hidden" name="id" value="${event.EventID}">

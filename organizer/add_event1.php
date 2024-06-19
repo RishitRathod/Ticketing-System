@@ -266,7 +266,7 @@ function isUserLoggedIn() {
                                             <script></script>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
-                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity(this.id)" required>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]"  required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -279,7 +279,7 @@ function isUserLoggedIn() {
                                                 </select>
                                             </div>
                                             <div class="form-group col-5">
-                                                <label for="limitQuantity">Limit Quantity</label>
+                                                <label for="limitQuantity">Limit Quantity<span class="req">*</span></label>
                                                 <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
                                         </div>
@@ -374,6 +374,7 @@ function isUserLoggedIn() {
             const limitQuantities = document.getElementsByName('LimitQuantity[]');
             const discounts = document.getElementsByName('Discount[]');
             const prices = document.getElementsByName('Price[]');
+            const capacity = document.getElementById('capacity').value;
 
             let isValid = true;
             let messages = [];
@@ -388,6 +389,17 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select a ticket type.');
                 }
+                if(quantities[i].value > capacity){
+                alert('Quantity cannot be greater than Event Capacity');
+                document.getElementById(id).setAttribute('max', capacity);
+
+                isValid = false;
+            }   
+            if(quantities[i].value < limitQuantities[i].value){
+                alert('Limit Quantity cannot be greater than quantity');
+                isValid = false;
+            }
+
                 if (quantities[i].value === '' || quantities[i].value <= 0) {
                     currentStep = 2;
                     isValid = false;
@@ -398,7 +410,7 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select if the ticket is refundable.');
                 }
-                if (parseFloat(limitQuantities[i].value) >= parseFloat(quantities[i].value)) {
+                if ((parseFloat(limitQuantities[i].value) >= parseFloat(quantities[i].value)) || (limitQuantities[i].value == "")) {
     currentStep = 2;
     isValid = false;
     console.log("ll", limitQuantities[i].value);
@@ -406,11 +418,11 @@ function isUserLoggedIn() {
     alert('Please enter a valid limit quantity.');
 }
 
-                if (discounts[i].value === '' || discounts[i].value < 0) {
-                    currentStep = 2;
-                    isValid = false;
-                    alert('Please enter a valid discount.');
-                }
+                // if (discounts[i].value === '' || discounts[i].value < 0) {
+                //     currentStep = 2;
+                //     isValid = false;
+                //     alert('Please enter a valid discount.');
+                // }
                 if (prices[i].value === '' || prices[i].value < 0) {
                     currentStep = 2;
                     isValid = false;
@@ -430,7 +442,7 @@ function isUserLoggedIn() {
                 //alert(messages.join('\n'));
                 // Proceed to the next step or submit the form
                
-                alert('Form is valid and ready to proceed.');
+                // alert('Form is valid and ready to proceed.');
                 return true;
                 // You can add form submission logic here
             }
@@ -451,10 +463,6 @@ function isUserLoggedIn() {
         function validateTicektQuntity(id){
             var quantity = document.getElementById('quantity').value;
             var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
-            if(quantity < limitQuantity){
-                alert('Limit Quantity cannot be greater than quantity');
-                return false;
-            }
             var EventCapacity = document.getElementById('capacity').value;
             if(quantity > EventCapacity){
                 alert('Quantity cannot be greater than Event Capacity');
@@ -462,6 +470,12 @@ function isUserLoggedIn() {
 
                 return false;
             }   
+            if(quantity < limitQuantity){
+                alert('Limit Quantity cannot be greater than quantity');
+                return false;
+            }
+            re
+          
         }
     </script>
 
@@ -1001,7 +1015,49 @@ nextBtns.forEach(button => {
 
 
 
-                     
+            function validateFormStep3(){
+
+                const posterInput = document.getElementById('eventPoster');
+        if (posterInput.files.length === 0) {
+            alert('Please upload at least one event poster.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate country selection
+        const countrySelect = document.getElementById('country');
+        if (countrySelect.value === "") {
+            alert('Please select a country.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate state selection
+        const stateSelect = document.getElementById('state');
+        if (stateSelect.value === "") {
+            alert('Please select a state.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate city selection
+        const citySelect = document.getElementById('city');
+        if (citySelect.value === "") {
+            alert('Please select a city.');
+            //event.preventDefault();
+            return false;
+        }
+
+        // Validate venue address
+        const venueAddressInput = document.getElementById('venueAddress');
+        if (venueAddressInput.value.trim() === "") {
+            alert('Please enter the venue address.');
+            //event.preventDefault();
+            return false;
+        }
+        return true;
+            }
+
 
 
 
@@ -1021,6 +1077,9 @@ nextBtns.forEach(button => {
                 event.preventDefault();
                if(!validateForm()) {
                     
+                    return;
+                }
+                if (!validateFormStep3()){
                     return;
                 }
                 console.log('Form submitted');
@@ -1046,6 +1105,8 @@ nextBtns.forEach(button => {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    alert("event created successfully");
+                    window.location.href = './organization_events.php';
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -1273,13 +1334,17 @@ nextBtns.forEach(button => {
 
 
         // Get today's date
-var today = new Date().toISOString().split('T')[0];
+        var today = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+var tomorrowISOString = tomorrow.toISOString().split('T')[0];
 
 // Set the minimum date for start date input
-document.getElementById('startDate').setAttribute('min', today);
+document.getElementById('startDate').setAttribute('min', tomorrowISOString);
 
 // Set the minimum date for end date input (optional, if you want to limit end date too)
-document.getElementById('endDate').setAttribute('min', today);
+document.getElementById('endDate').setAttribute('min', tomorrowISOString);
+
 
 
 </script>

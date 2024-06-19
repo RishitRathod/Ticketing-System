@@ -186,15 +186,20 @@
         }
          }
     console.log("User is not logged in");
+    
     return false;
 }
                window.onload = function() {
                     if (isUserLoggedIn()) {
                         document.getElementById('login').style.display = 'none';
                         document.getElementById('profile').style.display = 'block';
+                       
                     } else {
                         document.getElementById('login').style.display = 'block';
                         document.getElementById('profile').style.display = 'none';
+                        document.getElementById('myEvents').style.display='none';
+                        document.getElementById('myTicekts').style.display='none';
+
                     }
                 }
                 function setActiveLink() {
@@ -235,10 +240,10 @@
                 <!-- <li class="nav-item ml-3 ml-md-0">
                     <a class="nav-link" href="#"> Organizations </a>
                 </li> -->
-                <li class="nav-item ml-5 ml-md-0">
+                <li class="nav-item ml-5 ml-md-0" id="myEvents">
                     <a class="nav-link" href="./user_events.php"> My Events </a>
                 </li>
-                <li class="nav-item ml-5 ml-md-0">
+                <li class="nav-item ml-5 ml-md-0" id="myTicekts">
                     <a class="nav-link" href="./user_tickets.php"> My Tickets </a>
                 </li>
             </ul>
