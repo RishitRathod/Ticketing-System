@@ -1001,7 +1001,49 @@ nextBtns.forEach(button => {
 
 
 
-                     
+            function validateFormStep3(){
+
+                const posterInput = document.getElementById('eventPoster');
+        if (posterInput.files.length === 0) {
+            alert('Please upload at least one event poster.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate country selection
+        const countrySelect = document.getElementById('country');
+        if (countrySelect.value === "") {
+            alert('Please select a country.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate state selection
+        const stateSelect = document.getElementById('state');
+        if (stateSelect.value === "") {
+            alert('Please select a state.');
+           // event.preventDefault();
+            return false;
+        }
+
+        // Validate city selection
+        const citySelect = document.getElementById('city');
+        if (citySelect.value === "") {
+            alert('Please select a city.');
+            //event.preventDefault();
+            return false;
+        }
+
+        // Validate venue address
+        const venueAddressInput = document.getElementById('venueAddress');
+        if (venueAddressInput.value.trim() === "") {
+            alert('Please enter the venue address.');
+            //event.preventDefault();
+            return false;
+        }
+        return true;
+            }
+
 
 
 
@@ -1021,6 +1063,9 @@ nextBtns.forEach(button => {
                 event.preventDefault();
                if(!validateForm()) {
                     
+                    return;
+                }
+                if (!validateFormStep3()){
                     return;
                 }
                 console.log('Form submitted');
