@@ -326,8 +326,8 @@
         function applyFilters(event) {
             event.preventDefault();
            let data = {
-            searchTerm: document.getElementById('categorySearch').value ? document.getElementById('categorySearch').value : null,
-            location: document.getElementById('SearchBarSelect').value ? document.getElementById('SearchBarSelect').value : null,
+            //searchTerm: document.getElementById('categorySearch').value ? document.getElementById('categorySearch').value : null,
+            searchTerm: document.getElementById('SearchBarSelect').value ? document.getElementById('SearchBarSelect').value : null,
             duration: document.querySelector('input[name="vbtn-radio"]:checked') ? document.querySelector('input[name="vbtn-radio"]:checked').id : null,
             price: document.querySelector('input[name="h"]:checked') ? document.querySelector('input[name="h"]:checked').id : null,
             minPrice: document.getElementById('MinPrice').value ? document.getElementById('MinPrice').value : null,

@@ -266,7 +266,7 @@ function isUserLoggedIn() {
                                             <script></script>
                                             <div class="form-group col-5">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
-                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity()" required>
+                                                <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]" onblur="validateTicektQuntity(this.id)" required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -448,7 +448,7 @@ function isUserLoggedIn() {
             document.getElementById(id).setAttribute('max', capacity);
         }
 
-        function validateTicektQuntity(){
+        function validateTicektQuntity(id){
             var quantity = document.getElementById('quantity').value;
             var limitQuantity = document.getElementById('limitQuantity').value ? document.getElementById('limitQuantity').value : 0;
             if(quantity < limitQuantity){
@@ -537,6 +537,10 @@ function isUserLoggedIn() {
 function validateForm0() {  
         if (document.getElementById('eventName').value === '') {
             alert('Please enter event name');
+            return false;
+        }
+        if (document.getElementById('capacity').value === '' || document.getElementById('capacity').value < 0) {
+            alert('Please enter valid Capacity');
             return false;
         }
 
