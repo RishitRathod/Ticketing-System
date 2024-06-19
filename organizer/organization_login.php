@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     //login the admin
-    $check = DB::selectBy(DB_NAME, $tablename, ['Name' => $data['Username']]);
+    $check = DB::selectBy(DB_NAME, $tablename, ['Email' => $data['Email']]);
     if ($check) {
         if (password_verify($data['Password'], $check[0]['Password'])) {
             
