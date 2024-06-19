@@ -2,6 +2,7 @@
 include 'admin_headnav.php';
 ?>
 
+
 <form id="viewOrganizationForm" action="view_organization.php" method="post" style="display: none;">
     <input type="hidden" name="OrgID">
 </form>
@@ -16,7 +17,7 @@ include 'admin_headnav.php';
 
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
-        <button type="button" value="organizations" class="btn themecol" onclick="orgonly(this)">Organizations</button>
+        <button type="button" id="organizations" value="organizations" class="btn themecol no-sort" onclick="orgonly(this)">Organizations</button>
         <button type="button" value="events" class="btn themecol" onclick="eventonly(this)">Events</button>
         <button type="button" value="users" class="btn themecol" onclick="useronly(this)">Users</button>
     </div>
@@ -243,19 +244,81 @@ include 'admin_headnav.php';
             tbody.appendChild(tr);
         });
 
-        const tableId = tableName === 'organizations' ? 'orgTable' : tableName === 'events' ? 'eventTable' : 'userTable';
-        const numColumns = $(`#${tableId} thead th`).length; // Get the number of columns
 
-        const columnWidth = (1 * numColumns) / 100 + '%';
 
-        $(`#${tableId}`).DataTable({
-            "responsive": true,
-            "autoWidth": false, // Disable automatic column width calculation
-            "destroy": true, // Added to reinitialize DataTable
-            "columnDefs": [
-                { "width": columnWidth, "targets": "_all" } // Set the width of all columns
-            ]
-        });
+        let tableId, tableId2, tableId3;
+
+if (tableName === 'organizations') {
+    tableId2 = 'orgTable';
+} else if (tableName === 'events') {
+    tableId = 'eventTable';
+} else if (tableName === 'users') {
+    tableId3 = 'userTable';
+}
+
+if (tableId) {
+    const numColumns = $(`#${tableId} thead th`).length; // Get the number of columns
+    const columnWidth = (1 * numColumns) / 100 + '%';
+
+    $(`#${tableId}`).DataTable({
+        "responsive": true,
+        "autoWidth": false, // Disable automatic column width calculation
+        "destroy": true, // Added to reinitialize DataTable
+        "columnDefs": [
+            { 
+                "width": columnWidth, 
+                "targets": "_all",
+            },
+            {
+                "targets": 6, // Disable functionality for the 6th column (index 5)
+                "orderable": false, // Disable sorting
+            }
+        ]
+    });
+}
+
+if (tableId2) {
+    const numColumns = $(`#${tableId2} thead th`).length; // Get the number of columns
+    const columnWidth = (1 * numColumns) / 100 + '%';
+
+    $(`#${tableId2}`).DataTable({
+        "responsive": true,
+        "autoWidth": false, // Disable automatic column width calculation
+        "destroy": true, // Added to reinitialize DataTable
+        "columnDefs": [
+            { 
+                "width": columnWidth, 
+                "targets": "_all",
+            },
+            {
+                "targets": 4, // Disable functionality for the 4th column (index 3)
+                "orderable": false, // Disable sorting
+            }
+        ]
+    });
+}
+
+if (tableId3) {
+    const numColumns = $(`#${tableId3} thead th`).length; // Get the number of columns
+    const columnWidth = (1 * numColumns) / 100 + '%';
+
+    $(`#${tableId3}`).DataTable({
+        "responsive": true,
+        "autoWidth": false, // Disable automatic column width calculation
+        "destroy": true, // Added to reinitialize DataTable
+        "columnDefs": [
+            { 
+                "width": columnWidth, 
+                "targets": "_all",
+            },
+            {
+                "targets": 4, // Disable functionality for the 4th column (index 3)
+                // "targets": nonSortableColumnIndex,
+                "orderable": false, // Disable sorting
+            }
+        ]
+    });
+}
 
         // const tableId = tableName === 'organizations' ? 'orgTable' : tableName === 'events' ? 'eventTable' : 'userTable';
         // $(`#${tableId}`).DataTable({
@@ -364,7 +427,17 @@ include 'admin_headnav.php';
         form.submit();
     }
 
-
+//     $(document).ready(function() {
+//     $('#orgTable').DataTable({
+//         "columnDefs": [
+//             {
+//                 "targets": 3,   // Disable functionality for the 4th column (index 3)
+//                 "orderable": false,  // Disable sorting
+//                 // "searchable": false  // Disable searching
+//             }
+//         ]
+//     });
+// });
 </script>
 <?php
 include 'admin_footer.php';
