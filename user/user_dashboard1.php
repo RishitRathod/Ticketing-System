@@ -297,6 +297,8 @@
                         onclick="filterEvents(this.id)">Music</button>
                     <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports"
                         onclick="filterEvents(this.id)">Sports</button>
+                        <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="Experience" value="Experience"
+                        onclick="filterEvents(this.id)">Experience</button>
                 </div>
             </div>
 

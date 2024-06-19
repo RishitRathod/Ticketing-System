@@ -1334,13 +1334,17 @@ nextBtns.forEach(button => {
 
 
         // Get today's date
-var today = new Date().toISOString().split('T')[0];
+        var today = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+var tomorrowISOString = tomorrow.toISOString().split('T')[0];
 
 // Set the minimum date for start date input
-document.getElementById('startDate').setAttribute('min', today);
+document.getElementById('startDate').setAttribute('min', tomorrowISOString);
 
 // Set the minimum date for end date input (optional, if you want to limit end date too)
-document.getElementById('endDate').setAttribute('min', today);
+document.getElementById('endDate').setAttribute('min', tomorrowISOString);
+
 
 
 </script>
