@@ -295,6 +295,16 @@ class DB
         $TicketUsage= new TicketUsage($db->connection());
         return $TicketUsage->GetTciektDetails($TicketSalesID);
     }
+    
+    static function getUserEventDetails($UserID){
+        $host   = DB_HOST;
+        $user   = DB_USER;
+        $pass   = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->getUserEventDetails($UserID);
+    }
 
 
     static function SetTimes($TicketSalesID){
