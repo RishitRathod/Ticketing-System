@@ -122,7 +122,7 @@
             <table id="SelectedPack" class="table table-responsive table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Sr. No</th>
+                        <th>Sr No.</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Amount of Tickets or Days</th> 
@@ -254,28 +254,34 @@
         console.log("My Packages ",data);
         if (data.status === "success") {
             const selectedPack = document.querySelector("#selectedPack");
-            console.log("My Packages ",data.data);
-            data.data.forEach(row => {
+            data.data.forEach((row, index) => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td>${row.PackageID}</td>
+                    <td>${index + 1}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
                     <td>${row.Amount}</td>
-                    <td?>${new Date(row.BuyDate).toLocaleDateString('en-GB')}</td>
-
-
-
-
-
-                    `;
+                    <td>${new Date(row.BuyDate).toLocaleDateString('en-GB')}</td>
+                `;
                 selectedPack.appendChild(tr);
             });
+            $('#SelectedPack').DataTable({
+                "pagingType": "full_numbers",
+                "language": {
+                    "paginate": {
+                        "first": "<<",
+                        "last": ">>",
+                        "next": ">",
+                        "previous": "<"
+                    }
+                }
+            });
         } else {
-            alert("you don't have any packages. Please buy it.");
+            alert("You don't have any packages. Please buy it.");
         }
     }
+
         
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -304,7 +310,7 @@
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
                     <td><input type="checkbox" class="package-checkbox" data-package-id="${row.PackageID}" data-package-type="${row.PackageType}"></td>
-                    <td>${index + 1}</td>
+                    <td>${row.PackageID}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
