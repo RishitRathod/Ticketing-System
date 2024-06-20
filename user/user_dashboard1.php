@@ -259,7 +259,7 @@
 
                 <div class="row ">
                     <div class="col-md-2"></div>
-                    <div class="col-md-8 mt-5">
+                    <div class="col-md-8 ">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <select id="SearchBarSelect" name="SearchBarSelect">
