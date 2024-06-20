@@ -44,10 +44,10 @@ require_once 'admin_headnav.php';
 
 <div class="container" id="orgEvents">
     <h2 align="center" class="mt-3">Events Details</h2>
-    <table id="events-table" class="display table-striped">
+    <table id="events-table" class="table-striped">
         <thead>
             <tr>
-                <th>EventID</th>
+                <th>Sr. No</th>
                 <th>EventName</th>
                 <!-- <th>Description</th> -->
                 <th>StartDate</th>
@@ -199,46 +199,50 @@ require_once 'admin_headnav.php';
     }
 
     function populateEventTable(data) {
-        const eventData = Object.keys(data)
-            .filter(key => key !== 'success')
-            .map(key => data[key]);
+    const eventData = Object.keys(data)
+        .filter(key => key !== 'success')
+        .map(key => data[key]);
 
-        $('#events-table').DataTable().clear().destroy();
+    $('#events-table').DataTable().clear().destroy();
 
-        $('#events-table').DataTable({
-            data: eventData,
-            columns: [
-    { data: 'EventID' },
-    { data: 'EventName' },
-    { 
-        data: 'StartDate',
-        render: function(data, type, row) {
-            return new Date(data).toLocaleDateString('en-GB');
-        }
-    },
-    { data: 'EndDate',
-        render: function(data, type, row) {
-            return new Date(data).toLocaleDateString('en-GB');
-        }
-     },
-    { data: 'VenueAddress' },
-    {
-        data: null,
-        render: function(data, type, row) {
-            return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary p-0"><i class="fa fa-info"></i> View Details</a>`;
-        }
-    }
-],
-
-            "columnDefs": [
+    $('#events-table').DataTable({
+        data: eventData,
+        columns: [
+            { 
+                data: null,
+                render: function(data, type, row, meta) {
+                    return meta.row + 1; // Serial number based on row index
+                }
+            },
+            { data: 'EventName' },
+            { 
+                data: 'StartDate',
+                render: function(data, type, row) {
+                    return new Date(data).toLocaleDateString('en-GB');
+                }
+            },
+            { 
+                data: 'EndDate',
+                render: function(data, type, row) {
+                    return new Date(data).toLocaleDateString('en-GB');
+                }
+            },
+            { data: 'VenueAddress' },
+            {
+                data: null,
+                render: function(data, type, row) {
+                    return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
+                }
+            }
+        ],
+        "columnDefs": [
             {
                 "targets": 5, // Disable functionality for the 6th column (index 5)
                 "orderable": false, // Disable sorting
             }
         ]
-
-        });
-    }
+    });
+}
 
     function GoToEvent(EventID) {
         console.log('Event clicked');
