@@ -417,12 +417,29 @@ function SearchEvents($OrgID,$SearchTerm){
     }
 }
 
+public function GetOrgAnnualPlanDetail($OrgID){
+    try
+    {   
+        $sql="SELECT Expiry_date,Amount_of_Days,Amount_of_Tickets FROM org_plans WHERE OrgID = :OrgID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result; }
+        else{
+            return ["error"=> "". $stmt->errorInfo()[2] ];
+        }
+
+    }catch(PDOException $e){
+        return ["error"=> "Faild to fetch details". $e->getMessage()];
+    }
+}
     
 
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $org= new Organizations($conn->connection());
-// echo json_encode($org->FetchOrgPackages(9));
+// echo json_encode($org->GetOrgAnnualPlanDetail(9));
 // echo json_encode($org->FetchOrgDetails(9));
 
     

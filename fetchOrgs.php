@@ -118,8 +118,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
             break;
 
-        }
+            case 'GetOrgAnnualPlanDetail':
+                $OrgID = $input['OrgID'];
+                $response=DB::GetOrgAnnualPlanDetail($OrgID);
+                if($response){
+                    echo json_encode(['status'=> 'success','message'=> 'Data fetched successfully','data'=> $response]);
+                }else{
+                    echo json_encode(['status'=> 'error', 'message'=> 'No data found' ,"data" => $response]);
+                } 
+                break;
 
+
+    
+        }
+        
 
 }else{
     echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
