@@ -53,7 +53,7 @@
             
 
         }
-        thead {
+          thead {
         background-color: #8341fe;
         color: #fff;
         padding: 2px;
@@ -117,7 +117,7 @@
         .main-content {
             border: 1px solid #ccc;
             border-radius: 10px;
-            max-width: 1000px;
+            max-width: 1350px;
             margin: 20px auto;
             padding: 20px;
             background-color: #f9f9f9;

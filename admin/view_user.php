@@ -35,11 +35,43 @@ include 'admin_headnav.php';
     </style>
 </head>
 <body>
-    <div class="container mt-2">
-        <h1 class="text-center">User Details</h1>
+    <div class="container mt-2 ">
+        <h1 class="text-center ">User Details</h1>
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>
-        <button onclick="window.location.href='registered-events.html'" class="button">View Registered Events</button>
+        <div class="contianer">
+            <div class="UserTable2">
+            <table class="table table-striped table-bordered" id="ticketsTable">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Event Name</th>
+                            <!-- <th>Event Type</th> -->
+                            <!-- <th>Organization Name</th> -->
+                            <th>Event Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Entry Time</th>
+                            <th>Exit Time</th>
+                            <th>Ticket Type</th>
+                            <th>Quantity</th>
+                            <th>Purchase Date</th>
+                            <th>Ticket Price</th>
+                            <!-- <th>Tickets Remaining</th> -->
+                            <!-- <th>Ticket Status</th> -->
+                            <!-- <th>Is Attending</th> -->
+                            <!-- <th>Ticket ID</th> -->
+                            <!-- <th>Ticket Sales ID</th>
+                            <th>Time Slot ID</th>
+                            <th>Time Usage ID</th>
+                            <th>QR Code</th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="ticketsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -48,6 +80,104 @@ include 'admin_headnav.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
     <script>
+    
+    async function getUserticketDetails(){
+        fetch('../fetchUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserID: <?php echo $_POST['UserID'];?>,
+                action: 'getUserEventDetails'
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.error){
+                alert(data.error);
+            } else {
+                console.table(data.data); 
+                showData(data.data);
+            }
+        })
+
+    }
+
+    function formatDateTime(dateTime) {
+            if (!dateTime) {
+                return 'N/A';
+            }
+            const date = new Date(dateTime);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB');
+        }
+
+        function formatDate(date2) {
+            if (!date2) {
+                return 'N/A';
+            }
+            const date = new Date(date2);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB');        
+        }
+
+function formatTime(dateTime) {
+    if (!dateTime) {
+        return 'N/A';
+    }
+    // Extract time part if dateTime contains date
+    const time = dateTime.includes(' ') ? dateTime.split(' ')[1] : dateTime;
+    const [hours, minutes, seconds] = time.split(':');
+    if (hours === undefined || minutes === undefined || seconds === undefined) {
+        return 'N/A';
+    }
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+}
+
+    function showData(data) {
+            const ticketsBody = document.getElementById('ticketsBody');
+            ticketsBody.innerHTML = ''; // Clear previous tickets
+           
+
+            
+            data.forEach((ticket, index) => {
+                const ticketRow = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${ticket.EventName || 'N/A'}</td>
+                       <!-- <td>${ticket.EventType || 'N/A'}</td> -->
+                      <!--  <td>${ticket.OrgID || 'N/A'}</td> -->
+                        <td>${formatDate(ticket.EventDate)}</td>
+                        <td>${formatTime(ticket.TimeSlotStartTime)}</td>
+                        <td>${formatTime(ticket.TimeSlotEndTime)}</td>
+                        <td>${formatTime(ticket.EntryTime)}</td>
+                        <td>${formatTime(ticket.ExitTime)}</td>
+                        <td>${ticket.TicketType}</td>
+                        <td>${ticket.TicketsPurchased}</td>
+                        <td>${formatDateTime(ticket.PurchaseDate)}</td>
+                        <td>${ticket.TicketPrice}</td>
+                       <!-- <td>${ticket.TicketsRemaining}</td>
+                        <td>${ticket.TicketStatus || 'N/A'}</td>
+                        <td>${ticket.IsAttending || 'N/A'}</td>
+                        <td>${ticket.TicketID}</td>
+                        <td>${ticket.TicketSalesID}</td>
+                        <td>${ticket.TimeSlotID || 'N/A'}</td>
+                        <td>${ticket.TimeUsageID || 'N/A'}</td>
+                        <td>${ticket.QR_CODE ? '<img src="' + ticket.QR_CODE + '" class="img-fluid" alt="QR Code">' : 'N/A'}</td> -->
+                    </tr>
+                `;
+                ticketsBody.insertAdjacentHTML('beforeend', ticketRow);
+            });
+
+            // Initialize DataTable
+            $('#ticketsTable').DataTable();
+        }
     async function getUserData(){
         fetch('../fetchUser.php', {
             method: 'POST',
@@ -124,6 +254,7 @@ include 'admin_headnav.php';
 
     async function initialize() {
         getUserData();
+        getUserticketDetails();
     }
 
     initialize();
