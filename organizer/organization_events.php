@@ -132,15 +132,27 @@
     <!-- Main Content -->
     <div id="eventsContainer">
     <div class="input-group rounded">
-  <input type="search" name="searchbar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-  <span class="input-group-text border-0" id="search-addon">
-   <button name="searchbt" id="searchbtn" onclick=perfromSerch() ><i class="fas fa-search"></i></button>
-  </span>
+    <input type="search" name="searchbar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <span class="input-group-text border-0" id="search-addon">
+                <button name="searchbt" id="searchbtn" onclick="sortEventsByName()" >Search events</button>
+            </span>
 </div>
         <h2 class="py-2" align="center">All Events</h2>
-        <div id="eventsRow">
-            <!-- Event cards will be dynamically populated here -->
+        <div id="eventsContainer">
+        <h2 class="py-2">Events</h2>
+        <div id="ongoingEvents" class="event-category">
+            <h3>Ongoing Events</h3>
+            <div id="ongoingEventsRow" class=""></div>
         </div>
+        <div id="upcomingEvents" class="event-category">
+            <h3>Upcoming Events</h3>
+            <div id="upcomingEventsRow" class=""></div>
+        </div>
+        <div id="pastEvents" class="event-category">
+            <h3>Past Events</h3>
+            <div id="pastEventsRow" class=""></div>
+        </div>
+    </div>
     </div>
 
     <!-- jQuery and Bootstrap JS -->
@@ -238,24 +250,25 @@
         }
 
         async function initialize() {
-            if (!isUserLoggedIn()) {
-                //    document.getElementById('login').style.display = 'none';
-                //    document.getElementById('profile').style.display = 'block';
-                } else {
-                   window.herf = "./organization_login.html";
-                }
             const value = 'events';
             const data = await fetchData(value);
-            populateEvents(data);
+            categorizeAndPopulateEvents(data);
         }
 
-        function populateEvents(events) {
-            const eventsRow = document.querySelector('#eventsRow');
+        function categorizeAndPopulateEvents(events) {
+            const ongoingEventsRow = document.querySelector('#ongoingEventsRow');
+            const upcomingEventsRow = document.querySelector('#upcomingEventsRow');
+            const pastEventsRow = document.querySelector('#pastEventsRow');
 
             if (!Array.isArray(events)) {
                 console.error('Expected an array but got:', events);
                 return;
             }
+
+            
+            const currentDate1 = new Date();
+const currentDate = new Date(currentDate1);
+currentDate.setDate(currentDate.getDate());
 
             const uniqueEvents = events.reduce((acc, event) => {
     if (!acc[event.EventID]) {
@@ -307,8 +320,14 @@ Object.keys(uniqueEvents).forEach(eventID => {
 console.log(uniqueEvents);
 
 
-            eventsRow.innerHTML = '';
+            ongoingEventsRow.innerHTML = '';
+            upcomingEventsRow.innerHTML = '';
+            pastEventsRow.innerHTML = '';
+
             Object.values(uniqueEvents).forEach((event) => {
+                const eventStartDate = new Date(event.StartDate);
+                const eventEndDate = new Date(event.EndDate);
+
                 const eventCard = document.createElement('div');
                 eventCard.classList.add('col-14', 'mb-4');
 
@@ -318,13 +337,13 @@ console.log(uniqueEvents);
 
                 const posterItems = event.posters.map((poster, index) => `
                     <div class="poster carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="${poster}" class=" event-poster " alt="Event Poster">
+                        <img src="${poster}" class=" event-poster" alt="Event Poster">
                     </div>
                 `).join('');
 
                 eventCard.innerHTML = `
                     <div class="card event-card">
-                        <div class="row ">
+                        <div class="row">
                             <div class="col-md-5">
                                 <div id="carousel${event.EventID}" class="carousel slide" data-ride="carousel">
                                     <ol class="carousel-indicators">
@@ -346,26 +365,66 @@ console.log(uniqueEvents);
                             <div class="col-md-7">
                                 <div class="card-body event-details">
                                     <b><h5 class="card-title">${event.EventName}</h5></b>
-                                    <div class="card-text date rounded-end-circle"><strong>Time:</strong> <span class=""><div class="startD d-inline"> ${event.StartDate}</div> <div class="d-inline">to </div> <div class="endD d-inline">${event.EndDate}</span></div>
-                                <!--    <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p> -->
-                                <!--    <p class="card-text"><strong>Price:</strong> $${event.Price}</p> -->
+<div class="card-text date rounded-end-circle">
+    <strong>Time:</strong> 
+    <div>
+        <div class="startD d-inline">${formatDate(event.StartDate)}</div> 
+        <div class="d-inline">to</div> 
+        <div class="endD d-inline">${formatDate(event.EndDate)}</div>
+    </div>
+</div>
+
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
-                                    <form action="organization_eventdetails.php" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="${event.EventID}">
-                                        <!--  <button type="submit" class="btn btn-primary">View Details</button> -->
-                                        <button type="submit" class="btn-22"><span>View Details</span></button>
-                                    </form> 
+                                        <form action="Logtable.php" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="${event.EventID}">
+                                            <button type="submit" class="btn-22"><span>View Details</span></button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
-                eventsRow.appendChild(eventCard);
+                
+                if (eventStartDate <= currentDate && eventEndDate >= currentDate) {
+                    // Ongoing Events
+                    ongoingEventsRow.appendChild(eventCard);
+                } else if (eventStartDate > currentDate) {
+                    // Upcoming Events
+                    upcomingEventsRow.appendChild(eventCard);
+                } else if (eventEndDate < currentDate) {
+                    // Past Events
+                    pastEventsRow.appendChild(eventCard);
+                }
             });
         }
 
+
+        function sortEventsByName() {
+            const searchValue = document.getElementsByName("searchbar")[0].value.toLowerCase();
+            const events = document.querySelectorAll('.event-card');
+
+            events.forEach(eventCard => {
+                const eventName = eventCard.querySelector('.card-title').innerText.toLowerCase();
+                if (eventName.includes(searchValue)) {
+                    eventCard.style.display = 'block';
+                } else {
+                    eventCard.style.display = 'none';
+                }
+            });
+        }
+
+
+        window.onload = initialize;
+
+        function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+}
     </script>
 
     <?php include 'footer.php'; ?>

@@ -39,6 +39,7 @@ include 'admin_headnav.php';
         <h1 class="text-center">User Details</h1>
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>
+        <button onclick="window.location.href='registered-events.html'" class="button">View Registered Events</button>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -85,8 +86,8 @@ include 'admin_headnav.php';
                     <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
                     <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
                 </div>
-                <div class="col">
-                    <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" alt="User Photo">' : 'No photo available'}</div>
+                <div class="col" >
+                    <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" class="img-fluid" alt="User Photo">' : 'No photo available'}</div>
                 </div>
                 
                 </div>

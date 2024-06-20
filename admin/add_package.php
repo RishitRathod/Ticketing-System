@@ -119,7 +119,7 @@
             }
             // Check if the input value matches any column name
             if (packageNames.includes(input)) {
-                // errorElement.textContent = 'Please choose a different name.';
+                errorElement.textContent = 'Please choose a different name.';
             } else {
                 errorElement.textContent = '';
             }
@@ -166,12 +166,111 @@
                 }
                 // Check if the input value matches any column name
                 if (packageNames.includes(input)) {
-                    alert('Package name is already existing, please enter a different package name.');
+                    alert('Name is Invalid');
                     isValid=false;
                 } 
                 return isValid;
         }
+        var jm;
+        function validateForm1() {
+                let isValid = true;
+                const packageForms = document.getElementsByClassName('package-form');
+                //regex for package name and amount amount must be a number with only postive values
+                const nameRegex = /^[a-zA-Z0-9 ]+$/;
+                const amountRegex = /^\d+(\.\d{1,2})?$/;
+                var dupName="";
+
+                for (let form of packageForms) {
+                    
+                    const packageName = form.querySelector('input[name="PackageName"]').value.trim();
+                    const packageType = form.querySelector('select[name="PackageType"]').value;
+                    const amount = form.querySelector('input[name="Amount"]').value;
+                    dupName=packageName;
+                    console.log("pn",packageName);
+                    console.log("dup",dupName);
+
+                    if (!nameRegex.test(packageName)) {
+                        alert('Package Name should only contain alphanumeric characters and spaces');
+                        isValid = false;
+                        break;
+                    }
+
+                    if (packageType === '') {
+                        alert('Package Type is required');
+                        isValid = false;
+                        break;
+                    }
+
+                    if (!amountRegex.test(amount)) {
+                        alert('Amount should be a number with only positive values');
+                        isValid = false;
+                        break;
+                    }
+                }
+                var input = document.getElementById('PackageName').value.trim().toLowerCase();
+                var table = document.getElementById('packagesTable');
+                var packageNames = [];
+                // Collect column names from the table header
+                var rows = table.tBodies[0].rows;
+                for (var i = 0; i < rows.length; i++) {
+                    packageNames.push(rows[i].cells[1].textContent.trim().toLowerCase());
+                }
+
+              
+                // Check if the input value matches any column name
+                if (packageNames.includes(input)) {
+                    console.log("pn",jm);
+                    console.log("dup",dupName); 
+                    if(jm===dupName){
+                        isValid=true;
+                        console.log("duwsdhwjp");
+                        return isValid;
+                    }else{
+                        alert('Name is Invalid');
+                        isValid=false;
+                        return isValid;
+                    }
+                } 
+                return isValid;
+        }
         
+        // function addPackage() {
+        //     const packageForm = `
+        //     <hr>
+        //         <div class="row package-form w-50 mx-auto">
+        //             <div class="form-group">
+        //                 <label for="PackageName">Package Name:</label>
+        //                 <input type="text" class="form-control" id="PackageName" name="PackageName" required>
+        //             </div>            
+        //             <div class="row form-group justify-content-evenly">
+        //                 <div class="col-auto">
+        //                     <label for="PackageType">Package Type:</label>
+        //                     <select class="form-control" id="PackageType" name="PackageType" required>
+        //                         <option value="TimeBased">TimeBased</option>
+        //                         <option value="TicketBased">TicketBased</option>
+        //                     </select>
+        //                     </div>
+        //                 <div class="col-auto">
+        //                     <label for="Amount">Amount:</label>
+        //                     <input type="number" class="form-control" id="Amount" name="Amount">
+        //                 </div>
+        //             </div>
+        //             <div class="form-group">
+        //                 <input type="hidden" name="packageIDInput">
+        //             </div>
+        //         </div>
+        //     `;
+        //     document.getElementById('packageContainer').insertAdjacentHTML('beforeend', packageForm);
+        // }
+
+        // function removePackage() {
+        //     const packageForms = document.getElementsByClassName('package-form');
+        //     if (packageForms.length > 1) {
+        //         packageForms[packageForms.length - 1].remove();
+        //     } else {
+        //         alert('At least one package is required.');
+        //     }
+        // }
 
 
         //submit the Form data using json format using fetch api and async and await function
@@ -338,9 +437,10 @@
                 Amount: packageRow.children[4].textContent,
         
             };
-
+            document.getElementById('submitbtn').setAttribute("disabled",true);
             //populate the form with the package data
             document.getElementById('PackageName').value = packageData.PackageName;
+            jm=packageData.PackageName;
             document.getElementById('PackageType').value = packageData.PackageType;
             document.getElementById('noofdays').value = packageData.No_of_Days_Or_Tickets;
             document.getElementById('Amount').value = packageData.Amount;
@@ -367,7 +467,7 @@
             //send the data to the server with the action update
             //update the data in the database
             //fetch the data from the database and show it in the table
-            // if (!validateForm()) return;
+            if (!validateForm1()) return;
 
             const data = {
                 action: 'update',
@@ -405,6 +505,8 @@
             document.getElementById('submitbtn').style.display = 'inline';
             document.getElementById('abortUdpatebtn').style.display = 'none';
             document.getElementById('packageForm').reset();
+            document.getElementById('submitbtn').removeAttribute("disabled",true);
+
         }
         </script>
 </body>

@@ -27,12 +27,14 @@ require_once 'admin_headnav.php';
     .pac {
         max-width: 20vmax;
     }
+
 </style>
 
 <div class="container mt-2 row justify-content-center">
     <div class="btn-group mx-auto col mb-4">
-        <button type="button" class="col btn" onclick="showOrg()">Organization</button>
-        <button type="button" class="col btn" onclick="showEvents()">Events</button>
+        <button type="button" class="col themecol btn" onclick="showOrg(this)">Organization</button>
+        <button type="button" class="col themecol btn" onclick="showEvents(this)">Events</button>
+        
     </div>
 </div>
 <div id="orgInfo">
@@ -63,14 +65,23 @@ require_once 'admin_headnav.php';
 </form>
 
 <script>
-    function showOrg() {
+    function updateButtonStyles(clickedButton) {
+            const buttons = document.querySelectorAll('.btn.themecol');
+            buttons.forEach(button => {
+                button.classList.remove('active-button');
+            });
+            clickedButton.classList.add('active-button');
+    }
+    function showOrg(button) {
         document.getElementById("orgInfo").style.display = "block";
         document.getElementById("orgEvents").style.display = "none";
+        updateButtonStyles(button);
     }
 
-    function showEvents() {
+    function showEvents(button) {
         document.getElementById("orgInfo").style.display = "none";
         document.getElementById("orgEvents").style.display = "block";
+        updateButtonStyles(button);
     }
 
     const OrgID = parseInt(<?php echo $_POST['OrgID']; ?>);
@@ -174,8 +185,8 @@ require_once 'admin_headnav.php';
                         <h6 class="mb-1">${pkg.PackageName}</h6>
                         <div class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</div>
                         <div class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</div>
-                        <div class="mb-1"><strong>Buy Date:</strong> ${pkg.BuyDate}</div>
-                        <div class="mb-1"><strong>Expire Date:</strong> ${pkg.PackageType === 'TimeBased' ? addDays(pkg.BuyDate, pkg.Amount_of_Days) : pkg.Expiry_date}</div>
+                        <div class="mb-1"><strong>Buy Date:</strong> ${new Date(pkg.BuyDate).toLocaleDateString('en-GB')}</div>
+                        <div class="mb-1"><strong>Expire Date:</strong> ${pkg.PackageType === 'TimeBased' ? addDays(pkg.BuyDate, pkg.Amount_of_Days) : new Date(pkg.Expiry_date).toLocaleDateString('en-GB')}</div>
                     </div>
                 </div>
                 `;
@@ -197,19 +208,35 @@ require_once 'admin_headnav.php';
         $('#events-table').DataTable({
             data: eventData,
             columns: [
-                { data: 'EventID' },
-                { data: 'EventName' },
-                // { data: 'Description' },
-                { data: 'StartDate' },
-                { data: 'EndDate' },
-                { data: 'VenueAddress' },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2">View</a>`;
-                    }
-                }
-            ]
+    { data: 'EventID' },
+    { data: 'EventName' },
+    { 
+        data: 'StartDate',
+        render: function(data, type, row) {
+            return new Date(data).toLocaleDateString('en-GB');
+        }
+    },
+    { data: 'EndDate',
+        render: function(data, type, row) {
+            return new Date(data).toLocaleDateString('en-GB');
+        }
+     },
+    { data: 'VenueAddress' },
+    {
+        data: null,
+        render: function(data, type, row) {
+            return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
+        }
+    }
+],
+
+            "columnDefs": [
+            {
+                "targets": 5, // Disable functionality for the 6th column (index 5)
+                "orderable": false, // Disable sorting
+            }
+        ]
+
         });
     }
 

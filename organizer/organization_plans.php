@@ -158,7 +158,7 @@
             </table>
         </fieldset>
         <div class="row justify-content-center">
-            <button id="buyButton"  class="btn col-3 btn-primary position-absolute bottom-0 mb-5">Buy Selected Packages</button>
+            <button id="buyButton"  class="btn col-3 btn-primary position-absolute bottom-1 my-3 ">Buy Selected Packages</button>
         </div>
     </div>
 </div>
