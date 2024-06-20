@@ -573,21 +573,22 @@
                    const  eventName = event.EventName ? event.EventName : 'Event name not available';
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
-                    eventDiv.innerHTML = `
-        <div class="card d-block h-100">
-            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}">
-            <div class="card-body">   
-                <p>${eventName}</p>
-                <p>${venueAddress}</p>
-            </div>
-            <div class="card-footer text-center">
-                <form action="get_details.php" method="POST">
-                    <input type="hidden" name="id" value="${event.EventID}">
-                    <button type="submit" class="btn btn-primary">View Details</button>
-                </form>
-            </div>
+eventDiv.innerHTML = `
+    <div class="card d-block h-100" style="max-width: 300px;">
+        <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body" style="min-height: 100px;">
+            <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
+            <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
         </div>
-    `;
+        <div class="card-footer text-center">
+            <form action="get_details.php" method="POST">
+                <input type="hidden" name="id" value="${event.EventID}">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
+            </form>
+        </div>
+    </div>
+`;
+
 
                     eventsContainer.appendChild(eventDiv);
                     displayedEventIDs.add(event.EventID);
@@ -673,21 +674,20 @@
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
                     eventDiv.innerHTML = `
-        <div class="card h-100">
-            <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}">
-            <div class="card-body"></div>
-             <div class="card-body">   
-                <p>${eventName}</p>
-                <p>${venueAddress}</p>
-            </div>
-            <div class="card-footer text-center">
-                <form action="get_details.php" method="POST">
-                    <input type="hidden" name="id" value="${event.EventID}">
-                    <button type="submit" class="btn btn-primary">View Details</button>
-                </form>
-            </div>
+    <div class="card d-block h-100" style="max-width: 300px;">
+        <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
+        <div class="card-body" style="min-height: 100px;">
+            <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
+            <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
         </div>
-    `;
+        <div class="card-footer text-center">
+            <form action="get_details.php" method="POST">
+                <input type="hidden" name="id" value="${event.EventID}">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
+            </form>
+        </div>
+    </div>
+`;
 
                     eventsContainer.appendChild(eventDiv);
                     displayedEventIDs.add(event.EventID);
