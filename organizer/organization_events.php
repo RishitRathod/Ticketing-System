@@ -268,7 +268,7 @@
             
             const currentDate1 = new Date();
 const currentDate = new Date(currentDate1);
-currentDate.setDate(currentDate.getDate() + 1);
+currentDate.setDate(currentDate.getDate());
 
             const uniqueEvents = events.reduce((acc, event) => {
     if (!acc[event.EventID]) {

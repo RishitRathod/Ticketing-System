@@ -208,19 +208,35 @@ require_once 'admin_headnav.php';
         $('#events-table').DataTable({
             data: eventData,
             columns: [
-                { data: 'EventID' },
-                { data: 'EventName' },
-                // { data: 'Description' },
-                { data: 'StartDate' },
-                { data: 'EndDate' },
-                { data: 'VenueAddress' },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
-                    }
-                }
-            ]
+    { data: 'EventID' },
+    { data: 'EventName' },
+    { 
+        data: 'StartDate',
+        render: function(data, type, row) {
+            return new Date(data).toLocaleDateString('en-GB');
+        }
+    },
+    { data: 'EndDate',
+        render: function(data, type, row) {
+            return new Date(data).toLocaleDateString('en-GB');
+        }
+     },
+    { data: 'VenueAddress' },
+    {
+        data: null,
+        render: function(data, type, row) {
+            return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
+        }
+    }
+],
+
+            "columnDefs": [
+            {
+                "targets": 5, // Disable functionality for the 6th column (index 5)
+                "orderable": false, // Disable sorting
+            }
+        ]
+
         });
     }
 

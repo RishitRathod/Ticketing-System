@@ -108,15 +108,15 @@
         <h2 class="py-2">Events</h2>
         <div id="ongoingEvents" class="event-category">
             <h3>Ongoing Events</h3>
-            <div id="ongoingEventsRow" class="row"></div>
+            <div id="ongoingEventsRow" class=""></div>
         </div>
         <div id="upcomingEvents" class="event-category">
             <h3>Upcoming Events</h3>
-            <div id="upcomingEventsRow" class="row"></div>
+            <div id="upcomingEventsRow" class=""></div>
         </div>
         <div id="pastEvents" class="event-category">
             <h3>Past Events</h3>
-            <div id="pastEventsRow" class="row"></div>
+            <div id="pastEventsRow" class=""></div>
         </div>
     </div>
 
