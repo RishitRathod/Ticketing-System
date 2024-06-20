@@ -27,8 +27,8 @@
         <div class="form-container sign-in">
             <form method="POST"  id="loginForm" class="form-container form1 w-100">
                 <h2>Log In</h2>
-                <span>Use your E-mail or Phone Number </span>
-                <input type="text" id="Username" name="Username" aria-describedby="emailHelp" placeholder="Username">
+                <span>Use your E-mail or Phone Number to log In </span>
+                <input type="email" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Email">
                 <input type="tel" placeholder="Contact Number">
                
 
@@ -66,7 +66,7 @@
             var userphonenumber = document.getElementById('userphonenumber').value;
            
             if(email == "" && userphonenumber == ""){
-                alert("Please enter either Username or phone number");
+                alert("Please enter either email or phone number");
                 return false;
             }
         }
@@ -115,7 +115,7 @@
         document.querySelector("#loginForm").addEventListener('submit', function(event) {
             event.preventDefault(); // prevent the form from submitting normally
             var data = {
-                "Username": document.querySelector("#Username").value,
+                "Email": document.querySelector("#Email").value,
                 "Password": document.querySelector("#Password").value,
                 "tablename": document.querySelector("input[name=tablename]").value
             };

@@ -25,7 +25,7 @@ include 'admin_headnav.php';
 <div id="a" style="display: none;">
     <div class="container table-responsive mt-2" id="orgDiv">
         <h2 align="center">Organizations</h2>
-        <table id="orgTable" class="table table-bordered" style="width:100%; ">
+        <table id="orgTable" class="table table-striped table-bordered" style="width:100%; ">
             <thead style="width:100%;">
                 <tr>
                     <th>Sr. No</th>
@@ -44,7 +44,7 @@ include 'admin_headnav.php';
 <div id="b" style="display: none;">
     <div class="container table-responsive mt-2 mx-auto" id="userDiv">
         <h2 align="center">Users</h2>
-        <table id="userTable" class="table table-bordered" style="width:100%; background-color: white;">
+        <table id="userTable" class="table table-striped table-bordered" style="width:100%; background-color: white;">
             <thead>
                 <tr>
                     <th>Sr. No</th>
@@ -63,7 +63,7 @@ include 'admin_headnav.php';
 <div id="c" style="display: none;">
     <div class="container table-responsive mt-2 mx-auto" id="eventDiv">
         <h2 align="center">Events</h2>
-        <table id="eventTable" class="table table-bordered" style="width:100%;">
+        <table id="eventTable" class="table table-striped table-bordered" style="width:100%;">
             <thead style="width:100%;">
                 <tr>
                     <th>Sr. No</th>
@@ -255,9 +255,9 @@ if (tableId) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId}`).DataTable({
-        "responsive": true,
-        "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true, // Added to reinitialize DataTable
+            "responsive": true,
+            "autoWidth": false, // Disable automatic column width calculation
+            "destroy": true, // Added to reinitialize DataTable
         "columnDefs": [
             { 
                 "width": columnWidth, 

@@ -53,6 +53,11 @@
             
 
         }
+        thead {
+        background-color: #8341fe;
+        color: #fff;
+        padding: 2px;
+    }
         .approve-btn{
             background-image: url('https://icons.iconarchive.com/icons/fa-team/fontawesome/256/FontAwesome-Check-icon.png');
             background-size: 75%;

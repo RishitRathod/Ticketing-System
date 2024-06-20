@@ -40,11 +40,32 @@ require_once 'admin_headnav.php';
 <div id="orgInfo">
     <h2 align="center">Organization Details</h2>
     <div id="organization-details"></div>
+    <div class="alert alert-warning">
+        <strong>warning</strong> <p id="alert"></p>
+    </div
+    <div class="" id="package-details">
+    
+    <table id="package-table" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                <th>Package Name</th>
+                <th>Amount</th>
+                <th>Package Type</th>
+                <th>Number of Days/Tickets</th>
+                <th>BuyDate</th>
+            </tr>
+        </thead>
+        <tbody id="package-table-tbody">
+        </tbody>
+    </table>
+
+    </div>
 </div>
 
 <div class="container" id="orgEvents">
     <h2 align="center" class="mt-3">Events Details</h2>
-    <table id="events-table" class="table-striped">
+    <table id="events-table" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Sr. No</th>
@@ -65,6 +86,18 @@ require_once 'admin_headnav.php';
 </form>
 
 <script>
+    function setExpiryDateWarning() {
+        const alert = document.getElementById('alert');
+        const expiryDate = new Date();
+        //set the expiry date to last date of the evey year
+        expiryDate.setMonth(11);
+        expiryDate.setDate(31);
+        expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+        alert.innerHTML = 'Your Packages will expire on ' + expiryDate.toLocaleDateString('en-GB')+
+         '. Please Use you all the balance till than or plan events in advance before 2 month.';
+       
+    }
+
     function updateButtonStyles(clickedButton) {
             const buttons = document.querySelectorAll('.btn.themecol');
             buttons.forEach(button => {
@@ -131,72 +164,89 @@ require_once 'admin_headnav.php';
             } else {
                 console.log(data.data);
                 displayOrgData(data.data);
+                getPackagesData(OrgID);
             }
         } catch (error) {
-            console.error('Error fetching organization data:', error);
+            console.error('Error fetching org data:', error);
         }
     }
 
-    function displayOrgData(orgData) {
-        const orgDetailsContainer = document.getElementById('organization-details');
-        orgData.forEach(org => {
-            console.log('Raw Packages JSON:', org.Packages);
+    async function getPackagesData(OrgID) {
+    try {
+        const response = await fetch('../fetchOrgs.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                OrgID: OrgID,
+                action: 'FetchPackagesForOrg'
+            }),
+        });
 
-            let sanitizedPackages = org.Packages.replace(/(\d+\.\d+|")(\w+)(:)/g, '$1"$2"$3');
-            let packages;
-            try {
-                packages = JSON.parse(`[${sanitizedPackages}]`);
-            } catch (error) {
-                console.error('Error parsing Packages JSON:', error);
-                alert('Error parsing Packages data. Please check the console for more details.');
-                return;
-            }
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+        } else {
+            console.log(data.data);
+            displayPackagesData(data.data);
+        }
+    } catch (error) {
+        console.error('Error fetching package data:', error);
+    }
+}
 
-            let orgDetailsHTML = `
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">${org.OrganizationName}</h3>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-text"><strong>Email:</strong> ${org.OrganizationEmail}</div>
-                            <div class="card-text"><strong>Status:</strong> ${org.OrganizationStatus}</div>
-                        </div>
-                        <div class="col">
-                            <div class="card-text"><strong>Contact Name:</strong> ${org.OrganizationContactName}</div>
-                            <div class="card-text"><strong>Contact Number:</strong> ${org.OrganizationContactNumber}</div>
-                        </div>
+
+function displayOrgData(orgData) {
+    const orgDetailsContainer = document.getElementById('organization-details');
+    orgData.forEach(org => {
+        let orgDetailsHTML = `
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">${org.OrganizationName}</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="card-text"><strong>Email:</strong> ${org.OrganizationEmail}</div>
+                        <div class="card-text"><strong>Status:</strong> ${org.OrganizationStatus}</div>
+                    </div>
+                    <div class="col">
+                        <div class="card-text"><strong>Contact Name:</strong> ${org.OrganizationContactName}</div>
+                        <div class="card-text"><strong>Contact Number:</strong> ${org.OrganizationContactNumber}</div>
                     </div>
                 </div>
             </div>
-            <div class="row g-0">
-                <h5 class="mt-3"><li>Packages:</li></h5>
+        </div>
+        <div class="row g-0">
+            <h5 class="mt-3"><li>Packages:</li></h5>
+        `;
+        orgDetailsContainer.innerHTML += orgDetailsHTML;
+    });
+}
+
+function displayPackagesData(packages) {
+    const packageTableBody = document.querySelector('#package-table-tbody');
+        packages.forEach((pkg, index) => {
+            let row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${pkg.PackageName}</td>
+                    <td>${pkg.Amount}</td>
+                    <td>${pkg.PackageType}</td>
+                    <td>${pkg.No_of_Days_Or_Tickets}</td>
+                    <td>${new Date(pkg.BuyDate).toLocaleDateString('en-GB')}</td>
+                </tr>
             `;
+            packageTableBody.innerHTML += row;
+        });
 
-            function addDays(date, days) {
-                const result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result.toISOString().split('T')[0];
-            }
-
-            packages.forEach(pkg => {
-                orgDetailsHTML += `
-                <div class="list-group col-sm-4 col-auto">
-                    <div class="list-group-item card pac g-0">
-                        <h6 class="mb-1">${pkg.PackageName}</h6>
-                        <div class="mb-1"><strong>Amount:</strong> ${pkg.Amount}</div>
-                        <div class="mb-1"><strong>Type:</strong> ${pkg.PackageType}</div>
-                        <div class="mb-1"><strong>Buy Date:</strong> ${new Date(pkg.BuyDate).toLocaleDateString('en-GB')}</div>
-                        <div class="mb-1"><strong>Expire Date:</strong> ${pkg.PackageType === 'TimeBased' ? addDays(pkg.BuyDate, pkg.Amount_of_Days) : new Date(pkg.Expiry_date).toLocaleDateString('en-GB')}</div>
-                    </div>
-                </div>
-                `;
-            });
-
-            orgDetailsHTML += `       
-            </div>`;
-            orgDetailsContainer.innerHTML += orgDetailsHTML;
+        $('#package-table').DataTable({
+            responsive: true,
+            autoWidth: false,
+            destroy: true
         });
     }
+
+
 
     function populateEventTable(data) {
     const eventData = Object.keys(data)
@@ -253,6 +303,7 @@ require_once 'admin_headnav.php';
     }
 
     $(document).ready(function() {
+        setExpiryDateWarning();
         console.log(OrgID);
         getOrgData(OrgID);
         getEventDataByOrgID(OrgID);

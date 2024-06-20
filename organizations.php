@@ -48,66 +48,70 @@ class Organizations{
      */
     public function FetchOrgDetails($OrgID) {
         try {
-            $this->conn->query("SET SESSION group_concat_max_len = 10000");
-
-            
-        $sql = "SELECT 
-                o.OrgID,
-                o.Name AS OrganizationName,
-                o.Email AS OrganizationEmail,
-                o.ContactNumber AS OrganizationContactNumber,
-                o.ContactEmail AS OrganizationContactEmail,
-                o.ContactName AS OrganizationContactName,
-                o.Status AS OrganizationStatus,
-                O.Country AS OrganizationCountry,
-                O.State AS OrganizationState,
-                O.City AS OrganizationCity,
-                o.Address AS OrganizationAddress,
-                O.orgphoto AS OrganizationPhoto,
-                O.ReasonofRegection AS ReasonofRegection,
-
-                  CONCAT('[',
-                GROUP_CONCAT(
-                    DISTINCT JSON_OBJECT(
-                        'PackageID', op.PackageID,
-                        'PackageName', REPLACE(p.PackageName, '\"', '\\\"'),
-                        'Amount', p.Amount,
-                        'PackageType', REPLACE(p.PackageType, '\"', '\\\"'),
-                        'No_of_Days_Or_Tickets', REPLACE(op.No_of_Days_Or_Tickets, '\"', '\\\"'),
-                        'BuyDate', op.BuyDate,
-                        'Expiry_date', pl.Expiry_date,
-                        'Amount_of_Days', pl.Amount_of_Days,
-                        'Amount_of_Tickets', pl.Amount_of_Tickets
-                    )
-                    ORDER BY op.PackageID
-                ),
-                ']'
-            ) AS Packages
-                FROM 
-                    " . $this->organizationTable . " o
-                INNER JOIN 
-                    " . $this->OrgPackageTable . " op ON o.OrgID = op.OrgID
-                INNER JOIN 
-                    " . $this->Packages . " p ON op.PackageID = p.PackageID
-                LEFT JOIN 
-                    " . $this->OrgPlansTable . " pl ON o.OrgID = pl.OrgID
-                WHERE o.OrgID = :OrgID
-                GROUP BY
-                    o.OrgID,
-                    o.Name,
-                    o.Email,
-                    o.ContactNumber,
-                    o.ContactEmail,
-                    o.Address,
-                    o.Status,
-                    o.ContactName";
-
+            $sql = "SELECT 
+                        o.OrgID,
+                        o.Name AS OrganizationName,
+                        o.Email AS OrganizationEmail,
+                        o.ContactNumber AS OrganizationContactNumber,
+                        o.ContactEmail AS OrganizationContactEmail,
+                        o.ContactName AS OrganizationContactName,
+                        o.Status AS OrganizationStatus,
+                        o.Country AS OrganizationCountry,
+                        o.State AS OrganizationState,
+                        o.City AS OrganizationCity,
+                        o.Address AS OrganizationAddress,
+                        o.orgphoto AS OrganizationPhoto,
+                        o.ReasonofRegection AS ReasonofRegection
+                    FROM 
+                        " . $this->organizationTable . " o
+                    WHERE o.OrgID = :OrgID
+                    GROUP BY
+                        o.OrgID,
+                        o.Name,
+                        o.Email,
+                        o.ContactNumber,
+                        o.ContactEmail,
+                        o.Address,
+                        o.Status,
+                        o.ContactName";
+    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(":OrgID", $OrgID, PDO::PARAM_INT);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
-
+    
+        } catch (PDOException $e) {
+            return ["error" => "Select failed: " . $e->getMessage()];
+        }
+    }
+    public function FetchPackagesForOrg($OrgID) {
+        try {
+            $sql = "SELECT 
+                        op.PackageID,
+                        REPLACE(p.PackageName, '\"', '\\\"') AS PackageName,
+                        p.Amount,
+                        REPLACE(p.PackageType, '\"', '\\\"') AS PackageType,
+                        REPLACE(op.No_of_Days_Or_Tickets, '\"', '\\\"') AS No_of_Days_Or_Tickets,
+                        op.BuyDate,
+                        pl.Expiry_date,
+                        pl.Amount_of_Days,
+                        pl.Amount_of_Tickets
+                    FROM 
+                        " . $this->OrgPackageTable . " op
+                    INNER JOIN 
+                        " . $this->Packages . " p ON op.PackageID = p.PackageID
+                    LEFT JOIN 
+                        " . $this->OrgPlansTable . " pl ON op.OrgID = pl.OrgID
+                    WHERE op.OrgID = :OrgID
+                    ORDER BY op.PackageID";
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(":OrgID", $OrgID, PDO::PARAM_INT);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+    
         } catch (PDOException $e) {
             return ["error" => "Select failed: " . $e->getMessage()];
         }

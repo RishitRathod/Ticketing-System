@@ -128,6 +128,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 } 
                 break;
 
+            case 'FetchPackagesForOrg':
+                $OrgID = $input['OrgID'];
+                $response = DB::FetchPackagesForOrg($OrgID);
+                if($response){
+                    echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+                }else{
+                    echo json_encode(['status' => 'error', 'message' => 'No data found']);
+                }
+                break;
+
 
     
         }

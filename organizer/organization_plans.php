@@ -11,9 +11,10 @@
         /* custom.css */
 
         /* Customize table header */
-        #packageTable thead {
-            background-color: #343a40;
-            color: #fff;
+        thead {
+        background-color: #8341fe;
+        color: #fff;
+        padding: 2px;
         }
 
         /* Customize table rows */
@@ -119,8 +120,8 @@
     <div class="container d-block">
         <fieldset>
             <legend><h3>Active Packages</h3></legend>
-            <table id="SelectedPack" class="table table-responsive table-bordered">
-                <thead class="thead-dark">
+            <table id="SelectedPack" class="table table-striped table-bordered">
+                <thead class="">
                     <tr>
                         <th>Sr No.</th>
                         <th>Package Name</th>
@@ -140,8 +141,8 @@
     <div id="table-Div" class="container buyPack overflow-auto">
         <fieldset>
         <legend><h3>Available Packages</h3></legend>
-            <table id="packageTable" class="table table-bordered">
-                <thead class="thead-dark">
+            <table id="packageTable" class="table table-striped table-bordered">
+                <thead class="">
                     <tr>
                         <th>Select</th>
                         <th>Sr. No</th>

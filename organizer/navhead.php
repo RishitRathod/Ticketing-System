@@ -42,6 +42,11 @@ function isUserLoggedIn() {
             margin-right: 5px;
         }
 
+        thead {
+        background-color: #8341fe;
+        color: #fff;
+        padding: 2px;
+    }
         fieldset {
             border: solid 1px gray;
             border-radius: 10px;

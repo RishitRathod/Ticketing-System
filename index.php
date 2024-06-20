@@ -213,9 +213,18 @@ class DB
         $db = new dbConnection($host, $user,$pass, $dbname);
         $Orgs= new Organizations($db->connection());
         return $Orgs->GetOrgAnnualPlanDetail($OrgID);
-        
-     }
 
+     }
+     static function FetchPackagesForOrg($OrgID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass,$dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->FetchPackagesForOrg($OrgID);
+
+     }
      static function AttendanceByEventForOrg($EventID){
 
         $host = DB_HOST;
