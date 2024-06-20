@@ -229,7 +229,7 @@
                     <ul class="nav nav-pills flex-column" id="parentDiv">
                         <li class="nav-item py-2">
                             <a href="./admin_dashboard1.php" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-tachometer"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Dashboard</span>
+                                <i class="fs-5 fa fa-tachometer"></i><span class="fs-5 ms-3 d-none d-sm-inline">Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
@@ -239,12 +239,12 @@
                         </li>
                         <li class="nav-item py-2">
                             <a type="button" class="nav-link text-white" href="./add_package.php"> 
-                                <i class="fs-5 fa fa-plus"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Manage Package</span>
+                                <i class="fs-5 fa fa-plus"></i><span class="fs-5 ms-3 d-none d-sm-inline">Manage Package</span>
                             </a>
                         </li>
                         <li class="nav-item py-2">
                             <a href="./admin_analysis.php" class="nav-link text-white"> 
-                                <i class="fs-5 fa fa-clipboard"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Analysis</span>
+                                <i class="fs-5 fa fa-clipboard"></i><span class="fs-5 ms-3 d-none d-sm-inline">Analysis</span>
                             </a>
                         </li>
                     </ul>
