@@ -105,6 +105,9 @@
             background: none;
 
         }
+        .alert{
+
+        }
         /* #table-Div #buyButton{
             position: fixed;
             right: 0%;
@@ -112,30 +115,39 @@
     </style>
 
 </head>
-<div class="btnC">
-    <button id="btn1"> <i class="fa fa-shopping-cart"></i></button>
-    <button id="btn2"> <i class="fa fa-close"></i></button>
-</div>
-<div class="row overflow-auto currentPack align-items-center px-2" id="currentPack">
-    <div class="container d-block">
-        <fieldset>
-            <legend><h3>Active Packages</h3></legend>
-            <table id="SelectedPack" class="table table-striped table-bordered">
-                <thead class="">
-                    <tr>
-                        <th>Sr No.</th>
-                        <th>Package Name</th>
-                        <th>Package Type</th>
-                        <th>Amount of Tickets or Days</th> 
-                        <th>Price</th>  
-                        <th>Buy Date</th> 
-                    </tr>
-                </thead>
-                <tbody id="selectedPack">
+<div class="d-flex flex-column">
+
+    
+    <div class="alert alert-warning">
+            <strong>warning</strong> <p id="alert"></p>
+        </div>
+    <div id="Balance"></div>
+    <div class="btnC">
         
-                </tbody>
-            </table>
-        </fieldset>
+        <button id="btn1"> <i class="fa fa-shopping-cart"></i></button>
+        <button id="btn2"> <i class="fa fa-close"></i></button>
+    </div>
+    <div class="row overflow-auto currentPack align-items-center px-2" id="currentPack">
+        <div class="container d-block">
+            <fieldset>
+                <legend><h3>Active Packages</h3></legend>
+                <table id="SelectedPack" class="table table-striped table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Package Name</th>
+                            <th>Package Type</th>
+                            <th>Amount of Tickets or Days</th> 
+                            <th>Price</th>  
+                            <th>Buy Date</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="selectedPack">
+            
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
     </div>
 </div>
     <div id="table-Div" class="container buyPack overflow-auto">
@@ -169,12 +181,45 @@
 <script src="../script.js"></script>
 <!-- script for toggle button -->
 <script>
+     const expiryDate = new Date();
+        //set the expiry date to last date of the evey year
+        expiryDate.setMonth(11);
+        expiryDate.setDate(31);
+        expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+    function  setBalance(data){
+        let balanceDiv=document.getElementById('Balance');
+        let balanceHTML=`
+            <div class="row justify-content-evenly">
+                <div class="col-5">
+                    <h3>Balance</h3>
+                    <div class="fs-6">Amount of Days: ${data.Amount_of_Days}</div>
+                    <div class="fs-6">Amount of Tickets: ${data.Amount_of_Tickets}</div>
+                </div>
+                <div class="col-5">
+                    <h1>Expiry Date</h1>
+                    <div class="fs-4">${ expiryDate.toLocaleDateString('en-GB')}</div>
+                </div>
+            </div>  
+        `;
+        balanceDiv.innerHTML=balanceHTML;
+    }
+      function setExpiryDateWarning() {
+        const alert = document.getElementById('alert');
+        // const expiryDate = new Date();
+        // //set the expiry date to last date of the evey year
+        // expiryDate.setMonth(11);
+        // expiryDate.setDate(31);
+        // expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+        alert.innerHTML = 'Your Packages will expire on ' + expiryDate.toLocaleDateString('en-GB')+
+         '. Please Use you all the balance till than or plan events in advance before 2 month.';
+       
+    }
         document.addEventListener('DOMContentLoaded', function() {
         var button1 = document.getElementById('btn1');
         var button2 = document.getElementById('btn2');
         var div1 = document.getElementById('currentPack');
         var div2 = document.getElementById('table-Div');
-
+        setExpiryDateWarning();
         button1.addEventListener('click', function() {
             button1.style.display = 'none';
             button2.style.display = 'block';
@@ -259,6 +304,7 @@
             if (data.status === "success") {
                 const annualPlan = data.data;
                 console.info("annualPlan",annualPlan);
+                setBalance(annualPlan);
             } else {
                 alert("Failed to fetch annual plan details");
             }
