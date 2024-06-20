@@ -236,10 +236,10 @@
 <script>
 
     //get id from cookie
-    const OrgID =document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1]
+    const OrgID =document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1];
     console.log(OrgID);
     console.log(OrgID);
-    async function FetchOrgPackages(OrgID){
+    async function `FetchOrgPackages`(OrgID){
         const response = await fetch("../fetchOrgs.php", {
             method: "POST",
             headers: {

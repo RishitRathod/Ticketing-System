@@ -95,6 +95,7 @@
 
 
         }
+        
         #pfp{
             height: 30vmin;
             width: 30vmin;
@@ -171,17 +172,21 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Upload New PHoto</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Upload New Photo</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <input type="file" id="photoInput" name="photo" accept="image/*">
+                        <form action="UploadPhoto.php" id="Upload" class="Upload" method="post" enctype="multipart/form-data">
+                            <input type="file" id="photoInput" name="file" accept="image/*">
+                              <input type="hidden" name="OrgID" value="" id="OrgID1"> 
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" onclick="updateProfile(event)" class="btn btn-primary">Save changes</button>
+                    </form>
                       </div>
                   </div>
                 </div>
@@ -215,10 +220,10 @@
                                 <label for="name" class="ml-3"> Organization Name </label>
                                 <input type="text" name="name" id="name" class="my-2 m-sm-1 form-control" disabled> 
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <label for="desc" class="ml-3"> Package </label>
                                 <input type="text" name="package" id="package" class="my-2 m-sm-1 form-control" disabled>
-                            </div>
+                            </div> -->
                         </div>
                         <label for="email"> Email </label>
                             <input type="email" name="email" id="email" class="form-control" disabled>
@@ -244,6 +249,49 @@
                                     <input type="text" name="co_number" id="co_number" class="form-control" disabled>
                                 </div>
                             </div>
+                        <div id="displayLocationdiv">
+                           <div class="row"> <div class="col my-2">
+                                <label for="Country" class="m-3"> Country </label>
+                                <input type="text" onblur="type='text'" name="Country" id="Country" class="form-control" disabled>
+                            </div>
+                            <div class="col my-2">
+                                <label for="State" class="m-3"> State </label>
+                                <input type="text" onblur="type='text'" name="co_nStateumber" id="State" class="form-control" disabled>
+                            </div>
+                            <div class="col my-2">
+                                <label for="City" class="m-3"> City </label>
+                                <input type="text" onblur="type='text'" name="City" id="City" class="form-control" disabled>
+                            </div>
+                        </div>
+                                <div class="container" id="selectLocaitonDiv">
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label for="country1">Country<span class="req">*</span></label>
+                                             <select name="Country1" id="country1" class="form-control" required> 
+                                                 <option value="" selected="Selected">Select Country</option>
+                                             </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="state1">State<span class="req">*</span></label> 
+                                            <select name="State1" id="state1" class="form-control" required> 
+                                                <option value="" selected="Selected">Select State</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="city1">City <span class="req">*</span></label> 
+                                            <select name="City1" id="city1" class="form-control" required> 
+                                                <option value="" selected="Selected">Select City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                       
+
+                            <div class="col my-2">
+                                <label for="Address" class="m-3"> Address </label>
+                                <input type="text" name="Address" id="Address" class="form-control" disabled>
+                            </div>
+                            
                         </fieldset>
                        
                         <input type="hidden" id="OrgID" name="OrgID">
@@ -271,6 +319,16 @@
         </div>
     <!-- Copyright -->
     </footer>
+    <script>
+        function updateProfile(event){
+            event.preventDefault()
+            const form = document.querySelector('#Upload');
+            const formData = new FormData(form);
+            document.getElementById('OrgID1').value = userData[0].OrgID;
+            form.submit();
+
+        }
+    </script>
     <script src="../script.js"></script>
     <script>
         $('#uploadNew').on('shown.bs.modal', function () {
@@ -278,10 +336,19 @@
         })
     </script>
     <script>
+        const OrgID = document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1];
+        const data1 ={
+            OrgID: OrgID,
+            action : "FetchOrgDetails" 
+        };
         async function getUser() {
     try {
-        const response = await fetch('../fatchUserData.php', {
-            method: 'POST'
+        const response = await fetch('../fetchOrgs.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data1),       
         });
         const data = await response.json();
         console.log(data);
@@ -294,26 +361,85 @@
         let userData;
         let status; 
         let resasonofrejection;
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('../cascading.php') 
+                .then(response => response.json())
+                .then(data => {
+                    const countrySel = document.getElementById("country1");
+                    const stateSel = document.getElementById("state1");
+                    const citySel = document.getElementById("city1");
+
+                    let countries = {};
+
+                    data.forEach(item => {
+                        if (!countries[item.country]) {
+                            countries[item.country] = {};
+                        }
+                        if (!countries[item.country][item.state]) {
+                            countries[item.country][item.state] = [];
+                        }
+                        countries[item.country][item.state].push(item.city);
+                    });
+
+                    for (let country in countries) {
+                        let option = new Option(country, country);
+                        countrySel.add(option);
+                    }
+
+                    countrySel.onchange = function() {
+                        stateSel.length = 1;
+                        citySel.length = 1;
+                        let selectedCountry = this.value;
+                        if (selectedCountry && countries[selectedCountry]) {
+                            for (let state in countries[selectedCountry]) {
+                                let option = new Option(state, state);
+                                stateSel.add(option);
+                            }
+                        }
+                    }
+
+                    stateSel.onchange = function() {
+                        citySel.length = 1;
+                        let selectedCountry = countrySel.value;
+                        let selectedState = this.value;
+                        if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+                            countries[selectedCountry][selectedState].forEach(city => {
+                                let option = new Option(city, city);
+                                citySel.add(option);
+                            });
+                        }
+                    }
+                });
+        });
 
         document.addEventListener('DOMContentLoaded', async function() {
+           // document.getElementById('selectLocaitonDiv').style.display = 'none';
             userData = await getUser();
-            console.log(userData);
-            console.log(userData[0].id);
-            showDiv(userData[0].Status);
+        //  console.log(userData);
+      //         console.log(userData.data[0].OrgID);
+            const data = userData.data[0];
+            console.log(data);
+            showDiv(data.Status);
             
-            if (userData && userData.length > 0) {
-                document.getElementById('name').value = userData[0].Name;
-                document.getElementById('email').value = userData[0].Email;
+            if (data || data.length > 0) {
+                //console.log("in the if statement");
+                document.getElementById('name').value = data.OrganizationName;
+                document.getElementById('email').value = data.OrganizationEmail;
                 document.getElementById('pass').value = document.cookie.split('; ').find(row => row.startsWith('password')).split('=')[1];
-                document.getElementById('co_email').value = userData[0].ContactEmail;
-                document.getElementById('co_number').value = userData[0].ContactNumber;
-                // document.getElementById('co_name').value = userData[0].ContactName;
-                document.getElementById('OrgID').value = userData[0].OrgID;
-                document.getElementById('pfp').src = userData[0].UserPhoto;
-                document.getElementById('co_name').value = userData[0].ContactName;
+                document.getElementById('co_email').value = data.OrganizationContactEmail;
+                document.getElementById('co_number').value = data.OrganizationContactNumber;
+                document.getElementById('co_name').value = data.OrganizationName;
+                document.getElementById('OrgID').value = data.OrgID;
+                document.getElementById('pfp').src = data.OrganizationPhoto;
+                //document.getElementById('co_name').value = userData[0].ContactName;
+                document.getElementById('Country').value = data.OrganizationCountry;
+                document.getElementById('State').value = data.OrganizationState;
+                document.getElementById('City').value = data.OrganizationCity;
+                document.getElementById('Address').value = data.OrganizationAddress;
 
-                status = userData[0].Status;
-                resasonofrejection= userData[0].ReasonOfRejection;
+
+                status = data.Status;
+                resasonofrejection= data.ReasonOfRejection;
             }
         });
 
@@ -324,6 +450,20 @@
             document.getElementById('co_number').removeAttribute('disabled');
             document.getElementById('co_name').removeAttribute('disabled');
             document.getElementById('OrgID').removeAttribute('hidden');
+            document.getElementById('Address').removeAttribute('disabled');
+            document.getElementById('displayLocationdiv').style.display = 'none';
+        //    console.log("before excecutingg stle block");
+       //    document.getElementById('selectLocationDiv').removeAttribute('hidden');
+            document.getElementById('selectLocaitonDiv').style.display = 'block';
+            document.getElementById('Country').removeAttribute('disabled');
+            document.getElementById('State').removeAttribute('disabled');
+            document.getElementById('City').removeAttribute('disabled');
+            
+
+                
+            
+
+
         }
 
         function updateprofile() {
@@ -333,6 +473,13 @@
             document.getElementById('co_email').setAttribute('disabled', 'true');
             document.getElementById('co_number').setAttribute('disabled', 'true');
             document.getElementById('co_name').setAttribute('disabled', 'true');
+            document.getElementById('OrgID').setAttribute('hidden', 'true');
+            document.getElementById('Country').setAttribute('disabled', 'true');
+            document.getElementById('State').setAttribute('disabled', 'true');
+            document.getElementById('City').setAttribute('disabled', 'true');
+            document.getElementById('Address').setAttribute('disabled', 'true');
+           
+    
             
             // Prevent the default form submission behavior
             event.preventDefault();
@@ -343,7 +490,13 @@
             const contactNumber = document.querySelector("#co_number").value;
             const contactEmail = document.querySelector("#co_email").value;
             const orgID = document.querySelector("#OrgID").value;
+            const country = document.getElementById("country1").value;
+            const state = document.getElementById("state1").value;
+            const city = document.getElementById("city1").value;
+            const address = document.querySelector("#Address").value;
             
+            
+
             // Construct the data object
             var data = {
                 "Name": name,
@@ -352,7 +505,12 @@
                 "ContactEmail": contactEmail,
                 "Tablename": "organizations",
                 "OrgID": orgID,
+                "Country": country,
+                "State": state,
+                "City": city,
+                "Address": address
         };
+        console.log(data);
         
         // Send the form data to the server
         fetch("org_profile.php", {

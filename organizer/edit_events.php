@@ -546,9 +546,9 @@ const getCookieValue = (name) => {
     document.getElementById('startDate').value = event.StartDate;
     document.getElementById('endDate').value = event.EndDate;
 
-    const countrySel = document.getElementById("country");
-    const stateSel = document.getElementById("state");
-    const citySel = document.getElementById("city");
+    document.getElementById("country").selected=event.Country;
+    document.getElementById("state").selected=event.State;
+    document.getElementById("city").selected=event.City;
 
     // Set the default value for the country dropdown
     setDropdownSelectedValue(countrySel, events.country);

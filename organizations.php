@@ -57,9 +57,15 @@ class Organizations{
                 o.Email AS OrganizationEmail,
                 o.ContactNumber AS OrganizationContactNumber,
                 o.ContactEmail AS OrganizationContactEmail,
-                o.Address AS OrganizationAddress,
-                o.Status AS OrganizationStatus,
                 o.ContactName AS OrganizationContactName,
+                o.Status AS OrganizationStatus,
+                O.Country AS OrganizationCountry,
+                O.State AS OrganizationState,
+                O.City AS OrganizationCity,
+                o.Address AS OrganizationAddress,
+                O.orgphoto AS OrganizationPhoto,
+                O.ReasonofRegection AS ReasonofRegection,
+
                   CONCAT('[',
                 GROUP_CONCAT(
                     DISTINCT JSON_OBJECT(
@@ -410,6 +416,8 @@ function SearchEvents($OrgID,$SearchTerm){
         return ["error" => "Select failed: " . $e->getMessage()];
     }
 }
+
+    
 
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
