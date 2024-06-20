@@ -146,7 +146,9 @@
             left: 7px;
             transition: opacity 0.3s ease-out;
         }
-
+        .dropdown-toggle::after { 
+            content: none; 
+        } 
         .overlay {
             width: 118px;
             position: absolute; 

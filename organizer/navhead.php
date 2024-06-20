@@ -89,7 +89,9 @@ function isUserLoggedIn() {
             transform: translateY(-30%);
             cursor: pointer;
         }
-
+        .dropdown-toggle::after { 
+            content: none; 
+        } 
         .stic {
             position:sticky;
             top:20px;
