@@ -47,7 +47,7 @@
                 <table class="table table-bordered" id="adminTable">
                     <thead>
                         <tr>
-                            <th>Admin ID</th>
+                            <th>Sr. No</th>
                             <th>Admin Name</th>
                             <th>Email</th>
                             <!-- <th>Action</th> -->
@@ -142,10 +142,10 @@
                         const admins = data.data;
                         const adminBody = document.querySelector('#adminBody');
                         adminBody.innerHTML = '';
-                        admins.forEach(admin => {
+                        admins.forEach((admin,index) => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td>${admin.AdminID}</td>
+                                <td>${index + 1}</td>
                                 <td>${admin.AdminUsername}</td>
                                 <td>${admin.Email}</td> 
                                 
