@@ -225,7 +225,7 @@ require_once 'admin_headnav.php';
     {
         data: null,
         render: function(data, type, row) {
-            return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary inf p-2"></a>`;
+            return `<a onclick="GoToEvent(${row.EventID})" class="btn btn-outline-primary p-0"><i class="fa fa-info"></i> View Details</a>`;
         }
     }
 ],
