@@ -4,9 +4,9 @@
 require_once 'db_connection.php';
 require_once 'config.php';
 
-$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$Users= new Users($conn->connection());
-echo json_encode($Users->getUserEventDetails(25));
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// $Users= new Users($conn->connection());
+// echo json_encode($Users->getUserEventDetails(25));
 
 /**
  * Class User
