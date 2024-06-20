@@ -104,10 +104,16 @@
         .custom-wrapper {
             width: 225px;
         }
+        .topM {
+            padding-top: 50px !important;
+        }
+        .ok{
+            height: 100px !important;
+        }
 
         @media (min-width: 760px) {
             .filterPanel {
-                width: 225px;
+                width: 220px;
             }
 
         }
@@ -143,16 +149,17 @@
                 z-index: 999;
             }
 
-            .custom-wrapper {
-                width: 270px;
+            .custom-wrapper , .custom-wrapper button{
+                width: 200px;
+                font-size: 80%;
             }
 
             .collapse-horizontal {
                 top: 80px;
                 left: 0px;
                 z-index: 990;
+                background-color: #00000000;
             }
-
         }
     </style>
 </head>
@@ -160,11 +167,11 @@
 <body>
     <?php
     include 'userdashnav.php'; ?>
-    <div class="row mx-auto justify-content-center g-0 p-0">
+    <div class="row mx-auto g-0 p-0">
     <form action="filterEvents.php" method="get"></form>
         <div class="col-0 col-md-auto text-light filt g-0 " id="toggleDiv1">
             <p>
-                <button class="btn btn-light filt col mt-md-5 mt-3" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-light filt col" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample"
                     onclick="toggleDivClass()">
                     <i class="fa fa-filter"></i>Filter
@@ -248,7 +255,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-12 mt-5 g-0 p-0" id="toggleDiv2">
+        <div class="col-12 col-md-12 mt-5 g-0" id="toggleDiv2">
             <div class="container mt-5 g-0">
                 <!-- <div class="mb-3 mt-5">
                     <div class="row-5 sBox align-items-center">
@@ -362,17 +369,19 @@
         function toggleDivClass() {
             const div1 = document.getElementById('toggleDiv1');
             const div2 = document.getElementById('toggleDiv2');
-            if (div1.classList.contains('col-md-2')) {
-                div1.classList.remove('col-md-2');
+            if (div1.classList.contains('col-md-1')) {
+                div1.classList.remove('col-md-1');
                 div1.classList.add('col-md-0');
                 // div1.style.display = 'none';
                 div2.classList.remove('col-md-10');
+                div2.classList.remove('topM');
                 div2.classList.add('col-md-12');
-            } else {
+            } else if(div1.classList.contains('col-0')) {
                 div2.classList.remove('col-md-12');
                 div2.classList.add('col-md-10');
+                div2.classList.add('topM');
                 div1.classList.remove('col-md-0');
-                div1.classList.add('col-md-2');
+                div1.classList.add('col-md-1');
                 // div1.style.display = 'block';
 
             }
@@ -570,24 +579,24 @@
                         console.warn('No poster found for event:', event);
                     }
 
-                   const  eventName = event.EventName ? event.EventName : 'Event name not available';
+                    const  eventName = event.EventName ? event.EventName : 'Event name not available';
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
-eventDiv.innerHTML = `
-    <div class="card d-block h-100" style="max-width: 300px;">
-        <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
-        <div class="card-body" style="min-height: 100px;">
-            <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
-            <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
-        </div>
-        <div class="card-footer text-center">
-            <form action="get_details.php" method="POST">
-                <input type="hidden" name="id" value="${event.EventID}">
-                <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
-            </form>
-        </div>
-    </div>
-`;
+                    eventDiv.innerHTML = `
+                        <div class="card d-block h-100" style="max-width: 300px">
+                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
+                            <div class="px-4 py-2 ok overflow-auto">
+                                <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
+                                <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <form action="get_details.php" method="POST">
+                                    <input type="hidden" name="id" value="${event.EventID}">
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    `;
 
 
                     eventsContainer.appendChild(eventDiv);

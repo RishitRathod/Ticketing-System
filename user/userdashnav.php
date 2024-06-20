@@ -18,7 +18,7 @@
 <style>
         body {
             background-color: #c9d6ff;
-            width:98%;
+            width:100%;
             background: linear-gradient(to right, #e2e2e2, #c9d6ff);
         }
         main {
@@ -49,6 +49,9 @@
         .navbar-brand img {
             height: 5vmax;
         }
+        .dropdown-toggle::after { 
+            content: none; 
+        }   
         .events {
             color: white;
             font-size: 30px;
@@ -165,6 +168,13 @@
             top:20%;
         }
 
+        @media (max-width: 427px) {
+            body{
+                width: 98%;
+            }
+        }
+
+
         
     </style>
             <!-- Bootstrap 5 JS -->
@@ -172,7 +182,6 @@
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <scr    ipt src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
             
             
             <script src="../script.js"></script>
