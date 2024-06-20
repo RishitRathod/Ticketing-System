@@ -193,6 +193,16 @@ class DB
         $Orgs= new Organizations($db->connection());
         return $Orgs->SearchEvents($OrgID,$SearchTerm);
     }
+    static function GetRegisterUsersForEvent($EventID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->GetRegisterUsersForEvent($EventID);
+
+    }
 
      static function validatePackage($PackageID,$OrgID){
         $host = DB_HOST;

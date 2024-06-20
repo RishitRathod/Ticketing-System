@@ -24,9 +24,112 @@ require_once 'admin_headnav.php';
 <div class="container mt-2 g-0">
     <h1>Event Details</h1>
     <div id="event-details"></div>
+
+    <div class="tableforAttendace">
+        <table id="attendencetable" class="table table-responsive table-striped table-bordered">
+            <thead>
+
+            <tr>
+        <th>Sr No.</th>
+        <th>Username</th>
+        <!-- <th>Email</th> -->
+        <!-- <th>UserPhoto</th> -->
+        <!-- <th>UserPhoneNumber</th> -->
+        <!-- <th>TicketID</th> -->
+        <th>TicketType</th>
+        <!-- <th>TicketQuantity</th> -->
+        <!-- <th>TicketAvailability</th> -->
+        <!-- <th>TicketQRCode</th> -->
+        <!-- <th>LimitQuantity</th> -->
+        <!-- <th>Discount</th> -->
+        <!-- <th>Price</th> -->
+        <!-- <th>TicketSalesID</th> -->
+        <!-- <th>TimeSlotID</th> -->
+        <!-- <th>TicketSalesName</th> -->
+        <!-- <th>TicketSalesEmail</th> -->
+        <!-- <th>TicketSalesPhone</th> -->
+        <th>TicketSalesQuantity</th>
+        <th>PurchaseDate</th>
+        <!-- <th>TicketSalesStatus</th> -->
+        <!-- <th>TicketSalesQRCode</th> -->
+        <th>EventDate</th>
+        <!-- <th>TimeUsageID</th> -->
+        <th>EntryTime</th>
+        <th>ExitTime</th>
+        <!-- <th>IsAttending</th> -->
+        <th>TimeUsageQuantity</th>
+        <th>StartTime</th>
+        <th>EndTime</th>
+        <!-- <th>TimeslotAvailability</th> -->
+        <!-- <th>Status</th> -->
+        <!-- <th>Message</th> -->
+    </tr>
+
+            </thead>     
+
+
+        </table>
+
+    </div>
+
 </div>
 
+
 <script>
+
+async function getEventAttende() {
+    try {
+        const response = await fetch('../fetchEvents.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'GetRegisterUsersForEvent',
+                EventID: <?php echo $_POST['EventID']; ?>
+            }),
+        });
+        const data = await response.json();
+        console.log("tryblock",data); // Debugging: Log the response data
+
+        if (data.error) {
+            alert(data.error);
+        } else {
+            if (Array.isArray(data.data)) {
+                console.log('Attendees:', data.data);
+                console.table(data.data);
+                displayEventAttendees(data.data);
+            } else {
+                console.error('Expected an array but got:', data.data);
+            }
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+}
+
+function displayEventAttendees(data) {
+    const attendencetable = document.getElementById('attendencetable');
+
+    data.forEach((attendee, index) => {
+        let tableRow = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${attendee.Username}</td>
+                <td>${attendee.TicketType}</td>
+                <td>${attendee.TicketSalesQuantity}</td>
+                <td>${attendee.PurchaseDate}</td>
+                <td>${attendee.EventDate}</td>
+                <td>${attendee.EntryTime}</td>
+                <td>${attendee.ExitTime ? attendee.ExitTime : 'N/A'}</td>
+                <td>${attendee.TimeUsageQuantity}</td>
+                <td>${attendee.StartTime}</td>
+                <td>${attendee.EndTime}</td>
+            </tr>
+        `;
+        attendencetable.innerHTML += tableRow;
+    });
+}
     //fetch data from server
     async function getEventsData(){
         fetch('../fetchEvents.php', {
@@ -136,6 +239,10 @@ require_once 'admin_headnav.php';
             eventDetailsContainer.innerHTML += eventDetailsHTML;
         });
     }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        getEventsData();
+        getEventAttende();
+    });
 
-    getEventsData();
 </script>

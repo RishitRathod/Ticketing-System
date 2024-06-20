@@ -399,13 +399,68 @@ public function fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID) {
     }
 }
 
+public function GetRegisterUsersForEvent($EventID){
+    try {
+        $sql = "SELECT 
+            u.UserID, 
+            u.Username, 
+            u.Email, 
+            u.UserPhoto, 
+            u.userphonenumber,
+            t.TicketID, 
+            t.TicketType, 
+            t.Quantity AS TicketQuantity, 
+            t.Availability AS TicketAvailability, 
+            t.QR_CODE AS TicketQRCode, 
+            t.LimitQuantity, 
+            t.Discount, 
+            t.Price,
+            ts.TicketSalesID, 
+            ts.TimeSlotID, 
+            ts.Name AS TicketSalesName, 
+            ts.Email AS TicketSalesEmail, 
+            ts.Phone AS TicketSalesPhone, 
+            ts.Quantity AS TicketSalesQuantity, 
+            ts.PurchaseDate, 
+            ts.Status AS TicketSalesStatus, 
+            ts.QR_CODE AS TicketSalesQRCode, 
+            ts.EventDate,
+            tu.TimeUsageID, 
+            tu.EntryTime, 
+            tu.ExitTime, 
+            tu.isattending, 
+            tu.Quantity AS TimeUsageQuantity,
+            tsl.TimeSlotID, 
+            tsl.StartTime, 
+            tsl.EndTime, 
+            tsl.Availability AS TimeslotAvailability
+        FROM users u
+        INNER JOIN ticketsales ts ON u.UserID = ts.UserID
+        INNER JOIN tickets t ON ts.TicketID = t.TicketID
+        INNER JOIN timeusage tu ON ts.TicketSalesID = tu.TicketSalesID
+        INNER JOIN timeslots tsl ON ts.TimeSlotID = tsl.TimeSlotID
+        WHERE ts.EventID = :EventID";
 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result; }
+        else{
+            return ["error"=> "". $stmt->errorInfo()[2] ];
+        }
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    
+}
+}
 
 }
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $Event = new Events($conn->connection());
-// $events = $Event->FetchEventDetails(142);
+// $events = $Event->GetRegisterUsersForEvent(241);
 // echo json_encode($events);
 
 ?>
