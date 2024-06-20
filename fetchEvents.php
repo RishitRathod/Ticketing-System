@@ -91,6 +91,20 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
             }
             break;
 
+            case "GetRegisterUsersForEvent":
+                try{
+                    $EventID = $data['EventID'];
+                    $response['data'] = DB::GetRegisterUsersForEvent($EventID);
+
+                    $response['status'] = true;
+                    $response['message'] = 'Data fetched successfully';
+                    echo json_encode($response);
+                }
+                catch(Exception $e){
+                    echo json_encode(['status'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
+                }
+                break;
+
             default:
                 echo json_encode(['success'=>false, 'message'=>'Invalid action']);
         

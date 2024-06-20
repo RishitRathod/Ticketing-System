@@ -330,7 +330,7 @@
             event.preventDefault()
             const form = document.querySelector('#Upload');
             const formData = new FormData(form);
-            document.getElementById('OrgID1').value = userData[0].OrgID;
+            document.getElementById('OrgID1').value = document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1];
             form.submit();
 
         }

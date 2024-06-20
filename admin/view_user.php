@@ -41,7 +41,7 @@ include 'admin_headnav.php';
         <div class="row" id="tickets"></div>
         <div class="contianer">
             <div class="UserTable2">
-            <table class="table table-striped table-bordered" id="ticketsTable">
+            <table class="table table-striped table-bordered table-responsive" id="ticketsTable">
                     <thead>
                         <tr>
                             <th>Sr. No</th>
@@ -105,40 +105,7 @@ include 'admin_headnav.php';
 
     }
 
-    function formatDateTime(dateTime) {
-            if (!dateTime) {
-                return 'N/A';
-            }
-            const date = new Date(dateTime);
-            if (isNaN(date)) {
-                return 'N/A';
-            }
-            return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB');
-        }
-
-        function formatDate(date2) {
-            if (!date2) {
-                return 'N/A';
-            }
-            const date = new Date(date2);
-            if (isNaN(date)) {
-                return 'N/A';
-            }
-            return date.toLocaleDateString('en-GB');        
-        }
-
-function formatTime(dateTime) {
-    if (!dateTime) {
-        return 'N/A';
-    }
-    // Extract time part if dateTime contains date
-    const time = dateTime.includes(' ') ? dateTime.split(' ')[1] : dateTime;
-    const [hours, minutes, seconds] = time.split(':');
-    if (hours === undefined || minutes === undefined || seconds === undefined) {
-        return 'N/A';
-    }
-    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-}
+   
 
     function showData(data) {
             const ticketsBody = document.getElementById('ticketsBody');
@@ -259,6 +226,7 @@ function formatTime(dateTime) {
 
     initialize();
     </script>
+    <script src="../script.js"></script>
 </body>
 <?php
 include 'admin_footer.php';
