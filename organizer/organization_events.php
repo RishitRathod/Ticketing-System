@@ -365,18 +365,18 @@ console.log(uniqueEvents);
                             <div class="col-md-7">
                                 <div class="card-body event-details">
                                     <b><h5 class="card-title">${event.EventName}</h5></b>
-<div class="card-text date rounded-end-circle">
-    <strong>Time:</strong> 
-    <div>
-        <div class="startD d-inline">${formatDate(event.StartDate)}</div> 
-        <div class="d-inline">to</div> 
-        <div class="endD d-inline">${formatDate(event.EndDate)}</div>
-    </div>
-</div>
+                                    <div class="card-text date rounded-end-circle">
+                                        <strong>Time:</strong> 
+                                        <div>
+                                            <div class="startD d-inline">${formatDate(event.StartDate)}</div> 
+                                            <div class="d-inline">to</div> 
+                                            <div class="endD d-inline">${formatDate(event.EndDate)}</div>
+                                        </div>
+                                    </div>
 
                                     <p class="card-text"><strong>Available Tickets:</strong> ${event.AvailableTickets}</p>
                                     <div class="text-center">
-                                        <form action="Logtable.php" method="post" style="display:inline;">
+                                        <form action="organization_eventdetails.php" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="${event.EventID}">
                                             <button type="submit" class="btn-22"><span>View Details</span></button>
                                         </form>
