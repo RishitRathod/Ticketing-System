@@ -235,10 +235,36 @@
 </script>
 <script>
 
+
     //get id from cookie
     const OrgID =document.cookie.split('; ').find(row => row.split('=')[0] === 'id').split('=')[1];
     console.log(OrgID);
     console.log(OrgID);
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("../fetchOrgs.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: "GetOrgAnnualPlanDetail",
+                OrgID: OrgID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.status === "success") {
+                const annualPlan = data.data;
+                console.info("annualPlan",annualPlan);
+            } else {
+                alert("Failed to fetch annual plan details");
+            }
+        });
+    
+    });
+
     async function FetchOrgPackages(OrgID){
         const response = await fetch("../fetchOrgs.php", {
             method: "POST",
