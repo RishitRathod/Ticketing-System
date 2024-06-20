@@ -4,9 +4,9 @@
 require_once 'db_connection.php';
 require_once 'config.php';
 
-// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// $Users= new Users($conn->connection());
-// echo json_encode($Users->getTicketUsage(12,12));
+$conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$Users= new Users($conn->connection());
+echo json_encode($Users->getUserEventDetails(25));
 
 /**
  * Class User
@@ -227,6 +227,91 @@ public function GetDetailsAtBuyTickets($EventID)
     }
 
     
+}
+
+public function getUserEventDetails($UserID){
+    try{
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT
+            u.UserID,
+            u.Username,
+           -- u.Email AS UserEmail,
+           -- u.UserPhoto,
+           -- u.userphonenumber AS UserPhoneNumber,
+            ts.TicketSalesID,
+            ts.Quantity AS TicketsPurchased,
+            ts.Status AS TicketStatus,
+            ts.PurchaseDate,
+            ts.QR_CODE AS TicketQRCode,
+            ts.EventDate,
+            t.TicketID,
+            t.TicketType,
+            t.Quantity AS TotalTicketQuantity,
+            t.Availability AS TicketAvailability,
+           -- t.LimitQuantity,
+           -- t.Discount,
+           -- t.Price,
+          --e.EventID,
+            e.EventName,
+            e.Description AS EventDescription,
+            e.StartDate AS EventStartDate,
+            e.EndDate AS EventEndDate,
+            e.Capacity AS EventCapacity,
+            e.EventType,
+            e.QR_CODE AS EventQRCode,
+            e.VenueAddress,
+            e.Country AS EventCountry,
+            e.State AS EventState,
+            e.City AS EventCity,
+            tu.TimeUsageID,
+            tu.EntryTime,
+            tu.ExitTime,
+            tu.isattending AS IsAttending,
+            ts2.TimeSlotID,
+            ts2.StartTime AS TimeSlotStartTime,
+            ts2.EndTime AS TimeSlotEndTime,
+            ts2.Availability AS TimeSlotAvailability,
+            o.OrgID,
+            o.Name AS OrganizationName,
+            o.Email AS OrganizationEmail,
+            o.ContactNumber AS OrganizationContactNumber,
+            o.ContactEmail AS OrganizationContactEmail,
+            o.Country AS OrganizationCountry,
+            o.State AS OrganizationState,
+            o.City AS OrganizationCity,
+            o.Address AS OrganizationAddress,
+            o.Status AS OrganizationStatus,
+            o.ReasonofRegection AS OrganizationRejectionReason,
+            o.ContactName AS OrganizationContactName,
+            o.orgphoto AS OrganizationPhoto
+        FROM
+            users u
+            LEFT JOIN ticketsales ts ON u.UserID = ts.UserID
+            LEFT JOIN tickets t ON ts.TicketID = t.TicketID
+            LEFT JOIN events e ON ts.EventID = e.EventID
+            LEFT JOIN timeusage tu ON ts.TicketSalesID = tu.TicketSalesID
+            LEFT JOIN timeslots ts2 ON tu.TimeslotID = ts2.TimeSlotID
+            LEFT JOIN organizations o ON e.OrgID = o.OrgID
+        WHERE
+            u.UserID = :UserID
+        ORDER BY
+            u.UserID, ts.TicketSalesID, tu.TimeUsageID;
+    ";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(":UserID", $UserID, PDO::PARAM_INT);
+    $stmt->execute();
+    if( $stmt->rowCount() > 0){
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }else{
+        return ["error"=> "
+        No details found for UserID: $UserID"];
+    }
+
+    }catch (PDOException $e) {
+        return ['error' => "Fetch Details failed: " . $e->getMessage()];
+    }
 }
 
     

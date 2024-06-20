@@ -51,9 +51,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             echo json_encode(['status' => 'error', 'message' => 'Error uploading file due to move error']);
             exit;
         }
-
-
-
     }
     else {
         echo json_encode(['status' => 'error', 'message' => 'No file uploaded']);
