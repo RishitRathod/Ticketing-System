@@ -194,55 +194,49 @@ include 'admin_headnav.php';
             console.error('Expected an array but got:', data);
             return;
         }
-
         tbody.innerHTML = '';
-        data.forEach((row) => {
-            const tr = document.createElement('tr');
-            console.log(row);
-            if (tableName === 'organizations') {
-                tr.innerHTML = `
-                    <td>${row.OrgID}</td>
-                    <td>${row.Name}</td>
-                    <td>${row.ContactNumber}</td>
-                    <td>${row.Status}</td>
-                    <td>
-                   
-                    <button type="button" id="tooltip" class="btn btn-outline-success border-3 acBtn ${(row.Status === "Approved") ? 'd-none' : ''} approve-btn" data-id="${row.OrgID}" data-table="${tableName}" >
+data.forEach((row, index) => {
+    const tr = document.createElement('tr');
+    console.log(row);
+    if (tableName === 'organizations') {
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.Name}</td>
+            <td>${row.ContactNumber}</td>
+            <td>${row.Status}</td>
+            <td>
+                <button type="button" id="tooltip" class="btn btn-outline-success border-3 acBtn ${(row.Status === "Approved") ? 'd-none' : ''} approve-btn" data-id="${row.OrgID}" data-table="${tableName}">
                     <span id="tooltiptext" class="p-1 rounded-3">Approve</span>
-                    </button>
-                    
-                    
-                    <button type="button" id="tooltip" class="btn btn-outline-danger border-3 acBtn  ${((row.Status === "Approved" || row.Status === "Rejected")) ? 'd-none' : ''} reject-btn " data-id="${row.OrgID}" data-table="${tableName}" >
-                    
-                    </button>
-                    <button type="button" id="tooltip" class="btn btn-outline-primary border-3 acBtn inf view-btn" data-id="${row.OrgID}" data-table="${tableName}">
+                </button>
+                <button type="button" id="tooltip" class="btn btn-outline-danger border-3 acBtn ${((row.Status === "Approved" || row.Status === "Rejected")) ? 'd-none' : ''} reject-btn" data-id="${row.OrgID}" data-table="${tableName}">
+                </button>
+                <button type="button" id="tooltip" class="btn btn-outline-primary border-3 acBtn inf view-btn" data-id="${row.OrgID}" data-table="${tableName}">
                     <span id="tooltiptext" class="p-1 rounded-3">View Details</span>
-                    </button>
-                    </td>
+                </button>
+            </td>
+        `;
+    } else if (tableName === 'events') {
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.EventName}</td>
+            <td>${row.Name}</td>
+            <td>${new Date(row.StartDate).toLocaleDateString('en-GB')} - ${new Date(row.EndDate).toLocaleDateString('en-GB')}</td>
+            <td>${row.City}</td>
+            <td>${row.EventType}</td>
+            <td><button class="btn btn-primary fs-6 view-btn in" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+        `;
+    } else if (tableName === 'users') {
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.Username}</td>
+            <td>${row.Email}</td>
+            <td><img src="${row.UserPhoto}" alt="User Photo" width="50"></td>
+            <td><button class="btn btn-primary view-btn in" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
+        `;
+    }
+    tbody.appendChild(tr);
+});
 
-                `;
-            } else if (tableName === 'events') {
-                tr.innerHTML = `
-                    <td>${row.EventID}</td>
-                    <td>${row.EventName}</td>
-                    <td>${row.Name}</td>
-                    <td>${new Date(row.StartDate).toLocaleDateString('en-GB')} - ${new Date(row.EndDate).toLocaleDateString('en-GB')}</td>
-                    <td>${row.City}</td>
-                    <td>${row.EventType}</td>
-                    <td><button class="btn btn-primary fs-6 view-btn in" data-id="${row.EventID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
-                `;
-            } else if (tableName === 'users') {
-                tr.innerHTML = `
-                    <td>${row.UserID}</td>
-                    <td>${row.Username}</td>
-                    <td>${row.Email}</td>
-                    <td><img src="${row.UserPhoto}" alt="User Photo" width="50"></td>
-                    <td><button class="btn btn-primary view-btn in" data-id="${row.UserID}" data-table="${tableName}"><i class="fa fa-regular fa-info mr-1"></i> View Details</button></td>
-                
-                    `;
-            }
-            tbody.appendChild(tr);
-        });
 
 
 
