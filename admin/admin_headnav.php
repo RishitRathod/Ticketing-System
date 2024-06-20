@@ -201,7 +201,7 @@
         }
         @media (min-width: 760px) {
             .sn{
-                width:225px;   
+                width:235px   
             }
         }
         /* @table-bg-accent: #c8b6eb; */
