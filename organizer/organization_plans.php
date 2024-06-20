@@ -122,7 +122,7 @@
             <table id="SelectedPack" class="table table-responsive table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Package ID</th>
+                        <th>Sr. No</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Amount of Tickets or Days</th> 
@@ -300,11 +300,11 @@
             data = data.data;
             
             FetchOrgPackages(OrgID);
-            data.forEach(row => {
+            data.forEach((row,index) => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
                     <td><input type="checkbox" class="package-checkbox" data-package-id="${row.PackageID}" data-package-type="${row.PackageType}"></td>
-                    <td>${row.PackageID}</td>
+                    <td>${index + 1}</td>
                     <td>${row.PackageName}</td>
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
