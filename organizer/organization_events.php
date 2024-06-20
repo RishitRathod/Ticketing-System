@@ -133,8 +133,8 @@
     <div id="eventsContainer">
     <div class="input-group rounded">
     <input type="search" name="searchbar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <span class="input-group-text border-0" id="search-addon">
-                <button name="searchbt" id="searchbtn" onclick="sortEventsByName()" >Search events</button>
+            <span  id="search-addon">
+                <button name="searchbt" id="searchbtn" class="btn btn-primary" onclick="sortEventsByName()" >Search events</button>
             </span>
 </div>
         <h2 class="py-2" align="center">All Events</h2>

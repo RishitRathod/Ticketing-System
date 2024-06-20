@@ -215,7 +215,7 @@ Object.values(uniqueEvents).forEach((event) => {
                         <h3 class="card-title"><strong>${event.EventName}</strong></h3>
                         <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
                         <fieldset class=""><legend><strong>Date</strong></legend>
-                            <div class="card-text"><strong>From</strong> ${event.StartDate} <strong>to</strong> ${event.EndDate}</div>
+                            <div class="card-text"><strong>From</strong> ${ new Date(event.StartDate).toLocaleDateString('en-GB')} <strong>to</strong> ${ new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
                         </fieldset>
                         <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
                             <div><strong>Time Slots</strong></div>

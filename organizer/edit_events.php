@@ -191,7 +191,7 @@ function isUserLoggedIn() {
                                     </div>
                                     <div class="invalid-feedback">Select a Package type</div>
                                 </div> -->
-                                <div class="d-grid d-flex justify-content-end">
+                                <div class="d-grid d-flex flex-row justify-content-end">
                                     <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
                             </div>
@@ -235,9 +235,9 @@ function isUserLoggedIn() {
                                 <div class="form-group m-2">
                                     <button type="button" class="btn btn-success rounded-3" id="addTimeSlot"><i class="fa fa-plus mr-2 ml-sm-0"></i>Add Time Slot</button>
                                 </div>
-                                <div class="d-grid d-flex justify-content-center gap-5">
-                                    <button type="button" class="btn col-3 fs-6 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="button" class="btn col-3 fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                <div class="d-grid d-flex flex-row justify-content-center gap-5">
+                                    <button type="button" class="btn col-5 fs-6 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="button" class="btn col-5 fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                             
@@ -300,9 +300,9 @@ function isUserLoggedIn() {
                                 <div class="form-group m-2">
                                     <button type="button" class="btn btn-success rounded-3" id="addTicket"><i class="fa fa-plus mr-2 ml-sm-0"></i>Add Ticket Type</button>
                                 </div>
-                                <div class="d-grid d-flex justify-content-center gap-5">
-                                    <button type="button" class="btn col-3 fs-6 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="button" class="btn col-3 fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                <div class="d-grid d-flex flex-row justify-content-center gap-5">
+                                    <button type="button" class="btn col-5 fs-6 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="button" class="btn col-5 fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
 
@@ -353,9 +353,9 @@ function isUserLoggedIn() {
                                 </div>
                                 <!-- </fieldset> -->
                                
-                                <div class="d-grid d-flex mt-3 justify-content-center gap-5">
-                                    <button type="button" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="submit" class="btn col-3 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                <div class="d-grid d-flex flex-row mt-3 justify-content-center gap-5">
+                                    <button type="button" class="btn col-5 fs-5 col-xs-2 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="submit" class="btn col-5 fs-5 col-xs-2 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                         </form>
