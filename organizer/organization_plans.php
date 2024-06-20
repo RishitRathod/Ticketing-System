@@ -144,7 +144,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Select</th>
-                        <th>Package ID</th>
+                        <th>Sr. No</th>
                         <th>Package Name</th>
                         <th>Package Type</th>
                         <th>Amount Of Days/Tickets</th>
