@@ -263,7 +263,7 @@
                     <td>${row.PackageType}</td>
                     <td>${row.No_of_Days_Or_Tickets}</td>
                     <td>${row.Amount}</td>
-                    <td?>${row.BuyDate}</td>
+                    <td?>${new Date(row.BuyDate).toLocaleDateString('en-GB')}</td>
 
 
 
