@@ -198,7 +198,7 @@
     <p>
         <button class="filt" type="button" onclick="toggleDivClass()"> <i class="fa fa-filter"></i></button>
     </p>
-    <div class="d-flex mx-auto top-0 g-0 p-0">
+    <div class="d-flex mx-auto pt-2 top-0 g-0 p-0">
         <div class="box text-light filt mt-5 g-0" id="toggleDiv1">
             <form action="filterEvents.php" method="get">
                 <div class="custom-wrapper filt">
