@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Event Fetch Example</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
     <style>
         .event-poster {
             width: 100%;
@@ -38,9 +38,11 @@
 
         .filt {
             /* margin-top: 8%; */
-            margin-left: 4%;
-            padding: 2%;
+            /* margin-left: 4%; */
+
+            padding: 5px;
             background-color: #1b155d;
+            z-index: 250;
             /* border-bottom-left-radius: 10px;
         border-top-left-radius: 10px; 
         border-bottom-right-radius: 10px;
@@ -84,7 +86,7 @@
             z-index: 999;
         }
 
-        .collapse-horizontal {
+        .ch {
             position: fixed;
             width: 250px !important;
             height: 1100px !important;
@@ -98,11 +100,11 @@
         }
 
         #toggleDiv1 {
-            height: 1px;
+            width: 0px;
         }
 
         .custom-wrapper {
-            width: 225px;
+            width: 220px;
         }
         /* .topM {
             padding-top: 50px !important;
@@ -113,7 +115,10 @@
         .col-md-1,.col-md-0{
             transition: 0.1s;
         }
-        
+        .toggleDiv1{
+            display: "none";
+            transition: all 1s ease-in;
+        }
 
         @media (min-width: 760px) {
             .filterPanel {
@@ -128,11 +133,11 @@
                 height: max-content;
             }
             p button i {
-            bottom: 20px;
-            right: 20px;
-            padding: 20px;
-            color: #fff;
-        }
+                bottom: 20px;
+                right: 20px;
+                padding: 20px;
+                color: #fff;
+            }
             .filterPanel .btn-check {
                 display: inline;
             }
@@ -158,119 +163,107 @@
                 font-size: 80%;
             }
 
-            .collapse-horizontal {
-                top: 80px;
+            .ch {
+                /* top: 80px; */
                 left: 0px;
                 z-index: 990;
                 background-color: #00000000;
-            }
+            }   
         }
+
+
+        .box{
+            width: fit-content;
+            position: relative;
+            text-align: left;
+            z-index: 1;
+            opacity: 0;
+            left: -500px;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+        .active_box{
+            opacity: 1;
+            left: 0px;
+            pointer-events: fill;
+        }
+        
+
     </style>
 </head>
 
 <body>
     <?php
     include 'userdashnav.php'; ?>
-    <div class="row mx-auto g-0 p-0">
-    <form action="filterEvents.php" method="get"></form>
-        <div class="col-1 col-md-auto text-light filt g-0 " id="toggleDiv1">
-            <p>
-                <button class="btn btn-light filt col" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample"
-                    onclick="toggleDivClass()">
-                    <i class="fa fa-filter"></i>Filter
-                </button>
-            </p>
-            <div class="collapse collapse-horizontal " id="collapseWidthExample">
+    <p>
+        <button class="filt" type="button" onclick="toggleDivClass()"> <i class="fa fa-filter"></i></button>
+    </p>
+    <div class="d-flex mx-auto top-0 g-0 p-0">
+        <div class="box text-light filt mt-5 g-0" id="toggleDiv1">
+            <form action="filterEvents.php" method="get">
                 <div class="custom-wrapper filt">
                     <div class="header">
                         <p class="projtitle mt-4" align="center">
                             <strong>Sort By</strong>
                         </p>
                     </div>
-                    <div class="">
-                        <strong> Duration </strong>
-                        <div class="btn-group-horizontal btn-group-md-vertical" role="group"
-                            aria-label="Vertical radio toggle button group">
-                            <input type="checkbox" class="btn-check" name="thisD" id="Today" autocomplete="off">      <!--here-->
-                            <label class="btn btn-outline-primary" for="Today">Today</label>                                    
-                            <input type="checkbox" class="btn-check" name="thisW" id="ThisWeek" autocomplete="off">                <!--here-->
+                    <div>
+                        <strong>Duration</strong>
+                        <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
+                            <input type="checkbox" class="btn-check" name="thisD" id="Today" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Today">Today</label>
+                            <input type="checkbox" class="btn-check" name="thisW" id="ThisWeek" autocomplete="off">
                             <label class="btn btn-outline-primary" for="ThisWeek">This Week</label>
-                            <input type="checkbox" class="btn-check" name="thisM" id="ThisMonth" autocomplete="off">               <!--here-->
+                            <input type="checkbox" class="btn-check" name="thisM" id="ThisMonth" autocomplete="off">
                             <label class="btn btn-outline-primary" for="ThisMonth">This Month</label>
                         </div>
                         <strong>Sort By Price</strong>
-                        <div class="btn-group-horizontal btn-group-md-vertical" role="group"
-                            aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="h" id="HighToLow" autocomplete="off">
+                        <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
+                            <input type="radio" class="btn-check" name="priceOrder" id="HighToLow" autocomplete="off">
                             <label class="btn btn-outline-primary" for="HighToLow"> High to Low</label>
-                            <input type="radio" class="btn-check" name="h" id="LowToHigh" autocomplete="off">
+                            <input type="radio" class="btn-check" name="priceOrder" id="LowToHigh" autocomplete="off">
                             <label class="btn btn-outline-primary" for="LowToHigh"> Low to High</label>
                         </div>
                     </div>
                 </div>
                 <div class="custom-wrapper filt p-1">
                     <div class="header">
-                        <div class="projtitle ">
-                            <strong>Price Range Slider </strong>
+                        <div class="projtitle">
+                            <strong>Price Range Slider</strong>
                         </div>
                     </div>
                     <div class="price-input-container pl-3">
                         <div class="price-input row-12 justify-content-center d-block">
                             <div class="price-field col-5 d-inline">
                                 <span>Min. Price</span>
-                                <input type="number" name="MinPrice" id="MinPrice" class="min-input w-75 form-control"
-                                    value="2500">
-                                <!-- <div class="range-input"> 
-                                    <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
-                                </div>   -->
+                                <input type="number" name="MinPrice" id="MinPrice" class="min-input w-75 form-control" value="2500">
                             </div>
                             <div class="price-field col-5 d-inline">
                                 <span>Max. Price</span>
-                                <input type="number" name="MaxPrice" id="MaxPrice" class="max-input w-75 form-control"
-                                    value="8500">
-                                <!-- <div class="range-input"> 
-                                    <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
-                                </div>  -->
+                                <input type="number" name="MaxPrice" id="MaxPrice" class="max-input w-75 form-control" value="8500">
                             </div>
                         </div>
                         <div class="slider-container">
                             <div class="price-slider">
                                 <div class="range-input">
-                                    Min ₹- <input type="range" class="min-range" min="0" max="10000" value="2500"
-                                        step="1"> <br>
-                                    Max ₹-<input type="range" class="max-range " min="0" max="10000" value="8500"
-                                        step="1">
+                                    Min ₹- <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> <br>
+                                    Max ₹-<input type="range" class="max-range" min="0" max="10000" value="8500" step="1">
                                 </div>
                             </div>
                         </div>
                         <div class="row g-2 mt-2">
-                            <button type="sumibt" class="btn btn-outline-success col-5 m-1" id="applyFil" onclick="applyFilters(event)">Apply</button>
-                            <button type="button" class="btn btn-outline-danger col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear </button>
+                            <button type="submit" class="btn btn-outline-success col-5 m-1" id="applyFil">Apply</button>
+                            <button type="button" class="btn btn-outline-danger col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear</button>
                         </div>
                     </div>
-
-
-                    <!-- Slider -->
-                    <!-- <div class="range-input"> 
-                        <input type="range" class="min-range" min="0" max="10000" value="2500" step="1"> 
-                        <input type="range" class="max-range " min="0" max="10000" value="8500" step="1"> 
-                    </div>  -->
                 </div>
-            </div>
+            </form>
         </div>
-        <div class="col-12 col-md-12 mt-5 g-0" id="toggleDiv2">
+        <div class="mt-5 mx-auto g-0" id="toggleDiv2">
             <div class="container mt-5 g-0">
-                <!-- <div class="mb-3 mt-5">
-                    <div class="row-5 sBox align-items-center">
-                        <input type="text" class="form-control col-auto" placeholder="Search categories" id="categorySearch">
-                        <button class="btn btn-outline-secondary col-1 sbtn" type="button" id="searchButton">Search</button>
-                    </div>
-                </div> -->
-
-                <div class="row ">
+                <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-8 ">
+                    <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <select id="SearchBarSelect" name="SearchBarSelect">
@@ -280,51 +273,54 @@
                                     <option value="Country">Country</option>
                                 </select>
                             </span>
-
                             <input id="categorySearch" type="text" class="form-control" placeholder="Search categories">
-                            <span class="input-group-addon"> <button type="button"
-                                    id="searchButton" onclick="applyFilters(event)">Search</button></span>
+                            <span class="input-group-addon">
+                                <button type="button" id="searchButton" onclick="applyFilters(event)">Search</button>
+                            </span>
                         </div>
                     </div>
-    </form>
                 </div>
                 <div class="row">
                     <h3>All Categories</h3>
                 </div>
                 <div class="scroll-container text-center" id="categoryButtons">
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business"
-                        onclick="filterEvents(this.id)">Business</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy"
-                        onclick="filterEvents(this.id)">Comedy</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty"
-                        onclick="filterEvents(this.id)">Beauty</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture"
-                        onclick="filterEvents(this.id)">Culture</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance"
-                        onclick="filterEvents(this.id)">Dance</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education"
-                        onclick="filterEvents(this.id)">Education</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health"
-                        onclick="filterEvents(this.id)">Health</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music"
-                        onclick="filterEvents(this.id)">Music</button>
-                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports"
-                        onclick="filterEvents(this.id)">Sports</button>
-                        <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="Experience" value="Experience"
-                        onclick="filterEvents(this.id)">Experience</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="business" value="business" onclick="filterEvents(this.id)">Business</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="comedy" value="comedy" onclick="filterEvents(this.id)">Comedy</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="beauty" value="beauty" onclick="filterEvents(this.id)">Beauty</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="culture" value="culture" onclick="filterEvents(this.id)">Culture</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="dance" value="dance" onclick="filterEvents(this.id)">Dance</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="education" value="education" onclick="filterEvents(this.id)">Education</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="health" value="health" onclick="filterEvents(this.id)">Health</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="music" value="music" onclick="filterEvents(this.id)">Music</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="sports" value="sports" onclick="filterEvents(this.id)">Sports</button>
+                    <button class="scroll-item btn m-2 py-3 px-5 rounded-6 hoverA" id="Experience" value="Experience" onclick="filterEvents(this.id)">Experience</button>
                 </div>
             </div>
-
             <div class="container table-responsive mt-1"></div>
             <div id="events" class="mt-3 d-block">
                 <!-- Events will be shown here -->
             </div>
-
             <div id="events-container" class="container d-block mt-1 p-0"></div>
         </div>
     </div>
 
     <?php include 'user_footer.html'; ?>
+    <script>
+        let menu_icon_box = document.querySelector(".filt");
+        let box = document.querySelector(".box");
+
+
+        menu_icon_box.onclick = function(){
+            menu_icon_box.classList.toggle("active");
+            box.classList.toggle("active_box");
+        }
+        document.onclick = function(e){
+            if (!menu_icon_box.contains(e.target) && !box.contains(e.target) ) {
+                menu_icon_box.classList.remove("active");
+                box.classList.remove("active_box");
+            }
+        }
+    </script>
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -369,30 +365,24 @@
             const events = await response.json();
             console.log(events);
         }
+        // function toggleDivClass() {
+        //     const div1 = document.getElementById('toggleDiv1');
+        //     const div2 = document.getElementById('toggleDiv2');
+        //     if (div2.classList.contains('col-12')) {
+        //         div2.classList.remove('col-12');
+        //         div2.classList.add('col-10');
+        //         div1.classList.remove('col-0');
+        //         div1.classList.add('col-2');
+        //         // div1.style.display = 'none';
+        //     } else if(div2.classList.contains('col-10')) {
+        //         div1.classList.remove('col-2');
+        //         div1.classList.add('col-0');
+        //         div2.classList.remove('col-10');
+        //         div2.classList.add('col-12');
+        //         // div1.style.display = 'block';
 
-        function toggleDivClass() {
-            const div1 = document.getElementById('toggleDiv1');
-            const div2 = document.getElementById('toggleDiv2');
-            if (div1.classList.contains('col-md-1')) {
-                div2.classList.remove('col-md-10');
-                div2.classList.remove('topM');
-                div2.classList.add('col-md-12');
-                div1.classList.remove('col-md-1');
-                div1.classList.add('col-md-0');
-                // div1.style.display = 'none';
-            } else if(div1.classList.contains('col-0')) {
-                div1.classList.remove('col-md-0');
-                div1.classList.add('col-md-1');
-                div2.classList.remove('col-md-12');
-                div2.classList.add('col-md-10');
-                div2.classList.add('topM');
-                // div1.style.display = 'block';
-
-            }
-
-        }
-
-
+        //     }
+        // }
     </script>
     <script>
 
