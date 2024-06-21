@@ -124,6 +124,16 @@ class DB
         return $Events->fetchPaginatedEventDataByOrgID($limit, $offset, $OrgID);
     }
 
+    static function FetchBookmarkedEvent($UserID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->FetchBookmarkedEvent($UserID);
+    }
+
     static function FetchOrgDetails($OrgID){
         $host   = DB_HOST;
         $user   = DB_USER;
@@ -316,6 +326,25 @@ class DB
         return $Users->getUserEventDetails($UserID);
     }
 
+    static function bookmarkEvent($UserID, $EventID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->bookmarkEvent($UserID, $EventID);
+    }
+
+    static function unbookmarkEvent($UserID, $EventID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->unbookmarkEvent($UserID, $EventID);
+    }
 
     static function SetTimes($TicketSalesID){
         $host   = DB_HOST;

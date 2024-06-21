@@ -684,9 +684,11 @@
             <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
         </div>
         <div class="card-footer text-center">
-            <form action="get_details.php" method="POST">
+            <form action="get_details.php" class="row" method="POST">
                 <input type="hidden" name="id" value="${event.EventID}">
-                <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
+                <button type="submit" class="btn btn-primary col-6" style="width: 75%;">View Details</button>
+                <button type='button' id='bookmarkbtn' name='bookmarkbtn' style="width: 25%;" class='bookmarkbtn btn-btn col-6'>bookmark</button>
+
             </form>
         </div>
     </div>
