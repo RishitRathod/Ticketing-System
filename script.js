@@ -46,40 +46,7 @@ async function getUser() {
     }
 }
 
-function formatDateTime(dateTime) {
-    if (!dateTime) {
-        return 'N/A';
-    }
-    const date = new Date(dateTime);
-    if (isNaN(date)) {
-        return 'N/A';
-    }
-    return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB');
-}
 
-function formatDate(date2) {
-    if (!date2) {
-        return 'N/A';
-    }
-    const date = new Date(date2);
-    if (isNaN(date)) {
-        return 'N/A';
-    }
-    return date.toLocaleDateString('en-GB');        
-}
-
-function formatTime(dateTime) {
-if (!dateTime) {
-return 'N/A';
-}
-// Extract time part if dateTime contains date
-const time = dateTime.includes(' ') ? dateTime.split(' ')[1] : dateTime;
-const [hours, minutes, seconds] = time.split(':');
-if (hours === undefined || minutes === undefined || seconds === undefined) {
-return 'N/A';
-}
-return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-}
 
 
 function logout() {

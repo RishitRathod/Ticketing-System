@@ -53,8 +53,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     break;
     
     case 'getUserEventDetails':
-        $UerID = $input['UserID'];
-        $response = DB::getUserEventDetails($UerID);
+        $UserID = $input['UserID'];
+        $response = DB::getUserEventDetails($UserID);
         if($response){
             echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
         }else{

@@ -21,10 +21,14 @@ require_once 'admin_headnav.php';
     </style>
 
 </head>
+
+        <form action="view_user.php" method="post">
+            <input type="hidden" name="UserID" id="UserID">
+        </form>
 <div class="container mt-2 g-0">
     <h1>Event Details</h1>
     <div id="event-details"></div>
-
+    <h2>Event Attendees</h2>
     <div class="tableforAttendace">
         <table id="attendencetable" class="table table-responsive table-striped table-bordered">
             <thead>
@@ -36,7 +40,7 @@ require_once 'admin_headnav.php';
         <!-- <th>UserPhoto</th> -->
         <!-- <th>UserPhoneNumber</th> -->
         <!-- <th>TicketID</th> -->
-        <th>TicketType</th>
+        <th>Ticket Type</th>
         <!-- <th>TicketQuantity</th> -->
         <!-- <th>TicketAvailability</th> -->
         <!-- <th>TicketQRCode</th> -->
@@ -48,8 +52,8 @@ require_once 'admin_headnav.php';
         <!-- <th>TicketSalesName</th> -->
         <!-- <th>TicketSalesEmail</th> -->
         <!-- <th>TicketSalesPhone</th> -->
-        <th>TicketSalesQuantity</th>
-        <th>PurchaseDate</th>
+        <th>No. Of Tickets</th>
+        <th>Purchase Date</th>
         <!-- <th>TicketSalesStatus</th> -->
         <!-- <th>TicketSalesQRCode</th> -->
         <th>EventDate</th>
@@ -57,7 +61,7 @@ require_once 'admin_headnav.php';
         <th>EntryTime</th>
         <th>ExitTime</th>
         <!-- <th>IsAttending</th> -->
-        <th>TimeUsageQuantity</th>
+        <!-- <th>TimeUsageQuantity</th> -->
         <th>StartTime</th>
         <th>EndTime</th>
         <!-- <th>TimeslotAvailability</th> -->
@@ -76,6 +80,7 @@ require_once 'admin_headnav.php';
 
 
 <script>
+    
 
 async function getEventAttende() {
     try {
@@ -108,6 +113,46 @@ async function getEventAttende() {
     }
 }
 
+function formatDateTime(dateTime) {
+            if (!dateTime) {
+                return 'N/A';
+            }
+            const date = new Date(dateTime);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB');
+        }
+
+        function formatDate(date2) {
+            if (!date2) {
+                return 'N/A';
+            }
+            const date = new Date(date2);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB');        
+        }
+
+function formatTime(dateTime) {
+    if (!dateTime) {
+        return 'N/A';
+    }
+    // Extract time part if dateTime contains date
+    const time = dateTime.includes(' ') ? dateTime.split(' ')[1] : dateTime;
+    const [hours, minutes, seconds] = time.split(':');
+    if (hours === undefined || minutes === undefined || seconds === undefined) {
+        return 'N/A';
+    }
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+}
+
+function GotoUser(UserID){
+    document.getElementById('UserID').value = UserID;
+    document.querySelector('form').submit();
+}
+
 function displayEventAttendees(data) {
     const attendencetable = document.getElementById('attendencetable');
 
@@ -115,20 +160,28 @@ function displayEventAttendees(data) {
         let tableRow = `
             <tr>
                 <td>${index + 1}</td>
-                <td>${attendee.Username}</td>
+                <td> <a href="#" onclick='GotoUser(${attendee.UserID})'> ${attendee.Username} </a> </td>
                 <td>${attendee.TicketType}</td>
                 <td>${attendee.TicketSalesQuantity}</td>
-                <td>${attendee.PurchaseDate}</td>
-                <td>${attendee.EventDate}</td>
-                <td>${attendee.EntryTime}</td>
-                <td>${attendee.ExitTime ? attendee.ExitTime : 'N/A'}</td>
-                <td>${attendee.TimeUsageQuantity}</td>
+                <td>${formatDateTime(attendee.PurchaseDate)}</td>
+                <td>${formatDate(attendee.EventDate)}</td>
+                <td>${formatTime(attendee.EntryTime)}</td>
+                <td>${formatTime(attendee.ExitTime)}</td>
+               <!-- <td>${attendee.TimeUsageQuantity}</td> -->
                 <td>${attendee.StartTime}</td>
                 <td>${attendee.EndTime}</td>
             </tr>
         `;
         attendencetable.innerHTML += tableRow;
     });
+    //make datatable
+    $('#attendencetable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true
+    });
+
+    
 }
     //fetch data from server
     async function getEventsData(){

@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="col-6 my-2">
                                     <label for="co_number" class="m-3"> Number </label>
-                                    <input type="text" name="co_number" id="co_number" class="form-control" disabled>
+                                    <input type="tel" name="co_number" id="co_number" class="form-control" disabled>
                                 </div>
                             </div>
                             <div id="displayLocationdiv">
@@ -302,7 +302,7 @@
                         <input type="hidden" id="OrgID" name="OrgID">
                         <div class="row justify-content-center">
                             <button type="button" id="edit" name="edit" class="col-2 m-auto mt-3 btn btn-primary" onclick="editProfile()">Edit</button>
-                            <button type="button" id="cancel" name="cancel" class="col-2 m-auto mt-3 btn btn-warning" onclick="cancel()" hidden>Cancel</button>
+                            <button type="button" id="cancel" name="cancel" class="col-2 m-auto mt-3 btn btn-warning" onclick="cancelUpdate()" hidden>Cancel</button>
                             <button type="submit" id="submit" name="submit" class="col-2 m-auto mt-3 btn btn-success" onclick="updateprofile()" hidden>Submit</button>
                         </div>
                     </form>  
@@ -326,6 +326,24 @@
     <!-- Copyright -->
     </footer>
     <script>
+
+        function cancelUpdate(){
+            document.getElementById('submit').setAttribute('hidden', 'true');
+            document.getElementById('cancel').setAttribute('hidden', 'true');
+            document.getElementById('name').setAttribute('disabled', 'true');
+            document.getElementById('co_email').setAttribute('disabled', 'true');
+            document.getElementById('co_number').setAttribute('disabled', 'true');
+            document.getElementById('co_name').setAttribute('disabled', 'true');
+            document.getElementById('OrgID').setAttribute('hidden', 'true');
+            document.getElementById('Country').setAttribute('disabled', 'true');
+            document.getElementById('State').setAttribute('disabled', 'true');
+            document.getElementById('City').setAttribute('disabled', 'true');
+            document.getElementById('Address').setAttribute('disabled', 'true');
+            document.getElementById('displayLocationdiv').style.display = 'block';
+            document.getElementById('selectLocaitonDiv').style.display = 'none';
+            document.getElementById('edit').removeAttribute('hidden', 'true');
+        }
+
         function updateProfile(event){
             event.preventDefault()
             const form = document.querySelector('#Upload');

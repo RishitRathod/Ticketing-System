@@ -134,7 +134,7 @@
                     </div>
                     <p  class="sign text-center">Admin Login</h2>
                     <div class="mb-3">
-                        <input type="text"  autocomplete="off" class="form-control un" id="AdminUsername" name="AdminUsername" aria-describedby="emailHelp" placeholder="Admin Username">
+                        <input type="text"  autocomplete="off" class="form-control un" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Admin Username">
                     </div>
                     <div class="mb-3 password-container">
                         <input type="password" class="form-control pass" id="PassWord" name="AdminPassword" placeholder="Password">
@@ -160,7 +160,7 @@
         event.preventDefault(); // prevent the form from submitting normally
 
         // // Get form values
-        var adminUsername = document.querySelector("#AdminUsername").value;
+        var Email = document.querySelector("#Email").value;
         var adminPassword = document.querySelector("#PassWord").value;
 
         // // Define regex patterns
@@ -179,7 +179,7 @@
         // }
 
         var data = {
-            "AdminUsername": adminUsername,
+            "Email": Email,
             "Password": adminPassword,
             "tablename": document.querySelector("input[name=tablename]").value
         };
