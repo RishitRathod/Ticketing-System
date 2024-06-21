@@ -137,9 +137,8 @@
                 <button name="searchbt" id="searchbtn" class="btn btn-primary" onclick="sortEventsByName()" >Search events</button>
             </span>
 </div>
-        <h2 class="py-2" align="center">All Events</h2>
         <div id="eventsContainer">
-        <h2 class="py-2">Events</h2>
+        <h2 class="py-2" align="center">Events</h2>
         <div id="ongoingEvents" class="event-category">
             <h3>Ongoing Events</h3>
             <div id="ongoingEventsRow" class=""></div>

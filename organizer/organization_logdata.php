@@ -177,7 +177,7 @@
 
             const currentDate1 = new Date();
 const currentDate = new Date(currentDate1);
-currentDate.setDate(currentDate.getDate() + 1);
+currentDate.setDate(currentDate.getDate() );
 
             const uniqueEvents = events.reduce((acc, event) => {
                 if (!acc[event.EventID]) {
@@ -313,7 +313,7 @@ currentDate.setDate(currentDate.getDate() + 1);
         function formatDate(dateStr) {
     const date = new Date(dateStr);
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(date.getMonth()).padStart(2, '0'); // Months are zero-based
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
