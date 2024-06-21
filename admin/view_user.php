@@ -40,7 +40,7 @@ include 'admin_headnav.php';
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>
         <div class="contianer">
-            <div class="UserTable2">
+            <div class="UserTable2  overflow-auto">
             <table class="table table-striped table-bordered table-responsive" id="ticketsTable">
                     <thead>
                         <tr>
@@ -200,9 +200,10 @@ function formatTime(dateTime) {
             }
         })
     }
-
+let UserID ;
     function displayUserData(user) {
         const userInfoContainer = document.getElementById('user-info');
+        UserID=user.UserID
         userInfoContainer.innerHTML = `
             <div class="card">
                 <div class="card-body">

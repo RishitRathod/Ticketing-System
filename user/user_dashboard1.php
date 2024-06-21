@@ -583,8 +583,8 @@
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
                     eventDiv.innerHTML = `
-                        <div class="card d-block h-100" style="max-width: 300px">
-                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
+                        <div class="card d-grid h-100" style="max-width: 300px">
+                            <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID} Poster is  not available for this event" style="max-height: 200px; object-fit: cover;">
                             <div class="px-4 py-2 ok overflow-auto">
                                 <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
                                 <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>
@@ -684,7 +684,7 @@
 
                     eventDiv.innerHTML = `
     <div class="card d-block h-100" style="max-width: 300px;">
-        <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID}" style="max-height: 200px; object-fit: cover;">
+        <img src="${poster1}" class="card-img-top event-poster" alt="${event.EventID} No Poster available " style="max-height: 200px; object-fit: cover;">
         <div class="card-body" style="min-height: 100px;">
             <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
             <div style="font-size: 14px; margin-bottom: 8px; line-height: 1.4;">${venueAddress}</div>

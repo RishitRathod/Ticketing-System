@@ -21,6 +21,10 @@ require_once 'admin_headnav.php';
     </style>
 
 </head>
+
+        <form action="view_user.php" method="post">
+            <input type="hidden" name="UserID" id="UserID">
+        </form>
 <div class="container mt-2 g-0">
     <h1>Event Details</h1>
     <div id="event-details"></div>
@@ -36,7 +40,7 @@ require_once 'admin_headnav.php';
         <!-- <th>UserPhoto</th> -->
         <!-- <th>UserPhoneNumber</th> -->
         <!-- <th>TicketID</th> -->
-        <th>TicketType</th>
+        <th>Ticket Type</th>
         <!-- <th>TicketQuantity</th> -->
         <!-- <th>TicketAvailability</th> -->
         <!-- <th>TicketQRCode</th> -->
@@ -48,8 +52,8 @@ require_once 'admin_headnav.php';
         <!-- <th>TicketSalesName</th> -->
         <!-- <th>TicketSalesEmail</th> -->
         <!-- <th>TicketSalesPhone</th> -->
-        <th>TicketSalesQuantity</th>
-        <th>PurchaseDate</th>
+        <th>No. Of Tickets</th>
+        <th>Purchase Date</th>
         <!-- <th>TicketSalesStatus</th> -->
         <!-- <th>TicketSalesQRCode</th> -->
         <th>EventDate</th>
@@ -57,7 +61,7 @@ require_once 'admin_headnav.php';
         <th>EntryTime</th>
         <th>ExitTime</th>
         <!-- <th>IsAttending</th> -->
-        <th>TimeUsageQuantity</th>
+        <!-- <th>TimeUsageQuantity</th> -->
         <th>StartTime</th>
         <th>EndTime</th>
         <!-- <th>TimeslotAvailability</th> -->
@@ -144,6 +148,11 @@ function formatTime(dateTime) {
     return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
 }
 
+function GotoUser(UserID){
+    document.getElementById('UserID').value = UserID;
+    document.querySelector('form').submit();
+}
+
 function displayEventAttendees(data) {
     const attendencetable = document.getElementById('attendencetable');
 
@@ -151,14 +160,14 @@ function displayEventAttendees(data) {
         let tableRow = `
             <tr>
                 <td>${index + 1}</td>
-                <td>${attendee.Username}</td>
+                <td> <a href="#" onclick='GotoUser(${attendee.UserID})'> ${attendee.Username} </a> </td>
                 <td>${attendee.TicketType}</td>
                 <td>${attendee.TicketSalesQuantity}</td>
                 <td>${formatDateTime(attendee.PurchaseDate)}</td>
                 <td>${formatDate(attendee.EventDate)}</td>
                 <td>${formatTime(attendee.EntryTime)}</td>
                 <td>${formatTime(attendee.ExitTime)}</td>
-                <td>${attendee.TimeUsageQuantity}</td>
+               <!-- <td>${attendee.TimeUsageQuantity}</td> -->
                 <td>${attendee.StartTime}</td>
                 <td>${attendee.EndTime}</td>
             </tr>
