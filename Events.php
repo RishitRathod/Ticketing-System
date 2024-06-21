@@ -95,6 +95,11 @@ class Events{
      * @var int
      */
     private $TimeSlotID;
+
+    /**
+     * @var string The name of the EventBookMark table table in the database.
+     */private $userbookmarkedeventsTable = 'userbookmarkedevents';
+
     
  /**
  * Fetches event details from the database based on the provided EventID and OrgID.
@@ -455,6 +460,41 @@ public function GetRegisterUsersForEvent($EventID){
     
 }
 }
+
+public function FetchBookmarkedEvent($UserID){
+    
+    try {
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+        $sql = "SELECT 
+                    e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress, e.EventType,
+                    GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+                FROM 
+                    bookmarks b
+                INNER JOIN 
+                    events e ON b.EventID = e.EventID
+                LEFT JOIN 
+                    eventposter ep ON e.EventID = ep.EventID
+                WHERE 
+                    b.UserID = :UserID
+                GROUP BY 
+                    e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress, e.EventType";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as &$row) {
+            $row['Posters'] = explode(',', $row['Posters']);
+        }
+        return $result;
+
+    } catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
 
 }
 

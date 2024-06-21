@@ -63,6 +63,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             No data found']);
     }
     break;
+
+    case 'bookmarkEvent':
+        $UserID = $input['UserID'];
+        $EventID = $input['EventID'];
+        $response = DB::bookmarkEvent($UserID,$EventID);
+        if($response){
+            echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+        }else{
+            echo json_encode(['status'=> 'error',
+            'message'=> '
+            No data found']);
+    }
+
+    case 'unbookmarkEvent':
+        $UserID = $input['UserID'];
+        $EventID = $input['EventID'];
+        $response = DB::unbookmarkEvent($UserID,$EventID);
+        if($response){
+            echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+        }else{
+            echo json_encode(['status'=> 'error',
+            'message'=> '
+            No data found']);
+    }
         
 }
 

@@ -105,6 +105,20 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
                 }
                 break;
 
+            case 'FetchBookmarkedEvent':
+                try{
+                    $UserID = $data['UserID'];
+                    $response['data'] = DB::FetchBookmarkedEvent($UserID);
+
+                    $response['status'] = true;
+                    $response['message'] = 'Data fetched successfully';
+                    echo json_encode($response);
+                }
+                catch(Exception $e){
+                    echo json_encode(['status'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
+                }
+                break;
+
             default:
                 echo json_encode(['success'=>false, 'message'=>'Invalid action']);
         

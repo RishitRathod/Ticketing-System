@@ -34,6 +34,10 @@ class Users {
     private $timeusageTable = 'timeusage';
 
     /**
+     * @var string The name of the EventBookMark table table in the database.
+     */private $userbookmarkedeventsTable = 'userbookmarkedevents';
+
+    /**
      * User constructor.
      *
      * @param PDO $conn The database connection object.
@@ -286,6 +290,43 @@ public function getUserEventDetails($UserID){
         return ['error' => "Fetch Details failed: " . $e->getMessage()];
     }
 }
+
+
+public function bookmarkEvent($UserID,$EventID){
+    try
+    {
+        $sql ="INSERT INTO $this->userbookmarkedeventsTable (UserID, EventID) VALUES (:UserID, :EventID)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        if($stmt->execute()){
+            return ["message" => "Event bookmarked successfully"];
+        }else{
+            return ["error" => "Failed to bookmark event"];
+        }
+    }catch (PDOException $e) {
+        return ['error' => "Bookmark Event failed: " . $e->getMessage()];
+
+    }
+}
+public function unbookmarkEvent($UserID,$EventID){
+    try
+    {
+        $sql ="UPDATE $this->userbookmarkedeventsTable SET StatusBit = 0 WHERE UserID = :UserID AND EventID = :EventID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        if($stmt->execute()){
+            return ["message" => "Event unbookmarked successfully"];
+        }else{
+            return ["error" => "Failed to unbookmark event"];
+        }
+    }catch (PDOException $e) {
+        return ['error' => "Unbookmark Event failed: " . $e->getMessage()];
+
+    }
+}
+
 
 
 // public function getUserEventDetails($UserID){
