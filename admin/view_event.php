@@ -24,7 +24,7 @@ require_once 'admin_headnav.php';
 <div class="container mt-2 g-0">
     <h1>Event Details</h1>
     <div id="event-details"></div>
-
+    <h2>Event Attendees</h2>
     <div class="tableforAttendace">
         <table id="attendencetable" class="table table-responsive table-striped table-bordered">
             <thead>
@@ -76,6 +76,7 @@ require_once 'admin_headnav.php';
 
 
 <script>
+    
 
 async function getEventAttende() {
     try {
@@ -108,6 +109,41 @@ async function getEventAttende() {
     }
 }
 
+function formatDateTime(dateTime) {
+            if (!dateTime) {
+                return 'N/A';
+            }
+            const date = new Date(dateTime);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB');
+        }
+
+        function formatDate(date2) {
+            if (!date2) {
+                return 'N/A';
+            }
+            const date = new Date(date2);
+            if (isNaN(date)) {
+                return 'N/A';
+            }
+            return date.toLocaleDateString('en-GB');        
+        }
+
+function formatTime(dateTime) {
+    if (!dateTime) {
+        return 'N/A';
+    }
+    // Extract time part if dateTime contains date
+    const time = dateTime.includes(' ') ? dateTime.split(' ')[1] : dateTime;
+    const [hours, minutes, seconds] = time.split(':');
+    if (hours === undefined || minutes === undefined || seconds === undefined) {
+        return 'N/A';
+    }
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+}
+
 function displayEventAttendees(data) {
     const attendencetable = document.getElementById('attendencetable');
 
@@ -118,10 +154,10 @@ function displayEventAttendees(data) {
                 <td>${attendee.Username}</td>
                 <td>${attendee.TicketType}</td>
                 <td>${attendee.TicketSalesQuantity}</td>
-                <td>${attendee.PurchaseDate}</td>
-                <td>${attendee.EventDate}</td>
-                <td>${attendee.EntryTime}</td>
-                <td>${attendee.ExitTime ? attendee.ExitTime : 'N/A'}</td>
+                <td>${formatDateTime(attendee.PurchaseDate)}</td>
+                <td>${formatDate(attendee.EventDate)}</td>
+                <td>${formatTime(attendee.EntryTime)}</td>
+                <td>${formatTime(attendee.ExitTime)}</td>
                 <td>${attendee.TimeUsageQuantity}</td>
                 <td>${attendee.StartTime}</td>
                 <td>${attendee.EndTime}</td>
@@ -129,6 +165,14 @@ function displayEventAttendees(data) {
         `;
         attendencetable.innerHTML += tableRow;
     });
+    //make datatable
+    $('#attendencetable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true
+    });
+
+    
 }
     //fetch data from server
     async function getEventsData(){
