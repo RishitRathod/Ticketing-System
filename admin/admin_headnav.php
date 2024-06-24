@@ -204,6 +204,9 @@
                 width:235px   
             }
         }
+        .dropdown-toggle::after { 
+            content: none; 
+        } 
         /* @table-bg-accent: #c8b6eb; */
     </style>
 </head>

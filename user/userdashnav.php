@@ -41,7 +41,6 @@
             float: none;
             width: inherit;
         }
-        
         .navB{
             background: #1b155d;
         }
@@ -168,6 +167,9 @@
             top:20%;
         }
 
+        .dropdown-toggle::after { 
+            content: none; 
+        } 
         @media (max-width: 427px) {
             body{
                 width: 98%;
@@ -260,11 +262,11 @@
                 <a class="btn ls" href="user_logINsignUP.html">Login | Sign up</a>
             </div>
             <div class="col-sm-auto col-3 dropdown open rounded-pill" id="profile">
-                <div class="dropdown open  rounded-pill">
+                <div class="dropdown open rounded-pill ">
                     <a class="btn rounded-pill dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="../img/user.png" height="40" class="rounded-circle" alt="User">
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="./userprofile.php">Profile</a>
                         <button type="button" class="dropdown-item" onclick="logout()" href="#">Log Out</button>
                     </div>
