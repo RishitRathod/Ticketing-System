@@ -503,6 +503,8 @@ public function DeleteEventPoster($EventID,$pathwithName){
         $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
         $stmt->bindParam(':poster', $pathwithName, PDO::PARAM_STR);
         if($stmt->execute()){
+            unlink($pathwithName);
+
             return ["success" => "Event poster deleted successfully"];
         }
         else{
@@ -512,7 +514,7 @@ public function DeleteEventPoster($EventID,$pathwithName){
     catch (PDOException $e) {
         return ["error" => "Delete failed: " . $e->getMessage()];
     }
-    
+
 }
 
 
