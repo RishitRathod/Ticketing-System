@@ -31,6 +31,8 @@ include 'admin_headnav.php';
         .tagDetails{
             padding: 0.5vmax;
             background-color: #e0dee3;
+            width: max-content;
+            min-width: 200px;
         }
     </style>
 </head>
@@ -207,20 +209,20 @@ let UserID ;
         userInfoContainer.innerHTML = `
             <div class="card">
                 <div class="card-body">
-                <h5 class="card-title">User Information</h5>
                 <div class="row">
-                <div class="col-3">
-                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
-                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
-                </div>
-                <div class="col-3">
-                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
-                    <div class="card-text tagDetails m-3 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
-                </div>
-                <div class="col" >
-                    <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" class="img-fluid" alt="User Photo">' : 'No photo available'}</div>
-                </div>
-                
+                    <div class="col">
+                        <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:200px !important; width:400px !important;" alt="User Photo">' : 'No photo available'}</div>
+                    </div>
+                    <div class="col">
+                    <h5 class="card-title">User Information</h5>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
+                    </div>
+                    <div class="col">
+                    <h5 class="card-title text-light">.     </h5>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
+                    </div>
                 </div>
                 </div>
             </div>
