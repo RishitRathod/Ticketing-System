@@ -277,26 +277,26 @@
                         }
                     });
                 }
-                function isUserLoggedIn() {
-                    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-                   if(!cookies){
-                       console.log("User is not logged in");
-                       return false;}
-                    for (const cookie of cookies) {
-                        if (cookie.startsWith('role=')) {
-                            console.log("User is logged in");
-                            return true;
-                        }
-                    }
-                    console.log("User is not logged in");
-                    return false;
-            }
+            //     function isUserLoggedIn() {
+            //         const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+            //        if(!cookies){
+            //            console.log("User is not logged in");
+            //            return false;}
+            //         for (const cookie of cookies) {
+            //             if (cookie.startsWith('role=')) {
+            //                 console.log("User is logged in");
+            //                 return true;
+            //             }
+            //         }
+            //         console.log("User is not logged in");
+            //         return false;
+            // }
 
-            document.addEventListener('DOMContentLoaded', function() {
-                if (!isUserLoggedIn()) {
-                    window.location.href = './admin_login.html';
-                }
-            });
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     if (!isUserLoggedIn()) {
+            //         window.location.href = './admin_login.html';
+            //     }
+            // });
 
 
                 // Add event listener to set the active class when the DOM is fully loaded

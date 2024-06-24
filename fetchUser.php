@@ -75,6 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             'message'=> '
             No data found']);
     }
+    break;
 
     case 'unbookmarkEvent':
         $UserID = $input['UserID'];
@@ -87,6 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             'message'=> '
             No data found']);
     }
+    break;
         
 }
 

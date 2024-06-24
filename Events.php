@@ -470,7 +470,7 @@ public function FetchBookmarkedEvent($UserID){
                     e.EventID, e.EventName, e.StartDate, e.EndDate, e.VenueAddress, e.EventType,
                     GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
                 FROM 
-                    bookmarks b
+                    userbookmarkedevents b
                 INNER JOIN 
                     events e ON b.EventID = e.EventID
                 LEFT JOIN 

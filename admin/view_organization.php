@@ -40,9 +40,9 @@ require_once 'admin_headnav.php';
 <div id="orgInfo">
     <h2 align="center">Organization Details</h2>
     <div id="organization-details"></div>
-    <div class="alert alert-warning">
+    <!-- <div class="alert alert-warning">
         <strong>warning</strong> <p id="alert"></p>
-    </div
+    </div -->
     <div class="" id="package-details">
     
     <table id="package-table" class="table table-striped table-bordered">
@@ -94,7 +94,7 @@ require_once 'admin_headnav.php';
         expiryDate.setDate(31);
         expiryDate.setFullYear(expiryDate.getFullYear() - 1);
         alert.innerHTML = 'Your Packages will expire on ' + expiryDate.toLocaleDateString('en-GB')+
-         '. Please Use you all the balance till than or plan events in advance before 2 month.';
+         '.you can plan events upto 28-02-2025 with these balance.';
        
     }
 
@@ -303,7 +303,7 @@ function displayPackagesData(packages) {
     }
 
     $(document).ready(function() {
-        setExpiryDateWarning();
+        // setExpiryDateWarning();
         console.log(OrgID);
         getOrgData(OrgID);
         getEventDataByOrgID(OrgID);

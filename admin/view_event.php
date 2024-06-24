@@ -223,8 +223,8 @@ function displayEventAttendees(data) {
                         </div>
                     </div>
                     <div class="row p-2">
-                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">Start Date</strong> ${event.StartDate}</div>
-                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">End Date</strong> ${event.EndDate}</div>
+                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">Start Date</strong> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
+                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">End Date</strong> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
                     </div>
                     <fieldset><legend>Address</legend>
                         <div class="row justify-content-evenly">

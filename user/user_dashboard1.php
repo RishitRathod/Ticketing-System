@@ -553,7 +553,26 @@
                 if (!eventsContainer) {
                     console.error('eventsContainer element not found');
                 }
+                const calluserData= (async ()=>
+                {
+                    const response = await fetch('../fetchCheckUser.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ action: 'getUserId' }),
+                    });
+                    const data = await response.json();
+                    console.log(data.data)
+                    //UserID = data;
+                    return data.data;
+                })();
 
+                const UserID=await calluserData;
+              //  console.log(await UserID);
+              
+                
+                
                 eventsArray.forEach(event => {
                     if (displayedEventIDs.has(event.EventID)) return;
 
@@ -585,8 +604,10 @@
                             </div>
                             <div class="card-footer text-center">
                                 <form action="get_details.php" method="POST">
-                                    <input type="hidden" name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;">View Details</button>
+                                    <input type="hidden"  name="id" value="${event.EventID}">
+                                    <button type="submit" class="btn btn-primary  col-6" style="width: 100%;">View Details</button>
+                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" style="width: 25%;" class="bookmarkbtn btn btn-primary col-6">&#128278;</button>
+
                                 </form>
                             </div>
                         </div>
@@ -604,6 +625,34 @@
                 isLoading = false;
             }
         }
+
+        async function bookmarkEvent(EventID, UserID) {
+                    try {
+                        const response = await fetch('../fetchUser.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ action: 'bookmarkEvent', EventID: EventID, UserID: UserID }),
+                        });
+                        const data = await response.json();
+                        console.log(data);
+                    } catch (error) {
+                        console.error('Error bookmarking event:', error);
+                    }
+                }
+                async function unbookmarkEvent(EventID,UserID){
+                    const response = await fetch('../fetchUser.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ action: 'unbookmarkEvent', EventID: EventID, UserID: UserID }),
+                    });
+                    const data = await response.json();
+                    console.log(data);
+                }
+
 
         function onScroll() {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
