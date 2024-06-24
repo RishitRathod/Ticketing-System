@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Form and CRUD Table</title>
+    <title>Manage Packages</title>
     <!-- Bootstrap CSS -->
     <style>
         .package-form {

@@ -1,3 +1,6 @@
+<head>
+    <title>Manage Admin</title>
+</head>
 <?php
     include 'admin_headnav.php';
 ?>

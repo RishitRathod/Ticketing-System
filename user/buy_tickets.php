@@ -26,7 +26,7 @@ include 'userdashnav.php';
             margin-bottom: 10px;
         }
         body {
-            margin-top: 150px !important;
+            margin-top: 120px !important;
             padding: 10px;
         }
         .btn-space {
@@ -56,111 +56,108 @@ include 'userdashnav.php';
 </head>
 <body>
   
-    <div class="container">
-        <h1 class="text-center">Buy Tickets</h1>
-        <form id="form" action="/submit_ticket" method="post">
-            <fieldset class="form-section">
-                <legend>Event Selection</legend>
-                <div class="form-group">
-                    <label for="event">Event:</label>
-                    <input class="form-control" id="event" name="event">
+    <h1 class="text-center">Buy Tickets</h1>
+    <form id="form" class="container-xxl mb-5" action="/submit_ticket" method="post">
+            <div class="row justify-content-center">
+                <fieldset class="form-section col-12 col-md-5 mx-2">
+                    <legend><strong>Event Selection</strong></legend>
+                    <div class="form-group">
+                        <label>Event:</label>
+                        <input class="form-control" id="event" name="event" disabled>
 
-                </div>
-                <div class="form-group row justify-content-center">
-                
-                <div class="form-group col-6">
-                    <label for="event-date">Start Date:</label>
-                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="event-date" name="event-date" disabled>
-                    <!-- <input class="form-control" id="event-date" name="event-date"> -->
-                </div>
-                <div class="form-group col-6">
-                    <label for="eevent-date">End Date:</label>
-                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="eevent-date"  name="eevent-date" disabled>
-                    <!-- <input class="form-control" id="eevent-date" name="eevent-date"> -->
-                </div>
-                <div class="row col-4 form-group">
-                    <label for="startDate">Select Date</label>
-                    <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="startDate">
+                    </div>
+                    <div class="form-group row justify-content-center">
+                        <div class="form-group col-6">
+                            <label>Start Date:</label>
+                            <input  class="form-control" onfocus="(this.type = 'date')" id="event-date" name="event-date" disabled>
+                            <!-- <input class="form-control" id="event-date" name="event-date"> -->
+                        </div>
+                        <div class="form-group col-6">
+                            <label>End Date:</label>
+                            <input class="form-control" onfocus="(this.type = 'date')" id="eevent-date"  name="eevent-date" disabled>
+                            <!-- <input class="form-control" id="eevent-date" name="eevent-date"> -->
+                        </div>
+                        <div class="form-inline row justify-content-center">
+                            <div class="form-group col-9">
+                                <label class="fs-6 fw-bold mr-3" >Select Date</label>
+                                <input type="text" class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="startDate">
+                                <!-- <input type="date" class="form-control datepicker" id="startDate" name="StartDate"> -->
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- <input type="date" class="form-control datepicker" id="startDate" name="StartDate"> -->
-                </div>
-                </div>
+                    
+                </fieldset>
+                <fieldset class="form-section col-12 col-md-5 mx-2">
+                    <legend><strong>Buyer Information</strong></legend>
+                    <div class="form-group">
+                        <label for="name">Full Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" >
+                    </div>
+                    <div class="form-group row">
+                    
+                    <div class="form-group col-6">
+                        <label for="email">Email Address:</label>
+                        <input type="email" class="form-control" id="email" name="email" >
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" >
+                    </div>
+                    </div>
+                </fieldset>
+                <fieldset class="form-section col-12 col-md-5 py-1 mx-2">
+                    <legend><strong>Ticket Information</strong></legend>
 
-                
-            </fieldset>
-
-            <fieldset class="form-section">
-                <legend>Ticket Information</legend>
-
-                <div class="form-group row">
-                
-                <div class="form-group col-4">
-                    <label for="time-slot">Time-Slot:</label>
-                    <select class="form-control" id="time-slot" name="time-slot">
-                        <!-- Options populated by fetchTicketType function -->
-                    </select>
-                    <input type="hidden" id="timeslotid" name="timeslotid">
-                </div>
-                
-                <div class="form-group col-4">
-                    <label for="ticket-type">Ticket Type:</label>
-                    <select class="form-control" id="ticket-type" name="ticket-type">
-                        <!-- Options populated by fetchTicketType function -->
-                    </select>
-                    <input type="hidden" id="ticketid" name="ticketid">
-                </div>
-
-
-                <div class="form-group col-4">
-                    <label for="quantity">Quantity:</label>
-                    <div class="quantity-controls">
-                        <button type="button" id="decrease-quantity">-</button>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
-                        <button type="button" id="increase-quantity" >+</button>
+                    <div class="form-group row p-0 g-0">
+                        <div class="form-group col-4 py-0 g-0 mb-0">
+                            <label for="time-slot">Time-Slot:</label>
+                            <select class="form-control" id="time-slot" name="time-slot">
+                                <!-- Options populated by fetchTicketType function -->
+                            </select>
+                            <input type="hidden" id="timeslotid" name="timeslotid">
+                        </div>
+                        <div class="form-group col-4 py-0 g-0 mb-0">
+                            <label for="ticket-type">Ticket Type:</label>
+                            <select class="form-control" id="ticket-type" name="ticket-type">
+                                <!-- Options populated by fetchTicketType function -->
+                            </select>
+                            <input type="hidden" id="ticketid" name="ticketid">
+                        </div>
+                        <div class="form-group col-4 py-0 g-0 mb-0">
+                            <label for="quantity">Quantity:</label>
+                            <div class="quantity-controls">
+                                <button type="button" id="decrease-quantity">-</button>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="10" value="1">
+                                <button type="button" id="increase-quantity" >+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div align="end">
+                        <div id="price"></div>
+                        <div id="available_tickets"></div>
+                    </div>
+                </fieldset>
+                <div class=" col-5 g-2 justify-content-center">
+                    <div class="col-12 col-md-8 mt-3">
+                    <!-- <p>Review Order:</p> -->
+                    <!-- Order summary here -->
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                            <label class="form-check-label" for="terms">I agree to the terms and conditions.</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">Sign me up for the newsletter.</label>
+                        </div>
+                    </div>
+                    <div align="center">
+                        <button type="submit" class="btn btn-primary btn-space mt-3">Purchase Tickets</button>
                     </div>
                 </div>
-                </div>
+            </div>
 
-                <div id="price"></div>
-                <div id="available_tickets"></div>
-            </fieldset>
-
-            <fieldset class="form-section">
-                <legend>Buyer Information</legend>
-                <div class="form-group">
-                    <label for="name">Full Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" >
-                </div>
-                <div class="form-group row">
-                
-                <div class="form-group col-6">
-                    <label for="email">Email Address:</label>
-                    <input type="email" class="form-control" id="email" name="email" >
-                </div>
-                <div class="form-group col-6">
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" >
-                </div>
-                </div>
-            </fieldset>
-
-            <fieldset class="form-section">
-                <legend>Confirmation</legend>
-                <!-- <p>Review Order:</p> -->
-                <!-- Order summary here -->
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
-                    <label class="form-check-label" for="terms">I agree to the terms and conditions.</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
-                    <label class="form-check-label" for="newsletter">Sign me up for the newsletter.</label>
-                </div>
-            </fieldset>
-
-            <button type="submit" class="btn btn-primary btn-block btn-space">Purchase Tickets</button>
-        </form>
-    </div>
+    </form>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -183,8 +180,8 @@ include 'userdashnav.php';
             console.log(data.data);
             const eventDetails = data.data[0];
             document.getElementById('event').value = eventDetails.EventName;
-            document.getElementById('event-date').value = eventDetails.StartDate;
-            document.getElementById('eevent-date').value = eventDetails.EndDate;
+            document.getElementById('event-date').value =  new Date(eventDetails.StartDate).toLocaleDateString('en-GB');
+            document.getElementById('eevent-date').value =  new Date(eventDetails.EndDate).toLocaleDateString('en-GB');
             
             const startDateInput = document.getElementById('startDate');
             startDateInput.min = eventDetails.StartDate;

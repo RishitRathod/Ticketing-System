@@ -79,7 +79,7 @@ include 'userdashnav.php';
                     <div class="row"> 
 
                         <div class="row">                        
-                            <div class="card-text"><strong>Date: </strong>${ticket.EventDate}</div>
+                            <div class="card-text"><strong>Date: </strong>${ new Date(ticket.EventDate).toLocaleDateString('en-GB')}</div>
                             <div class="card-text"><strong>Time: </strong> ${ticket.StartTime} - ${ticket.EndTime}</div>
                         </div>
                         <div class="row ">                        

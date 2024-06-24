@@ -43,9 +43,9 @@ function selectByJoin($conditions) {
 
         $query = "SELECT *
                   FROM events e 
-                  JOIN eventposter ep ON e.EventID = ep.EventID
-                  JOIN timeslots ts ON e.EventID = ts.EventID
-                  JOIN tickets tsale ON e.EventID = tsale.EventID
+                  left JOIN eventposter ep ON e.EventID = ep.EventID
+                  left JOIN timeslots ts ON e.EventID = ts.EventID
+                  left JOIN tickets tsale ON e.EventID = tsale.EventID
                   WHERE ";
         
         $queryConditions = [];

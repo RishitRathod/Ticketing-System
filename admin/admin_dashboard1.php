@@ -1,3 +1,6 @@
+<head>
+    <title>Dashboard</title>
+</head>
 <?php
 include 'admin_headnav.php';
 ?>
@@ -22,7 +25,7 @@ include 'admin_headnav.php';
         <button type="button" value="users" class="btn themecol" onclick="useronly(this)">Users</button>
     </div>
 </div>
-<div id="a" style="display: none;">
+<div id="a" style="display: block;">
     <div class="container table-responsive mt-2" id="orgDiv">
         <h2 align="center">Organizations</h2>
         <table id="orgTable" class="table table-striped table-bordered" style="width:100%; ">
@@ -83,6 +86,14 @@ include 'admin_headnav.php';
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        var button = document.getElementById("organizations");
+        button.classList.add("active-button");
+        const data = await fetchData('organizations');
+        populateTable(data, 'organizations');
+
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

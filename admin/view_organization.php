@@ -1,7 +1,6 @@
-<?php
-require_once 'admin_headnav.php';
-?>
-<style>
+<head>
+    <title>Organization Details</title>
+    <style>
     .btn-group .btn {
         border: 1px solid #8341fe;
     }
@@ -29,12 +28,16 @@ require_once 'admin_headnav.php';
     }
 
 </style>
+</head>
+<?php
+require_once 'admin_headnav.php';
+?>
+
 
 <div class="container mt-2 row justify-content-center">
     <div class="btn-group mx-auto col mb-4">
-        <button type="button" class="col themecol btn" onclick="showOrg(this)">Organization</button>
+        <button type="button" id="orgB" class="col themecol btn" onload="showOrg(this)" onclick="showOrg(this)">Organization</button>
         <button type="button" class="col themecol btn" onclick="showEvents(this)">Events</button>
-        
     </div>
 </div>
 <div id="orgInfo">
@@ -86,6 +89,11 @@ require_once 'admin_headnav.php';
 </form>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var button = document.getElementById("orgB");
+    button.classList.add("active-button");
+    });
+
     function setExpiryDateWarning() {
         const alert = document.getElementById('alert');
         const expiryDate = new Date();
@@ -99,11 +107,11 @@ require_once 'admin_headnav.php';
     }
 
     function updateButtonStyles(clickedButton) {
-            const buttons = document.querySelectorAll('.btn.themecol');
-            buttons.forEach(button => {
-                button.classList.remove('active-button');
-            });
-            clickedButton.classList.add('active-button');
+        const buttons = document.querySelectorAll('.btn.themecol');
+        buttons.forEach(button => {
+            button.classList.remove('active-button');
+        });
+        clickedButton.classList.add('active-button');
     }
     function showOrg(button) {
         document.getElementById("orgInfo").style.display = "block";
