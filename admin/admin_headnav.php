@@ -29,6 +29,11 @@
     <!-- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> -->
 
     <style>
+        .dataTables_wrapper .dataTables_processing {
+    z-index: 10 !important; /* Ensure it's above other elements */
+    color: #000; /* Change color if needed */
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+}
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0;
         }
