@@ -293,7 +293,8 @@ if (tableId) {
                 "targets": 6, // Disable functionality for the 6th column (index 5)
                 "orderable": false, // Disable sorting
             },
-        ], "language": {
+        ], 
+        "language": {
                     "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
                 }
     });
@@ -362,7 +363,7 @@ if (tableId3) {
        
         "processing": true,
         "retrieve": true,
-       
+        "ServerSide": true,
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
         "destroy": true, // Added to reinitialize DataTable

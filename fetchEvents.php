@@ -122,5 +122,19 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
             default:
                 echo json_encode(['success'=>false, 'message'=>'Invalid action']);
         
-        }
+        case 'DeleteEventPoster':
+            try{
+                $EventID = $data['EventID'];
+                $pathwithName = $data['path'];
+                $response = DB::DeleteEventPoster($EventID,$pathwithName);
+                $response['success'] = true;
+                $response['message'] = 'Event poster deleted successfully';
+                echo json_encode($response);
+            }
+            catch(Exception $e){
+                echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
+
+            }
+
+    }
 }
