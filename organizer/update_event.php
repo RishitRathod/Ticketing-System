@@ -79,13 +79,14 @@ if ($action === 'update')
                 $response['success'] = false;
                 $response['message'] = "An error occurred while deleting tickets!";
             } else {
-                // Delete existing event posters
-                $deleteResult3 = DB::delete(DB_NAME, 'eventposter', $_POST['orgid'],'EventID');
+                // // Delete existing event posters
+                //  $deleteResult3 = DB::delete(DB_NAME, 'eventposter', $_POST['orgid'],'EventID');
 
-                if (!$deleteResult3) {
-                    $response['success'] = false;
-                    $response['message'] = "An error occurred while deleting event posters!";
-                } else {
+                // if (!$deleteResult3) {
+                //     $response['success'] = false;
+                //     $response['message'] = "An error occurred while deleting event posters!";
+                // } else
+                 {
                     // Insert new time slots if present
                     if (isset($_POST['StartTimeSlot']) && isset($_POST['EndTimeSlot'])) {
                         $timeSlots = [];
@@ -213,10 +214,10 @@ if ($action === 'delete') {
     try {
         if (is_dir($uploadDirectory)) {
             // Recursively delete directory and its content
-            if (!deleteDirectory($uploadDirectory)) {
-                error_log("Failed to delete directory: $uploadDirectory");
-                throw new Exception("Failed to delete directory");
-            }
+            // if (!deleteDirectory($uploadDirectory)) {
+            //     error_log("Failed to delete directory: $uploadDirectory");
+            //     throw new Exception("Failed to delete directory");
+            // }
         }
     } catch (Exception $e) {
         http_response_code(500);

@@ -179,8 +179,8 @@ function isUserLoggedIn() {
                                     <label for="description">Description</label><span class="req">*</span>
                                     <textarea class="form-control rounded-4" id="description" name="Description" required></textarea>
                                 </div>
-                                <div class="form-group row justify-content-evenly">
-                                    <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
+                                <div class="form-group row justify-content-evenly" id="abc">
+                                    <!-- <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
                                     <div class="col-auto">
                                         <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required>
                                         <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
@@ -188,7 +188,7 @@ function isUserLoggedIn() {
                                     <div class="col-auto">
                                         <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required>
                                         <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
-                                    </div>
+                                    </div> -->
                                     <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
@@ -328,15 +328,15 @@ function isUserLoggedIn() {
                                     
                                         <div class="col-4">
                                             <label for="Country"> Country </label>
-                                            <input type="text"  name="Country" id="Country" class="form-control" disabled>
+                                            <input type="text"  name="Country" value="" id="Country" class="form-control" >
                                         </div>
                                         <div class="col-4">
                                             <label for="State"> State </label>
-                                            <input type="text"  name="State" id="State" class="form-control" disabled>
+                                            <input type="text"  name="State" id="State" value=""  class="form-control" >
                                         </div>
                                         <div class="col-4">
                                             <label for="City"> City </label>
-                                            <input type="text" name="City" id="City" class="form-control" disabled>
+                                            <input type="text" name="City" id="City" value=""  class="form-control" >
                                         </div>
                                     </div>
      
@@ -539,6 +539,16 @@ var keptcapacity =0;
     document.getElementById('State').value = event.State;
     document.getElementById('City').value = event.City;
     document.getElementById('venueAddress').value = event.VenueAddress;
+    const abc = document.getElementById('abc');
+    abc.innerHTML += `<label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
+                        <div class="col-auto">
+                            <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required  ${event.choice === 'TicketBased' ?'checked':''} disabled>
+                            <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required  ${event.choice === 'TimeBased' ?'checked':''} disabled>
+                            <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+                        </div>`;
     
 //     document.querySelectorAll('input[name="choice"]').forEach(radio => {
  
@@ -598,32 +608,69 @@ var keptcapacity =0;
 
    
 
-  const posterPreview = document.getElementById('posterPreview');
+    const posterPreview = document.getElementById('posterPreview');
 posterPreview.innerHTML = ''; // Clear existing content once at the start
+
 Object.values(uniqueEvents).forEach((event) => {
     const eventCard = document.createElement('div');
     eventCard.classList.add('col-12');
 
     const posterItems = event.posters.map(poster => `
-        <img src="${poster}" class="event-poster img-fluid g-0" alt="Event Poster">
+        <div class="poster-container position-relative">
+            <img src="${poster}"  class="event-poster img-fluid g-0" alt="Event Poster">
+            <button type="button" class="btn btn-danger btn-sm  top-0 right-0 delete-poster" data-poster="${poster}" ">Delete</button>
+        </div>
     `).join('');
 
-
     eventCard.innerHTML = ` 
-        <div class="event-card ">
+        <div class="event-card">
             <div class="row no-gutters">
                 <div class="col-md-6 d-block">
                     <strong class="ml-3 text-light">Event Photos</strong>
                     <div class="posters d-flex g-0 overflow-auto">
-                    ${posterItems}
+                        ${posterItems}
                     </div>
                 </div>
             </div>
         </div>
     `;
- 
+
     posterPreview.appendChild(eventCard);
-            });
+});
+
+// Add event listener for delete buttons
+posterPreview.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-poster')) {
+        const posterElement = e.target.closest('.poster-container');
+        const posterUrl = e.target.getAttribute('data-poster');
+        const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
+       const posterid = e.target.getAttribute('data-poster-posterID');
+        console.log("idp",posterUrl);
+        // Send delete request to the server
+        fetch('../fetchEvents.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({EventID:EventID, action: 'DeleteEventPoster', path:posterUrl }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            posterElement.remove();
+            if (data.success) {
+                // Remove poster element from the DOM
+                posterElement.remove();
+            } else {
+                alert('Failed to delete poster.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the poster.');
+        });
+    }
+});
+
 
 
 
@@ -842,7 +889,7 @@ if (kk > capacity1) {
     
     function validateForm() {
             const form = document.getElementById('registrationForm');
-            const startDateInput = document.getElementById('startDate');
+            const startDateInput = document.getElementById('startDate').value;
             const endDateInput = document.getElementById('endDate');
     console.log(startDateInput);
             // Get the selected start and end dates and times

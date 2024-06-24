@@ -187,7 +187,22 @@
             left: 0px;
             pointer-events: fill;
         }
-        
+        @media (max-width: 425px) {
+            .card{
+                min-width: 200px !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .card{
+                min-width: 200px !important;
+            }
+        }        
+        @media (min-width: 768px) {
+            .card{
+                min-width: 200px !important;
+            }
+        }
+
 
     </style>
 </head>
@@ -596,7 +611,7 @@
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
                     eventDiv.innerHTML = `
-                        <div class="card d-grid h-100" style="max-width: 300px">
+                        <div class="card d-grid h-100">
                             <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID} Poster is  not available for this event" style="max-height: 200px; object-fit: cover;">
                             <div class="px-4 py-2 ok overflow-auto">
                                 <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${eventName}</p>
@@ -606,7 +621,7 @@
                                 <form action="get_details.php" method="POST">
                                     <input type="hidden"  name="id" value="${event.EventID}">
                                     <button type="submit" class="btn btn-primary  col-6" style="width: 100%;">View Details</button>
-                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" style="width: 25%;" class="bookmarkbtn btn btn-primary col-6">&#128278;</button>
+                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" style="width: 25%;" class="bookmarkbtn btn btn-primary col-1">&#128278;</button>
 
                                 </form>
                             </div>
