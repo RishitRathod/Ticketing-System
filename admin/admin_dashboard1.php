@@ -17,7 +17,9 @@ include 'admin_headnav.php';
 <form id="viewUserForm" action="view_user.php" method="post" style="display: none;">
     <input type="hidden" name="UserID">
 </form>
-<div class="loader"></div>
+<div class="loader">
+<i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
+</div>
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
         <button type="button" id="organizations" value="organizations" class="btn themecol no-sort" onclick="orgonly(this)">Organizations</button>
@@ -65,9 +67,9 @@ include 'admin_headnav.php';
     </div>
 </div>
 <div id="c" style="display: none;">
-    <div class="container table-responsive mt-2 mx-auto" id="eventDiv">
+    <div class="container table-responsive mt-2 mx-auto " id="eventDiv">
         <h2 align="center">Events</h2>
-        <table id="eventTable" class="table table-striped table-bordered" style="width:100%;">
+        <table id="eventTable" class="table table-striped table-bordered " style="width:100%;">
             <thead style="width:100%;">
                 <tr>
                     <th>Sr. No</th>
@@ -91,7 +93,7 @@ include 'admin_headnav.php';
         var button = document.getElementById("organizations");
         button.classList.add("active-button");
         const data = await fetchData('organizations');
-        populateTable(data, 'organizations');
+        // populateTable(data, 'organizations');
 
     });
 
@@ -271,18 +273,18 @@ if (tableId) {
     .on( 'draw.dt', function () {
             console.log( 'Loading' );
           //Here show the loader.
-          document.querySelector(".loader").style.display = "block";
+        //    $(".loader").html("Your Message while loading");
+        document.querySelector(".loader").style.visibility  = 'visible';
 
-           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+           
         } )
         .on( 'init.dt', function () {
             console.log( 'Loaded' );
            //Here hide the loader.
-                document.querySelector(".loader").style.display = "none";
-                $(".loader").html("");
+                document.querySelector(".loader").style.visibility  = "hidden";
+                // $(".loader").html("");
                 // document.querySelector(".loader").remove();
         } )
-      
         .DataTable({
         //    "ServerSide": true,
 
@@ -301,9 +303,9 @@ if (tableId) {
                 "orderable": false, // Disable sorting
             },
         ], 
-        "language": {
-                    "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-                }
+        // "language": {
+        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
+        //         }
     });
 }
 
@@ -316,17 +318,15 @@ if (tableId2) {
             console.log( 'Loading' );
           //Here show the loader.
         //    $(".loader").html("Your Message while loading");
-        document.querySelector(".loader").style.display = "none";
+        document.querySelector(".loader").style.visibility  = 'visible';
 
-           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
-
+           
         } )
         .on( 'init.dt', function () {
             console.log( 'Loaded' );
            //Here hide the loader.
-
-           document.querySelector(".loader").style.display = "none";
-                $(".loader").html("");
+                document.querySelector(".loader").style.visibility  = "hidden";
+                // $(".loader").html("");
                 // document.querySelector(".loader").remove();
         } )
         .DataTable({
@@ -348,9 +348,9 @@ if (tableId2) {
                 "orderable": false, // Disable sorting
             }
         ],
-        "language": {
-                    "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-                }
+        // "language": {
+        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
+        //         }
     });
 }
 
@@ -363,17 +363,16 @@ if (tableId3) {
     .on( 'draw.dt', function () {
             console.log( 'Loading' );
           //Here show the loader.
-        //    $(".loader").html("Your Message while loading");
-        document.querySelector(".loader").style.display = "none";
+            // $(".loader").html("Your Message while loading");
+        document.querySelector(".loader").style.visibility  = 'visible';
 
-           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
-
+           
         } )
         .on( 'init.dt', function () {
             console.log( 'Loaded' );
            //Here hide the loader.
-                document.querySelector(".loader").style.display = "none";
-                $(".loader").html("");
+                document.querySelector(".loader").style.visibility  = "hidden";
+                // $(".loader").html("");
                 // document.querySelector(".loader").remove();
         } )
         .DataTable({
@@ -394,10 +393,10 @@ if (tableId3) {
                 // "targets": nonSortableColumnIndex,
                 "orderable": false, // Disable sorting
             }
-        ],
-        "language": {
-                    "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-                }
+        ]
+        // "language": {
+        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
+        //         }
                 
     });
 }
