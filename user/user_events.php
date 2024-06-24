@@ -2,6 +2,7 @@
     include 'userdashnav.php';
 ?>
 <head>
+    <title>My Events</title>
     <style>
 
     </style>

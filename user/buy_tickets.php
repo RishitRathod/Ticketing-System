@@ -6,7 +6,7 @@ include 'userdashnav.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Purchase Form</title>
+    <title>Buy Tickets</title>
     
     <style>
         .container {

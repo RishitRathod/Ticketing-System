@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Event Fetch Example</title>
+    <title>User Dashboard</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
     <style>
         .event-poster {
@@ -211,18 +211,18 @@
                         <strong>Duration</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
                             <input type="checkbox" class="btn-check" name="thisD" id="Today" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="Today">Today</label>
+                            <label class="btn btn-outline-primary btn-sm" for="Today">Today</label>
                             <input type="checkbox" class="btn-check" name="thisW" id="ThisWeek" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="ThisWeek">This Week</label>
+                            <label class="btn btn-outline-primary btn-sm" for="ThisWeek">This Week</label>
                             <input type="checkbox" class="btn-check" name="thisM" id="ThisMonth" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="ThisMonth">This Month</label>
+                            <label class="btn btn-outline-primary btn-sm" for="ThisMonth">This Month</label>
                         </div>
                         <strong>Sort By Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
                             <input type="radio" class="btn-check" name="priceOrder" id="HighToLow" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="HighToLow"> High to Low</label>
+                            <label class="btn btn-outline-primary btn-sm" for="HighToLow"> High to Low</label>
                             <input type="radio" class="btn-check" name="priceOrder" id="LowToHigh" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="LowToHigh"> Low to High</label>
+                            <label class="btn btn-outline-primary btn-sm" for="LowToHigh"> Low to High</label>
                         </div>
                     </div>
                 </div>
@@ -232,15 +232,15 @@
                             <strong>Price Range Slider</strong>
                         </div>
                     </div>
-                    <div class="price-input-container pl-3">
+                    <div class="price-input-container ">
                         <div class="price-input row-12 justify-content-center d-block">
                             <div class="price-field col-5 d-inline">
-                                <span>Min. Price</span>
-                                <input type="number" name="MinPrice" id="MinPrice" class="min-input w-75 form-control" value="2500">
-                            </div>
+                                <span>From</span>
+                                <input type="number" name="MinPrice" id="MinPrice" class="min-input w-50 form-control-sm" value="2500">
+                            </div><br>
                             <div class="price-field col-5 d-inline">
-                                <span>Max. Price</span>
-                                <input type="number" name="MaxPrice" id="MaxPrice" class="max-input w-75 form-control" value="8500">
+                                <span>to</span>
+                                <input type="number" name="MaxPrice" id="MaxPrice" class="max-input w-50 form-control-sm" value="8500">
                             </div>
                         </div>
                         <div class="slider-container">
@@ -252,8 +252,8 @@
                             </div>
                         </div>
                         <div class="row g-2 mt-2">
-                            <button type="submit" class="btn btn-outline-success col-5 m-1" id="applyFil">Apply</button>
-                            <button type="button" class="btn btn-outline-danger col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear</button>
+                            <button type="submit" class="btn btn-outline-success btn-sm col-5 m-1" id="applyFil">Apply</button>
+                            <button type="button" class="btn btn-outline-danger btn-sm col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear</button>
                         </div>
                     </div>
                 </div>
