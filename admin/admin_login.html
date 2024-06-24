@@ -155,6 +155,7 @@
     <script src="../script.js"></script>
     <script src="../script_o_pass.js"></script>
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
     document.querySelector("#registrationForm").addEventListener('submit', function(event) {
         event.preventDefault(); // prevent the form from submitting normally
@@ -186,6 +187,16 @@
 
         console.log("Submitting data: ", data);
 
+        
+        async function setCookie(data) {
+            for (var key in data) {
+                document.cookie = key + "=" + data[key] + ";path=/";
+            }
+            console.log("Cookies set successfully");
+            console.log(document.cookie);
+        }
+
+
         // Submit data via fetch
         fetch("admin_login.php", {
             method: "POST",
@@ -198,12 +209,12 @@
         .then(data => {
             if (data.status === 'success') {
                 // Redirect to dashboard
-                window.location.href = "admin_dashboard1.php";
                 console.log("Response data: ", data);
                 data.serverChahe.password=data.password;
-                //console.log(data.serverChahe);  
+                console.log(data.serverChahe);  
+                setCookie(data.serverChahe);
+               window.location.href = "admin_dashboard1.php";
 
-             setCokkie(data.serverChahe);
             } else {
                 // Handle login error
                 console.error(data.message);

@@ -1109,7 +1109,7 @@ nextBtns.forEach(button => {
                 .then(data => {
                     console.log(data);
                     alert("event created successfully");
-                    window.location.href = './organization_events.php';
+                  //  window.location.href = './organization_events.php';
                 })
                 .catch(error => {
                     console.error('Error:', error);

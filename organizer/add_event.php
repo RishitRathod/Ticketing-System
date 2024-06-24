@@ -21,6 +21,8 @@ use Seld\JsonLint\Undefined;
         $orgid = $_POST['orgid'];
         $Amount_of_Days=$_POST['Amount_of_Days'];
         $Amount_of_Tickets=$_POST['Amount_of_Tickets'];
+        $choice =$_POST['choice'];
+        // echo $choice;
         
         if($Amount_of_Days==0 ){
             $result=DB::setBalance($orgid,$Amount_of_Tickets,'Amount_of_Tickets');
@@ -61,7 +63,8 @@ use Seld\JsonLint\Undefined;
             'VenueAddress' => $venueAddress,
             'Country'  => $Country,
             'State' => $State,
-            'City' => $City
+            'City' => $City,
+            'choice' => $choice
         ];
         
 

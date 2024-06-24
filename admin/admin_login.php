@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'serverChahe' => $sessiondata,
                 'password' => $data['Password']
             ]);
+            
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         }
