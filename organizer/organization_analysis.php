@@ -1,3 +1,6 @@
+<head>
+    <title> Analysis </title>
+</head>
 <?php
     include 'navhead.php';
 ?>

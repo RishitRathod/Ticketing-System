@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Current Packages</title>
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> -->
 
     <style>
@@ -12,7 +12,7 @@
 
         /* Customize table header */
         thead {
-        background-color: #8341fe;
+        background-color: #0d004d;
         color: #fff;
         padding: 2px;
         }
@@ -105,9 +105,6 @@
             background: none;
 
         }
-        .alert{
-
-        }
         /* #table-Div #buyButton{
             position: fixed;
             right: 0%;
@@ -149,8 +146,7 @@
             </fieldset>
         </div>
     </div>
-</div>
-    <div id="table-Div" class="container buyPack overflow-auto">
+    <div id="table-Div" class="container row buyPack overflow-auto">
         <fieldset>
         <legend><h3>Available Packages</h3></legend>
             <table id="packageTable" class="table table-striped table-bordered">
@@ -171,9 +167,10 @@
             </table>
         </fieldset>
         <div class="row justify-content-center">
-            <button id="buyButton"  class="btn col-3 btn-primary position-absolute bottom-1 my-3 ">Buy Selected Packages</button>
+            <button id="buyButton"  class="btn col-2 btn-primary position-fixed bottom-0 my-3 ">Buy Selected Packages</button>
         </div>
     </div>
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

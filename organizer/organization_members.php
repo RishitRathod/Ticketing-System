@@ -1,3 +1,6 @@
+<head>
+    <title> Org. Members</title>
+</head>
 <?php
     include 'navhead.php';
 ?>

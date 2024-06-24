@@ -6,13 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Ticketing System</title>
+    <title>Event's Members</title>
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
-        .container{
-            background-color: #fff;
-        }
+
         .container img{
             height: 100px;
             width: 100px;
@@ -29,6 +27,20 @@
             margin: 5px;
             padding: 10px;
             border-radius: 20px;
+            left:0;
+            right:0;
+            width:100%;
+            min-width: 235px;
+            background-color: #e0dee3;
+        }
+        .quan{
+            margin: 5px;
+            padding: 10px;
+            border-radius: 20px;
+            left:0;
+            right:0;
+            width:fit-content;
+            min-width: 235px;
             background-color: #e0dee3;
         }
 
@@ -89,12 +101,12 @@
             ticketsContainer.innerHTML = ''; // Clear previous tickets  
             users.forEach(user => {
             const ticketElement = document.createElement('div');
-            ticketElement.className = 'container p-2';
+            ticketElement.className = 'container';
 
             const ticketContent = `
 
                 <div class="d-flex flex-column">
-                    <div class="row justify-content-evenly"><h5>User</h5>
+                    <div class="row justify-content-evenly d-flex flex-row"><h5 class="col-auto mx-auto">User</h5>
                         <div class="col-auto mx-auto">                        
                             <div class="card-text tagDetails"><strong class="tagName"> User Name </strong> ${user.Username}</div>
                         </div>
@@ -106,28 +118,33 @@
                         </div>
                     </div>
                     <div class="row justify-content-evenly d-flex flex-row"> <h5>Ticket Details</h5>
-                        <img src="${user.TicketQRCode}" class="img-fluid col-auto" alt="QR Code">
+                        <div class="col-auto justify-content-center">
+                            <img src="${user.TicketQRCode}" class="col-auto mx-5" style="height:100px; width:100px;"alt="QR Code">
+                            <div class="card-text quan"><strong class="tagName"> Quantity </strong> ${user.Quantity}</div>
+                        </div>
                         <div class="col-auto">
                             <div class="card-text tagDetails"><strong class="tagName">Date </strong>${ new Date(user.EventDate).toLocaleDateString('en-GB')}</div>
                             <div class="card-text tagDetails"><strong class="tagName">Purchase Date </strong> ${ new Date(user.PurchaseDate).toLocaleDateString('en-GB')}</div>
+                            <div class="card-text tagDetails"><strong class="tagName">Ticket Type </strong> ${user.TicketType}</div>
                         </div>
                         <div class="col-auto">                        
-                                <div class="card-text tagDetails"><strong class="tagName">Ticket Type </strong> ${user.TicketType}</div>
-                                <div class="card-text tagDetails"><strong class="tagName"> Quantity </strong> ${user.Quantity}</div>
+                        <div class="card-text col-auto tagDetails"><strong class="tagName"> Buyer </strong> ${user.BuyerName}</div>
+                                <div class="card-text tagDetails"><strong class="tagName"> Buyer Email </strong> ${user.BuyerEmail}</div>
+                            <div class="card-text tagDetails"><strong class="tagName"> Buyer Contact No. </strong> ${user.BuyerPhone}</div>
+
+
                         </div>
-                        <div class="row justify-content-evenly m-1">                        
-                            <div class="card-text col-auto tagDetails"><strong class="tagName"> Buyer </strong> ${user.BuyerName}</div>
-                            <div class="card-text col-auto tagDetails"><strong class="tagName"> Buyer Email </strong> ${user.BuyerEmail}</div>
-                            <div class="card-text col-auto tagDetails"><strong class="tagName"> Buyer Contact No. </strong> ${user.BuyerPhone}</div>
+                        <div class="row m-1">                        
+
                         </div>
                     </div>
                     <div class="row"> 
                     <h5 class="col-auto fs-5 my-auto">Entry Data</h5>
                         <div class="col-5 mx-auto">                        
-                            <div class="card-text tagDetails"><strong class="tagName">Entry Time </strong> ${user.EntryTime}</div>
+                            <div class="card-text tagDetails"><strong class="tagName">Entry Time </strong> ${user.EntryTime ? user.EntryTime : 'N/A' }</div>
                         </div>
                         <div class="col-5 mx-auto">                        
-                            <div class="card-text tagDetails"><strong class="tagName"> Exit timed </strong> ${user.EntryTime}</div>
+                            <div class="card-text tagDetails"><strong class="tagName"> Exit timed </strong> ${user.ExitTime ? user.ExitTime : 'N/A'}</div>
                         </div>
                     </div>
                 </div>
