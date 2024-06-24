@@ -10,12 +10,26 @@ require_once 'admin_headnav.php';
             padding: 0.5vmax;
             background-color: #2a0275;
             color:aliceblue; 
+            width: max-content;
+
         }
         .tagDetails{
             background-color: #e0dee3;
+            width: 100%;
+            left: 0;
+            right: 0;
+            min-width:200px;
+        }
+        .date{
+            background-color: #e0dee3;
+            width: max-content;
+            left: 0;
+            right: 0;
+            min-width:200px;
         }
         .card-header{
             background-color: #2a0275;
+            width: max-content;
             color:aliceblue;
         }
         .ct{
@@ -214,38 +228,37 @@ function displayEventAttendees(data) {
 
         eventData.forEach(event => {
             let eventDetailsHTML = `
-                <div class="card">
-                    <div class="card-body">
-                    <div class="row justify-content-evenly">
-                        <h3 class="card-title">${event.EventName}</h3>
-                        <div class="card-text m-2 p-2 col tagDetails"><strong class="tagName">Organization Name</strong> ${event.OrgName}</div>
-                        <div class="card-text m-2 p-2 col tagDetails"><strong class="tagName">Capacity</strong> ${event.Capacity}</div>
-                        <div class="card-text m-2 p-2 col tagDetails"><strong class="tagName">Event Type</strong> ${event.EventType}</div>
-                        <div class="row g-0">
-                            <div class="card-text m-2 p-2 tagDetails"><strong class="tagName">Description</strong> ${event.Description}</div>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-5 fs-3">${event.EventName}</div>
+                        <div class="m-3 p-0 col-3 date"><strong class="tagName">Start Date</strong> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
+                        <div class="m-3 p-0 col-3 date"><strong class="tagName">End Date</strong> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
+                    </div>
+                    <div class="col-5 justify-content-evenly">
+                        <div class="my-3 tagDetails"><strong class="tagName">Organization Name</strong> ${event.OrgName}</div>
+                        <div class="my-3 tagDetails"><strong class="tagName">Capacity</strong> ${event.Capacity}</div>
+                        <div class="my-3 tagDetails"><strong class="tagName">Event Type</strong> ${event.EventType}</div>
+                        <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Description</strong> ${event.Description}</div>
+                    </div>
+                    <div class="col-6 row p-0 m-0 justify-content-evenly"><li class="p-0 m-0 fs-5">Address</li>
+                        <div class="col-5  p-0 m-0 ">
+                            <div class="my-3 tagDetails"><strong class="tagName" >Country</strong> ${event.Country}</div>
+                            <div class="my-3 tagDetails"><strong class="tagName" >State</strong> ${event.State}</div>
+                            <div class="my-3 tagDetails"><strong class="tagName" >City</strong> ${event.City}</div>
+                        </div>
+                        <div class="col-6  p-0 m-0 ">
+                            <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Venue Address</strong> ${event.VenueAddress}</div>
                         </div>
                     </div>
-                    <div class="row p-2">
-                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">Start Date</strong> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
-                        <div class="col-auto m-2 p-2 card-text tagDetails"><strong class="tagName">End Date</strong> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
-                    </div>
-                    <fieldset><legend>Address</legend>
-                        <div class="row justify-content-evenly">
-                            <div class="card-text m-2 p-2 tagDetails"><strong class="tagName">Venue Address</strong> ${event.VenueAddress}</div>
-                            <div class="card-text col m-2 p-2 tagDetails"><strong class="tagName" >Country</strong> ${event.Country}</div>
-                            <div class="card-text col m-2 p-2 tagDetails"><strong class="tagName" >State</strong> ${event.State}</div>
-                            <div class="card-text col m-2 p-2 tagDetails"><strong class="tagName" >City</strong> ${event.City}</div>
-                        </div>
-                    </fieldset>
                     <div>
                         <fieldset><legend>Posters</legend>
-                        <div class="d-block">`;
+                        <div class="d-inline overflow-x">`;
 
             event.Posters.forEach(poster => {
                 eventDetailsHTML += `
-                    <div class=" d-inline-block m-2 border-none overflow-x">
-                        <img src="${poster}" class="img-thumbnail img-fluid" style="max-width: 200px; max-height: 200px;">
-                    </div>`;
+                        <div class=" d-inline-block m-2 border-none overflow-x">
+                            <img src="${poster}" class="img-thumbnail img-fluid" style="max-width: 200px; max-height: 200px;">
+                        </div>`;
             });
 
             eventDetailsHTML += `
@@ -256,17 +269,17 @@ function displayEventAttendees(data) {
 
             event.Tickets.forEach(ticket => {
                 eventDetailsHTML += `
-                    <div class="col">
+                    <div class="col-auto">
                         <div class="card">
-                        <div class="mb-1 card-header"><strong>Ticket Type:</strong> ${ticket.TicketType}</div>
-                        <div class="card-body g-0">
-                            <div class="mb-1"><strong>Quantity:</strong> ${ticket.Quantity}</div>
-                            <div class="mb-1"><strong>Limit Quantity:</strong> ${ticket.LimitQuantity}</div>
-                            <div class="mb-1"><strong>Discount:</strong> ${ticket.Discount}%</div>
-                            <div class="mb-1"><strong>Price:</strong> $${ticket.Price}</div>
-                        </div>
-                        </div>
-                    </div>`;
+                            <div class="mb-1 card-header"><strong>Ticket Type:</strong> ${ticket.TicketType}</div>
+                                <div class="card-body g-0">
+                                    <div class="mb-1"><strong>Quantity:</strong> ${ticket.Quantity}</div>
+                                    <div class="mb-1"><strong>Limit Quantity:</strong> ${ticket.LimitQuantity}</div>
+                                    <div class="mb-1"><strong>Discount:</strong> ${ticket.Discount}%</div>
+                                    <div class="mb-1"><strong>Price:</strong> $${ticket.Price}</div>
+                                </div>
+                            </div>
+                        </div>`;
             });
 
             eventDetailsHTML += `
@@ -276,7 +289,7 @@ function displayEventAttendees(data) {
 
             event.TimeSlots.forEach(slot => {
                 eventDetailsHTML += `
-                    <div class="col">
+                    <div class="col-auto">
                         <div class="card">
                         <div class="card-body row g-0">
                             <div class="col-auto"><strong>Start Time:</strong> ${slot.StartTime}</div> 
