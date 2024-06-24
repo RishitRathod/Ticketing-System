@@ -518,11 +518,59 @@ public function DeleteEventPoster($EventID,$pathwithName){
 }
 
 
+/**
+ * Fetches all events from the database based on the organization ID.
+ * 
+ * @param int $OrgID The organization ID to filter events by.
+ * @return array|bool|null|string  An array of events matching the organization ID, or an error message if the query fails.
+ * @throws PDOException If there is an error with the database operation.
+ */
+public function GetTicketSumByEventID($EventID){
+    try{
+        // Modified SQL without extra quotes around TicketType
+        $sql = "SELECT 
+        SUM(t.Quantity) AS TotalTickets, 
+        GROUP_CONCAT(DISTINCT CONCAT(
+            t.TicketType, ':', t.Availability
+        ) SEPARATOR ',') AS TicketAvailability
+    FROM 
+        {$this->TicketTable} t
+    WHERE    
+        t.EventID = :EventID";
+     $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+     $stmt->execute();
+     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+     if ($result) {
+         // Process TicketAvailability directly without adding/removing quotes
+         $ticketAvailabilityArray = array();
+         foreach (explode(',', $result['TicketAvailability']) as $item) {
+             list($key, $value) = explode(':', $item);
+             $ticketAvailabilityArray[$key] = (int)$value;
+         }
+ 
+         // Encode to JSON without escaping slashes or Unicode characters
+         $jsonString = json_encode([
+             'TotalTickets' => $result['TotalTickets'],
+             'TicketAvailability' => $ticketAvailabilityArray
+         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+ 
+         return $jsonString;
+     }
+     
+    }catch(PDOException $e){
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
+
+
 }
 
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 // $Event = new Events($conn->connection());
-// $events = $Event->GetRegisterUsersForEvent(241);
+// $events = $Event->GetTicketSumByEventID(241);
 // echo json_encode($events);
 
 ?>

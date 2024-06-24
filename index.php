@@ -224,6 +224,16 @@ class DB
         return $Events->DeleteEventPoster($EventID,$pathwithName);
     }
 
+    static function GetTicketSumByEventID($EventID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->GetTicketSumByEventID($EventID);
+    }
+
      static function validatePackage($PackageID,$OrgID){
         $host = DB_HOST;
         $user = DB_USER;
