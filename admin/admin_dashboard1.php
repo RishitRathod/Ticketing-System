@@ -17,7 +17,7 @@ include 'admin_headnav.php';
 <form id="viewUserForm" action="view_user.php" method="post" style="display: none;">
     <input type="hidden" name="UserID">
 </form>
-<div id="MessageContainer"></div>
+<div class="loader"></div>
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
         <button type="button" id="organizations" value="organizations" class="btn themecol no-sort" onclick="orgonly(this)">Organizations</button>
@@ -170,6 +170,7 @@ include 'admin_headnav.php';
             }
 
             const data = await fetchData(value);
+
             populateTable(data, value);
         });
     });
@@ -267,18 +268,24 @@ if (tableId) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId}`)
-    // .on( 'draw.dt', function () {
-    //         console.log( 'Loading' );
-    //       //Here show the loader.
-    //        $("#MessageContainer").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
-    //     } )
-    //     .on( 'init.dt', function () {
-    //         console.log( 'Loaded' );
-    //        //Here hide the loader.
-    //          $("#MessageContainer").html("Your Message while load Complete");
-    //     } )
+    .on( 'draw.dt', function () {
+            console.log( 'Loading' );
+          //Here show the loader.
+          document.querySelector(".loader").style.display = "block";
+
+           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+        } )
+        .on( 'init.dt', function () {
+            console.log( 'Loaded' );
+           //Here hide the loader.
+                document.querySelector(".loader").style.display = "none";
+                $(".loader").html("");
+                // document.querySelector(".loader").remove();
+        } )
+      
         .DataTable({
-       
+        //    "ServerSide": true,
+
         "processing": true,
         "retrieve": true,
           "responsive": true,
@@ -305,23 +312,29 @@ if (tableId2) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId2}`)
-    // .on( 'draw.dt', function () {
-    //         console.log( 'Loading' );
-    //       //Here show the loader.
-    //        $("#MessageContainer").html("Your Message while loading");
-    //        $("#MessageContainer").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+    .on( 'draw.dt', function () {
+            console.log( 'Loading' );
+          //Here show the loader.
+        //    $(".loader").html("Your Message while loading");
+        document.querySelector(".loader").style.display = "none";
 
-    //     } )
-    //     .on( 'init.dt', function () {
-    //         console.log( 'Loaded' );
-    //        //Here hide the loader.
-    //          $("#MessageContainer").html("Your Message while load Complete");
-    //     } )
+           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+
+        } )
+        .on( 'init.dt', function () {
+            console.log( 'Loaded' );
+           //Here hide the loader.
+
+           document.querySelector(".loader").style.display = "none";
+                $(".loader").html("");
+                // document.querySelector(".loader").remove();
+        } )
         .DataTable({
         
         "processing": true,
         "retrieve": true,
-        
+       // "ServerSide": true,
+
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
         "destroy": true, // Added to reinitialize DataTable
@@ -347,23 +360,27 @@ if (tableId3) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId3}`) 
-    // .on( 'draw.dt', function () {
-    //         console.log( 'Loading' );
-    //       //Here show the loader.
-    //        $("#MessageContainer").html("Your Message while loading");
-    //        $("#MessageContainer").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+    .on( 'draw.dt', function () {
+            console.log( 'Loading' );
+          //Here show the loader.
+        //    $(".loader").html("Your Message while loading");
+        document.querySelector(".loader").style.display = "none";
 
-    //     } )
-    //     .on( 'init.dt', function () {
-    //         console.log( 'Loaded' );
-    //        //Here hide the loader.
-    //          $("#MessageContainer").html("Your Message while load Complete");
-    //     } )
+           $(".loader").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+
+        } )
+        .on( 'init.dt', function () {
+            console.log( 'Loaded' );
+           //Here hide the loader.
+                document.querySelector(".loader").style.display = "none";
+                $(".loader").html("");
+                // document.querySelector(".loader").remove();
+        } )
         .DataTable({
        
         "processing": true,
         "retrieve": true,
-        "ServerSide": true,
+        //"ServerSide": true,
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
         "destroy": true, // Added to reinitialize DataTable
@@ -381,6 +398,7 @@ if (tableId3) {
         "language": {
                     "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
                 }
+                
     });
 }
 
