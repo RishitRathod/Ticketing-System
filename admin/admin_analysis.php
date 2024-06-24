@@ -1,7 +1,10 @@
+<head>
+    <title>Analysis</title>
+</head>
 <?php
     include 'admin_headnav.php';
 ?>
-Analysis
+
 <?php
     include 'adJS.php';
 ?>

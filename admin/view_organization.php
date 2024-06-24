@@ -1,7 +1,6 @@
-<?php
-require_once 'admin_headnav.php';
-?>
-<style>
+<head>
+    <title>Organization Details</title>
+    <style>
     .btn-group .btn {
         border: 1px solid #8341fe;
     }
@@ -29,6 +28,11 @@ require_once 'admin_headnav.php';
     }
 
 </style>
+</head>
+<?php
+require_once 'admin_headnav.php';
+?>
+
 
 <div class="container mt-2 row justify-content-center">
     <div class="btn-group mx-auto col mb-4">

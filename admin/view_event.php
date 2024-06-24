@@ -1,3 +1,6 @@
+<head>
+    <title>Event Details</title>
+</head>
 <?php
 require_once 'admin_headnav.php';
 ?>

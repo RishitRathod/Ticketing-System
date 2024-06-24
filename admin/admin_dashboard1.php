@@ -1,3 +1,6 @@
+<head>
+    <title>Dashboard</title>
+</head>
 <?php
 include 'admin_headnav.php';
 ?>
