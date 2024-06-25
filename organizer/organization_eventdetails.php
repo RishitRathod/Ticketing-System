@@ -114,12 +114,6 @@
         function populateEvents(events) {
             const eventsRow = document.querySelector('#eventsRow');
 
-            // if (!Array.isArray(events)) {
-            //     console.error('Expected an array but got:', events);
-            //     return;
-            // }
-
-
             // Convert sets to arrays
             const posterItems = events.Posters.map(poster => `
             <img src="${poster}" class="img-fluid m-2" alt="Event Poster">

@@ -97,15 +97,25 @@
             }
         }
 
+        function hideLogin(){
+            document.querySelector('#login').style.display = 'none';
+            document.querySelector('#profile').style.display = 'block';
+            console.log('Cookie with key "role" and value "user" exists.');
+        }
+
+        function hideProfile(){
+            document.querySelector('#profile').style.display = 'none';
+            document.querySelector('#myEvents').style.display = 'none';
+            document.querySelector('#myTickets').style.display = 'none'; // Corrected typo from 'myTicekts' to 'myTickets'
+            document.querySelector('#login').style.display = 'block';
+            console.log('Cookie with key "role" and value "user" does not exist.');
+        }
         async function initialize() {
-            if (isUserLoggedIn()) {
-                        document.getElementById('login').style.display = 'none';
-                        document.getElementById('profile').style.display = 'block';
-                    } else {
-                        document.getElementById('login').style.display = 'block';
-                        document.getElementById('profile').style.display = 'none';
-                    }
-                
+            if (checkCookie('role', 'user')) {
+                hideLogin();
+    } else {
+            hideprofile();
+    }
             const value = 'events';
             const data = await fetchData(value);
             populateEvents(data);
@@ -190,26 +200,6 @@
                 eventsRow.appendChild(eventCard);
             });
         }
-        function isUserLoggedIn() {
-       const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-        for (const cookie of cookies) {
-        if (cookie.startsWith('role=')) {
-            console.log("User is logged in");
-            return true;
-        }
-         }
-    console.log("User is not logged in");
-    return false;
-}
-               window.onload = function() {
-                    if (isUserLoggedIn()) {
-                        document.getElementById('login').style.display = 'none';
-                        document.getElementById('profile').style.display = 'block';
-                    } else {
-                        document.getElementById('login').style.display = 'block';
-                        document.getElementById('profile').style.display = 'none';
-                    }
-                }
                 // function setActiveLink() {
                 //     // Get the current path
                 //     var currentPath = window.location.pathname;

@@ -45,7 +45,7 @@ function selectByJoin($EventID) {
                   FROM events e 
                   left JOIN eventposter ep ON e.EventID = ep.EventID
                   left JOIN timeslots ts ON e.EventID = ts.EventID
-                  left JOIN tickets tsale ON e.EventID = tsale.EventID
+                  left JOIN tickets tsale ON e.EventID = tsale.EventID 
                   WHERE e.EventID = :EventID"; // Specify the table alias for EventID
 
         $stmt = $conn->prepare($query);

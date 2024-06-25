@@ -186,33 +186,90 @@
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             
             
-            <script src="../script.js"></script>
+            <!-- <script src="../script.js"></script> -->
             <script>
-                function isUserLoggedIn() {
-       const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-        for (const cookie of cookies) {
-        if (cookie.startsWith('role=')) {
-            console.log("User is logged in");
-            return true;
+
+ function checkCookie(key, value) {
+    // Get all cookies
+    const cookies = document.cookie.split(';');
+
+    // Iterate over cookies
+    for (let i = 0; i < cookies.length; i++) {
+        // Get the current cookie and trim any leading spaces
+        let cookie = cookies[i].trim();
+
+        // Check if the cookie starts with the key we're looking for
+        if (cookie.startsWith(key + '=')) {
+            // Get the cookie value
+            let cookieValue = cookie.substring((key + '=').length);
+
+            // Check if the cookie value matches the specified value
+            if (cookieValue === value) {
+                return true;
+            }
         }
-         }
-    console.log("User is not logged in");
-    
+    }
+
+    // Return false if the key-value pair was not found
     return false;
 }
-               window.onload = function() {
-                    if (isUserLoggedIn()) {
-                        document.getElementById('login').style.display = 'none';
-                        document.getElementById('profile').style.display = 'block';
-                       
-                    } else {
-                        document.getElementById('login').style.display = 'block';
-                        document.getElementById('profile').style.display = 'none';
-                        document.getElementById('myEvents').style.display='none';
-                        document.getElementById('myTicekts').style.display='none';
 
-                    }
-                }
+// Usage example:
+// if (checkCookie('role', 'user')) {
+//     document.getElementById('login').style.display = 'none';
+//     document.getElementById('profile').style.display = 'block';
+//     console.log('Cookie with key "username" and value "JohnDoe" exists.');
+// } else {
+//     console.log('Cookie with key "role" and value "user" does not exist.');
+    
+//     document.getElementById('profile').style.display = 'none';
+//     document.getElementById('myEvents').style.display='none';
+//     document.getElementById('myTicekts').style.display='none';
+//     document.getElementById('login').style.display = 'block';
+// }
+
+// window.onload = function() {
+//     if (checkCookie('role', 'user')) {
+        
+//         document.getElementById('login').style.display = 'none';
+//         document.getElementById('profile').style.display = 'block';
+//         console.log('Cookie with key "role" and value "user" exists.');
+//     } else {
+//         console.log('Cookie with key "role" and value "user" does not exist.');
+        
+//         document.getElementById('profile').style.display = 'none';
+//         document.getElementById('myEvents').style.display='none';
+//         document.getElementById('myTicekts').style.display='none';
+//         document.getElementById('login').style.display = 'block';
+//     }
+// };
+
+
+//                 function isUserLoggedIn() {
+//        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+//         for (const cookie of cookies) {
+//         if (cookie.startsWith('role=user')) {
+//             console.log("User is logged in");
+//             return true;
+//         }
+//          }
+//     console.log("User is not logged in");
+    
+//     return false;
+// }
+//                 document.addEventListener('DOMContentLoaded', function() {
+//                     if (isUserLoggedIn()===true) {
+//                         document.getElementById('login').style.display = 'none';
+//                         document.getElementById('profile').style.display = 'block';
+                       
+//                     } else {
+//                         document.getElementById('profile').style.display = 'none';
+//                         document.getElementById('myEvents').style.display='none';
+//                         document.getElementById('myTicekts').style.display='none';
+//                         document.getElementById('login').style.display = 'block';
+                        
+//                     }
+//                 });
                 function setActiveLink() {
                     // Get the current path
                     var currentPath = window.location.pathname;
