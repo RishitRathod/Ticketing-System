@@ -79,12 +79,12 @@
                 const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
                 console.log(EventID);
 
-                const response = await fetch("organization_viewdetails_backend.php", {
+                const response = await fetch("../fetchEvents.php", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ tableName: tableName, EventID: EventID }),
+                    body: JSON.stringify({ EventID: EventID, action : "FetchEventDetailsByEventID" }),
                 });
 
                 if (!response.ok) {
@@ -93,8 +93,8 @@
 
                 const result = await response.json();
                 if (result.status === 'success') {
-                    console.log(result.data);
-                    return result.data;
+                    console.log(result);
+                    return result[0];
                 } else {
                     console.error('Error:', result.message);
                     return [];
@@ -114,76 +114,38 @@
         function populateEvents(events) {
             const eventsRow = document.querySelector('#eventsRow');
 
-            if (!Array.isArray(events)) {
-                console.error('Expected an array but got:', events);
-                return;
-            }
+            // if (!Array.isArray(events)) {
+            //     console.error('Expected an array but got:', events);
+            //     return;
+            // }
 
-            const uniqueEvents = events.reduce((acc, event) => {
-                if (!acc[event.EventID]) {
-                    acc[event.EventID] = {
-                        ...event,
-                        posters: new Set([event.poster]),
-                        timeSlots: new Map([[event.TimeSlotID, {
-                            TimeSlotID: event.TimeSlotID,
-                            StartTime: event.StartTime,
-                            EndTime: event.EndTime,
-                            Availability: event.Availability
-                        }]]),
-                        tickets: new Map([[`${event.TicketID}-${event.TicketType}`, {
-                            TicketID: event.TicketID,
-                            TicketType: event.TicketType,
-                            Quantity: event.Quantity,
-                            LimitQuantity: event.LimitQuantity,
-                            Discount: event.Discount,
-                            Price: event.Price
-                        }]])
-                    };
-                } else {
-                    acc[event.EventID].posters.add(event.poster);
-                    acc[event.EventID].timeSlots.set(event.TimeSlotID, {
-                        TimeSlotID: event.TimeSlotID,
-                        StartTime: event.StartTime,
-                        EndTime: event.EndTime,
-                        Availability: event.Availability
-                    });
-                    acc[event.EventID].tickets.set(`${event.TicketID}-${event.TicketType}`, {
-                        TicketID: event.TicketID,
-                        TicketType: event.TicketType,
-                        Quantity: event.Quantity,
-                        LimitQuantity: event.LimitQuantity,
-                        Discount: event.Discount,
-                        Price: event.Price
-                    });
-                }
-                return acc;
-            }, {});
 
             // Convert sets to arrays
-            Object.keys(uniqueEvents).forEach(eventID => {
-                uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
-                uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots.values());
-                uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets.values());
-            });
+            const posterItems = events.Posters.map(poster => `
+            <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
+        `).join('');
 
-            console.log(uniqueEvents);
+        // Generate HTML for time slots
+        const timeSlotsList = events.TimeSlots.map(slot => `
+            <li>${slot.SlotDate} (${slot.StartTime} - ${slot.EndTime}) - ${slot.Availability} slots</li>
+        `).join('');
+
+        // Generate HTML for tickets
+        const ticketsList = events.Tickets.map(ticket => `
+            <li>${ticket.TicketType}: ${ticket.Quantity} available - $${ticket.Price}</li>
+        `).join('');
+
+        // Create event card element
+        const eventCard = document.createElement('div');
+        eventCard.classList.add('col-12');
+
 
             eventsRow.innerHTML = '';
-Object.values(uniqueEvents).forEach((event) => {
+Object.values(events ).forEach((event) => {
     const eventCard = document.createElement('div');
     eventCard.classList.add('col-12');
 
-    const posterItems = event.posters.map(poster => `
-        <img src="${poster}" class="event-poster img-fluid g-0" alt="Event Poster">
-    `).join('');
 
-    const ticketsList = event.tickets.map(ticket => `
-        <li><span class="card-text"><strong>TicketType:</strong> ${ticket.TicketType}   , <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
-    `).join('');
-
-    const timeSlotsList = event.timeSlots.map(slot => `
-        <li><span class="card-text"> <strong>From:</strong> ${slot.StartTime} - <strong>To:</strong> ${slot.EndTime}, <strong>Availability:</strong> ${event.Capacity}</span> </li>
-    `).join('');
 
     eventCard.innerHTML = `
         <div class="event-card ">
