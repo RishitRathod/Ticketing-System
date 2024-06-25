@@ -2,19 +2,25 @@
     <title>Dashboard</title>
     <style>
         .loader {
-            display: none; /* Initially hide the loader */
+            display: none; 
+            width: 70px;
+            height: 70px;
             position: fixed;
             left: 50%;
+            right: 50%;
             top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
+            border: 12px solid gray;
+            border-top: 10px solid #8341fe;
+            border-radius: 50px;
+            /* transform: translate(-50%, -50%); */
+            z-index: 999;
+            animation: spin 0.5s linear infinite;
         }
     </style>
 </head>
 <?php
 include 'admin_headnav.php';
 ?>
-
 
 <form id="viewOrganizationForm" action="view_organization.php" method="post" style="display: none;">
     <input type="hidden" name="OrgID">
@@ -28,7 +34,7 @@ include 'admin_headnav.php';
     <input type="hidden" name="UserID">
 </form>
 <div class="loader">
-<i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
+    <i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
 </div>
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
@@ -116,7 +122,8 @@ function showLoader() {
 function hideLoader() {
     document.querySelector('.loader').style.display = 'none';
 }
-
+    let con1, con2 = true
+    let con3 = true;
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -136,12 +143,16 @@ function hideLoader() {
             });
             clickedButton.classList.add('active-button');
     }
-
+    
     function orgonly(button) {
         document.getElementById('a').style.display = 'block';
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'none';
         updateButtonStyles(button);
+        if(con1){
+            showLoader();
+            con1=false;
+        }
     }
 
     function useronly(button) {
@@ -149,6 +160,10 @@ function hideLoader() {
         document.getElementById('b').style.display = 'block';
         document.getElementById('c').style.display = 'none';
         updateButtonStyles(button);
+        if(con2){
+            showLoader();
+            con2=false;
+        }
 
     }
 
@@ -157,6 +172,10 @@ function hideLoader() {
         document.getElementById('b').style.display = 'none';
         document.getElementById('c').style.display = 'block';
         updateButtonStyles(button);
+        if(con3){
+            showLoader();
+            con3=false;
+        }
     }
 
     let currentTableName = '';
@@ -292,10 +311,12 @@ if (tableId) {
     $(`#${tableId}`)
     .on('draw.dt', function () {
             console.log('Loading');
+            // $('.loader').show();
             showLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
+            // $('.loader').hide();
             hideLoader();
         })
         .DataTable({
@@ -329,10 +350,12 @@ if (tableId2) {
     $(`#${tableId2}`)
     .on('draw.dt', function () {
             console.log('Loading');
+            // $('.loader').show();
             showLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
+            // $('.loader').hide();
             hideLoader();
         })
         .DataTable({
@@ -368,10 +391,12 @@ if (tableId3) {
     $(`#${tableId3}`) 
     .on('draw.dt', function () {
             console.log('Loading');
+            // $('.loader').show();
             showLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
+            // $('.loader').hide();
             hideLoader();
         })
         .DataTable({
