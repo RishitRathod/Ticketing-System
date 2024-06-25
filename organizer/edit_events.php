@@ -185,11 +185,11 @@ function isUserLoggedIn() {
                                         <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required>
                                         <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
                                     </div>
-                                    <div class="col-auto">
-                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required>
-                                        <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
-                                    </div> -->
-                                    <div class="invalid-feedback">Select a Package type</div>
+                                    <div class="col-auto"> -->
+                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required hidden checked>
+                                        <!-- <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+                                    </div>
+                                    <div class="invalid-feedback">Select a Package type</div> -->
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
                                     <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
@@ -427,6 +427,8 @@ function previewImage(event) {
     event.target.files = dataTransfer.files;
 }
 
+
+
 var keptcapacity =0;
         async function fetchData(tableName) {
             try {
@@ -464,6 +466,7 @@ var keptcapacity =0;
                 const data = await fetchData(value);
                 populateEvents(data);
             }
+            
 
         function populateEvents(events) {
             // const eventsRow = document.querySelector('#eventsRow');
@@ -539,16 +542,42 @@ var keptcapacity =0;
     document.getElementById('State').value = event.State;
     document.getElementById('City').value = event.City;
     document.getElementById('venueAddress').value = event.VenueAddress;
-    const abc = document.getElementById('abc');
-    abc.innerHTML += `<label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
-                        <div class="col-auto">
-                            <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required  ${event.choice === 'TicketBased' ?'checked':''} disabled>
-                            <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
-                        </div>
-                        <div class="col-auto">
-                            <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required  ${event.choice === 'TimeBased' ?'checked':''} disabled>
-                            <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
-                        </div>`;
+    // Function to calculate and update days difference
+    function calculateAndDisplayDaysDifference() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Calculate the difference in milliseconds
+                    const differenceInTime = end - start;
+
+                    // Convert milliseconds to days
+                    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+                    // Display the difference in days
+                    document.getElementById('dayDifference').innerText = `Number of days between dates: ${differenceInDays+1}`;
+                }
+            }
+
+            // Attach event listeners to date inputs
+            document.getElementById('startDate').addEventListener('change', calculateAndDisplayDaysDifference);
+            document.getElementById('endDate').addEventListener('change', calculateAndDisplayDaysDifference);
+
+            // Initialize dayDifference element
+            // document.getElementById('dayDifference').innerText = 'Select dates to calculate difference';
+    // const abc = document.getElementById('abc');
+    // abc.innerHTML += `<label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
+    //                     <div class="col-auto">
+    //                         <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required  ${event.choice === 'TicketBased' ?'checked':''} disabled>
+    //                         <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
+    //                      </div>
+    //                     <div class="col-auto">
+    //                         <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required  ${event.choice === 'TimeBased' ?'checked':''} disabled>
+    //                         <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+    //                     </div>`;
     
 //     document.querySelectorAll('input[name="choice"]').forEach(radio => {
  
@@ -607,6 +636,8 @@ var keptcapacity =0;
     });
 
    
+    calculateAndDisplayDaysDifference();
+
 
     const posterPreview = document.getElementById('posterPreview');
 posterPreview.innerHTML = ''; // Clear existing content once at the start
@@ -864,6 +895,41 @@ if (kk > capacity1) {
           
         }    
     
+        
+const validateStep = (currentStep, data) => {
+
+choice = document.querySelector('input[name="choice"]:checked').value;
+console.log("choice",choice);
+if (currentStep === 1 && choice === 'TimeBased') {
+    const startDate = new Date(document.getElementById('startDate').value);
+    const endDate = new Date(document.getElementById('endDate').value);
+    const totalDays = (endDate - startDate) / (1000 * 3600 * 24)+1;
+
+    
+
+    console.log("availble days",data.data[0].Amount_of_Days);
+    availbleDays=data.data[0].Amount_of_Days-totalDays;
+    console.log("availble days",availbleDays);
+    if(availbleDays<=0){
+        alert("Not Enough Balance Please Recharge!");
+        return false; 
+    }
+    return totalDays < data.data[0].Amount_of_Days;
+} else if (currentStep === 0 && choice === 'TicketBased') {
+    const capacity = parseInt(document.getElementById('capacity').value, 10);
+console.log("capacity",data.data[0].Amount_of_Tickets);
+    availbleTickets=data.data[0].Amount_of_Tickets-capacity;
+    if(availbleTickets<=0){
+        alert("Not Enough Balance Please Recharge");
+        return false; 
+    }
+    console.log("availble tickets",availbleTickets);
+    return capacity < data.data[0].Amount_of_Tickets;
+}
+
+return true; // Allow progression for steps other than 0 and 1
+};
+
     function validateForm0() {  
         if (document.getElementById('eventName').value === '') {
             alert('Please enter event name');
@@ -990,64 +1056,64 @@ for (let i = 0; i < startTimeInputs.length; i++) {
     }
     
     // Call this function after fetching data from populateEvents
-    document.addEventListener("DOMContentLoaded", function() {
-        fetch('../cascading.php') 
-            .then(response => response.json())
-            .then(data => {
-                const countrySel = document.getElementById("country");
-                const stateSel = document.getElementById("state");
-                const citySel = document.getElementById("city");
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     fetch('../cascading.php') 
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             const countrySel = document.getElementById("country");
+    //             const stateSel = document.getElementById("state");
+    //             const citySel = document.getElementById("city");
     
-                let countries = {};
-                let selectedCountry, selectedState;
+    //             let countries = {};
+    //             let selectedCountry, selectedState;
                 
         
     
-                data.forEach(item => {
-                    if (!countries[item.country]) {
-                        countries[item.country] = {};
-                    }
-                    if (!countries[item.country][item.state]) {
-                        countries[item.country][item.state] = [];
-                    }
-                    countries[item.country][item.state].push(item.city);
-                });
+    //             data.forEach(item => {
+    //                 if (!countries[item.country]) {
+    //                     countries[item.country] = {};
+    //                 }
+    //                 if (!countries[item.country][item.state]) {
+    //                     countries[item.country][item.state] = [];
+    //                 }
+    //                 countries[item.country][item.state].push(item.city);
+    //             });
     
-                for (let country in countries) {
-                    let option = new Option(country, country);
-                    countrySel.add(option);
-                }
+    //             for (let country in countries) {
+    //                 let option = new Option(country, country);
+    //                 countrySel.add(option);
+    //             }
     
-                countrySel.onchange = function() {
-                    stateSel.length = 1;
-                    citySel.length = 1;
-                    selectedCountry = this.value;
-                    if (selectedCountry && countries[selectedCountry]) {
-                        for (let state in countries[selectedCountry]) {
-                            let option = new Option(state, state);
-                            stateSel.add(option);
-                        }
-                    }
-                    // Call the function to set default values
-                    setDefaultDropdownValues(selectedCountry, null, null);
-                }
+    //             countrySel.onchange = function() {
+    //                 stateSel.length = 1;
+    //                 citySel.length = 1;
+    //                 selectedCountry = this.value;
+    //                 if (selectedCountry && countries[selectedCountry]) {
+    //                     for (let state in countries[selectedCountry]) {
+    //                         let option = new Option(state, state);
+    //                         stateSel.add(option);
+    //                     }
+    //                 }
+    //                 // Call the function to set default values
+    //                 setDefaultDropdownValues(selectedCountry, null, null);
+    //             }
     
-                stateSel.onchange = function() {
-                    citySel.length = 1;
-                    selectedState = this.value;
-                    if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
-                        countries[selectedCountry][selectedState].forEach(city => {
-                            let option = new Option(city, city);
-                            citySel.add(option);
-                        });
-                    }
-                    // Call the function to set default values
-                    setDefaultDropdownValues(selectedCountry, selectedState, null);
-                }
+    //             stateSel.onchange = function() {
+    //                 citySel.length = 1;
+    //                 selectedState = this.value;
+    //                 if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+    //                     countries[selectedCountry][selectedState].forEach(city => {
+    //                         let option = new Option(city, city);
+    //                         citySel.add(option);
+    //                     });
+    //                 }
+    //                 // Call the function to set default values
+    //                 setDefaultDropdownValues(selectedCountry, selectedState, null);
+    //             }
     
-                // Call the function to set default values with data from populateEvents
-            });
-    });
+    //             // Call the function to set default values with data from populateEvents
+    //         });
+    // });
     
         
              document.getElementById('orgid').value = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
@@ -1216,6 +1282,12 @@ for (let i = 0; i < startTimeInputs.length; i++) {
     
                     }
                 });
+
+
+    
+
+
+
                 const nextBtns = document.querySelectorAll('.next-step');
                 const prevBtns = document.querySelectorAll('.prev-step');
                 const form = document.getElementById('registrationForm');
@@ -1224,37 +1296,52 @@ for (let i = 0; i < startTimeInputs.length; i++) {
                 const addTicketBtn = document.getElementById('addTicket');
                 const ticketContainer = document.getElementById('ticketContainer');
                 let currentStep = 0;
-    
-                nextBtns.forEach(button => {
+nextBtns.forEach(button => {
     button.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
             // Check if we are on the step of time and date and validate the form
-            if (currentStep === 0) {
-                if (!validateForm0()) {
-                    // Validation failed, stay on the current step
-                    console.log("Validation failed");
-                    return; // Exit the function, preventing further execution
-                }
+            if (currentStep === 0 && !validateForm0()) {
+                console.log("Validation failed on step 0");
+                return; // Exit the function, preventing further execution
             }
-            if (currentStep === 1 && !validateForm()) {
-                    console.log('Form validation failed. Staying on step 1.');
-                    return; // Stay on the current step if form validation fails
+
+            if (currentStep === 1) {
+                fetchPackages().then(data => {
+                    console.log("fetch", data);
+
+                    if (!validateStep(currentStep, data)) {
+                        console.log('Form validation failed on step 1. Staying on step 1.');
+                        return; // Stay on the current step if form validation fails
+                    }
+
+                    proceedToNextStep();
+                }).catch(error => {
+                    console.error("Error fetching packages:", error);
+                    alert("Failed to fetch packages. Please try again.");
+                });
+
+                return; // Wait for fetch to complete before proceeding
             }
 
             if (currentStep === 2 && !validateFormStep2()) {
-                console.log('Form validation failed. Staying on step 2.');
+                console.log('Form validation failed on step 2. Staying on step 2.');
                 return;
             }
-            if (currentStep === 3){
-             previewImage();
+
+            if (currentStep === 3) {
+                previewImage();
             }
-            // Move to the next step
-            steps[currentStep].classList.remove('active');
-            currentStep++;
-            steps[currentStep].classList.add('active');
+
+            proceedToNextStep();
         }
     });
 });
+
+function proceedToNextStep() {
+    steps[currentStep].classList.remove('active');
+    currentStep++;
+    steps[currentStep].classList.add('active');
+}
 
     
                 prevBtns.forEach(button => {
@@ -1382,6 +1469,48 @@ for (let i = 0; i < startTimeInputs.length; i++) {
                 });
             });
     
+
+
+            const getCookieValue = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+};
+
+
+
+            const fetchPackages = () => {
+    return fetch('../fetchOrgs.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'getBalance', OrgID: getCookieValue('id') })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch data');
+        
+        return response.json();
+        
+    });
+};
+fetchPackages().then
+(function(data){
+    console.log("json",data);
+    checkbalance(data.data[0]);
+});
+    
+function checkbalance(data){
+
+        if(data.Amount_of_Days===0 && data.Amount_of_Tickets===0){
+            alert("You have no balance left");
+            window.location.href = './org_profile.html';
+        }
+
+}
+      
+
+
+
+
     // Path: organizer/edit_event.php
         window.onload = initialize;
     </script>
