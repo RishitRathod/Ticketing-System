@@ -230,7 +230,7 @@
         } 
         /* @table-bg-accent: #c8b6eb; */
     </style>
-    <script src="./loader.js"></script>
+    <script src="../loader.js"></script>
 
 </head>
 <body>

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- datatable Bootstrap -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="../loader.js"></script>
+
     <script>
 function isUserLoggedIn() {
                     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
@@ -67,6 +69,14 @@ function isUserLoggedIn() {
             background-color: darkblue;
             color: #fff;
         }
+        thead{
+            background-color: #00023c;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         .main-content {
             /* border: 1px solid #ccc; */
@@ -108,6 +118,8 @@ function isUserLoggedIn() {
         }
 
     </style>
+    <script src="../loader.js"></script>
+
 </head>
 <body>  
 <!-- <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -177,6 +189,7 @@ function isUserLoggedIn() {
             </div>
             <div class="col">
                 <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center g-0">
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

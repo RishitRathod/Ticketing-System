@@ -105,6 +105,31 @@
             background: none;
 
         }
+        .loader {
+            display: block; 
+            width: 50px;
+            height: 50px;
+            position: fixed;
+            left: 50%;
+            right: 50%;
+            top: 50%;
+            border: 8px solid #f9f9f9;
+            border-top: 10px solid #010575;
+            border-radius: 50px;
+            /* transform: translate(-50%, -50%); */
+            z-index: 999;
+            animation: spin 0.5s linear infinite;
+        }
+
+        #currentPack{
+            opacity:0;
+        }
+        #table-Div{
+            opacity:0;
+        }
+        #buyButton{
+            bottom:12%;
+        }
         /* #table-Div #buyButton{
             position: fixed;
             right: 0%;
@@ -112,9 +137,10 @@
     </style>
 
 </head>
+<div class="loader">
+        <i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
+    </div>
 <div class="d-flex flex-column">
-
-    
     <div class="alert alert-warning">
             <strong>warning</strong> <p id="alert"></p>
         </div>
@@ -167,7 +193,7 @@
             </table>
         </fieldset>
         <div class="row justify-content-center">
-            <button id="buyButton"  class="btn col-2 btn-primary position-fixed bottom-0 my-3 ">Buy Selected Packages</button>
+            <button id="buyButton"  class="btn col-2 btn-primary position-fixed \my-3 ">Buy Selected Packages</button>
         </div>
     </div>
 </div>
@@ -336,7 +362,22 @@
                 `;
                 selectedPack.appendChild(tr);
             });
-            $('#SelectedPack').DataTable({
+            $('#SelectedPack')
+            .on('draw.dt', function () {
+                console.log('Loading');
+                // $('.loader').show();
+                showLoader();
+                hideLoader();
+
+            })
+            .on('init.dt', function () {
+                console.log('Loaded');
+                // $('.loader').hide();
+                hideLoader();
+                spawn("#currentPack");
+
+            })
+            .DataTable({
                 "pagingType": "full_numbers",
                 "language": {
                     "paginate": {
@@ -390,18 +431,33 @@
                 `;
                 tableBody.appendChild(tr);
             });
-            $('#packageTable').DataTable({
-                "pagingType": "full_numbers", // Example of a custom option
-                "language": {
-                    "paginate": {
-                        "first": "<<",
-                        "last": ">>",
-                        "next": ">",
-                        "previous": "<"
+            $('#packageTable')
+                .on('draw.dt', function () {
+                console.log('Loading');
+                // $('.loader').show();
+                showLoader();
+                hideLoader();
+
+            })
+            .on('init.dt', function () {
+                console.log('Loaded');
+                // $('.loader').hide();
+                hideLoader();
+                spawn("#table-Div");
+
+            })
+            .DataTable({
+                    "pagingType": "full_numbers", // Example of a custom option
+                    "language": {
+                        "paginate": {
+                            "first": "<<",
+                            "last": ">>",
+                            "next": ">",
+                            "previous": "<"
+                        }
                     }
-                }
+                });
             });
-        });
 
         document.querySelector("#buyButton").addEventListener("click", function() {
     const selectedPackages = [];
