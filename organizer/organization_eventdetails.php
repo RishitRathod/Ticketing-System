@@ -79,12 +79,12 @@
                 const EventID = <?php echo isset($_POST['id']) ? json_encode($_POST['id']) : 'null'; ?>;
                 console.log(EventID);
 
-                const response = await fetch("organization_viewdetails_backend.php", {
+                const response = await fetch("../fetchEvents.php", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ tableName: tableName, EventID: EventID }),
+                    body: JSON.stringify({ EventID: EventID, action : "FetchEventDetailsByEventID" }),
                 });
 
                 if (!response.ok) {
@@ -93,8 +93,8 @@
 
                 const result = await response.json();
                 if (result.status === 'success') {
-                    console.log(result.data);
-                    return result.data;
+                    console.log(result);
+                    return result[0];
                 } else {
                     console.error('Error:', result.message);
                     return [];
@@ -112,126 +112,82 @@
         }
 
         function populateEvents(events) {
-            const eventsRow = document.querySelector('#eventsRow');
-
-            if (!Array.isArray(events)) {
-                console.error('Expected an array but got:', events);
-                return;
-            }
-
-            const uniqueEvents = events.reduce((acc, event) => {
-                if (!acc[event.EventID]) {
-                    acc[event.EventID] = {
-                        ...event,
-                        posters: new Set([event.poster]),
-                        timeSlots: new Map([[event.TimeSlotID, {
-                            TimeSlotID: event.TimeSlotID,
-                            StartTime: event.StartTime,
-                            EndTime: event.EndTime,
-                            Availability: event.Availability
-                        }]]),
-                        tickets: new Map([[`${event.TicketID}-${event.TicketType}`, {
-                            TicketID: event.TicketID,
-                            TicketType: event.TicketType,
-                            Quantity: event.Quantity,
-                            LimitQuantity: event.LimitQuantity,
-                            Discount: event.Discount,
-                            Price: event.Price
-                        }]])
-                    };
-                } else {
-                    acc[event.EventID].posters.add(event.poster);
-                    acc[event.EventID].timeSlots.set(event.TimeSlotID, {
-                        TimeSlotID: event.TimeSlotID,
-                        StartTime: event.StartTime,
-                        EndTime: event.EndTime,
-                        Availability: event.Availability
-                    });
-                    acc[event.EventID].tickets.set(`${event.TicketID}-${event.TicketType}`, {
-                        TicketID: event.TicketID,
-                        TicketType: event.TicketType,
-                        Quantity: event.Quantity,
-                        LimitQuantity: event.LimitQuantity,
-                        Discount: event.Discount,
-                        Price: event.Price
-                    });
-                }
-                return acc;
-            }, {});
-
-            // Convert sets to arrays
-            Object.keys(uniqueEvents).forEach(eventID => {
-                uniqueEvents[eventID].posters = Array.from(uniqueEvents[eventID].posters);
-                uniqueEvents[eventID].timeSlots = Array.from(uniqueEvents[eventID].timeSlots.values());
-                uniqueEvents[eventID].tickets = Array.from(uniqueEvents[eventID].tickets.values());
-            });
-
-            console.log(uniqueEvents);
-
-            eventsRow.innerHTML = '';
-Object.values(uniqueEvents).forEach((event) => {
-    const eventCard = document.createElement('div');
-    eventCard.classList.add('col-12');
-
-    const posterItems = event.posters.map(poster => `
-        <img src="${poster}" class="event-poster img-fluid g-0" alt="Event Poster">
+    const eventsRow = document.querySelector('#eventsRow');
+    const posterItems = events.Posters.map(poster => `
+        <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
     `).join('');
 
-    const ticketsList = event.tickets.map(ticket => `
-        <li><span class="card-text"><strong>TicketType:</strong> ${ticket.TicketType}   , <strong>Quantity:</strong> ${ticket.Quantity}, <strong>Price:</strong> $${ticket.Price}, <strong>Discount:</strong> ${ticket.Discount}%</span></li>
-    `).join('');
+    // Find the first available date from the time slots
+    const specificDate = events.TimeSlots.length > 0 ? events.TimeSlots[0].SlotDate : null;
 
-    const timeSlotsList = event.timeSlots.map(slot => `
-        <li><span class="card-text"> <strong>From:</strong> ${slot.StartTime} - <strong>To:</strong> ${slot.EndTime}, <strong>Availability:</strong> ${event.Capacity}</span> </li>
-    `).join('');
+    if (specificDate) {
+        // Filter time slots for the specific date
+        const filteredTimeSlots = events.TimeSlots.filter(slot => slot.SlotDate === specificDate);
 
-    eventCard.innerHTML = `
-        <div class="event-card ">
-            <div class="row no-gutters">
-                <div class="col-md-6 d-block">
-                    <strong class="ml-3 text-light">Event Photos</strong>
-                    <div class="posters d-flex g-0 overflow-auto">
-                    ${posterItems}
-                    </div>
-                    <div class="text-center">
+        // Generate HTML for the filtered time slots
+        const timeSlotsList = filteredTimeSlots.map(slot => `
+            <li>${slot.SlotDate} (${slot.StartTime} - ${slot.EndTime}) - ${slot.Availability} slots</li>
+        `).join('');
+
+        // Generate HTML for tickets
+        const ticketsList = events.Tickets.map(ticket => `
+            <li>${ticket.TicketType}: ${ticket.Quantity} available - $${ticket.Price}</li>
+        `).join('');
+
+        // Create event card element
+        const eventCard = document.createElement('div');
+        eventCard.classList.add('col-12');
+
+        eventCard.innerHTML = `
+            <div class="event-card">
+                <div class="row no-gutters">
+                    <div class="col-md-6 d-block">
+                        <strong class="ml-3 text-light">Event Photos</strong>
+                        <div class="posters d-flex g-0 overflow-auto">
+                            ${posterItems}
+                        </div>
+                        <div class="text-center">
                             <form action="edit_events.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="${event.EventID}">
+                                <input type="hidden" name="id" value="${events.EventID}">
                                 <button type="submit" class="btn btn-primary shadow-sm mt-3">Edit Details</button>
                             </form>
                             <form action="update_event.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="eventID" value="${events.EventID}">
                                 <input type="hidden" name="action" value="delete">
                                 <button type="submit" class="btn btn-danger shadow-sm mt-3">Delete Event</button>
                             </form>
                             <form action="view_members.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="eventID" value="${events.EventID}">
                                 <button type="submit" class="btn btn-primary shadow-sm mt-3">View registered users</button>
                             </form>
                         </div>
-                </div>
+                    </div>
 
-                <div class="col-md-6">
-                    <div class="card-body event-details pl-4">
-                        <h3 class="card-title"><strong>${event.EventName}</strong></h3>
-                        <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
-                        <fieldset class=""><legend><strong>Date</strong></legend>
-                            <div class="card-text"><strong>From</strong> ${ new Date(event.StartDate).toLocaleDateString('en-GB')} <strong>to</strong> ${ new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
-                        </fieldset>
-                        <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
-                            <div><strong>Time Slots</strong></div>
-                            <ul>${timeSlotsList}</ul>
-                            <div><strong>Tickets</strong></div>
-                            <ul>${ticketsList}</ul>
-                        </fieldset>
+                    <div class="col-md-6">
+                        <div class="card-body event-details pl-4">
+                            <h3 class="card-title"><strong>${events.EventName}</strong></h3>
+                            <p class="card-text"><strong>Venue:</strong> ${events.VenueAddress}</p>
+                            <fieldset class=""><legend><strong>Date</strong></legend>
+                                <div class="card-text"><strong>From</strong> ${ new Date(events.StartDate).toLocaleDateString('en-GB')} <strong>to</strong> ${ new Date(events.EndDate).toLocaleDateString('en-GB')}</div>
+                            </fieldset>
+                            <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
+                                <div><strong>Time Slots</strong></div>
+                                <ul>${timeSlotsList}</ul>
+                                <div><strong>Tickets</strong></div>
+                                <ul>${ticketsList}</ul>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
- 
+        `;
+
         eventsRow.appendChild(eventCard);
-            });
-        }
+    } else {
+        console.error('No time slots available for this event.');
+    }
+}
+
 
         function isUserLoggedIn() {
                     const cookies = document.cookie.split(';').map(cookie => cookie.trim());

@@ -178,6 +178,8 @@ function isUserLoggedIn() {
             <div class="col">
                 <div class="main-content mx-1 mx-sm-auto d-flex justify-content-center align-items-center g-0">
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
             <script src="../script.js"></script>
            <script> 
             // $(document).ready(function() {

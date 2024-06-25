@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events</title>
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"> -->
     <style>
         .event-poster {
             max-height: 50px;
@@ -46,8 +46,7 @@
     </div>
 
     <!-- DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> -->
     <script src="../script.js"></script>
     <script>
         const getCookieValue = (name) => {
@@ -94,32 +93,39 @@
         }
 
         async function initialize() {
-            const data = await fetchData();
-            const dataTable = $('#eventsTable').DataTable({
-                data: data,
-                columns: [
-                    { data: 'EventName' },
-                    { data: 'StartDate', render: formatDate },
-                    { data: 'EndDate', render: formatDate },
-                    { data: 'StartTimes', render: times => times.join('<br>') },
-                    { data: 'EndTimes', render: times => times.join('<br>') },
-                    { data: 'AvailableTickets' },
-                    {
-                        data: 'Posters',
-                        render: posters => posters.map(poster => `<img src="${poster}" class="event-poster" alt="Poster">`).join(' ')
-                    },
-                    {
-                        data: 'EventID',
-                        render: eventID => `
-                            <form action="organization_eventdetails.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="${eventID}">
-                                <button type="submit" class="btn btn-primary">View Details</button>
-                            </form>
-                        `
-                    }
-                ]
-            });
-        }
+    const data = await fetchData();
+    const dataTable = $('#eventsTable').DataTable({
+        data: data,
+        columns: [
+            { data: 'EventName' },
+            { data: 'StartDate', render: formatDate },
+            { data: 'EndDate', render: formatDate },
+            { data: 'StartTimes', render: times => times.join('<br>') },
+            { data: 'EndTimes', render: times => times.join('<br>') },
+            {
+                data: 'TimeSlots',
+                render: timeSlots => {
+                    const totalAvailability = timeSlots.reduce((sum, slot) => sum + (parseInt(slot.Availability) || 0), 0);
+                    return totalAvailability;
+                }
+            },
+            {
+                data: 'Posters',
+                render: posters => posters.map(poster => `<img src="${poster}" class="event-poster" alt="Poster">`).join(' ')
+            },
+            {
+                data: 'EventID',
+                render: eventID => `
+                    <form action="organization_eventdetails.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="${eventID}">
+                        <button type="submit" class="btn btn-primary">View Details</button>
+                    </form>
+                `
+            }
+        ]
+    });
+}
+
 
         $(document).ready(() => {
             initialize();
