@@ -220,7 +220,8 @@ public function GetDetailsAtBuyTickets($EventID)
             $mergedResult[$ticketID]['TimeSlots'][] = [
                 "TimeSlotID" => $row['TimeSlotID'],
                 "StartTime" => $row['StartTime'],
-                "EndTime" => $row['EndTime']
+                "EndTime" => $row['EndTime'],
+                "SlotDate"=>$row['SlotDate']
             ];
         }
 
