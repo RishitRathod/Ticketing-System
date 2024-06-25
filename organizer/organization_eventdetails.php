@@ -117,7 +117,7 @@
         <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
     `).join('');
 
-<<<<<<< HEAD
+
             // Convert sets to arrays
             const posterItems = events.Posters.map(poster => `
             <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
@@ -125,7 +125,7 @@
 
         // Generate HTML for time slots
         const timeSlotsList = events.TimeSlots.map(slot => `
-=======
+
     // Find the first available date from the time slots
     const specificDate = events.TimeSlots.length > 0 ? events.TimeSlots[0].SlotDate : null;
 
