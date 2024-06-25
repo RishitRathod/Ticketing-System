@@ -1,3 +1,6 @@
+<?php
+require_once 'admin_headnav.php';
+?>
 <head>
     <title>Organization Details</title>
     <style>
@@ -26,12 +29,15 @@
     .pac {
         max-width: 20vmax;
     }
-
+    #package-details{
+        opacity:0;
+    }
+    #orgEvents{
+        opacity:0;
+    }
 </style>
 </head>
-<?php
-require_once 'admin_headnav.php';
-?>
+
 
 
 <div class="container mt-2 row justify-content-center">
@@ -87,7 +93,6 @@ require_once 'admin_headnav.php';
 <form id="GoToEvent" action="./view_event.php" method="POST">
     <input type="hidden" id="EventID" name="EventID" value="">
 </form>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
     var button = document.getElementById("orgB");
@@ -113,16 +118,25 @@ require_once 'admin_headnav.php';
         });
         clickedButton.classList.add('active-button');
     }
+    let con1,con2 = true;
     function showOrg(button) {
         document.getElementById("orgInfo").style.display = "block";
         document.getElementById("orgEvents").style.display = "none";
         updateButtonStyles(button);
+        if(con1){
+            showLoader();
+            con1=false;
+        }
     }
 
     function showEvents(button) {
         document.getElementById("orgInfo").style.display = "none";
         document.getElementById("orgEvents").style.display = "block";
         updateButtonStyles(button);
+        if(con2){
+            showLoader();
+            con2=false;
+        }
     }
 
     const OrgID = parseInt(<?php echo $_POST['OrgID']; ?>);
@@ -247,7 +261,20 @@ function displayPackagesData(packages) {
             packageTableBody.innerHTML += row;
         });
 
-        $('#package-table').DataTable({
+        $('#package-table')
+        .on('draw.dt', function () {
+            console.log('Loading');
+            // $('.loader').show();
+            showLoader();
+            hideLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            // $('.loader').hide();
+            hideLoader();
+            spawn("#package-details");
+        })
+        .DataTable({
             responsive: true,
             autoWidth: false,
             destroy: true
@@ -263,7 +290,20 @@ function displayPackagesData(packages) {
 
     $('#events-table').DataTable().clear().destroy();
 
-    $('#events-table').DataTable({
+    $('#events-table')
+        .on('draw.dt', function () {
+            console.log('Loading');
+            // $('.loader').show();
+            showLoader();
+            hideLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            // $('.loader').hide();
+            hideLoader();
+            spawn("#orgEvents");
+        })
+    .DataTable({
         data: eventData,
         columns: [
             { 

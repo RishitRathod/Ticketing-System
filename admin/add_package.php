@@ -21,6 +21,9 @@
         #abortUdpatebtn{
             display: none;
         }
+        #pkT{
+            opacity:0;
+        }
             /* #removeBtn{
                 display: none;
             }
@@ -84,7 +87,7 @@
             <!-- </div> -->
         </form>
         <hr>
-        <div class="crud-table">
+        <div class="crud-table" id="pkT">
             <h2>Packages List</h2>
             <table class="table table-strip" id="packagesTable">
                 <thead>
@@ -396,11 +399,24 @@
                         </td>
                     `;  
                 });
-                $('#packagesTable').DataTable(); 
-            } else {
-                alert('Failed to fetch packages');
-            }
-        }
+                $('#packagesTable')
+                .on('draw.dt', function () {
+                    console.log('Loading');
+                    // $('.loader').show();
+                    showLoader();
+                    hideLoader();
+                })
+                .on('init.dt', function () {
+                    console.log('Loaded');
+                    // $('.loader').hide();
+                    hideLoader();
+                    spawn("#pkT");
+                })
+                .DataTable(); 
+                    } else {
+                        alert('Failed to fetch packages');
+                    }
+                }
 
         document.addEventListener('DOMContentLoaded', fetchPackages);
 
