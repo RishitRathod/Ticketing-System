@@ -85,7 +85,10 @@
             /* Optional: Add shadow for better visibility */
             z-index: 999;
         }
-
+        #bookmarkbtn{
+            background-color: #1b155d;
+            color: #fff;
+        }   
         .ch {
             position: fixed;
             width: 250px !important;
@@ -266,9 +269,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-2 mt-2">
-                            <button type="submit" class="btn btn-outline-success btn-sm col-5 m-1" id="applyFil">Apply</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm col-5 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear</button>
+                        <div class="row justify-content-center g-2 mt-2">
+                            <button type="submit" class="btn btn-outline-success btn-sm col-3 m-1" id="applyFil">Apply</button>
+                            <button type="button" class="btn btn-outline-danger btn-sm col-3 m-1" id="clearFil" onclick="window.location.href='user_dashboard1.php'">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -620,8 +623,8 @@
                             <div class="card-footer text-center">
                                 <form action="get_details.php" method="POST">
                                     <input type="hidden"  name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn btn-primary  col-6" style="width: 100%;">View Details</button>
-                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" style="width: 25%;" class="bookmarkbtn btn btn-primary col-1">&#128278;</button>
+                                    <button type="submit" class="btn  col-6" style="width: 100%;">View Details</button>
+                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn"  class="bookmarkbtn btn  fa fa-bookmark col-auto"></button>
 
                                 </form>
                             </div>

@@ -179,15 +179,15 @@ function isUserLoggedIn() {
                                     <textarea class="form-control rounded-4" id="description" name="Description" required></textarea>
                                 </div>
                                 <div class="form-group row justify-content-evenly">
-                                    <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br>
-                                    <div class="col-auto">
+                                    <!-- <label class="form-check-label row-auto">Package Type<span class="req">*</span></label><br> -->
+                                    <!-- <div class="col-auto">
                                         <input class="form-check-input" type="radio" name="choice" id="TicketBased" value ="TicketBased" required>
                                         <label class="form-check-label ml-2" for="TicketBased"> Ticket Based</label><br>
-                                    </div>
-                                    <div class="col-auto">
-                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required>
-                                        <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
-                                    </div>
+                                    </div> -->
+                                    <!-- <div class="col-auto"> -->
+                                        <input class="form-check-input" type="radio" class="form-check-input" name="choice" id="TimeBased" value ="TimeBased" required checked hidden>
+                                        <!-- <label class="form-check-label ml-2" for="TimeBased">  Time Based</label>
+                                    </div> -->
                                     <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
