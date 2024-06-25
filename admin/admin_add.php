@@ -260,6 +260,8 @@
         if (result.status === 'success') {
             // Refresh the table
             alert("Admin added successfully");
+            $('#adminTable').DataTable().destroy();
+
             fetchAdmins();
             // Clear the form
             document.querySelector("#registrationForm").reset();
@@ -295,6 +297,7 @@
         const result = await response.json();
         if (result.status === 'success') {
             alert("Admin deleted successfully");
+            $("#adminTable").DataTable().destroy();
             fetchAdmins();
         } else {
             console.log("Error: ", result.message);
@@ -362,6 +365,7 @@
         const result = await response.json();
         if (result.status === 'success') {
             alert("Admin updated successfully");
+            $('#adminTable').DataTable().destroy();
             fetchAdmins();
             resetform();
         } else {
