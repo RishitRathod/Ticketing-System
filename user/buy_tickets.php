@@ -187,7 +187,10 @@ include 'userdashnav.php';
             startDateInput.min = eventDetails.StartDate;
             startDateInput.max = eventDetails.EndDate;
 
-            populateTicketTypes(data.data);
+            // Store all tickets data globally
+            window.allTickets = data.data;
+
+            populateTicketTypes(data.data, startDateInput.value);
         } else {
             console.error('Error:', data.message);
         }
@@ -196,22 +199,13 @@ include 'userdashnav.php';
     }
 }
 
-function populateTicketTypes(tickets) {
+function populateTicketTypes(tickets, selectedDate) {
     const timeslotSelect = document.getElementById('time-slot');
     timeslotSelect.innerHTML = '';
 
-    tickets[0].TimeSlots.forEach(timeSlot => {
-        const option = document.createElement('option');
-        option.value = timeSlot.TimeSlotID;
-        option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
-        option.dataset.limitQuantity = tickets.LimitQuantity;
-        option.dataset.price = tickets.Price;
-        option.dataset.availability = timeSlot.Availability; // Added availability dataset
-        timeslotSelect.appendChild(option);
-    });
-
     const ticketTypeSelect = document.getElementById('ticket-type');
     ticketTypeSelect.innerHTML = '';
+    
     tickets.forEach(ticket => {
         const option = document.createElement('option');
         option.value = ticket.TicketID;
@@ -222,7 +216,26 @@ function populateTicketTypes(tickets) {
         ticketTypeSelect.appendChild(option);
     });
 
-    // Update hidden input fields for the initial selections
+    filterTimeslotsByDate(selectedDate);
+    updateHiddenFields();
+}
+
+function filterTimeslotsByDate(selectedDate) {
+    const timeslotSelect = document.getElementById('time-slot');
+    timeslotSelect.innerHTML = '';
+
+    window.allTickets[0].TimeSlots.forEach(timeSlot => {
+        if (timeSlot.SlotDate === selectedDate) {
+            const option = document.createElement('option');
+            option.value = timeSlot.TimeSlotID;
+            option.textContent = `${timeSlot.StartTime} - ${timeSlot.EndTime}`;
+            option.dataset.limitQuantity = timeSlot.LimitQuantity;
+            option.dataset.price = timeSlot.Price;
+            option.dataset.availability = timeSlot.Availability;
+            timeslotSelect.appendChild(option);
+        }
+    });
+
     updateHiddenFields();
 }
 
@@ -301,8 +314,7 @@ async function SubmitForm(event) {
         Name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
-      
-        UserID:   getUserID()
+        UserID: getUserID()
     };
     console.log(formData);
 
@@ -348,8 +360,13 @@ document.getElementById('increase-quantity').addEventListener('click', () => {
 
 document.getElementById('ticket-type').addEventListener('change', updateHiddenFields);
 document.getElementById('time-slot').addEventListener('change', updateHiddenFields);
+document.getElementById('startDate').addEventListener('change', (event) => {
+    const selectedDate = event.target.value;
+    filterTimeslotsByDate(selectedDate);
+});
 
 initialize();
+
 
 </script>
     
