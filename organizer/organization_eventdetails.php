@@ -126,7 +126,7 @@
 
         // Generate HTML for the filtered time slots
         const timeSlotsList = filteredTimeSlots.map(slot => `
-            <li>${slot.SlotDate} (${slot.StartTime} - ${slot.EndTime}) - ${slot.Availability} slots</li>
+            <li>${slot.SlotDate} (${slot.StartTime} - ${slot.EndTime}) </li>
         `).join('');
 
         // Generate HTML for tickets

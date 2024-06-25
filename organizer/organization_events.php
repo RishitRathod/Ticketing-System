@@ -19,15 +19,10 @@
 
     <!-- Main Content -->
     <div id="eventsContainer">
-        <div class="input-group rounded">
-            <input type="search" name="searchbar" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <span id="search-addon">
-                <button name="searchbt" id="searchbtn" class="btn btn-primary" onclick="performSearch()">Search events</button>
-            </span>
-        </div>
+       
         <div id="eventsContainer">
             <h2 class="py-2" align="center">Events</h2>
-            <table id="eventsTable" class="display">
+            <table id="eventsTable" class="display table table-active table-border table-strip">
                 <thead>
                     <tr>
                         <th>Event Name</th>
@@ -63,10 +58,7 @@
             return `${day}-${month}-${year}`;
         }
 
-        function performSearch() {
-            const searchValue = document.getElementsByName("searchbar")[0].value.toLowerCase();
-            $('#eventsTable').DataTable().search(searchValue).draw();
-        }
+
 
         async function fetchData() {
             try {
