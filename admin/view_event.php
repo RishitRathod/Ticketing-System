@@ -93,8 +93,6 @@ require_once 'admin_headnav.php';
 
     </div>
 
-</div>
-
 
 <script>
     
@@ -224,90 +222,101 @@ function displayEventAttendees(data) {
         })
     }
     function displayEventDetails(eventData) {
-        const eventDetailsContainer = document.getElementById('event-details');
+    const eventDetailsContainer = document.getElementById('event-details');
 
-        eventData.forEach(event => {
-            let eventDetailsHTML = `
+    eventData.forEach(event => {
+        let eventDetailsHTML = `
+            <div class="row">
                 <div class="row">
-                    <div class="row">
-                        <div class="col-5 fs-3">${event.EventName}</div>
-                        <div class="m-3 p-0 col-3 date"><strong class="tagName">Start Date</strong> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
-                        <div class="m-3 p-0 col-3 date"><strong class="tagName">End Date</strong> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
+                    <div class="col-5 fs-3">${event.EventName}</div>
+                    <div class="m-3 p-0 col-3 date"><strong class="tagName">Start Date</strong> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
+                    <div class="m-3 p-0 col-3 date"><strong class="tagName">End Date</strong> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
+                </div>
+                <div class="col-5 justify-content-evenly">
+                    <div class="my-3 tagDetails"><strong class="tagName">Organization Name</strong> ${event.OrgName}</div>
+                    <div class="my-3 tagDetails"><strong class="tagName">Capacity</strong> ${event.Capacity}</div>
+                    <div class="my-3 tagDetails"><strong class="tagName">Event Type</strong> ${event.EventType}</div>
+                    <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Description</strong> ${event.Description}</div>
+                </div>
+                <div class="col-6 row p-0 m-0 justify-content-evenly"><li class="p-0 m-0 fs-5">Address</li>
+                    <div class="col-5  p-0 m-0 ">
+                        <div class="my-3 tagDetails"><strong class="tagName" >Country</strong> ${event.Country}</div>
+                        <div class="my-3 tagDetails"><strong class="tagName" >State</strong> ${event.State}</div>
+                        <div class="my-3 tagDetails"><strong class="tagName" >City</strong> ${event.City}</div>
                     </div>
-                    <div class="col-5 justify-content-evenly">
-                        <div class="my-3 tagDetails"><strong class="tagName">Organization Name</strong> ${event.OrgName}</div>
-                        <div class="my-3 tagDetails"><strong class="tagName">Capacity</strong> ${event.Capacity}</div>
-                        <div class="my-3 tagDetails"><strong class="tagName">Event Type</strong> ${event.EventType}</div>
-                        <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Description</strong> ${event.Description}</div>
+                    <div class="col-6  p-0 m-0 ">
+                        <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Venue Address</strong> ${event.VenueAddress}</div>
                     </div>
-                    <div class="col-6 row p-0 m-0 justify-content-evenly"><li class="p-0 m-0 fs-5">Address</li>
-                        <div class="col-5  p-0 m-0 ">
-                            <div class="my-3 tagDetails"><strong class="tagName" >Country</strong> ${event.Country}</div>
-                            <div class="my-3 tagDetails"><strong class="tagName" >State</strong> ${event.State}</div>
-                            <div class="my-3 tagDetails"><strong class="tagName" >City</strong> ${event.City}</div>
-                        </div>
-                        <div class="col-6  p-0 m-0 ">
-                            <div class="my-3 tagDetails" style="width:100%;"><strong class="tagName">Venue Address</strong> ${event.VenueAddress}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <fieldset><legend>Posters</legend>
-                        <div class="d-inline overflow-x">`;
+                </div>
+                <div>
+                    <fieldset><legend>Posters</legend>
+                    <div class="d-inline overflow-x">`;
 
-            event.Posters.forEach(poster => {
-                eventDetailsHTML += `
-                        <div class=" d-inline-block m-2 border-none overflow-x">
-                            <img src="${poster}" class="img-thumbnail img-fluid" style="max-width: 200px; max-height: 200px;">
-                        </div>`;
-            });
-
+        event.Posters.forEach(poster => {
             eventDetailsHTML += `
-                       </fieldset>
-
-                        <legend>Tickets</legend>
-                        <div class="row">`;
-
-            event.Tickets.forEach(ticket => {
-                eventDetailsHTML += `
-                    <div class="col-auto">
-                        <div class="card">
-                            <div class="mb-1 card-header"><strong>Ticket Type:</strong> ${ticket.TicketType}</div>
-                                <div class="card-body g-0">
-                                    <div class="mb-1"><strong>Quantity:</strong> ${ticket.Quantity}</div>
-                                    <div class="mb-1"><strong>Limit Quantity:</strong> ${ticket.LimitQuantity}</div>
-                                    <div class="mb-1"><strong>Discount:</strong> ${ticket.Discount}%</div>
-                                    <div class="mb-1"><strong>Price:</strong> $${ticket.Price}</div>
-                                </div>
-                            </div>
-                        </div>`;
-            });
-
-            eventDetailsHTML += `
-                        </div>
-                        <legend>Time slots</legend>
-                        <div class="row justify">`;
-
-            event.TimeSlots.forEach(slot => {
-                eventDetailsHTML += `
-                    <div class="col-auto">
-                        <div class="card">
-                        <div class="card-body row g-0">
-                            <div class="col-auto"><strong>Start Time:</strong> ${slot.StartTime}</div> 
-                            <div class="col-auto mx-3">to</div>
-                            <div class="col-auto"><strong>End Time:</strong> ${slot.EndTime}</div>
-                            </div>
-                        </div>
+                    <div class=" d-inline-block m-2 border-none overflow-x">
+                        <img src="${poster}" class="img-thumbnail img-fluid" style="max-width: 200px; max-height: 200px;">
                     </div>`;
-            });
-
-            eventDetailsHTML += `
-                        </div>
-                    </div>
-                </div>`;
-
-            eventDetailsContainer.innerHTML += eventDetailsHTML;
         });
-    }
+
+        eventDetailsHTML += `
+                   </fieldset>
+
+                    <legend>Tickets</legend>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ticket Type</th>
+                                <th>Quantity</th>
+                                <th>Limit Quantity</th>
+                                <th>Discount</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+        event.Tickets.forEach(ticket => {
+            eventDetailsHTML += `
+                <tr>
+                    <td>${ticket.TicketType}</td>
+                    <td>${ticket.Quantity}</td>
+                    <td>${ticket.LimitQuantity}</td>
+                    <td>${ticket.Discount}%</td>
+                    <td>$${ticket.Price}</td>
+                </tr>`;
+        });
+
+        eventDetailsHTML += `
+                        </tbody>
+                    </table>
+
+                    <legend>Time slots</legend>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+        event.TimeSlots.forEach(slot => {
+            eventDetailsHTML += `
+                <tr>
+                    <td>${slot.StartTime}</td>
+                    <td>${slot.EndTime}</td>
+                </tr>`;
+        });
+
+        eventDetailsHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+
+        eventDetailsContainer.innerHTML += eventDetailsHTML;
+    });
+}
     
     document.addEventListener('DOMContentLoaded', () => {
         getEventsData();

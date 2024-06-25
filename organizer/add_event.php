@@ -99,6 +99,8 @@ use Seld\JsonLint\Undefined;
         //Insert time slots if present
         if (isset($_POST['StartTimeSlot']) && isset($_POST['EndTimeSlot'])) {
             $timeSlots = [];
+
+            for($startDate; $startDate <= $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
             // Loop through the start time slots array
             foreach ($_POST['StartTimeSlot'] as $index => $startTime) {
                 // Check if corresponding end time exists
@@ -108,7 +110,8 @@ use Seld\JsonLint\Undefined;
                         'EventID' => $lastEventID,
                         'StartTime' => $startTime,
                         'EndTime' => $_POST['EndTimeSlot'][$index],
-                        'Availability' => $capacity
+                        'Availability' => $capacity,
+                        'SlotDate' => $startDate
                     ];
                     // Insert time slot into the database
                     DB::insert(DB_NAME, 'timeslots', $timeSlotData);
@@ -116,6 +119,7 @@ use Seld\JsonLint\Undefined;
                     $timeSlots[] = $timeSlotData;
                 }
             }
+        }
             // Check if time slots were successfully inserted
             if (!empty($timeSlots)) {
                 $response['success'] = true;

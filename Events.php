@@ -2,6 +2,12 @@
 require_once 'db_connection.php';
 require_once 'config.php';
 
+// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// $Event = new Events($conn->connection());
+// $events = $Event->FetchEventDetailsByOrgID(1);
+// echo json_encode($events);
+
+
 class Events{
 
 /**
@@ -112,53 +118,31 @@ class Events{
  * @throws PDOException If there is an error with the database operation.
  */
 
-public function FetchEventDetailsByOrgID( $OrgID) {
+ public function FetchEventDetailsByOrgID($OrgID) {
     try {
         $this->conn->query("SET SESSION group_concat_max_len = 10000");
 
         $sql = "SELECT 
-        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate,
-        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State, e.City,
-        o.Name AS OrgName,
-        GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters,
-        GROUP_CONCAT(DISTINCT CONCAT(
-            '{\"TicketID\":', t.TicketID, 
-            ',\"TicketType\":\"', t.TicketType, 
-            '\",\"Quantity\":', COALESCE(t.Quantity, 'null'),
-            ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
-            '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
-            ',\"Discount\":', COALESCE(t.Discount, 'null'), 
-            ',\"Price\":', COALESCE(t.Price, 'null'), '}'
-        ) SEPARATOR ',') AS Tickets,
-        GROUP_CONCAT(DISTINCT CONCAT(
-            '{\"TimeSlotID\":', tmsl.TimeSlotID, 
-            ',\"StartTime\":\"', tmsl.StartTime, 
-            '\",\"EndTime\":\"', tmsl.EndTime, 
-            '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
-        ) SEPARATOR ',') AS TimeSlots,
-        GROUP_CONCAT(DISTINCT CONCAT(
-            '{\"TicketSalesID\":', ts.TicketSalesID, 
-            ',\"UserID\":', COALESCE(ts.UserID, 'null'), 
-            ',\"Quantity\":', COALESCE(ts.Quantity, 'null'), '}'
-        ) SEPARATOR ',') AS TicketSales
-    FROM 
-        {$this->EventTable} e
-    LEFT JOIN 
-        {$this->OrgTable} o ON e.OrgID = o.OrgID
-    LEFT JOIN 
-        {$this->EventPostersTable} ep ON e.EventID = ep.EventID
-    LEFT JOIN 
-        {$this->TicketTable} t ON e.EventID = t.EventID
-    LEFT JOIN 
-        {$this->TimeSlotTable} tmsl ON e.EventID = tmsl.EventID
-    LEFT JOIN 
-        {$this->TicketSalesTable} ts ON t.TicketID = ts.TicketID
-    WHERE 
-        e.OrgID = :OrgID
-    GROUP BY 
-        e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate, 
-        e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State,
-        e.City, o.Name;";
+            e.EventID, e.OrgID, e.EventName, e.StartDate, e.EndDate,
+            GROUP_CONCAT(DISTINCT tmsl.StartTime ORDER BY tmsl.StartTime SEPARATOR ',') AS StartTimes,
+            GROUP_CONCAT(DISTINCT tmsl.EndTime ORDER BY tmsl.EndTime SEPARATOR ',') AS EndTimes,
+            GROUP_CONCAT(DISTINCT CONCAT(
+                '{\"TimeSlotID\":', tmsl.TimeSlotID, 
+                ',\"StartTime\":\"', tmsl.StartTime, 
+                '\",\"EndTime\":\"', tmsl.EndTime, 
+                '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
+            ) ORDER BY tmsl.StartTime SEPARATOR ',') AS TimeSlots,
+            GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
+        FROM 
+            {$this->EventTable} e
+        LEFT JOIN 
+            {$this->EventPostersTable} ep ON e.EventID = ep.EventID
+        LEFT JOIN 
+            {$this->TimeSlotTable} tmsl ON e.EventID = tmsl.EventID
+        WHERE 
+            e.OrgID = :OrgID
+        GROUP BY 
+            e.EventID, e.OrgID, e.EventName, e.StartDate, e.EndDate;";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
@@ -166,10 +150,10 @@ public function FetchEventDetailsByOrgID( $OrgID) {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($result as &$row) {
-            $row['Posters'] = explode(',', $row['Posters']);
-            $row['Tickets'] = json_decode('[' . $row['Tickets'] . ']', true);
+            $row['StartTimes'] = explode(',', $row['StartTimes']);
+            $row['EndTimes'] = explode(',', $row['EndTimes']);
             $row['TimeSlots'] = json_decode('[' . $row['TimeSlots'] . ']', true);
-            $row['TicketSales'] = json_decode('[' . $row['TicketSales'] . ']', true);
+            $row['Posters'] = explode(',', $row['Posters']);
         }
         return $result;
 
@@ -177,6 +161,72 @@ public function FetchEventDetailsByOrgID( $OrgID) {
         return ["error" => "Select failed: " . $e->getMessage()];
     }
 }
+
+// public function FetchEventDetailsByOrgID($OrgID) {
+//     try {
+//         $this->conn->query("SET SESSION group_concat_max_len = 10000");
+
+//         $sql = "SELECT 
+//         e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate,
+//         e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State, e.City,
+//         o.Name AS OrgName,
+//         GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters,
+//         GROUP_CONCAT(DISTINCT CONCAT(
+//             '{\"TicketID\":', t.TicketID, 
+//             ',\"TicketType\":\"', t.TicketType, 
+//             '\",\"Quantity\":', COALESCE(t.Quantity, 'null'),
+//             ',\"QR_CODE\":\"', COALESCE(t.QR_CODE, 'null'), 
+//             '\",\"LimitQuantity\":', COALESCE(t.LimitQuantity, 'null'), 
+//             ',\"Discount\":', COALESCE(t.Discount, 'null'), 
+//             ',\"Price\":', COALESCE(t.Price, 'null'), '}'
+//         ) SEPARATOR ',') AS Tickets,
+//         GROUP_CONCAT(DISTINCT CONCAT(
+//             '{\"TimeSlotID\":', tmsl.TimeSlotID, 
+//             ',\"StartTime\":\"', tmsl.StartTime, 
+//             '\",\"EndTime\":\"', tmsl.EndTime, 
+//             '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
+//         ) SEPARATOR ',') AS TimeSlots,
+//         GROUP_CONCAT(DISTINCT CONCAT(
+//             '{\"TicketSalesID\":', ts.TicketSalesID, 
+//             ',\"UserID\":', COALESCE(ts.UserID, 'null'), 
+//             ',\"Quantity\":', COALESCE(ts.Quantity, 'null'), '}'
+//         ) SEPARATOR ',') AS TicketSales
+//     FROM 
+//         {$this->EventTable} e
+//     LEFT JOIN 
+//         {$this->OrgTable} o ON e.OrgID = o.OrgID
+//     LEFT JOIN 
+//         {$this->EventPostersTable} ep ON e.EventID = ep.EventID
+//     LEFT JOIN 
+//         {$this->TicketTable} t ON e.EventID = t.EventID
+//     LEFT JOIN 
+//         {$this->TimeSlotTable} tmsl ON e.EventID = tmsl.EventID
+//     LEFT JOIN 
+//         {$this->TicketSalesTable} ts ON t.TicketID = ts.TicketID
+//     WHERE 
+//         e.OrgID = :OrgID
+//     GROUP BY 
+//         e.EventID, e.OrgID, e.EventName, e.Description, e.StartDate, e.EndDate, 
+//         e.Capacity, e.EventType, e.QR_CODE, e.VenueAddress, e.Country, e.State,
+//         e.City, o.Name;";
+
+//         $stmt = $this->conn->prepare($sql);
+//         $stmt->bindParam(':OrgID', $OrgID, PDO::PARAM_INT);
+//         $stmt->execute();
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//         foreach ($result as &$row) {
+//             $row['Posters'] = explode(',', $row['Posters']);
+//             $row['Tickets'] = json_decode('[' . $row['Tickets'] . ']', true);
+//             $row['TimeSlots'] = json_decode('[' . $row['TimeSlots'] . ']', true);
+//             $row['TicketSales'] = json_decode('[' . $row['TicketSales'] . ']', true);
+//         }
+//         return $result;
+
+//     } catch (PDOException $e) {
+//         return ["error" => "Select failed: " . $e->getMessage()];
+//     }
+// }
 
 
 /**
@@ -568,9 +618,5 @@ public function GetTicketSumByEventID($EventID){
 
 }
 
-// $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-// $Event = new Events($conn->connection());
-// $events = $Event->GetTicketSumByEventID(241);
-// echo json_encode($events);
 
 ?>

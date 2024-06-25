@@ -1,5 +1,15 @@
 <head>
     <title>Dashboard</title>
+    <style>
+        .loader {
+            display: none; /* Initially hide the loader */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
 </head>
 <?php
 include 'admin_headnav.php';
@@ -89,13 +99,23 @@ include 'admin_headnav.php';
 </div>
 
 <script>
+    
     document.addEventListener("DOMContentLoaded", async function() {
-        var button = document.getElementById("organizations");
-        button.classList.add("active-button");
-        const data = await fetchData('organizations');
-        // populateTable(data, 'organizations');
+    var button = document.getElementById("organizations");
+    button.classList.add("active-button");
+    showLoader();
+    const data = await fetchData('organizations');
+    populateTable(data, 'organizations');
+    hideLoader();
+});
 
-    });
+function showLoader() {
+    document.querySelector('.loader').style.display = 'block';
+}
+
+function hideLoader() {
+    document.querySelector('.loader').style.display = 'none';
+}
 
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -172,8 +192,8 @@ include 'admin_headnav.php';
             }
 
             const data = await fetchData(value);
-
             populateTable(data, value);
+            hideLoader();
         });
     });
 
@@ -270,21 +290,14 @@ if (tableId) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId}`)
-    .on( 'draw.dt', function () {
-            console.log( 'Loading' );
-          //Here show the loader.
-        //    $(".loader").html("Your Message while loading");
-        document.querySelector(".loader").style.visibility  = 'visible';
-
-           
-        } )
-        .on( 'init.dt', function () {
-            console.log( 'Loaded' );
-           //Here hide the loader.
-                document.querySelector(".loader").style.visibility  = "hidden";
-                // $(".loader").html("");
-                // document.querySelector(".loader").remove();
-        } )
+    .on('draw.dt', function () {
+            console.log('Loading');
+            showLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            hideLoader();
+        })
         .DataTable({
         //    "ServerSide": true,
 
@@ -314,21 +327,14 @@ if (tableId2) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId2}`)
-    .on( 'draw.dt', function () {
-            console.log( 'Loading' );
-          //Here show the loader.
-        //    $(".loader").html("Your Message while loading");
-        document.querySelector(".loader").style.visibility  = 'visible';
-
-           
-        } )
-        .on( 'init.dt', function () {
-            console.log( 'Loaded' );
-           //Here hide the loader.
-                document.querySelector(".loader").style.visibility  = "hidden";
-                // $(".loader").html("");
-                // document.querySelector(".loader").remove();
-        } )
+    .on('draw.dt', function () {
+            console.log('Loading');
+            showLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            hideLoader();
+        })
         .DataTable({
         
         "processing": true,
@@ -360,21 +366,14 @@ if (tableId3) {
     const columnWidth = (1 * numColumns) / 100 + '%';
 
     $(`#${tableId3}`) 
-    .on( 'draw.dt', function () {
-            console.log( 'Loading' );
-          //Here show the loader.
-            // $(".loader").html("Your Message while loading");
-        document.querySelector(".loader").style.visibility  = 'visible';
-
-           
-        } )
-        .on( 'init.dt', function () {
-            console.log( 'Loaded' );
-           //Here hide the loader.
-                document.querySelector(".loader").style.visibility  = "hidden";
-                // $(".loader").html("");
-                // document.querySelector(".loader").remove();
-        } )
+    .on('draw.dt', function () {
+            console.log('Loading');
+            showLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            hideLoader();
+        })
         .DataTable({
        
         "processing": true,
@@ -420,24 +419,24 @@ if (tableId3) {
     // Handle approve and reject buttons for organizations table
     document.addEventListener('click', async function (event) {
         if (event.target.classList.contains('approve-btn')) {
-            const orgID = event.target.getAttribute('data-id');
-            const tableName = event.target.getAttribute('data-table');
-            await approveOrganization(orgID, tableName);
-            //update the datatable call fetchData and populateTable
-            const data = await fetchData(tableName);
-            //DESTORY DataTable
-            $('#orgTable').DataTable().destroy();
-            populateTable(data, tableName);
-
-        } else if (event.target.classList.contains('reject-btn')) {
-            const orgID = event.target.getAttribute('data-id');
-            const tableName = event.target.getAttribute('data-table');
-            await rejectOrganization(orgID, tableName);
-            //update the datatable call fetchData and populateTable
-            const data = await fetchData(tableName);
-            $('#orgTable').DataTable().destroy();
-            populateTable(data, tableName);
-        } else if (event.target.classList.contains('view-btn')) {
+        showLoader();
+        const orgID = event.target.getAttribute('data-id');
+        const tableName = event.target.getAttribute('data-table');
+        await approveOrganization(orgID, tableName);
+        const data = await fetchData(tableName);
+        $('#orgTable').DataTable().clear().draw();
+        populateTable(data, tableName);
+        hideLoader();
+    } else if (event.target.classList.contains('reject-btn')) {
+        showLoader();
+        const orgID = event.target.getAttribute('data-id');
+        const tableName = event.target.getAttribute('data-table');
+        await rejectOrganization(orgID, tableName);
+        const data = await fetchData(tableName);
+        $('#orgTable').DataTable().clear().draw();
+        populateTable(data, tableName);
+        hideLoader();
+    }    else if (event.target.classList.contains('view-btn')) {
             const orgID = event.target.getAttribute('data-id');
             const tableName = event.target.getAttribute('data-table');
 
@@ -507,6 +506,16 @@ if (tableId3) {
 
         form.submit();
     }
+    // Handle view buttons for organizations, events, and users table
+document.addEventListener('click', async function (event) {
+    if (event.target.classList.contains('view-btn')) {
+        showLoader();
+        const id = event.target.getAttribute('data-id');
+        const tableName = event.target.getAttribute('data-table');
+        await viewDetails(id, tableName);
+        hideLoader();
+    }
+});
 
 //     $(document).ready(function() {
 //     $('#orgTable').DataTable({
