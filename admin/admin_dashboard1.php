@@ -306,6 +306,11 @@ if (tableId) {
           "responsive": true,
             "autoWidth": false, // Disable automatic column width calculation
             "destroy": true, // Added to reinitialize DataTable
+            aLengthMenu: [
+        [10, 20, 50, 100, -1],
+        [10, 20, 50, 100, "All"]
+    ],
+    iDisplayLength: 10,
         "columnDefs": [
             { 
                 "width": columnWidth, 
@@ -340,10 +345,15 @@ if (tableId2) {
         "processing": true,
         "retrieve": true,
        // "ServerSide": true,
-
+        "showall": true,
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true, // Added to reinitialize DataTable
+        "destroy": true,
+        aLengthMenu: [
+        [10, 20, 50, 100, -1],
+        [10, 20, 50, 100, "All"]
+    ],
+    iDisplayLength: 10,
         "columnDefs": [
             { 
                 "width": columnWidth, 
@@ -382,6 +392,11 @@ if (tableId3) {
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
         "destroy": true, // Added to reinitialize DataTable
+        aLengthMenu: [
+        [10, 20, 50, 100, -1],
+        [10, 20, 50, 100, "All"]
+    ],
+    iDisplayLength: 10,
         "columnDefs": [
             { 
                 "width": columnWidth, 
