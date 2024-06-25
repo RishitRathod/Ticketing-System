@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
+    <title>Event Details</title>    
     
     <style>
         .heg{
@@ -106,15 +106,16 @@
         function hideProfile(){
             document.querySelector('#profile').style.display = 'none';
             document.querySelector('#myEvents').style.display = 'none';
-            document.querySelector('#myTickets').style.display = 'none'; // Corrected typo from 'myTicekts' to 'myTickets'
+            document.querySelector('#myTicekts').style.display = 'none'; // Corrected typo from 'myTicekts' to 'myTickets'
             document.querySelector('#login').style.display = 'block';
             console.log('Cookie with key "role" and value "user" does not exist.');
         }
+
         async function initialize() {
             if (checkCookie('role', 'user')) {
                 hideLogin();
     } else {
-            hideprofile();
+            hideProfile();
     }
             const value = 'events';
             const data = await fetchData(value);

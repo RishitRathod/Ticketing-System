@@ -228,21 +228,21 @@
 //     document.getElementById('login').style.display = 'block';
 // }
 
-// window.onload = function() {
-//     if (checkCookie('role', 'user')) {
+window.onload = function() {
+    if (checkCookie('role', 'user')) {
         
-//         document.getElementById('login').style.display = 'none';
-//         document.getElementById('profile').style.display = 'block';
-//         console.log('Cookie with key "role" and value "user" exists.');
-//     } else {
-//         console.log('Cookie with key "role" and value "user" does not exist.');
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('profile').style.display = 'block';
+        console.log('Cookie with key "role" and value "user" exists.');
+    } else {
+        console.log('Cookie with key "role" and value "user" does not exist.');
         
-//         document.getElementById('profile').style.display = 'none';
-//         document.getElementById('myEvents').style.display='none';
-//         document.getElementById('myTicekts').style.display='none';
-//         document.getElementById('login').style.display = 'block';
-//     }
-// };
+        document.getElementById('profile').style.display = 'none';
+        document.getElementById('myEvents').style.display='none';
+        document.getElementById('myTicekts').style.display='none';
+        document.getElementById('login').style.display = 'block';
+    }
+};
 
 
 //                 function isUserLoggedIn() {
