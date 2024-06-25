@@ -1,7 +1,7 @@
 <head>
     <title>Dashboard</title>
     <style>
-        .loader {
+        /* .loader {
             display: none; 
             width: 70px;
             height: 70px;
@@ -9,13 +9,13 @@
             left: 50%;
             right: 50%;
             top: 50%;
-            border: 12px solid gray;
+            border: 12px solid #f9f9f9;
             border-top: 10px solid #8341fe;
             border-radius: 50px;
-            /* transform: translate(-50%, -50%); */
+            transform: translate(-50%, -50%);
             z-index: 999;
             animation: spin 0.5s linear infinite;
-        }
+        } */
         #a{
             opacity: 0;
         }
@@ -42,9 +42,9 @@ include 'admin_headnav.php';
 <form id="viewUserForm" action="view_user.php" method="post" style="display: none;">
     <input type="hidden" name="UserID">
 </form>
-<div class="loader">
+<!-- <div class="loader">
     <i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
-</div>
+</div> -->
 <div id="selectionButtonGroup" class="container d-block row mt-2">
     <div class="btn-group m-2 " id="gB" role="group" aria-label="Basic example">
         <button type="button" id="organizations" value="organizations" class="btn themecol no-sort" onclick="orgonly(this)">Organizations</button>
@@ -136,7 +136,7 @@ include 'admin_headnav.php';
     function spawn(id){
         document.querySelector(id).style.opacity = "1";
     }
-    let con1, con2 = true
+    let con1, con2 = true;
     let con3 = true;
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -334,7 +334,6 @@ if (tableId) {
             // $('.loader').hide();
             hideLoader();
             spawn("#b");
-
         })
         .DataTable({
         //    "ServerSide": true,

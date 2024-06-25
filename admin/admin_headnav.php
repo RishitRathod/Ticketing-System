@@ -22,26 +22,32 @@
 
     <style>
         .dataTables_wrapper .dataTables_processing {
-    z-index: 10 !important; /* Ensure it's above other elements */
-    color: #000; /* Change color if needed */
-    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-}
+            z-index: 10 !important; /* Ensure it's above other elements */
+            color: #000; /* Change color if needed */
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+        }
 
 
-/* .loader { */
-  /* border: 16px solid #f3f3f3; Light grey */
-  /* border-top: 16px solid #3498db; Blue */
-  /* border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-  visibility: hidden;
-} */
+        .loader {
+            display: block; 
+            width: 70px;
+            height: 70px;
+            position: fixed;
+            left: 50%;
+            right: 50%;
+            top: 50%;
+            border: 12px solid #f9f9f9;
+            border-top: 10px solid #8341fe;
+            border-radius: 50px;
+            /* transform: translate(-50%, -50%); */
+            z-index: 999;
+            animation: spin 0.5s linear infinite;
+        }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -64,14 +70,15 @@
             background-color: #000;
             position: absolute;
             z-index: 1;
-            
+            left: 100%;
+            width:max-content;
 
         }
-          thead {
-        background-color: #8341fe;
-        color: #fff;
-        padding: 2px;
-    }
+        thead {
+            background-color: #8341fe;
+            color: #fff;
+            padding: 2px;
+        }
         .approve-btn{
             background-image: url('https://icons.iconarchive.com/icons/fa-team/fontawesome/256/FontAwesome-Check-icon.png');
             background-size: 75%;
@@ -223,6 +230,8 @@
         } 
         /* @table-bg-accent: #c8b6eb; */
     </style>
+    <script src="./loader.js"></script>
+
 </head>
 <body>
     <div class="container-fluid w-100 container-sm backOnav text-white">
@@ -321,3 +330,6 @@
             </script>
             <div class="col p-3">
                 <div class="main-content mx-auto justify-content-center align-items-center g-0">
+                    <div class="loader">
+                        <i class="fa fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
+                    </div>

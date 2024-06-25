@@ -110,9 +110,31 @@
                 }
             },
             {
-                data: 'Posters',
-                render: posters => posters.map(poster => `<img src="${poster}" class="event-poster" alt="Poster">`).join(' ')
-            },
+                        data: 'Posters',
+                        render: posters => {
+                            const uniqueId = Math.random().toString(36).substr(2, 9);
+                            const posterItems = posters.map((poster, index) => `
+                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                    <img src="${poster}" class="d-block w-100 event-poster" alt="Poster">
+                                </div>
+                            `).join('');
+                            return `
+                                <div id="carousel${uniqueId}" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        ${posterItems}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carousel${uniqueId}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carousel${uniqueId}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            `;
+                        }
+                    },
             {
                 data: 'EventID',
                 render: eventID => `

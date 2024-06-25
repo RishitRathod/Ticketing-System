@@ -1,5 +1,10 @@
 <head>
     <title>Manage Admin</title>
+    <style>
+        #adminTableDiv{
+            opacity: 0;
+        }
+    </style>
 </head>
 <?php
     include 'admin_headnav.php';
@@ -161,7 +166,19 @@
                         const numColumns = $("#adminTable thead th").length;
 
                         const columnWidth =  (1* numColumns)/100 + '%';
-                        $('#adminTable').DataTable(
+                        $('#adminTable')
+                        .on('draw.dt', function () {
+                            console.log('Loading');
+                            // $('.loader').show();
+                            showLoader();
+                            hideLoader();
+                        })
+                        .on('init.dt', function () {
+                            console.log('Loaded');
+                            // $('.loader').hide();
+                            hideLoader();
+                            spawn("#adminTableDiv");
+                        }).DataTable(
                         //     { "responsive": true,
                         //     "autoWidth": false, // Disable automatic column width calculation
                         //     "destroy": true, // Added to reinitialize DataTable

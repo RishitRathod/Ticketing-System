@@ -35,6 +35,9 @@ require_once 'admin_headnav.php';
         .ct{
             border-bottom: 5px solid #2a0275;
         }
+        #tableforAttendace{
+            opacity: 0;
+        }
     </style>
 
 </head>
@@ -46,7 +49,7 @@ require_once 'admin_headnav.php';
     <h1>Event Details</h1>
     <div id="event-details"></div>
     <h2>Event Attendees</h2>
-    <div class="tableforAttendace">
+    <div class="tableforAttendace" id="tableforAttendace">
         <table id="attendencetable" class="table table-responsive table-striped table-bordered">
             <thead>
 
@@ -190,7 +193,20 @@ function displayEventAttendees(data) {
         attendencetable.innerHTML += tableRow;
     });
     //make datatable
-    $('#attendencetable').DataTable({
+    $('#attendencetable')
+        .on('draw.dt', function () {
+            console.log('Loading');
+            // $('.loader').show();
+            showLoader();
+            hideLoader();
+        })
+        .on('init.dt', function () {
+            console.log('Loaded');
+            // $('.loader').hide();
+            hideLoader();
+            spawn("#tableforAttendace");
+        })
+        .DataTable({
         responsive: true,
         autoWidth: false,
         destroy: true

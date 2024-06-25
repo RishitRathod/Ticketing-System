@@ -34,6 +34,9 @@ include 'admin_headnav.php';
             width: max-content;
             min-width: 200px;
         }
+        #ut{
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +45,7 @@ include 'admin_headnav.php';
         <div id="user-info" class="user-info"></div>
         <div class="row" id="tickets"></div>
         <div class="contianer">
-            <div class="UserTable2  overflow-auto">
+            <div class="UserTable2 overflow-auto" id="ut">
             <table class="table table-striped table-bordered table-responsive" id="ticketsTable">
                     <thead>
                         <tr>
@@ -178,8 +181,21 @@ function formatTime(dateTime) {
             });
 
             // Initialize DataTable
-            $('#ticketsTable').DataTable();
-        }
+            $('#ticketsTable')
+                .on('draw.dt', function () {
+                    console.log('Loading');
+                    // $('.loader').show();
+                    showLoader();
+                    hideLoader();
+                })
+                .on('init.dt', function () {
+                    console.log('Loaded');
+                    // $('.loader').hide();
+                    hideLoader();
+                    spawn("#ut");
+                })
+                .DataTable();
+    }
     async function getUserData(){
         fetch('../fetchUser.php', {
             method: 'POST',

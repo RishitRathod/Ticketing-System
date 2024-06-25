@@ -1,5 +1,10 @@
 <head>
     <title>Analysis</title>
+    <style>
+        .loader{
+            opacity:0;
+        }
+    </style>
 </head>
 <?php
     include 'admin_headnav.php';

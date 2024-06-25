@@ -112,8 +112,12 @@
         }
 
         function populateEvents(events) {
-            const eventsRow = document.querySelector('#eventsRow');
+    const eventsRow = document.querySelector('#eventsRow');
+    const posterItems = events.Posters.map(poster => `
+        <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
+    `).join('');
 
+<<<<<<< HEAD
             // Convert sets to arrays
             const posterItems = events.Posters.map(poster => `
             <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
@@ -121,6 +125,17 @@
 
         // Generate HTML for time slots
         const timeSlotsList = events.TimeSlots.map(slot => `
+=======
+    // Find the first available date from the time slots
+    const specificDate = events.TimeSlots.length > 0 ? events.TimeSlots[0].SlotDate : null;
+
+    if (specificDate) {
+        // Filter time slots for the specific date
+        const filteredTimeSlots = events.TimeSlots.filter(slot => slot.SlotDate === specificDate);
+
+        // Generate HTML for the filtered time slots
+        const timeSlotsList = filteredTimeSlots.map(slot => `
+>>>>>>> 764b805fe35791bd7fce0aa3e3275e0e311e9a7e
             <li>${slot.SlotDate} (${slot.StartTime} - ${slot.EndTime}) - ${slot.Availability} slots</li>
         `).join('');
 
@@ -133,61 +148,56 @@
         const eventCard = document.createElement('div');
         eventCard.classList.add('col-12');
 
-
-            eventsRow.innerHTML = '';
-Object.values(events ).forEach((event) => {
-    const eventCard = document.createElement('div');
-    eventCard.classList.add('col-12');
-
-
-
-    eventCard.innerHTML = `
-        <div class="event-card ">
-            <div class="row no-gutters">
-                <div class="col-md-6 d-block">
-                    <strong class="ml-3 text-light">Event Photos</strong>
-                    <div class="posters d-flex g-0 overflow-auto">
-                    ${posterItems}
-                    </div>
-                    <div class="text-center">
+        eventCard.innerHTML = `
+            <div class="event-card">
+                <div class="row no-gutters">
+                    <div class="col-md-6 d-block">
+                        <strong class="ml-3 text-light">Event Photos</strong>
+                        <div class="posters d-flex g-0 overflow-auto">
+                            ${posterItems}
+                        </div>
+                        <div class="text-center">
                             <form action="edit_events.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="${event.EventID}">
+                                <input type="hidden" name="id" value="${events.EventID}">
                                 <button type="submit" class="btn btn-primary shadow-sm mt-3">Edit Details</button>
                             </form>
                             <form action="update_event.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="eventID" value="${events.EventID}">
                                 <input type="hidden" name="action" value="delete">
                                 <button type="submit" class="btn btn-danger shadow-sm mt-3">Delete Event</button>
                             </form>
                             <form action="view_members.php" method="post" style="display:inline;">
-                                <input type="hidden" name="eventID" value="${event.EventID}">
+                                <input type="hidden" name="eventID" value="${events.EventID}">
                                 <button type="submit" class="btn btn-primary shadow-sm mt-3">View registered users</button>
                             </form>
                         </div>
-                </div>
+                    </div>
 
-                <div class="col-md-6">
-                    <div class="card-body event-details pl-4">
-                        <h3 class="card-title"><strong>${event.EventName}</strong></h3>
-                        <p class="card-text"><strong>Venue:</strong> ${event.VenueAddress}</p>
-                        <fieldset class=""><legend><strong>Date</strong></legend>
-                            <div class="card-text"><strong>From</strong> ${ new Date(event.StartDate).toLocaleDateString('en-GB')} <strong>to</strong> ${ new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
-                        </fieldset>
-                        <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
-                            <div><strong>Time Slots</strong></div>
-                            <ul>${timeSlotsList}</ul>
-                            <div><strong>Tickets</strong></div>
-                            <ul>${ticketsList}</ul>
-                        </fieldset>
+                    <div class="col-md-6">
+                        <div class="card-body event-details pl-4">
+                            <h3 class="card-title"><strong>${events.EventName}</strong></h3>
+                            <p class="card-text"><strong>Venue:</strong> ${events.VenueAddress}</p>
+                            <fieldset class=""><legend><strong>Date</strong></legend>
+                                <div class="card-text"><strong>From</strong> ${ new Date(events.StartDate).toLocaleDateString('en-GB')} <strong>to</strong> ${ new Date(events.EndDate).toLocaleDateString('en-GB')}</div>
+                            </fieldset>
+                            <fieldset><legend><strong>Time Slots and Tickets</strong></legend>
+                                <div><strong>Time Slots</strong></div>
+                                <ul>${timeSlotsList}</ul>
+                                <div><strong>Tickets</strong></div>
+                                <ul>${ticketsList}</ul>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
- 
+        `;
+
         eventsRow.appendChild(eventCard);
-            });
-        }
+    } else {
+        console.error('No time slots available for this event.');
+    }
+}
+
 
         function isUserLoggedIn() {
                     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
