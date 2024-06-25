@@ -159,6 +159,7 @@ public function GetDetailsAtBuyTickets($EventID)
                     ts.TimeSlotID,
                     ts.StartTime,
                     ts.EndTime,
+                    ts.SlotDate,
                     t.Quantity, 
                     t.Availability, 
                     t.QR_CODE, 

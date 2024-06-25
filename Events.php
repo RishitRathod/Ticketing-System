@@ -129,7 +129,9 @@ class Events{
             GROUP_CONCAT(DISTINCT CONCAT(
                 '{\"TimeSlotID\":', tmsl.TimeSlotID, 
                 ',\"StartTime\":\"', tmsl.StartTime, 
-                '\",\"EndTime\":\"', tmsl.EndTime, 
+                '\",\"EndTime\":\"', tmsl.EndTime,
+                --add tmsl.date in here 
+                   '\",\"SlotDate\":\"', tmsl.SlotDate,
                 '\",\"Availability\":', COALESCE(tmsl.Availability, 'null'), '}'
             ) ORDER BY tmsl.StartTime SEPARATOR ',') AS TimeSlots,
             GROUP_CONCAT(DISTINCT ep.poster SEPARATOR ',') AS Posters
