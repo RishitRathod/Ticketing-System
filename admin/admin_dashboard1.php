@@ -16,6 +16,15 @@
             z-index: 999;
             animation: spin 0.5s linear infinite;
         }
+        #a{
+            opacity: 0;
+        }
+        #b{
+            opacity: 0;
+        }
+        #c{
+            opacity: 0;
+        }
     </style>
 </head>
 <?php
@@ -64,25 +73,6 @@ include 'admin_headnav.php';
     </div>
 </div>
 <div id="b" style="display: none;">
-    <div class="container table-responsive mt-2 mx-auto" id="userDiv">
-        <h2 align="center">Users</h2>
-        <table id="userTable" class="table table-striped table-bordered" style="width:100%; background-color: white;">
-            <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>User Photo</th>
-                    <th>View Details</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- Users will be dynamically populated here -->
-            </tbody>
-        </table>
-    </div>
-</div>
-<div id="c" style="display: none;">
     <div class="container table-responsive mt-2 mx-auto " id="eventDiv">
         <h2 align="center">Events</h2>
         <table id="eventTable" class="table table-striped table-bordered " style="width:100%;">
@@ -103,25 +93,49 @@ include 'admin_headnav.php';
         </table>
     </div>
 </div>
+<div id="c" style="display: none;">
+<div class="container table-responsive mt-2 mx-auto" id="userDiv">
+        <h2 align="center">Users</h2>
+        <table id="userTable" class="table table-striped table-bordered" style="width:100%; background-color: white;">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>User Photo</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Users will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
 
 <script>
     
     document.addEventListener("DOMContentLoaded", async function() {
-    var button = document.getElementById("organizations");
-    button.classList.add("active-button");
-    showLoader();
-    const data = await fetchData('organizations');
-    populateTable(data, 'organizations');
-    hideLoader();
-});
+        var button = document.getElementById("organizations");
+        button.classList.add("active-button");
+        showLoader();
+        const data = await fetchData('organizations');
+        populateTable(data, 'organizations');
+        hideLoader();
+    });
 
-function showLoader() {
-    document.querySelector('.loader').style.display = 'block';
-}
+    function showLoader() {
+        document.querySelector('.loader').style.display = 'block';
+    }
 
-function hideLoader() {
-    document.querySelector('.loader').style.display = 'none';
-}
+    function hideLoader() {
+        document.querySelector('.loader').style.display = 'none';
+    }
+
+    function spawn(id){
+        document.querySelector(id).style.opacity = "1";
+    }
     let con1, con2 = true
     let con3 = true;
     document.addEventListener('DOMContentLoaded', function () {
@@ -157,8 +171,8 @@ function hideLoader() {
 
     function useronly(button) {
         document.getElementById('a').style.display = 'none';
-        document.getElementById('b').style.display = 'block';
-        document.getElementById('c').style.display = 'none';
+        document.getElementById('b').style.display = 'none';
+        document.getElementById('c').style.display = 'block';
         updateButtonStyles(button);
         if(con2){
             showLoader();
@@ -169,8 +183,8 @@ function hideLoader() {
 
     function eventonly(button) {
         document.getElementById('a').style.display = 'none';
-        document.getElementById('b').style.display = 'none';
-        document.getElementById('c').style.display = 'block';
+        document.getElementById('b').style.display = 'block';
+        document.getElementById('c').style.display = 'none';
         updateButtonStyles(button);
         if(con3){
             showLoader();
@@ -313,11 +327,14 @@ if (tableId) {
             console.log('Loading');
             // $('.loader').show();
             showLoader();
+            hideLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
             // $('.loader').hide();
             hideLoader();
+            spawn("#b");
+
         })
         .DataTable({
         //    "ServerSide": true,
@@ -327,11 +344,6 @@ if (tableId) {
           "responsive": true,
             "autoWidth": false, // Disable automatic column width calculation
             "destroy": true, // Added to reinitialize DataTable
-            aLengthMenu: [
-        [10, 20, 50, 100, -1],
-        [10, 20, 50, 100, "All"]
-    ],
-    iDisplayLength: 10,
         "columnDefs": [
             { 
                 "width": columnWidth, 
@@ -357,26 +369,24 @@ if (tableId2) {
             console.log('Loading');
             // $('.loader').show();
             showLoader();
+            hideLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
             // $('.loader').hide();
             hideLoader();
+            spawn("#a");
+
         })
         .DataTable({
         
         "processing": true,
         "retrieve": true,
        // "ServerSide": true,
-        "showall": true,
+
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true,
-        aLengthMenu: [
-        [10, 20, 50, 100, -1],
-        [10, 20, 50, 100, "All"]
-    ],
-    iDisplayLength: 10,
+        "destroy": true, // Added to reinitialize DataTable
         "columnDefs": [
             { 
                 "width": columnWidth, 
@@ -403,11 +413,15 @@ if (tableId3) {
             console.log('Loading');
             // $('.loader').show();
             showLoader();
+            hideLoader();
+
         })
         .on('init.dt', function () {
             console.log('Loaded');
             // $('.loader').hide();
             hideLoader();
+            spawn("#c");
+
         })
         .DataTable({
        
@@ -417,11 +431,6 @@ if (tableId3) {
         "responsive": true,
         "autoWidth": false, // Disable automatic column width calculation
         "destroy": true, // Added to reinitialize DataTable
-        aLengthMenu: [
-        [10, 20, 50, 100, -1],
-        [10, 20, 50, 100, "All"]
-    ],
-    iDisplayLength: 10,
         "columnDefs": [
             { 
                 "width": columnWidth, 
