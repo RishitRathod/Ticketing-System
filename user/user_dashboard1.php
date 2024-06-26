@@ -7,207 +7,7 @@
 
     <title>User Dashboard</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"> -->
-    <style>
-        .event-poster {
-            width: 100%;
-            /* Ensure the image takes up the full width of the card */
-            height: 200px;
-            /* Set a fixed height for the images */
-            object-fit: cover;
-            /* Ensure the image covers the entire area without distortion */
-            aspect-ratio: 1/1;
-        }
-
-        /* p {
-            margin-top: 100px;
-        } */
-
-        .filterPanel {
-            height: max-content;
-            background-color: #1b155d;
-            z-index: 999;
-            margin: 10px;
-            /* position: relative; */
-        }
-
-        #searchButton {
-            border-bottom-right-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-
-        .filt {
-            /* margin-top: 8%; */
-            /* margin-left: 4%; */
-
-            padding: 5px;
-            background-color: #1b155d;
-            z-index: 250;
-            /* border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px; 
-        border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;        */
-        }
-
-        select {
-            background-color: #1b155d;
-            border-bottom-left-radius: 10px;
-            border-top-left-radius: 10px;
-            /* background: transparent; */
-            color: white;
-            border: none;
-            padding: 6px 12px;
-        }
-
-        .input-group-addon button {
-            padding: 6px 12px;
-            color: white;
-            border: none;
-            background-color: #1b155d;
-        }
-
-        .input-group-addon {
-            padding: 0 !important;
-        }
-
-        p button i {
-            position: fixed;
-            bottom: 40px;
-            /* Adjust as needed */
-            right: 40px;
-            /* Adjust as needed */
-            padding: 20px;
-            background-color: #1b155d;
-            /* Example background color */
-            color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            /* Optional: Add shadow for better visibility */
-            z-index: 999;
-        }
-        #bookmarkbtn{
-            background-color: #1b155d;
-            color: #fff;
-        }   
-        .ch {
-            position: fixed;
-            width: 250px !important;
-            height: 1100px !important;
-
-            background: #1b155d;
-            /* Example background color */
-            height: inherit;
-            top: 100px;
-            left: 0px;
-            z-index: 990;
-        }
-
-        #toggleDiv1 {
-            width: 0px;
-        }
-
-        .custom-wrapper {
-            width: 220px;
-        }
-        /* .topM {
-            padding-top: 50px !important;
-        } */
-        .ok{
-            height: 100px !important;
-        }
-        .col-md-1,.col-md-0{
-            transition: 0.1s;
-        }
-        .toggleDiv1{
-            display: "none";
-            transition: all 1s ease-in;
-        }
-
-        @media (min-width: 760px) {
-            .filterPanel {
-                width: 220px;
-            }
-
-        }
-
-        @media (max-width: 768px) {
-            .filterPanel {
-                display: inline-block;
-                height: max-content;
-            }
-            p button i {
-                bottom: 20px;
-                right: 20px;
-                padding: 20px;
-                color: #fff;
-            }
-            .filterPanel .btn-check {
-                display: inline;
-            }
-
-            p button {
-                position: fixed;
-                bottom: 30px;
-                /* Adjust as needed */
-                right: 30px;
-                /* Adjust as needed */
-                padding: 10px;
-                background-color: #1b155d;
-                /* Example background color */
-                color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                /* Optional: Add shadow for better visibility */
-                z-index: 999;
-            }
-
-            .custom-wrapper , .custom-wrapper button{
-                width: 200px;
-                font-size: 80%;
-            }
-
-            .ch {
-                /* top: 80px; */
-                left: 0px;
-                z-index: 990;
-                background-color: #00000000;
-            }   
-        }
-
-
-        .box{
-            width: fit-content;
-            position: fixed;
-            text-align: left;
-            z-index: 1;
-            opacity: 0;
-            left: -500px;
-            pointer-events: none;
-            transition: 0.3s;
-        }
-        .active_box{
-            opacity: 1;
-            left: 0px;
-            pointer-events: fill;
-        }
-        @media (max-width: 425px) {
-            .card{
-                min-width: 200px !important;
-            }
-        }
-        @media (max-width: 768px) {
-            .card{
-                min-width: 200px !important;
-            }
-        }        
-        @media (min-width: 768px) {
-            .card{
-                min-width: 200px !important;
-            }
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="userDashboardstyle.css">
 </head>
 
 <body>
@@ -386,24 +186,7 @@
             const events = await response.json();
             console.log(events);
         }
-        // function toggleDivClass() {
-        //     const div1 = document.getElementById('toggleDiv1');
-        //     const div2 = document.getElementById('toggleDiv2');
-        //     if (div2.classList.contains('col-12')) {
-        //         div2.classList.remove('col-12');
-        //         div2.classList.add('col-10');
-        //         div1.classList.remove('col-0');
-        //         div1.classList.add('col-2');
-        //         // div1.style.display = 'none';
-        //     } else if(div2.classList.contains('col-10')) {
-        //         div1.classList.remove('col-2');
-        //         div1.classList.add('col-0');
-        //         div2.classList.remove('col-10');
-        //         div2.classList.add('col-12');
-        //         // div1.style.display = 'block';
 
-        //     }
-        // }
     </script>
     <script>
 
@@ -776,6 +559,24 @@
                 isLoading = false;
             }
         }
+                // function toggleDivClass() {
+        //     const div1 = document.getElementById('toggleDiv1');
+        //     const div2 = document.getElementById('toggleDiv2');
+        //     if (div2.classList.contains('col-12')) {
+        //         div2.classList.remove('col-12');
+        //         div2.classList.add('col-10');
+        //         div1.classList.remove('col-0');
+        //         div1.classList.add('col-2');
+        //         // div1.style.display = 'none';
+        //     } else if(div2.classList.contains('col-10')) {
+        //         div1.classList.remove('col-2');
+        //         div1.classList.add('col-0');
+        //         div2.classList.remove('col-10');
+        //         div2.classList.add('col-12');
+        //         // div1.style.display = 'block';
+
+        //     }
+        // }
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
