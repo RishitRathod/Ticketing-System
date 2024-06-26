@@ -119,6 +119,10 @@
                     // Add any additional initialization logic here
                 })
                 .DataTable({
+                    aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
                     data: data,
                     columns: [
                         { data: 'EventName' },

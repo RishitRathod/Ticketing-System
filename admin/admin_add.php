@@ -178,13 +178,17 @@
                             // $('.loader').hide();
                             hideLoader();
                             spawn("#adminTableDiv");
-                        }).DataTable(
-                        //     { "responsive": true,
-                        //     "autoWidth": false, // Disable automatic column width calculation
-                        //     "destroy": true, // Added to reinitialize DataTable
-                        //     "columnDefs": [
-                        //     { "width": columnWidth, "targets": "_all" } // Set the width of all columns
-                        // ]}
+                        }).DataTable({
+                            aLengthMenu: [
+                             [25, 50, 100, 200, -1],
+                            [25, 50, 100, 200, "All"]
+                           ],
+                             "responsive": true,
+                            "autoWidth": false, // Disable automatic column width calculation
+                            "destroy": true, // Added to reinitialize DataTable
+                            "columnDefs": [
+                            { "width": columnWidth, "targets": "_all" } // Set the width of all columns
+                        ]}
                     );
                     } else {
                         console.log('Error: ', data.message);

@@ -207,6 +207,10 @@ function displayEventAttendees(data) {
             spawn("#tableforAttendace");
         })
         .DataTable({
+            aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
         responsive: true,
         autoWidth: false,
         destroy: true

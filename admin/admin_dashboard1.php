@@ -336,7 +336,11 @@ if (tableId) {
             spawn("#b");
         })
         .DataTable({
-        //    "ServerSide": true,
+        //    "ServerSide": true, 
+        aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
 
         "processing": true,
         "retrieve": true,
@@ -378,7 +382,10 @@ if (tableId2) {
 
         })
         .DataTable({
-        
+            aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
         "processing": true,
         "retrieve": true,
        // "ServerSide": true,
@@ -423,6 +430,10 @@ if (tableId3) {
 
         })
         .DataTable({
+            aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
        
         "processing": true,
         "retrieve": true,

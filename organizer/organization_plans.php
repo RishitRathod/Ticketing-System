@@ -378,6 +378,10 @@
 
             })
             .DataTable({
+                aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
                 "pagingType": "full_numbers",
                 "language": {
                     "paginate": {
@@ -447,6 +451,10 @@
 
             })
             .DataTable({
+                aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
                     "pagingType": "full_numbers", // Example of a custom option
                     "columnDefs": [
                         {

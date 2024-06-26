@@ -152,6 +152,11 @@ async function fetchAttendanceByEvent() {
                 spawn("#logT");
             })
             .DataTable({
+                aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
+
                 "pagingType": "full_numbers",
                 "language": {
                     "paginate": {
