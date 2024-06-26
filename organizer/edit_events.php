@@ -194,6 +194,8 @@ function isUserLoggedIn() {
                                 <div class="d-grid d-flex justify-content-end">
                                     <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
+
+                                <input type="number" id="dd" value="" hidden>
                             </div>
 
                             <!-- Step 2: Date and Time -->
@@ -212,6 +214,7 @@ function isUserLoggedIn() {
 
                                 </div>
                                 <p id="dayDifference"></p>
+                                <p id="dayDifference1"></p>
                                 </fieldset>
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Time <span class="req">*</span></legend>
@@ -536,14 +539,36 @@ var keptcapacity =0;
      console.log("event capacity",event.Capacity);
     document.getElementById('startDate').value = event.StartDate;
     document.getElementById('endDate').value = event.EndDate;
-    document.getElementById('startDate').value = event.StartDate;
-    document.getElementById('endDate').value = event.EndDate;
+    // document.getElementById('startDate').value = event.StartDate;
+    // document.getElementById('endDate').value = event.EndDate;
     document.getElementById('Country').value = event.Country;
     document.getElementById('State').value = event.State;
     document.getElementById('City').value = event.City;
     document.getElementById('venueAddress').value = event.VenueAddress;
+
+
+
     // Function to calculate and update days difference
+    const startDate1 = event.StartDate;
+                const endDate1 = event.EndDate;
+
+                if (startDate1 && endDate1) {
+                    const start1 = new Date(startDate1);
+                    const end1 = new Date(endDate1);
+
+                    // Calculate the difference in milliseconds
+                    const differenceInTime1 = end1 - start1;
+
+                    // Convert milliseconds to days
+                    var differenceInDays1 = differenceInTime1 / (1000 * 3600 * 24);
+
+                    // Display the difference in days
+                    document.getElementById('dayDifference1').innerText = `actual Number of days between dates: ${differenceInDays1+1}`;
+                }
+
+                var differenceInDays=0;
     function calculateAndDisplayDaysDifference() {
+        
                 const startDate = document.getElementById('startDate').value;
                 const endDate = document.getElementById('endDate').value;
 
@@ -555,13 +580,17 @@ var keptcapacity =0;
                     const differenceInTime = end - start;
 
                     // Convert milliseconds to days
-                    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+                    differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
                     // Display the difference in days
                     document.getElementById('dayDifference').innerText = `Number of days between dates: ${differenceInDays+1}`;
+                    var dd = differenceInDays1 - differenceInDays;
+                    console.log("dd",dd);
+                    document.getElementById('dd').value= dd;
                 }
-            }
+    }
 
+   
             // Attach event listeners to date inputs
             document.getElementById('startDate').addEventListener('change', calculateAndDisplayDaysDifference);
             document.getElementById('endDate').addEventListener('change', calculateAndDisplayDaysDifference);
@@ -733,6 +762,7 @@ const ticketContainer = document.getElementById('ticketContainer');
 ticketContainer.innerHTML = '';
 
 // Iterate over each ticket and populate the fields
+// Iterate over each ticket and populate the fields
 event.tickets.forEach((ticket, index) => {
     const newTicket = `
         <fieldset class="ticket-group m-3 fs-5 rounded-4" id="ticket${index}">
@@ -755,8 +785,8 @@ event.tickets.forEach((ticket, index) => {
                     <label for="returnable${index}">Returnable</label>
                     <select class="form-control rounded-4" id="returnable${index}" name="Returnable[]" >
                         <option value="">Select returnable option</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="Yes" ${ticket.Returnable === 'Yes' ? 'selected' : ''}>Yes</option>
+                        <option value="No" ${ticket.Returnable === 'No' ? 'selected' : ''}>No</option>
                     </select>
                 </div>
                 <div class="form-group col-5">
@@ -774,7 +804,7 @@ event.tickets.forEach((ticket, index) => {
             </div>
             <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
         </fieldset>`;
-    document.getElementById('ticketContainer').insertAdjacentHTML('beforeend', newTicket);                                   
+    document.getElementById('ticketContainer').insertAdjacentHTML('beforeend', newTicket);
 
     // Populate the ticket type select options dynamically
     const ticketTypeSelect = document.getElementById(`ticketType${index}`);
@@ -789,13 +819,7 @@ event.tickets.forEach((ticket, index) => {
     // Set the selected value for ticket type
     ticketTypeSelect.value = ticket.TicketType;
 
-    // Set the selected value for returnable option
-    const returnableSelect = document.getElementById(`returnable${index}`);
-    returnableSelect.value = ticket.Returnable;
 });
-
-
-
 
     // Populate other fields similarly
 });
@@ -973,84 +997,71 @@ return true; // Allow progression for steps other than 0 and 1
 
     
     function validateForm() {
-            const form = document.getElementById('registrationForm');
-            const startDateInput = document.getElementById('startDate').value;
-            const endDateInput = document.getElementById('endDate');
-    console.log(startDateInput);
-            // Get the selected start and end dates and times
-            const startDate = new Date(startDateInput.value);
-            const endDate = new Date(endDateInput.value);
-            const currentDate = new Date();
-    
-            // Check if the start date and time are before the end date and time
-            if (startDate > endDate) {
-                alert('Start date and time must be before end date and time.');
-                return false;
-            }
-    
-            // Check if the start date and time are greater than today's date and time
-            if (startDate <= currentDate) {
-                alert('Start date and time must be greater than today.');
-                return false;
-            }
-            if(startDate.value === '' || endDate.value === '') {
-                alert('Please fill in all date and time fields.');
-                return false;
-            }
-         
-            const startTimeInputs = document.querySelectorAll('input[name="StartTimeSlot[]"]');
-const endTimeInputs = document.querySelectorAll('input[name="EndTimeSlot[]"]');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const startTimeInputs = document.querySelectorAll('input[name="StartTimeSlot[]"]');
+    const endTimeInputs = document.querySelectorAll('input[name="EndTimeSlot[]"]');
+    const currentDate = new Date();
 
-// Iterate over each pair of start and end time inputs
-for (let i = 0; i < startTimeInputs.length; i++) {
-    const startTime = new Date(`1970-01-01T${startTimeInputs[i].value}:00`);
-    const endTime = new Date(`1970-01-01T${endTimeInputs[i].value}:00`);
-
-    // Check if the start and end time inputs are filled
-    if (startTimeInputs[i].value === '' || endTimeInputs[i].value === '') {
-        alert('Please fill in all time slots.');
+    // Check if the start date is before the end date
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+    if (startDate >= endDate) {
+        alert('Start date must be before end date.');
         return false;
     }
 
-    // Check if the end time is greater than the start time
-    // if (endTime <= startTime) {
-    //     alert('End time must be greater than start time.');
-    //     return false;
-    // }
-
-    // Check for overlaps with other time slots
-    for (let j = 0; j < i; j++) {
-        const prevStartTime = new Date(`1970-01-01T${startTimeInputs[j].value}:00`);
-        const prevEndTime = new Date(`1970-01-01T${endTimeInputs[j].value}:00`);
-
-        if (
-            (startTime < prevEndTime && startTime >= prevStartTime) ||
-            (endTime > prevStartTime && endTime <= prevEndTime) ||
-            (prevStartTime < endTime && prevStartTime >= startTime) ||
-            (prevEndTime > startTime && prevEndTime <= endTime)
-        ) {
-            alert('Time slots must not overlap.');
-            return false;
-        }
+    // Check if start date is greater than current date
+    if (startDate <= currentDate) {
+        alert('Start date and time must be greater than current date and time.');
+        return false;
     }
 
+    // Check if all date and time fields are filled
+    if (startDateInput.value === '' || endDateInput.value === '') {
+        alert('Please fill in all date and time fields.');
+        return false;
+    }
 
-       
-    
-            // Check if the start time of the next slot is greater than or equal to the end time of the previous slot
-            if (i > 0) {
-                const prevEndTime = new Date(startDate.toDateString() + ' ' + endTimeInputs[i - 1].value);
-                const nextStartTime = new Date(startDate.toDateString() + ' ' + startTimeInputs[i].value);
-                if (nextStartTime < prevEndTime) {
-                    alert('Start time of the next slot must be after the end time of the previous slot.');
+    // Iterate over each pair of start and end time inputs to check for overlaps
+    for (let i = 0; i < startTimeInputs.length; i++) {
+        const startTime1 = parseTime(startTimeInputs[i].value);
+        const endTime1 = parseTime(endTimeInputs[i].value);
+
+        // Check if start time and end time are filled
+        if (startTimeInputs[i].value === '' || endTimeInputs[i].value === '') {
+            alert('Please fill in all time slots.');
+            return false;
+        }
+
+        // Check for overlaps with other time slots
+        for (let j = 0; j < startTimeInputs.length; j++) {
+            if (i !== j) {
+                const startTime2 = parseTime(startTimeInputs[j].value);
+                const endTime2 = parseTime(endTimeInputs[j].value);
+
+                // Check for overlap
+                if ((startTime1 < endTime2 && startTime1 >= startTime2) ||
+                    (endTime1 > startTime2 && endTime1 <= endTime2) ||
+                    (startTime2 < endTime1 && startTime2 >= startTime1) ||
+                    (endTime2 > startTime1 && endTime2 <= endTime1)) {
+                    alert('Time slots must not overlap.');
                     return false;
                 }
             }
-        
         }
-        // If all validations pass, return true to submit the form
-        return true;
     }
+
+    // If no issues found, return true
+    return true;
+}
+
+// Helper function to parse time string into Date object
+function parseTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    return new Date(1970, 0, 1, hours, minutes);
+}
+
     
     
     function setDefaultDropdownValues(country, state, city) {
@@ -1324,10 +1335,14 @@ nextBtns.forEach(button => {
                 return; // Exit the function, preventing further execution
             }
 
-            if (currentStep === 1) {
+            if (currentStep === 1 ) {
                 fetchPackages().then(data => {
                     console.log("fetch", data);
 
+                    if (!validateForm()) {
+                        console.log('Form validation failed on step 1. Staying on step 1.');
+                        return; // Stay on the current step if form validation fails
+                    }
                     if (!validateStep(currentStep, data)) {
                         console.log('Form validation failed on step 1. Staying on step 1.');
                         return; // Stay on the current step if form validation fails
