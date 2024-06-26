@@ -144,7 +144,8 @@ use Seld\JsonLint\Undefined;
                     'Discount' => $_POST['Discount'][$index],
                     'Price' => $_POST['Price'][$index],
                     'TicketType' => $_POST['TicketType'][$index],
-                    'Availability' => $_POST['Quantity'][$index]
+                    'Availability' => $_POST['Quantity'][$index],
+                    'Returnable' => $_POST['Returnable'][$index]
                 ];
             }
             // Insert tickets into Table2 (tickets)

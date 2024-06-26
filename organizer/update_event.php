@@ -125,7 +125,8 @@ if ($action === 'update')
                                 'Quantity' => $_POST['Quantity'][$index],
                                 'LimitQuantity' => $_POST['LimitQuantity'][$index],
                                 'Discount' => $_POST['Discount'][$index],
-                                'Price' => $_POST['Price'][$index]
+                                'Price' => $_POST['Price'][$index],
+                                'Returnable' => $_POST['Returnable'][$index],
                                 
                             ];
                         }
