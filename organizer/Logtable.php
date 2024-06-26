@@ -9,6 +9,11 @@ include 'navhead.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Event Attendance</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        #logT{
+            opacity: 0;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
@@ -19,21 +24,22 @@ include 'navhead.php';
     <input type="text" id="eventID" name="eventID" required>
     <button type="submit">Load Data</button>
 </form> -->
-
-<table id="userEventTable" class="display">
-    <thead>
-        <tr>
-            <th>UserID</th>
-            <th>Username</th>
-            <th>Entry Time</th>
-            <th>Exit Time</th>
-            <th>View Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Data will be populated by JavaScript -->
-    </tbody>
-</table>
+<div id="logT">
+    <table id="userEventTable" class="display">
+        <thead>
+            <tr>
+                <th>UserID</th>
+                <th>Username</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>View Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated by JavaScript -->
+        </tbody>
+    </table>
+</div>
 
 <script>
     const eventID = <?php echo $_POST['id'] ?? 'null'; ?>;
@@ -70,7 +76,19 @@ function fetchAttendanceByEvent() {
                     entryTime,
                     exitTime,
                     `<button onclick="viewDetails(${row.UserID})">View Details</button>`
-                ]).draw();
+                ])
+                .on('draw.dt', function () {
+                    console.log('Loading');
+                    // $('.loader').show();
+                    showLoader();
+                    hideLoader();
+                })
+                .on('init.dt', function () {
+                    console.log('Loaded');
+                    // $('.loader').hide();
+                    hideLoader();
+                    spawn("#logT");
+                }).draw();
             });
 
         } else {

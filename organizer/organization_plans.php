@@ -448,6 +448,13 @@
             })
             .DataTable({
                     "pagingType": "full_numbers", // Example of a custom option
+                    "columnDefs": [
+                        {
+                            "targets": 0, // Disable functionality for the 4th column (index 3)
+                            // "targets": nonSortableColumnIndex,
+                            "orderable": false, // Disable sorting
+                        }
+                    ],
                     "language": {
                         "paginate": {
                             "first": "<<",

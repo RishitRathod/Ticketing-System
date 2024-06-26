@@ -237,9 +237,9 @@
                         </div>
                         <strong>Sort By Price</strong>
                         <div class="btn-group-horizontal btn-group-md-vertical" role="group" aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="priceOrder" id="HighToLow" autocomplete="off">
+                            <input type="checkbox" class="btn-check ab" name="priceOrder" id="HighToLow" autocomplete="off">
                             <label class="btn btn-outline-primary btn-sm" for="HighToLow"> High to Low</label>
-                            <input type="radio" class="btn-check" name="priceOrder" id="LowToHigh" autocomplete="off">
+                            <input type="checkbox" class="btn-check ab" name="priceOrder" id="LowToHigh" autocomplete="off">
                             <label class="btn btn-outline-primary btn-sm" for="LowToHigh"> Low to High</label>
                         </div>
                     </div>
@@ -324,6 +324,9 @@
 
     <?php include 'user_footer.html'; ?>
     <script>
+        $(".ab").change(function () {
+            $(".ab").not(this).prop('checked', false);
+        });
         let menu_icon_box = document.querySelector(".filt");
         let box = document.querySelector(".box");
 
