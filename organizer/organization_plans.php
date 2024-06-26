@@ -12,9 +12,9 @@
 
         /* Customize table header */
         thead {
-        background-color: #0d004d;
-        color: #fff;
-        padding: 2px;
+            background-color: #0d004d;
+            color: #fff;
+            padding: 2px;
         }
 
         /* Customize table rows */
