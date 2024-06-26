@@ -94,9 +94,12 @@ require_once 'admin_headnav.php';
     <input type="hidden" id="EventID" name="EventID" value="">
 </form>
 <script>
+    let con1 = true;
+</script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
-    var button = document.getElementById("orgB");
-    button.classList.add("active-button");
+        var button = document.getElementById("orgB");
+        button.classList.add("active-button");
     });
 
     function setExpiryDateWarning() {
@@ -118,7 +121,6 @@ require_once 'admin_headnav.php';
         });
         clickedButton.classList.add('active-button');
     }
-    let con1,con2 = true;
     function showOrg(button) {
         document.getElementById("orgInfo").style.display = "block";
         document.getElementById("orgEvents").style.display = "none";
@@ -127,16 +129,13 @@ require_once 'admin_headnav.php';
             showLoader();
             con1=false;
         }
+            hideLoader();
     }
 
     function showEvents(button) {
         document.getElementById("orgInfo").style.display = "none";
         document.getElementById("orgEvents").style.display = "block";
         updateButtonStyles(button);
-        if(con2){
-            showLoader();
-            con2=false;
-        }
     }
 
     const OrgID = parseInt(<?php echo $_POST['OrgID']; ?>);
@@ -266,7 +265,7 @@ function displayPackagesData(packages) {
             console.log('Loading');
             // $('.loader').show();
             showLoader();
-            hideLoader();
+            // hideLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
@@ -295,7 +294,7 @@ function displayPackagesData(packages) {
             console.log('Loading');
             // $('.loader').show();
             showLoader();
-            hideLoader();
+            // hideLoader();
         })
         .on('init.dt', function () {
             console.log('Loaded');
@@ -304,8 +303,8 @@ function displayPackagesData(packages) {
             spawn("#orgEvents");
         })
     .DataTable({
-        data: eventData,
-        columns: [
+        "data": eventData,
+        "columns": [
             { 
                 data: null,
                 render: function(data, type, row, meta) {

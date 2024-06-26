@@ -1,6 +1,3 @@
-<?php
-    include 'userdashnav.php';
-?>
 <head>
     <title>My Events</title>
     <style>
@@ -8,30 +5,31 @@
     </style>
 </head>
 <body>  
-        <div class="events">
-        </div>
+<?php
+    include 'userdashnav.php';
+?>
+<div class="container-xl" id="bookEvents"></div>
+      
 
 <script>
 
 
-    const calluserData= (async ()=>
-                {
-                    const response = await fetch('../fetchCheckUser.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ action: 'getUserId' }),
-                    });
-                    const data = await response.json();
-                    console.log(data.data)
-                    //UserID = data;
-                    return data.data;
-                })();
+    const calluserData= (async ()=>{
+        const response = await fetch('../fetchCheckUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'getUserId' }),
+        });
+        const data = await response.json();
+        console.log(data.data)
+        //UserID = data;
+        return data.data;
+    })();
 
-            const UserID= calluserData;
+    const UserID= calluserData;
     async function GetbookmarkedEvents(UserID){
-
         const response = await fetch('../fetchEvents.php', {
             method: 'POST',
             headers: {
@@ -48,7 +46,13 @@
         const UserID = await calluserData;
         const events = await GetbookmarkedEvents(UserID);
         console.log(events);
+
+        const a = document.getElementById("bookEvents");
+        a.innerHTML += `
+        
+        `
+        
     });
 </script>
 
-    </body>
+</body>
