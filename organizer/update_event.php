@@ -108,7 +108,7 @@ if ($action === 'update')
                                 if (isset($_POST['EndTimeSlot'][$index])) {
                                     // Create time slot data array
                                     $timeSlotData = [
-                                        'EventID' => $lastEventID,
+                                        'EventID' => $eventID,
                                         'StartTime' => $startTime,
                                         'EndTime' => $_POST['EndTimeSlot'][$index],
                                         'Availability' => $capacity,
