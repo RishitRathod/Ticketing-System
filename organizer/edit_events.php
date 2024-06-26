@@ -496,7 +496,8 @@ var keptcapacity =0;
                             Quantity: event.Quantity,
                             LimitQuantity: event.LimitQuantity,
                             Discount: event.Discount,
-                            Price: event.Price
+                            Price: event.Price,
+                            Returnable : event.Returnable
                         }]])
                     };
                 } else {
@@ -513,7 +514,8 @@ var keptcapacity =0;
                         Quantity: event.Quantity,
                         LimitQuantity: event.LimitQuantity,
                         Discount: event.Discount,
-                        Price: event.Price
+                        Price: event.Price,
+                        Returnable : event.Returnable
                     });
                 }
                 return acc;
@@ -762,7 +764,6 @@ const ticketContainer = document.getElementById('ticketContainer');
 ticketContainer.innerHTML = '';
 
 // Iterate over each ticket and populate the fields
-// Iterate over each ticket and populate the fields
 event.tickets.forEach((ticket, index) => {
     const newTicket = `
         <fieldset class="ticket-group m-3 fs-5 rounded-4" id="ticket${index}">
@@ -785,8 +786,8 @@ event.tickets.forEach((ticket, index) => {
                     <label for="returnable${index}">Returnable</label>
                     <select class="form-control rounded-4" id="returnable${index}" name="Returnable[]" >
                         <option value="">Select returnable option</option>
-                        <option value="Yes" ${ticket.Returnable === 'Yes' ? 'selected' : ''}>Yes</option>
-                        <option value="No" ${ticket.Returnable === 'No' ? 'selected' : ''}>No</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
                     </select>
                 </div>
                 <div class="form-group col-5">
@@ -804,7 +805,7 @@ event.tickets.forEach((ticket, index) => {
             </div>
             <button type="button" class="btn btn-danger remove-ticket rounded-4"> <i class="fa fa-trash mr-2"></i>Remove</button>
         </fieldset>`;
-    document.getElementById('ticketContainer').insertAdjacentHTML('beforeend', newTicket);
+    document.getElementById('ticketContainer').insertAdjacentHTML('beforeend', newTicket);                                   
 
     // Populate the ticket type select options dynamically
     const ticketTypeSelect = document.getElementById(`ticketType${index}`);
@@ -819,7 +820,13 @@ event.tickets.forEach((ticket, index) => {
     // Set the selected value for ticket type
     ticketTypeSelect.value = ticket.TicketType;
 
+    // Set the selected value for returnable option
+    const returnableSelect = document.getElementById(`returnable${index}`);
+    returnableSelect.value = ticket.Returnable;
 });
+
+
+
 
     // Populate other fields similarly
 });

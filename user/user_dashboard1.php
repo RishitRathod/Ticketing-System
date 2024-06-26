@@ -277,7 +277,7 @@
         let currentFilter = '';
         let isLoading = false;
         let offset = 0;
-        const limit = 19;
+        const limit = 20;
         let noMoreEvents = false;
         const displayedEventIDs = new Set();
         let UserID;

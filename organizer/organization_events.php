@@ -43,6 +43,7 @@
             <table id="eventsTable" class="display table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>Sr. No</th>
                         <th>Event Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>
@@ -121,6 +122,7 @@
                 .DataTable({
                     data: data,
                     columns: [
+                        { data: null, render: (data, type, row, meta) => meta.row + 1 },
                         { data: 'EventName' },
                         { data: 'StartDate', render: formatDate },
                         { data: 'EndDate', render: formatDate },
