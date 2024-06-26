@@ -375,6 +375,15 @@ class DB
         $Users= new Users($db->connection());
         return $Users->unbookmarkEvent($UserID, $EventID);
     }
+    static function FetchEventsWithOrgName(){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Events= new Events($db->connection());
+        return $Events->FetchEventsWithOrgName();
+    }
 
     static function FetchallTheBookemarkedEvents($UserID){
         $host = DB_HOST;

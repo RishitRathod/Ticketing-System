@@ -161,5 +161,17 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
                 echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
             }
 
+        case 'FetchEventsWithOrgName':
+            try{
+                $response = DB::FetchEventsWithOrgName();
+                $response['status']='success';
+                $response['success'] = true;
+                $response['message'] = 'Data fetched successfully';
+                echo json_encode($response);
+            }
+            catch(Exception $e){
+                echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
+            }
+
     }
 }

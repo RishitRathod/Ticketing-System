@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
             elseif($tablename =='events')
             {
-                $check = DB::selectAll(DB_NAME, $tablename);
+                $check = DB::FetchEventsWithOrgName();
                 //return all events
                 if ($check) {
                     echo json_encode(['tablename'=>$tablename, 'status' => 'success', 'message' => 'Events exist', 'data' => $check]);
