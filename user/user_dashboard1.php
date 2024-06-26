@@ -142,18 +142,7 @@
             }
         }
     </script>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const images = document.querySelectorAll('img[data-default]');
-
-            images.forEach(img => {
-                img.onerror = function () {
-                    this.src = this.getAttribute('data-default');
-                }
-            });
-        });
-    </script>
+    
     <script>
         function applyFilters(event) {
             event.preventDefault();
@@ -291,7 +280,7 @@
         const limit = 19;
         let noMoreEvents = false;
         const displayedEventIDs = new Set();
-
+        let UserID;
         document.addEventListener("DOMContentLoaded", function () {
             const categoryButtons = document.querySelectorAll(".scroll-item");
 
@@ -357,6 +346,7 @@
                 if (!eventsContainer) {
                     console.error('eventsContainer element not found');
                 }
+                
                 const calluserData= (async ()=>
                 {
                     const response = await fetch('../fetchCheckUser.php', {
@@ -368,11 +358,11 @@
                     });
                     const data = await response.json();
                     console.log(data.data)
-                    //UserID = data;
+                    UserID = data;
                     return data.data;
                 })();
 
-                const UserID=await calluserData;
+                 UserID=await calluserData;
               //  console.log(await UserID);
               
                 
@@ -430,6 +420,9 @@
             }
         }
 
+
+
+
         async function bookmarkEvent(EventID, UserID) {
                     try {
                         const response = await fetch('../fetchUser.php', {
@@ -473,6 +466,30 @@
                     console.log(data);
                 }
 
+
+                async function FetchallTheBookemarkedEvents(UserID){
+            const response = await fetch('../fetchUser.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'getBookmarkedEvents', UserID: UserID }),
+            });
+            const data = await response.json();
+            console.log('bookmarkedEvents',data);
+            return data;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('img[data-default]');
+            FetchallTheBookemarkedEvents(UserID);
+            images.forEach(img => {
+                img.onerror = function () {
+                    this.src = this.getAttribute('data-default');
+                }
+            });
+        });
 
         function onScroll() {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
