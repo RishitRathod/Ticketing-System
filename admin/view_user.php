@@ -189,12 +189,18 @@ function formatTime(dateTime) {
                     hideLoader();
                 })
                 .on('init.dt', function () {
+                    
                     console.log('Loaded');
                     // $('.loader').hide();
                     hideLoader();
                     spawn("#ut");
                 })
-                .DataTable();
+                .DataTable({
+                    aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],}
+                );
     }
     async function getUserData(){
         fetch('../fetchUser.php', {

@@ -262,6 +262,7 @@ function displayPackagesData(packages) {
 
         $('#package-table')
         .on('draw.dt', function () {
+
             console.log('Loading');
             // $('.loader').show();
             showLoader();
@@ -274,6 +275,10 @@ function displayPackagesData(packages) {
             spawn("#package-details");
         })
         .DataTable({
+            aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
             responsive: true,
             autoWidth: false,
             destroy: true
@@ -303,6 +308,10 @@ function displayPackagesData(packages) {
             spawn("#orgEvents");
         })
     .DataTable({
+        aLengthMenu: [
+        [25, 50, 100, 200, -1],
+        [25, 50, 100, 200, "All"]
+    ],
         "data": eventData,
         "columns": [
             { 
