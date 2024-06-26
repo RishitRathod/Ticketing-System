@@ -124,6 +124,25 @@ function isUserLoggedIn() {
         from {bottom: 30px; opacity: 1;}
         to {bottom: 0; opacity: 0;}
         }
+ 
+        @media (max-width: 425px) {
+            *{
+                font-size: 90% !important;
+            }
+            .btn{
+                font-size: 60% !important;
+                padding: 5px !important;
+            }
+            .form-group{
+                padding: 5px !important;
+                margin: 0px !important;
+
+            }
+            .form-group input{
+                padding: 1px !important;
+            }
+
+        }     
 
     </style>
 </head>
@@ -132,8 +151,8 @@ function isUserLoggedIn() {
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card rounded-4">
-                    <div class="card-header">
-                        <h2>Event Registration</h2>
+                    <div class="card-header fs-2">
+                        Event Registration
                     </div>
                     <div class="card-body">
                         <form id="registrationForm" class="fs-5  " method="post" enctype="multipart/form-data" novalidate>
@@ -191,7 +210,7 @@ function isUserLoggedIn() {
                                     <div class="invalid-feedback">Select a Package type</div>
                                 </div>
                                 <div class="d-grid d-flex justify-content-end">
-                                    <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-4 fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
                             </div>
 
@@ -199,12 +218,12 @@ function isUserLoggedIn() {
                             <div name="timeAndDate" id="timeAndDate" class="step ">
                                 <fieldset class="mt-3 rounded-4">
                                     <legend> Event Date <span class="req">*</span></legend>
-                               <div class="row mx-auto">
-                               <div class="col-5 form-group">
+                               <div class="row mx-auto justify-content-evenly">
+                               <div class="col-6 col-md-5 form-group">
                                     <label for="startDate">Start Date</label>
                                     <input type="text"  class="form-control datepicker" onfocus="(this.type = 'date')" id="startDate" placeholder="dd-mm-yyyy" name="StartDate">
                                 </div>
-                                <div class="col-5 form-group">
+                                <div class="col-6 col-md-5 form-group">
                                     <label for="endDate">End Date</label>
                                     <input type="text" class="form-control" id="endDate" onfocus="(this.type = 'date')" placeholder="dd-mm-yyyy" name="EndDate">
                                 </div>
@@ -216,12 +235,12 @@ function isUserLoggedIn() {
                                     <legend> Event Time <span class="req">*</span></legend>
                                     <div id="timeSlotsContainer">
                                         <div class="time-slot-group">
-                                        <div class="row mx-auto">
-                                        <div class="col-5 form-group">
+                                        <div class="row g-0 justify-content-evenly">
+                                        <div class="col-6 col-md-5 form-group">
                                             <label for="startTimeSlot1">Start Time Slot</label>
                                             <input type="time"  class="form-control" id="startTimeSlot1" name="StartTimeSlot[]">
                                         </div>
-                                        <div class="col-5 form-group">
+                                        <div class="col-6 col-md-5 form-group">
                                             <label for="endTimeSlot1">End Time Slot</label>
                                             <input type="time"  class="form-control" id="endTimeSlot1" name="EndTimeSlot[]">
                                         </div>
@@ -236,8 +255,8 @@ function isUserLoggedIn() {
                                     <button type="button" class="btn btn-success rounded-3" id="addTimeSlot"><i class="fa fa-plus mr-2 ml-sm-0"></i>Add Time Slot</button>
                                 </div>
                                 <div class="d-grid d-flex flex-row justify-content-center gap-5">
-                                    <button type="button" class="btn col-5 fs-6 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="button" class="btn col-5 fs-6 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-4 fs-6 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="button" class="btn col-4 fs-6 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                             
@@ -264,7 +283,7 @@ function isUserLoggedIn() {
                                                 <div id="addTicType"></div>
                                             </div>
                                             <script></script>
-                                            <div class="form-group col-5">
+                                            <div class="form-group col-6">
                                                 <label for="quantity">Quantity<span class="req">*</span></label>
                                                 <input type="number" id="quantity" value="" onload="givecapacity(this.id)" class="form-control rounded-4" min="1" name="Quantity[]"  required>
                                             </div>
@@ -278,7 +297,7 @@ function isUserLoggedIn() {
                                                     <option value="No">No</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-5">
+                                            <div class="form-group col-6">
                                                 <label for="limitQuantity">Limit Quantity<span class="req">*</span></label>
                                                 <input type="number" id="limitQuantity" class="form-control rounded-4" min="1" name="LimitQuantity[]" required>
                                             </div>
@@ -301,8 +320,8 @@ function isUserLoggedIn() {
                                     <button type="button" class="btn btn-success rounded-3" id="addTicket"><i class="fa fa-plus mr-2 ml-sm-0"></i>Add Ticket Type</button>
                                 </div>
                                 <div class="d-grid d-flex flex-row justify-content-center gap-5">
-                                    <button type="button" class="btn col-5 fs-5 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="button" class="btn col-5 fs-5 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-4 fs-5 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="button" class="btn col-4 fs-5 btn-lg btn-outline-primary next-step rounded-pill"> Next <i class="fa fa-angle-right ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
 
@@ -354,8 +373,8 @@ function isUserLoggedIn() {
                                 <!-- </fieldset> -->
                                
                                 <div class="d-grid d-flex flex-row mt-3 justify-content-center gap-5">
-                                    <button type="button" class="btn col-5 fs-5 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
-                                    <button type="submit" class="btn col-5 fs-5 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
+                                    <button type="button" class="btn col-4 fs-5 btn-lg btn-outline-primary prev-step rounded-pill"> <i class="fa fa-angle-left mr-2 ml-sm-0"></i>Previous</button>
+                                    <button type="submit" class="btn col-4 fs-5 btn-lg btn-outline-success next-step rounded-pill" > Submit <i class="fa fa-bullhorn ml-2 fs-sm-7 ml-sm-0"></i></button>
                                 </div>
                             </div>
                         </form>
