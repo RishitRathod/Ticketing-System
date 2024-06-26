@@ -376,6 +376,16 @@ class DB
         return $Users->unbookmarkEvent($UserID, $EventID);
     }
 
+    static function FetchallTheBookemarkedEvents($UserID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user, $pass, $dbname);
+        $Users= new Users($db->connection());
+        return $Users->FetchallTheBookemarkedEvents($UserID);
+    }
+
     static function SetTimes($TicketSalesID){
         $host   = DB_HOST;
         $user   = DB_USER;
@@ -385,6 +395,7 @@ class DB
         $TicketUsage= new TicketUsage($db->connection());
         return $TicketUsage->SetTimes($TicketSalesID);
     }
+
 
     static function GetTicketsDataByUserID($UserID){
         $host   = DB_HOST;

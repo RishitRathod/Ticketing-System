@@ -296,7 +296,19 @@ public function getUserEventDetails($UserID){
 
 public function bookmarkEvent($UserID,$EventID){
     try
-    {
+    {   
+        $sql= "SELECT * FROM $this->userbookmarkedeventsTable WHERE UserID = :UserID AND EventID = :EventID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return ["error" => "Event is already bookmarked"];
+        }
+
+        
+
         $sql ="INSERT INTO $this->userbookmarkedeventsTable (UserID, EventID) VALUES (:UserID, :EventID)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
@@ -313,14 +325,16 @@ public function bookmarkEvent($UserID,$EventID){
 }
 public function unbookmarkEvent($UserID,$EventID){
     try
-    {
+    {   
+        
+
         $sql= "SELECT * FROM $this->userbookmarkedeventsTable WHERE UserID = :UserID AND EventID = :EventID";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
         $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
         $stmt->execute();
-        if($stmt->rowCount() == 0){
-            return ["error" => "Event not bookmarked"];
+        if($stmt->rowCount() > 0){
+            return ["error" => "Event is not bookmarked"];
         }
 
 
@@ -338,6 +352,23 @@ public function unbookmarkEvent($UserID,$EventID){
         return ['error' => "Unbookmark Event failed: " . $e->getMessage()];
 
     }
+}
+
+function FetchallTheBookemarkedEvents($UserID){
+    try {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->userbookmarkedeventsTable WHERE UserID = :UserID");
+        $stmt->bindParam(':UserID', $UserID);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return ["error" => "User not found", 'message' => $result];
+        }
+        return $result;
+    } catch (PDOException $e) {
+        return ['error' => "Fetch User Details failed: " . $e->getMessage()];
+    }
+
 }
 
 
