@@ -615,9 +615,20 @@ var keptcapacity =0;
 // }
         
     // Populate time slots
-    const timeSlotsContainer = document.getElementById('timeSlotsContainer');
-    timeSlotsContainer.innerHTML = ''; // Clear existing slots
-    event.timeSlots.forEach(slot => {
+ // Populate time slots
+const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+timeSlotsContainer.innerHTML = ''; // Clear existing slots
+
+const uniqueStartTimes = new Set();
+const uniqueEndTimes = new Set();
+
+event.timeSlots.forEach(slot => {
+    if (uniqueStartTimes.has(slot.StartTime) || uniqueEndTimes.has(slot.EndTime)) {
+        console.warn(`Duplicate time slot found: Start Time - ${slot.StartTime}, End Time - ${slot.EndTime}`);
+    } else {
+        uniqueStartTimes.add(slot.StartTime);
+        uniqueEndTimes.add(slot.EndTime);
+
         const newSlot = `
             <div class="time-slot-group">
                 <div class="row mx-auto">
@@ -633,7 +644,15 @@ var keptcapacity =0;
                 <button type="button" class="btn btn-danger m-2 remove-time-slot" id="removeTime"><i class="fa fa-trash mr-2"></i>Remove</button>
             </div>`;
         timeSlotsContainer.insertAdjacentHTML('beforeend', newSlot);
+    }
+});
+
+// Add event listener to remove buttons
+document.querySelectorAll('.remove-time-slot').forEach(button => {
+    button.addEventListener('click', function() {
+        this.closest('.time-slot-group').remove();
     });
+});
 
    
     calculateAndDisplayDaysDifference();

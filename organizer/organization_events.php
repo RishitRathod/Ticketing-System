@@ -40,7 +40,7 @@
     <!-- Main Content -->
         <div id="eventsContainer">
             <h2 class="py-2" align="center">Events</h2>
-            <table id="eventsTable" class="display table table-border-2 table-striped">
+            <table id="eventsTable" class="display table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Event Name</th>
@@ -164,7 +164,7 @@
                             render: eventID => `
                                 <form action="organization_eventdetails.php" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="${eventID}">
-                                    <button type="submit" class="btn btn-primary">View Details</button>
+                                    <button type="submit" class="btn btn-primary my-auto p-1" style="font-size: 12px">View Details</button>
                                 </form>
                             `
                         }
