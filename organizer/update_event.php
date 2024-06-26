@@ -101,11 +101,26 @@ if ($action === 'update')
                                 $timeSlots[] = $timeSlotData;
                             }
                         }
-                        if (empty($timeSlots)) {
-                            $response['success'] = false;
-                            $response['message'] = "Failed to insert time slots";
-                        }
-                    } else {
+                        for($startDate; $startDate <= $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
+                            // Loop through the start time slots array
+                            foreach ($_POST['StartTimeSlot'] as $index => $startTime) {
+                                // Check if corresponding end time exists
+                                if (isset($_POST['EndTimeSlot'][$index])) {
+                                    // Create time slot data array
+                                    $timeSlotData = [
+                                        'EventID' => $lastEventID,
+                                        'StartTime' => $startTime,
+                                        'EndTime' => $_POST['EndTimeSlot'][$index],
+                                        'Availability' => $capacity,
+                                        'SlotDate' => $startDate
+                                    ];
+                                    // Insert time slot into the database
+                                    DB::insert(DB_NAME, 'timeslots', $timeSlotData);
+                                    // Add time slot data to the array
+                                    $timeSlots[] = $timeSlotData;
+                                }
+                            }
+                        }                    } else {
                         $response['success'] = false;
                         $response['message'] = "No time slots provided to insert";
                     }
