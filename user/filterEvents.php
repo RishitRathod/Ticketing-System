@@ -5,7 +5,6 @@ require_once('../db_connection.php');
 header('Content-Type: application/json');
 
 try {
-    
     $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -17,7 +16,10 @@ try {
     $minPrice = $_GET['minPrice'] ?? '';
     $maxPrice = $_GET['maxPrice'] ?? '';
 
-    $sql = "SELECT e.EventID, e.EventName, e.Description, e.StartDate, e.EndDate, e.VenueAddress, e.City, e.State, e.Country, t.Price, ep.poster
+    $sql = "SELECT 
+            e.EventID, e.EventName, e.Description, e.StartDate, 
+            e.EndDate, e.VenueAddress, e.City, e.State, e.Country, 
+            t.Price, ep.poster
             FROM events e
             LEFT JOIN tickets t ON e.EventID = t.EventID
             LEFT JOIN eventposter ep ON e.EventID = ep.EventID
@@ -31,19 +33,19 @@ try {
         $params[] = $category;
     }
 
-    if ($location) {
+    if ($location && $location !== 'All') {
         $conditions[] = "(e.City LIKE ? OR e.State LIKE ? OR e.Country LIKE ?)";
         $paramValue = "%$location%";
         $params = array_merge($params, [$paramValue, $paramValue, $paramValue]);
     }
 
     if ($searchTerm) {
-        $conditions[] = "(e.EventName LIKE ? OR e.Description LIKE ? e.City LIKE ? OR e.State LIKE ? OR e.Country LIKE ?)";
+        $conditions[] = "(e.EventName LIKE ? OR e.Description LIKE ? OR e.City LIKE ? OR e.State LIKE ? OR e.Country LIKE ?)";
         $paramValue = "%$searchTerm%";
-        $params = array_merge($params, [$paramValue, $paramValue,$paramValue, $paramValue, $paramValue]);
+        $params = array_merge($params, [$paramValue, $paramValue, $paramValue, $paramValue, $paramValue]);
     }
 
-    // Duration filtering logic remains the same, omitted for brevity
+    // Add duration filtering logic if needed
 
     if ($minPrice && $maxPrice) {
         $conditions[] = "t.Price BETWEEN ? AND ?";
@@ -61,12 +63,23 @@ try {
         $sql .= " ORDER BY t.Price DESC";
     }
 
+    // Prepare and execute the main query
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
 
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode($events);
+    // Count total number of records for response
+    $totalRecords = count($events);
+
+    // Prepare response
+    $response = [
+        'totalRecords' => $totalRecords,
+        'events' => $events
+    ];
+
+    echo json_encode($response);
 } catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
-}   
+}
+?>

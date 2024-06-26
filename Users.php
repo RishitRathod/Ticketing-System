@@ -314,6 +314,17 @@ public function bookmarkEvent($UserID,$EventID){
 public function unbookmarkEvent($UserID,$EventID){
     try
     {
+        $sql= "SELECT * FROM $this->userbookmarkedeventsTable WHERE UserID = :UserID AND EventID = :EventID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+        $stmt->bindParam(':EventID', $EventID, PDO::PARAM_INT);
+        $stmt->execute();
+        if($stmt->rowCount() == 0){
+            return ["error" => "Event not bookmarked"];
+        }
+
+
+
         $sql ="UPDATE $this->userbookmarkedeventsTable SET StatusBit = 0 WHERE UserID = :UserID AND EventID = :EventID";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
