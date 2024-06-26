@@ -409,8 +409,8 @@
                             <div class="card-footer text-center">
                                 <form action="get_details.php" method="POST">
                                     <input type="hidden"  name="id" value="${event.EventID}">
-                                    <button type="submit" class="btn  col-6" style="width: 100%;">View Details</button>
-                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn"  class="bookmarkbtn btn  fa fa-bookmark col-auto"></button>
+                                    <button type="submit" class="btn btn-primary col-6" style="width: 100%;">View Details</button>
+                                    <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" class="bookmarkbtn btn fa fa-plus col-auto" data-eventid="${event.EventID}"></button>
 
                                 </form>
                             </div>
@@ -440,7 +440,23 @@
                             body: JSON.stringify({ action: 'bookmarkEvent', EventID: EventID, UserID: UserID }),
                         });
                         const data = await response.json();
-                        console.log(data);
+
+
+                        if (data.status === 'success') {
+                            const bookmarkBtn = document.querySelector(`.bookmarkbtn[data-eventid='${EventID}']`);
+                            if (bookmarkBtn) {
+                                if (bookmarkBtn.classList.contains('fa-plus')) {
+                                    bookmarkBtn.classList.remove('fa-plus');
+                                    bookmarkBtn.classList.add('fa-bookmark');
+                                } else {
+                                    // If you want to toggle back to fa-plus if it's already bookmarked
+                                    bookmarkBtn.classList.remove('fa-bookmark');
+                                    bookmarkBtn.classList.add('fa-plus');
+                                    unbookmarkEvent(EventID,UserID)
+                                }
+                            }
+                        }                  
+                        console.log("assxs",data);
                     } catch (error) {
                         console.error('Error bookmarking event:', error);
                     }
