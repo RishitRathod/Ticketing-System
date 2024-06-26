@@ -131,6 +131,7 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
+                        document.getElementById('TicketSalesID').value = decodedText;
                         FetchDetails(decodedText);
                         
 
