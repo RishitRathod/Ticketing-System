@@ -114,7 +114,7 @@
         function populateEvents(events) {
     const eventsRow = document.querySelector('#eventsRow');
     const posterItems = events.Posters.map(poster => `
-        <img src="${poster}" class="img-fluid m-2" alt="Event Poster">
+        <img src="${poster}" class="img-fluid m-2" style="height:300px !important;"alt="Event Poster">
     `).join('');
 
 
