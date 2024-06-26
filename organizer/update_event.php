@@ -95,7 +95,10 @@ if ($action === 'update')
                                 $timeSlotData = [
                                     'EventID' => $eventID,
                                     'StartTime' => $startTime,
-                                    'EndTime' => $_POST['EndTimeSlot'][$index]
+                                    'EndTime' => $_POST['EndTimeSlot'][$index],
+                                    'Availability' => $capacity,
+                                    'SlotDate' => $startDate
+
                                 ];
                                 DB::insert(DB_NAME, 'timeslots', $timeSlotData);
                                 $timeSlots[] = $timeSlotData;
@@ -136,6 +139,7 @@ if ($action === 'update')
                                 'LimitQuantity' => $_POST['LimitQuantity'][$index],
                                 'Discount' => $_POST['Discount'][$index],
                                 'Price' => $_POST['Price'][$index]
+                                
                             ];
                         }
                         foreach ($tickets as $ticket) {
