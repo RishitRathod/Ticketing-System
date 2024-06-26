@@ -17,7 +17,7 @@
                 <input type="button" value="Submit" onclick="dosubmit(event)">
             </form>
             <form style="display:none;" id="UpdateDatabase"  method="POST">
-                <span>Slect the no of people that are Entering or Exiting the Event</span>
+                <span>Select the no of people that are Entering or Exiting the Event</span>
                 <input type="numbeer" name="amountPeopleEnterOrExit" placeholder="Enter no of person entring or exiting the Event" id="amountPeopleEnterOrExit">
                 <input type="radio" name="EntryOrExit" value="Entry" id="Entry">Entry
                 <input type="radio" name="EntryOrExit" value="Exit" id="Exit">Exit
@@ -31,10 +31,10 @@
 
         <script>
 
-            function UpdateTheEntryAndxitTimes(event){
+            function UpdateTheEntryAndxitTimes(event,ticektsalesid){
                 event.preventDefault();
                 //document.getElementById('UpdateDatabase').style.display = 'none';
-                const TicketSalesID= document.getElementById('TicketSalesID').value;
+                const TicketSalesID= document.getElementById('TicketSalesID').value || ticektsalesid;
                 const amountPeopleEnterOrExit = document.getElementById('amountPeopleEnterOrExit').value;
                 const EntryOrExit = document.querySelector('input[name="EntryOrExit"]:checked').value;
                 const data={
@@ -102,7 +102,7 @@
 
             }
 
-            function FetchDetails(decodedText,action) {
+            function FetchDetails(decodedText) {
                 const url = '../fetchTicketUsage.php'; 
                 const data = {
                     TicketSalesID: decodedText,
@@ -131,7 +131,7 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
-                        UpdateTimeUsage(decodedText);
+                        FetchDetails(decodedText);
                         
 
                     }).catch(err => {
