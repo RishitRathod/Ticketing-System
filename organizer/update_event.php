@@ -90,21 +90,8 @@ if ($action === 'update')
                     // Insert new time slots if present
                     if (isset($_POST['StartTimeSlot']) && isset($_POST['EndTimeSlot'])) {
                         $timeSlots = [];
-                        foreach ($_POST['StartTimeSlot'] as $index => $startTime) {
-                            if (isset($_POST['EndTimeSlot'][$index])) {
-                                $timeSlotData = [
-                                    'EventID' => $eventID,
-                                    'StartTime' => $startTime,
-                                    'EndTime' => $_POST['EndTimeSlot'][$index],
-                                    'Availability' => $capacity,
-                                    'SlotDate' => $startDate
-
-                                ];
-                                DB::insert(DB_NAME, 'timeslots', $timeSlotData);
-                                $timeSlots[] = $timeSlotData;
-                            }
-                        }
-                        for($startDate; $startDate < $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
+                       
+                        for($startDate; $startDate <= $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
                             // Loop through the start time slots array
                             foreach ($_POST['StartTimeSlot'] as $index => $startTime) {
                                 // Check if corresponding end time exists
