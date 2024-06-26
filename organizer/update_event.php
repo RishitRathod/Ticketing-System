@@ -104,7 +104,7 @@ if ($action === 'update')
                                 $timeSlots[] = $timeSlotData;
                             }
                         }
-                        for($startDate; $startDate <= $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
+                        for($startDate; $startDate < $endDate; $startDate = date('Y-m-d', strtotime($startDate. ' + 1 days'))){
                             // Loop through the start time slots array
                             foreach ($_POST['StartTimeSlot'] as $index => $startTime) {
                                 // Check if corresponding end time exists
