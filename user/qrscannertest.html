@@ -141,9 +141,9 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
-                    if(data.Quantity == 0 || data.Quantity==null){
+                    if(data.Quantity == 0){
                         alert('No Tickets associated with this TicketSalesID');
-                        location.reload();
+                         location.reload();
 
                     }
                     document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
