@@ -135,6 +135,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
                 echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
 
             }
+            break;
 
         case 'GetTicketSumByEventID':
             try{
@@ -147,6 +148,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
             catch(Exception $e){
                 echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
             }
+            break;
 
         case 'FetchEventDetailsByEventID':
             try{
@@ -160,6 +162,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
             catch(Exception $e){
                 echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
             }
+            break;
 
         case 'FetchEventsWithOrgName':
             try{
@@ -172,6 +175,7 @@ if($_SERVER['REQUEST_METHOD']=== 'POST'){
             catch(Exception $e){
                 echo json_encode(['success'=>false, 'message'=>$e->getMessage(),'data'=>$response]);
             }
+            break;
 
     }
 }
