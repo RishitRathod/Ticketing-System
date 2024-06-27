@@ -228,14 +228,13 @@
                 "destroy": true,
                 "columnDefs": [
                     {
-                        "targets": 4,
+                        "targets": [3,4],
                         "orderable": false,
-                        "targets":3,
-                        "orderable": false,
-
+                        
 
                     }
                 ],
+               
                 initComplete: function () {
                     this.api().columns().every(function () {
                         var column = this;
