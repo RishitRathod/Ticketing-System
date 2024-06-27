@@ -103,6 +103,7 @@
             }
 
             function FetchDetails(decodedText) {
+                console.log("in the fetch details",decodedText);
                 const url = '../fetchTicketUsage.php'; 
                 const data = {
                     TicketSalesID: decodedText,
@@ -132,7 +133,7 @@
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
                         document.getElementById('TicketSalesID').value = decodedText;
-                        FetchDetails(decodedText);
+                      //  FetchDetails(data);
                         
 
                     }).catch(err => {
@@ -166,7 +167,7 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
-                        FetchDetails(decodedText,);
+                        FetchDetails(decodedText);
                         
 
                     }).catch(err => {
