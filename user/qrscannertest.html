@@ -31,12 +31,18 @@
 
         <script>
 
-            function UpdateTheEntryAndxitTimes(event,ticektsalesid){
+            function UpdateTheEntryAndxitTimes(event,ticektsalesid=null){
                 event.preventDefault();
-                //document.getElementById('UpdateDatabase').style.display = 'none';
-                const TicketSalesID= document.getElementById('TicketSalesID').value || ticektsalesid;
+                const TicketSalesID = document.getElementById('TicketSalesID').value || ticektsalesid;
                 const amountPeopleEnterOrExit = document.getElementById('amountPeopleEnterOrExit').value;
                 const EntryOrExit = document.querySelector('input[name="EntryOrExit"]:checked').value;
+                
+                // Check if TicketSalesID is valid
+                if (!TicketSalesID) {
+                    alert('Please enter TicketSalesID');
+                    return;
+                }
+                
                 const data={
                     TicketSalesID:TicketSalesID,
                     amountPeopleEnterOrExit:amountPeopleEnterOrExit,
@@ -45,6 +51,10 @@
                 };
                 console.log(data); 
                 UpdateDatabase(data);
+                //refresh the page
+                 location.reload();
+
+                
 
             }
 
@@ -126,7 +136,7 @@
                     document.getElementById('Quatity').textContent   =  data.Quantity;
                     document.getElementById('QuatityTag').style.display = 'block';
                     document.getElementById('amountPeopleEnterOrExit').style.display = 'block';
-                    document.getElementById('FetchDetails').style.display = 'none';
+                 document.getElementById('FetchDetails').style.display = 'none';
                     document.getElementById('UpdateDatabase').style.display = 'block';
                     html5QrCode.stop().then(ignore => {
                         console.log('QR Code scanning stopped.');
@@ -167,7 +177,10 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
+                        document.getElementById('TicketSalesID').value = decodedText;
                         FetchDetails(decodedText);
+                        UpdateTheEntryAndxitTimes(event, decodedText);
+
                         
 
                     }).catch(err => {
