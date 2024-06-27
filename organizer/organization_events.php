@@ -92,6 +92,7 @@
 
                 const result = await response.json();
                 if (result.status === 'success') {
+                    console.log(result.data);
                     return result.data;
                 } else {
                     console.error('Error:', result.message);

@@ -408,6 +408,12 @@ function isUserLoggedIn() {
                     isValid = false;
                     alert('Please select a ticket type.');
                 }
+
+                if(discounts[i].value>99){
+                    currentStep = 2;
+                    isValid = false;
+                    alert('Please enter discount under 99.');
+                }
             //     if(quantities[i].value > capacity){
             //     alert('Quantity cannot be greater than Event Capacity');
             //     document.getElementById(id).setAttribute('max', capacity);

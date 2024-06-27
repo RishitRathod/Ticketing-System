@@ -17,11 +17,12 @@
                 <input type="button" value="Submit" onclick="dosubmit(event)">
             </form>
             <form style="display:none;" id="UpdateDatabase"  method="POST">
-                <span>Slect the no of people that are Entering or Exiting the Event</span>
+                <span>Select the no of people that are Entering or Exiting the Event</span>
                 <input type="numbeer" name="amountPeopleEnterOrExit" placeholder="Enter no of person entring or exiting the Event" id="amountPeopleEnterOrExit">
                 <input type="radio" name="EntryOrExit" value="Entry" id="Entry">Entry
                 <input type="radio" name="EntryOrExit" value="Exit" id="Exit">Exit
                 <input type="hidden" name="action" id="action" value="GetTciektDetails">
+                <input type="number" name="quantity" id="quantity" value="">
                 <input type="button" value="Submit" onclick="UpdateTheEntryAndxitTimes(event)" >
             </form>
             
@@ -31,12 +32,33 @@
 
         <script>
 
-            function UpdateTheEntryAndxitTimes(event){
+            function UpdateTheEntryAndxitTimes(event,ticektsalesid=null){
                 event.preventDefault();
-                //document.getElementById('UpdateDatabase').style.display = 'none';
-                const TicketSalesID= document.getElementById('TicketSalesID').value;
+                const TicketSalesID = document.getElementById('TicketSalesID').value || ticektsalesid;
                 const amountPeopleEnterOrExit = document.getElementById('amountPeopleEnterOrExit').value;
                 const EntryOrExit = document.querySelector('input[name="EntryOrExit"]:checked').value;
+                const Quatity = document.getElementById('Quatity').value;
+                if(amountPeopleEnterOrExit == '' ){
+                    alert('Please enter the amount of people entering or exiting the event');
+                    return;
+                }
+                if(EntryOrExit == ''){
+                    alert('Please select Entry or Exit operarion');
+                    return;
+                }
+                if(Quatity>0 && amountPeopleEnterOrExit>Quatity){
+                    alert('The amount of people entering or exiting the event should be less than the total number of tickets');
+                    return;
+                }
+
+            
+
+                // Check if TicketSalesID is valid
+                if (!TicketSalesID) {
+                    alert('Please enter TicketSalesID');
+                    return;
+                }
+                
                 const data={
                     TicketSalesID:TicketSalesID,
                     amountPeopleEnterOrExit:amountPeopleEnterOrExit,
@@ -45,10 +67,16 @@
                 };
                 console.log(data); 
                 UpdateDatabase(data);
+                //refresh the page
+                 location.reload();
+
+                
 
             }
 
             async function UpdateDatabase(data){
+                
+
                 const url = '../fetchTicketUsage.php'; 
                await fetch (url, {
                     method: 'POST',
@@ -102,7 +130,8 @@
 
             }
 
-            function FetchDetails(decodedText,action) {
+            function FetchDetails(decodedText) {
+                console.log("in the fetch details",decodedText);
                 const url = '../fetchTicketUsage.php'; 
                 const data = {
                     TicketSalesID: decodedText,
@@ -121,27 +150,31 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
+                    if(data.Quantity == 0){
+                        alert('No Tickets associated with this TicketSalesID');
+                         location.reload();
+
+                    }
+                    document.getElementById('quantity').value = data.Quantity;
                     document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
                     document.getElementById('Quatity').textContent   =  data.Quantity;
                     document.getElementById('QuatityTag').style.display = 'block';
                     document.getElementById('amountPeopleEnterOrExit').style.display = 'block';
-                    document.getElementById('FetchDetails').style.display = 'none';
+                 document.getElementById('FetchDetails').style.display = 'none';
                     document.getElementById('UpdateDatabase').style.display = 'block';
                     html5QrCode.stop().then(ignore => {
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
-                        UpdateTimeUsage(decodedText);
-                        
+                        document.getElementById('TicketSalesID').value = decodedText;
+                      //  FetchDetails(data);
+
 
                     }).catch(err => {
                         console.error('Unable to stop scanning.', err);
                     });
 
-                    if(data.Quantity == 0){
-                        alert('No Tickets associated with this TicketSalesID');
-                    }
-
+    
                 })
                 //write on failure consloe log
                 .catch((error) => {
@@ -165,7 +198,10 @@
                         console.log('QR Code scanning stopped.');
                         // Optionally clear the video element
                         document.getElementById('reader').innerHTML = '';
-                        FetchDetails(decodedText,);
+                        document.getElementById('TicketSalesID').value = decodedText;
+                        FetchDetails(decodedText);
+                        UpdateTheEntryAndxitTimes(event, decodedText);
+
                         
 
                     }).catch(err => {

@@ -306,6 +306,25 @@ public function FetchEventDetails($EventID) {
     }
 }
 
+function FetchEventsWithOrgName(){
+    try{
+        $this->conn->query("SET SESSION group_concat_max_len = 10000");
+        $sql = "SELECT EventName,e.City,EventType,StartDate,EndDate,e.OrgID,Name as Name FROM events e
+        LEFT JOIN organizations o ON e.OrgID = o.OrgID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($result){
+            return $result;
+        }else{
+            return ["error" => "No events found"];
+        }
+
+    }catch (PDOException $e) {
+        return ["error" => "Select failed: " . $e->getMessage()];
+    }
+}
+
 function FetchEventDetailsByEventID($EventID){
     try{
         $this->conn->query("SET SESSION group_concat_max_len = 10000");

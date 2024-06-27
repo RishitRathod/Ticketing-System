@@ -104,22 +104,60 @@
     <?php include 'navhead.php'; ?>
 
     <!-- Main Content -->
-    <div id="eventsContainer">
-        <h2 class="py-2">Events</h2>
-        <div id="ongoingEvents" class="event-category">
-            <h3>Ongoing Events</h3>
-            <div id="ongoingEventsRow" class=""></div>
-        </div>
-        <div id="upcomingEvents" class="event-category">
-            <h3>Upcoming Events</h3>
-            <div id="upcomingEventsRow" class=""></div>
-        </div>
-        <div id="pastEvents" class="event-category">
-            <h3>Past Events</h3>
-            <div id="pastEventsRow" class=""></div>
-        </div>
+    <<div id="eventsContainer">
+    <h2 class="py-2">Events</h2>
+    <div id="ongoingEvents" class="event-category">
+        <h3>Ongoing Events</h3>
+        <table id="ongoingEventsTable" class="table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Available Tickets</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
     </div>
-
+    <div id="upcomingEvents" class="event-category">
+        <h3>Upcoming Events</h3>
+        <table id="upcomingEventsTable" class="table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Available Tickets</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+    <div id="pastEvents" class="event-category">
+        <h3>Past Events</h3>
+        <table id="pastEventsTable" class="table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Available Tickets</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
     <!-- jQuery and Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
