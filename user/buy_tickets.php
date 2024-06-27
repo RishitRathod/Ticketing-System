@@ -329,6 +329,7 @@ async function SubmitForm(event) {
         const result = await response.json();
         if (result.status === 'success') {
             alert('Ticket submitted successfully');
+            window.location.href = './user_tickets.php';
         } else {
             alert('Failed to submit ticket: ' + result.message);
         }
