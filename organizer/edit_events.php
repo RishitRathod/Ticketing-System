@@ -195,7 +195,7 @@ function isUserLoggedIn() {
                                     <button type="button" class="btn col-3  fs-6 col-xs-2 btn-lg btn-outline-primary next-step rounded-pill">Next <i class="fa fa-angle-right ml-2 ml-sm-0"></i></button>
                                 </div>
 
-                                <input type="number" id="dd" value="" hidden>
+                                <input type="hidden" id="dd" name ="dd" value="" >
                             </div>
 
                             <!-- Step 2: Date and Time -->

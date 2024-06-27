@@ -44,6 +44,27 @@ if ($action === 'update')
     $City = $_POST['City'];
     $orgID = $_POST['orgid']; // Organization ID
     $eventID = $_POST['orgid']; // Event ID
+    $dd = $_POST['dd'];
+
+    if(isset($dd)){
+        $conn = new PDO("mysql:host=localhost;dbname=ticketing_system", "root", "");
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql="UPDATE org_plans SET Amount_of_Days = Amount_of_Days+ $dd WHERE OrgID = $orgID";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+
+        if(!$result){
+            $response['success'] = false;
+            $response['message'] = "An error occurred while updating the event!";
+            return $response;
+        }else{
+            $response['message'] = "Event updated successfully";
+        }
+
+    }
 
     $dataTable1 = [
         'EventName' => $eventName,
@@ -57,6 +78,9 @@ if ($action === 'update')
         'State' => $State,
         'City' => $City
     ];
+
+    
+
 
     // Update event
     $updateResult = DB::update(DB_NAME, 'events', $dataTable1, $_POST['orgid'],'EventID' );
