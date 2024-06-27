@@ -37,6 +37,15 @@
                 const amountPeopleEnterOrExit = document.getElementById('amountPeopleEnterOrExit').value;
                 const EntryOrExit = document.querySelector('input[name="EntryOrExit"]:checked').value;
                 
+                if(amountPeopleEnterOrExit == '' ){
+                    alert('Please enter the amount of people entering or exiting the event');
+                    return;
+                }
+                if(EntryOrExit == ''){
+                    alert('Please select Entry or Exit operarion');
+                    return;
+                }
+
                 // Check if TicketSalesID is valid
                 if (!TicketSalesID) {
                     alert('Please enter TicketSalesID');
@@ -132,6 +141,11 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
+                    if(data.Quantity == 0 || data.Quantity==null){
+                        alert('No Tickets associated with this TicketSalesID');
+                        location.reload();
+
+                    }
                     document.getElementById('qr-result').textContent = 'QR Code Result: ' + decodedText;
                     document.getElementById('Quatity').textContent   =  data.Quantity;
                     document.getElementById('QuatityTag').style.display = 'block';
