@@ -117,7 +117,7 @@ if ($action === 'update')
 
                     // Insert new tickets if present
                     if (isset($_POST['TicketType'])) {
-                        $tickets = [];
+                        $tickets = [ ];
                         foreach ($_POST['TicketType'] as $index => $ticketType) {
                             $tickets[] = [
                                 'EventID' => $eventID,
