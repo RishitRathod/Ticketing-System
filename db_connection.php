@@ -6,7 +6,7 @@ require_once 'update.php';
 require_once 'insert.php';
 require_once 'delete.php';
 require_once 'checkUser.php';
-require_once 'index.php';
+require_once 'index1.php';
 require_once 'QR-Code-Generator/QRCodeGenerator.php';
 require_once 'Events.php';
 require_once 'Organizations.php';

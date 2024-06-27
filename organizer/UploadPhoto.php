@@ -1,5 +1,5 @@
 <?php
-require_once '../index.php'; // Ensure this path is correct for including the DB class
+require_once '../index1.php'; // Ensure this path is correct for including the DB class
 require_once '../db_connection.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // echo $_POST['OrgID'];

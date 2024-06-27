@@ -40,6 +40,9 @@
         .btn-22, .btn-22 *, .btn-22 :after, .btn-22 :before, .btn-22:after, .btn-22:before {
             border: 0 solid;
             box-sizing: border-box;
+            background: #000;
+
+
         }
         .btn-22 {
             color: white;
@@ -49,7 +52,10 @@
             background-image: none;
             color: #fff;
             cursor: pointer;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-family: ui-sans-serif, system-ui, -apple-system,
+             BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+              Arial, Noto Sans, sans-serif, Apple Color Emoji, 
+              Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
             font-size: 100%;
             font-weight: 900;
             line-height: 1.5;
@@ -95,6 +101,8 @@
             transition: transform 0.2s ease;
             width: 100%;
         }
+       
+
         .btn-22:hover:before {
             transform: translateY(-50%) scale(2);
         }
@@ -103,18 +111,15 @@
 <body>
     <?php include 'navhead.php'; ?>
 
-    <!-- Main Content -->
-    <<div id="eventsContainer">
-    <h2 class="py-2">Events</h2>
-    <div id="ongoingEvents" class="event-category">
-        <h3>Ongoing Events</h3>
-        <table id="ongoingEventsTable" class="table">
+    <div id="eventsContainer">
+        <h2 class="py-2">Events</h2>
+        <table id="eventsTable" class="table">
             <thead>
                 <tr>
                     <th>Event Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <!-- <th>Available Tickets</th> -->
+                    <th>Status</th>
                     <th>Details</th>
                 </tr>
             </thead>
@@ -123,40 +128,8 @@
             </tbody>
         </table>
     </div>
-    <div id="upcomingEvents" class="event-category">
-        <h3>Upcoming Events</h3>
-        <table id="upcomingEventsTable" class="table">
-            <thead>
-                <tr>
-                    <th>Event Name</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <!-- <th>Available Tickets</th> -->
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be added here -->
-            </tbody>
-        </table>
-    </div>
-    <div id="pastEvents" class="event-category">
-        <h3>Past Events</h3>
-        <table id="pastEventsTable" class="table">
-            <thead>
-                <tr>
-                    <th>Event Name</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <!-- <th>Available Tickets</th> -->
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be added here -->
-            </tbody>
-        </table>
-    </div>
+    
+   
 </div>
     <!-- jQuery and Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -200,14 +173,11 @@
         async function initialize() {
             const value = 'events';
             const data = await fetchData(value);
-            categorizeAndPopulateEvents(data);
+            populateEventsTable(data);
         }
 
-        function categorizeAndPopulateEvents(events) {
-            const ongoingEventsTable = document.querySelector('#ongoingEventsTable tbody');
-            const upcomingEventsTable = document.querySelector('#upcomingEventsTable tbody');
-            const pastEventsTable = document.querySelector('#pastEventsTable tbody');
-
+        function populateEventsTable(events) {
+            const eventsTable = document.querySelector('#eventsTable tbody');
             if (!Array.isArray(events)) {
                 console.error('Expected an array but got:', events);
                 return;
@@ -215,20 +185,27 @@
 
             const currentDate = new Date();
 
-            ongoingEventsTable.innerHTML = '';
-            upcomingEventsTable.innerHTML = '';
-            pastEventsTable.innerHTML = '';
+            eventsTable.innerHTML = '';
 
             events.forEach((event) => {
                 const eventStartDate = new Date(event.StartDate);
                 const eventEndDate = new Date(event.EndDate);
+                let status = '';
+
+                if (eventStartDate <= currentDate && eventEndDate >= currentDate) {
+                    status = 'Ongoing';
+                } else if (eventStartDate > currentDate) {
+                    status = 'Upcoming';
+                } else if (eventEndDate < currentDate) {
+                    status = 'Past';
+                }
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${event.EventName}</td>
                     <td>${formatDate(event.StartDate)}</td>
                     <td>${formatDate(event.EndDate)}</td>
-                    <!-- <td>${event.AvailableTickets}</td> -->
+                    <td>${status}</td>
                     <td>
                         <form action="Logtable.php" method="post">
                             <input type="hidden" name="id" value="${event.EventID}">
@@ -236,95 +213,56 @@
                         </form>
                     </td>
                 `;
-
-
-
-                if (eventStartDate <= currentDate && eventEndDate >= currentDate) {
-                    ongoingEventsTable.appendChild(row);
-                } else if (eventStartDate > currentDate) {
-                    upcomingEventsTable.appendChild(row);
-                } else if (eventEndDate < currentDate) {
-                    pastEventsTable.appendChild(row);
-                }
-
-                //create the datatable
-               
+                eventsTable.appendChild(row);
             });
-            
+
+            $('#eventsTable').DataTable({
+                aLengthMenu: [
+                    [25, 50, 100, 200, -1],
+                    [25, 50, 100, 200, "All"]
+                ],
+                "processing": true,
+                "retrieve": true,
+                "responsive": true,
+                "autoWidth": false,
+                "destroy": true,
+                "columnDefs": [
+                    {
+                        "targets": 4,
+                        "orderable": false,
+                        "targets":3,
+                        "orderable": false,
+
+
+                    }
+                ],
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() === 3) { // Status column index
+                            var select = $('<select><option value="">Filter by Status</option></select>')
+                                .appendTo($(column.header()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
         }
 
 
         window.onload = initialize;
-        $(document).ready(function() {
-                    $('#ongoingEventsTable').DataTable({
-                        aLengthMenu: [
-        [25, 50, 100, 200, -1],
-        [25, 50, 100, 200, "All"]
-    ],
-        "processing": true,
-        "retrieve": true,
-       // "ServerSide": true,
-
-        "responsive": true,
-        "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true, // Added to reinitialize DataTable
-        "columnDefs": [
-            {
-                "targets": 3, // Disable functionality for the 4th column (index 3)
-                "orderable": false, // Disable sorting
-            }
-        ],
-        // "language": {
-        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-        //         }
-
-                    });
-                    $('#upcomingEventsTable').DataTable({
-                        aLengthMenu: [
-        [25, 50, 100, 200, -1],
-        [25, 50, 100, 200, "All"]
-    ],
-        "processing": true,
-        "retrieve": true,
-       // "ServerSide": true,
-
-        "responsive": true,
-        "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true, // Added to reinitialize DataTable
-        "columnDefs": [
-            {
-                "targets": 3, // Disable functionality for the 4th column (index 3)
-                "orderable": false, // Disable sorting
-            }
-        ],
-        // "language": {
-        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-        //         }
-
-                    });
-                    $('#pastEventsTable').DataTable({
-                        aLengthMenu: [
-        [25, 50, 100, 200, -1],
-        [25, 50, 100, 200, "All"]
-    ],
-        "processing": true,
-        "retrieve": true,
-       // "ServerSide": true,
-
-        "responsive": true,
-        "autoWidth": false, // Disable automatic column width calculation
-        "destroy": true, // Added to reinitialize DataTable
-        "columnDefs": [
-            {
-                "targets": 3, // Disable functionality for the 4th column (index 3)
-                "orderable": false, // Disable sorting
-            }
-        ],
-        // "language": {
-        //             "processing": "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Loading..."
-        //         }
-});
-                });
+       
 
 
         function formatDate(dateStr) {
