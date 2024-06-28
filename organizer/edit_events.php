@@ -33,6 +33,9 @@ function isUserLoggedIn() {
     <!-- date picker ui -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.0.2/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-39e9UaGkm/+yp6spIsVfzcs3j7ac7G2cg0hzmDvtG11pT1d7YMnOC26w4wMPhzsL" crossorigin="anonymous"> -->
     <style>
+        #EditCSC{
+            dsiaply:none;
+        }   
 
         .poster-input {
             margin-bottom: 10px;
@@ -326,22 +329,63 @@ function isUserLoggedIn() {
                                     <div id="posterPreview" class="mt-3"></div>
                                 </div>
                                 <!-- <fieldset> -->
-                                <div class="container">
-                                    <div class="form-group row">
-                                    
-                                        <div class="col-4">
+                                <div class="container" >
+                                    <div class="form-group row" id="DisabledInputs">
+
+                                        <div class="col-3">
                                             <label for="Country"> Country </label>
                                             <input type="text"  name="Country" value="" id="Country" class="form-control" >
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label for="State"> State </label>
                                             <input type="text"  name="State" id="State" value=""  class="form-control" >
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label for="City"> City </label>
-                                            <input type="text" name="City" id="City" value=""  class="form-control" >
+                                            <input type="text" name="City" id="City" value=""  class="form-control"  >
                                         </div>
+
+                                        <div class="col-3">
+                                            <button type="button" id="EditBtn" class="btn btn-primary rounded-2 btn-sm" onclick="toggleEditDiv()">Edit</button>
+
+                                        </div>
+
                                     </div>
+
+                                 <div class="" style="display: none;" id="EditCSC">
+
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label for="Editcountry">Country<span class="req">*</span></label>
+                                             <select name="Editcountry" id="Editcountry" class="form-control" required> 
+                                                 <option value="" selected="Selected">Select Country</option>
+                                             </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="Editstate">State<span class="req">*</span></label> 
+                                            <select name="Editstate" id="Editstate" class="form-control" required> 
+                                                <option value="" selected="Selected">Select State</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="Editcity">City <span class="req">*</span></label> 
+                                            <select name="Editcity" id="Editcity" class="form-control" required> 
+                                                <option value="" selected="Selected">Select City</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-primary rounded-2 btn-sm" onclick="toggleInputDiv()">Cancel</button>
+                                            </div>
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-primary rounded-2 btn-sm" onclick="CheckCSC()">Refresh</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
      
                                      <div class="form-group">
                                          <label for="venueAddress">Venue Address<span class="req">*</span></label>
@@ -366,6 +410,79 @@ function isUserLoggedIn() {
 
     <!-- <script src="edit_eventjs.js"></script> -->
     <script>
+        function toggleInputDiv(){
+            document.getElementById("EditCSC").style.display = "none";
+            document.getElementById("DisabledInputs").style.display = "block";
+
+        }
+
+        function CheckCSC(){
+            let country = document.querySelector('#Editcountry');
+            let state   = document.querySelector('#Editstate');
+            let city    = document.querySelector('#Editcity');
+            let selectedCountryOption = country.options[country.selectedIndex];
+            let selectedStateOption = state.options[state.selectedIndex];
+            let selectedCityOption = city.options[city.selectedIndex];
+            
+            if( selectedCityOption =='' ){
+                return alert("Please select Country");
+            }
+            if( selectedStateOption =='' ){
+                return alert("Please select State");
+            }
+
+            if( selectedCityOption =='' ){
+                return alert("Please select City");
+            }
+            document.getElementById("EditCSC").style.display = "none";
+            document.getElementById("DisabledInputs").style.display = "block";
+        }
+
+        function toggleEditDiv(){
+            var x = document.getElementById("EditCSC");
+            var y = document.getElementById('DisabledInputs');
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                document.getElementById('EditBtn').value='Cancel';
+                y.style.display = "none";
+                
+            } else {
+                x.style.display = "none";
+                document.getElementById('EditBtn').value='Edit';
+                let country = document.querySelector('#Editcountry');
+                let state   = document.querySelector('#Editstate');
+                let city    = document.querySelector('#Editcity');
+                let selectedCountry = document.querySelector('#Country');
+                let selectedState = document.querySelector('#State');
+                let selectedCity = document.querySelector('#City');
+                selectedCountry.removeAttribute('disabled');
+                selectedState.removeAttribute('disabled');
+                selectedCity.removeAttribute('disabled');
+
+                let selectedCountryOption = country.options[country.selectedIndex];
+                let selectedStateOption = state.options[state.selectedIndex];
+                let selectedCityOption = city.options[city.selectedIndex];
+
+                if(selectedCountryOption.value !== selectedCountry && selectedCountryOption.value !== ""){
+                    // selectedCountry=selectedCountryOption.value;
+                    selectedCountry.value =selectedCountryOption.value;
+                }
+                if(selectedStateOption.value !== selectedState && selectedStateOption.value !== ""){
+                    // selectedState=selectedStateOption.value;
+                    selectedState.value =selectedStateOption.value;
+                }
+                if(selectedCityOption.value !== selectedCity && selectedCityOption.value !== ""){
+                    // selectedCity=selectedCityOption.value;
+                    selectedCity.value =selectedCityOption.value;
+                }
+                selectedCountry.setAttribute('disabled',true);
+                selectedState.setAttribute('disabled',true);
+                selectedCity.setAttribute('disabled',true);
+
+            }
+        
+        }
+
 
 function previewImage(event) {
     const posterPreviewDiv = document.getElementById('posterPreview');
@@ -1093,64 +1210,66 @@ function parseTime(timeString) {
     }
     
     // Call this function after fetching data from populateEvents
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     fetch('../cascading.php') 
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             const countrySel = document.getElementById("country");
-    //             const stateSel = document.getElementById("state");
-    //             const citySel = document.getElementById("city");
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('../cascading.php') 
+            .then(response => response.json())
+            .then(data => {
+                const countrySel = document.getElementById("Editcountry");
+                const stateSel = document.getElementById("Editstate");
+                const citySel = document.getElementById("Editcity");
     
-    //             let countries = {};
-    //             let selectedCountry, selectedState;
+                let countries = {};
+                let selectedCountry, selectedState;
                 
         
     
-    //             data.forEach(item => {
-    //                 if (!countries[item.country]) {
-    //                     countries[item.country] = {};
-    //                 }
-    //                 if (!countries[item.country][item.state]) {
-    //                     countries[item.country][item.state] = [];
-    //                 }
-    //                 countries[item.country][item.state].push(item.city);
-    //             });
+                data.forEach(item => {
+                    if (!countries[item.country]) {
+                        countries[item.country] = {};
+                    }
+                    if (!countries[item.country][item.state]) {
+                        countries[item.country][item.state] = [];
+                    }
+                    countries[item.country][item.state].push(item.city);
+                });
     
-    //             for (let country in countries) {
-    //                 let option = new Option(country, country);
-    //                 countrySel.add(option);
-    //             }
+                for (let country in countries) {
+                    let option = new Option(country, country);
+                    countrySel.add(option);
+                }
     
-    //             countrySel.onchange = function() {
-    //                 stateSel.length = 1;
-    //                 citySel.length = 1;
-    //                 selectedCountry = this.value;
-    //                 if (selectedCountry && countries[selectedCountry]) {
-    //                     for (let state in countries[selectedCountry]) {
-    //                         let option = new Option(state, state);
-    //                         stateSel.add(option);
-    //                     }
-    //                 }
-    //                 // Call the function to set default values
-    //                 setDefaultDropdownValues(selectedCountry, null, null);
-    //             }
+                countrySel.onchange = function() {
+                    stateSel.length = 1;
+                    citySel.length = 1;
+                    selectedCountry = this.value;
+                    if (selectedCountry && countries[selectedCountry]) {
+                        for (let state in countries[selectedCountry]) {
+                            let option = new Option(state, state);
+                            stateSel.add(option);
+                        }
+                    }
+                    // Call the function to set default values
+                     setDefaultDropdownValues(selectedCountry, null, null);
+                }
     
-    //             stateSel.onchange = function() {
-    //                 citySel.length = 1;
-    //                 selectedState = this.value;
-    //                 if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
-    //                     countries[selectedCountry][selectedState].forEach(city => {
-    //                         let option = new Option(city, city);
-    //                         citySel.add(option);
-    //                     });
-    //                 }
-    //                 // Call the function to set default values
-    //                 setDefaultDropdownValues(selectedCountry, selectedState, null);
-    //             }
+                stateSel.onchange = function() {
+                    citySel.length = 1;
+                    selectedState = this.value;
+                    if (selectedState && countries[selectedCountry] && countries[selectedCountry][selectedState]) {
+                        countries[selectedCountry][selectedState].forEach(city => {
+                            let option = new Option(city, city);
+                            citySel.add(option);
+                        });
+                    }
+                    // Call the function to set default values
+                     setDefaultDropdownValues(selectedCountry, selectedState, null);
+
+
+                }
     
-    //             // Call the function to set default values with data from populateEvents
-    //         });
-    // });
+                // Call the function to set default values with data from populateEvents
+            });
+    });
     
         
              document.getElementById('orgid').value = document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
@@ -1402,8 +1521,11 @@ function proceedToNextStep() {
                 //         return;
                 //     }
                     console.log('Form submitted');
-                 console.log('Form submitted');
-    
+                //  console.log('Form submitted');
+                    document.getElementById('Country').removeAttribute('disabled');
+                    document.getElementById('State').removeAttribute('disabled');
+                    document.getElementById('City').removeAttribute('disabled');
+
                     var formData = new FormData(form);
     
                     for (let [key, value] of formData.entries()) {
@@ -1412,6 +1534,7 @@ function proceedToNextStep() {
                     const OrgID=document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
                     formData.append('OrgID1', OrgID);
                     console.log(formData.entries());
+                    
                     //add action =update in formdata
                     formData.append('action', 'update');
                     fetch('update_event.php', {
@@ -1421,6 +1544,12 @@ function proceedToNextStep() {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        if (data.success) {
+                            alert('Event updated successfully');
+                            window.location.href = './organization_events.php';
+                        } else {
+                            alert('Failed to update event');
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
