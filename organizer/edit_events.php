@@ -1409,6 +1409,8 @@ function proceedToNextStep() {
                     for (let [key, value] of formData.entries()) {
                         console.log(`${key}: ${value}`);
                     }
+                    const OrgID=document.cookie.split('; ').find(row => row.startsWith('id')).split('=')[1];
+                    formData.append('OrgID1', OrgID);
                     console.log(formData.entries());
                     //add action =update in formdata
                     formData.append('action', 'update');
