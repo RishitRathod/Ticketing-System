@@ -44,6 +44,26 @@ if ($action === 'update')
     $City = $_POST['City'];
     $orgID = $_POST['orgid']; // Organization ID
     $eventID = $_POST['orgid']; // Event ID
+    $dd = $_POST['dd'];
+    $OrgID=$_POST['OrgID1'];
+    
+    
+        // Get Amount_of_Days from org_plans and add dd to Amount_of_Days and update it
+        try {
+            $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+           $sql = "UPDATE org_plans SET Amount_of_Days = Amount_of_Days + ? WHERE OrgID = ?";
+            $stmt = $conn->connection()->prepare($sql);
+            $stmt->execute([$dd, $OrgID]);
+        } catch (PDOException $e) {
+            $response['success'] = false;
+            $response['message'] = "An error occurred while updating the organization plan!";
+            echo json_encode($response);
+            exit();
+            
+        }
+    
+
+        
 
     $dataTable1 = [
         'EventName' => $eventName,
@@ -57,6 +77,9 @@ if ($action === 'update')
         'State' => $State,
         'City' => $City
     ];
+
+    
+
 
     // Update event
     $updateResult = DB::update(DB_NAME, 'events', $dataTable1, $_POST['orgid'],'EventID' );
