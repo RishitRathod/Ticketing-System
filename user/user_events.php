@@ -40,6 +40,15 @@
         .vd{
             box-shadow: 0px 0px 10px #4739e3 !important;
         }
+        @media (max-width: 760px) {
+            *{
+                font-size: 97%;
+            }
+            .col-6{
+                padding: 3px !important;
+            }
+
+        }
 
         /* .carousel{
             display: flex;
@@ -55,7 +64,7 @@
     include 'userdashnav.php';
 ?>
 <body>  
-<div class="row mx-2" id="bookEvents"></div>
+<div class="row mx-2 no-gutters" id="bookEvents"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -112,9 +121,9 @@
 
 
             const eventElement = document.createElement('div');
-            eventElement.className = 'col-12 col-md-6 col-lg-4 p-0 ';
+            eventElement.className = 'col-12 col-md-6 col-lg-4 p-0';
             const eventDetail = ` 
-            <div class="card rounded-3 m-4">
+            <div class="card rounded-3 m-2">
                 <div class="card-body p-3"> 
                     <div class="row">
                         <div class="col-6">

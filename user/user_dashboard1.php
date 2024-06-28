@@ -367,7 +367,7 @@
               //  console.log(await UserID);
               
                 
-                
+                // const books = await FetchallTheBookemarkedEvents(UserID);
                 eventsArray.forEach(event => {
                     if (displayedEventIDs.has(event.EventID)) return;
 
@@ -390,6 +390,9 @@
                     const  eventName = event.EventName ? event.EventName : 'Event name not available';
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
+                    // const isBookmarked = books.find(b => b.EventID === event.EventID && b.StatusBit === 1);
+                    // const bookmarkClass = isBookmarked ? 'fa fa-bookmark' : 'fa fa-plus';
+
                     eventDiv.innerHTML = `
                         <div class="card d-grid h-100">
                             <img src="${poster}" class="card-img-top event-poster" alt="${event.EventID} Poster is  not available for this event" style="max-height: 200px; object-fit: cover;">
@@ -402,7 +405,6 @@
                                     <input type="hidden"  name="id" value="${event.EventID}">
                                     <button type="submit" class="btn btn-primary col-6" style="width: 100%;">View Details</button>
                                     <button type="button" id="bookmarkbtn" onclick="bookmarkEvent(${event.EventID},${UserID})" name="bookmarkbtn" class="bookmarkbtn btn fa fa-plus col-auto" data-eventid="${event.EventID}"></button>
-
                                 </form>
                             </div>
                         </div>
