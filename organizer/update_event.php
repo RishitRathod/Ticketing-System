@@ -50,12 +50,14 @@ if ($action === 'update')
     if(isset($dd)){
         $conn = new PDO("mysql:host=localhost;dbname=ticketing_system", "root", "");
         // echo $dd;
+        echo $orgID;
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // $sql="UPDATE org_plans SET Amount_of_Days = Amount_of_Days + $dd WHERE OrgID = $orgID";
         $sql = "UPDATE org_plans SET Amount_of_Days = Amount_of_Days + $dd WHERE OrgID = $orgID";
         // echo $dd;
         $stmt = $conn->prepare($sql);
+        echo $dd;
         if($stmt->execute()){
             echo "success";
         }else{
@@ -185,6 +187,7 @@ if ($action === 'update')
             }
         }
     }
+    echo $dd;
     // Final response
     if (!isset($response['message'])) {
         $response['message'] = "Event updated successfully";
