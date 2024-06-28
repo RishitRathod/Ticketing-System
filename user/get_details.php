@@ -140,8 +140,9 @@
                 `).join('');
 
                 const ticketsList = event.Tickets.map(ticket => `
-                    <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}</li><li><strong>Discount:</strong> ${ticket.Discount}%</span>, <strong>Availability:</strong> ${ticket.Availability}</span></li> 
-                `).join('');
+            <li>${ticket.TicketType}: ${ticket.Quantity} available - $${ticket.Price}</li>
+        `).join('');
+
 
                 const uniqueTimeSlots = [];
 const timeSlotSet = new Set();
@@ -213,27 +214,6 @@ const timeSlotsList = uniqueTimeSlots.map(slot => `
                 eventsRow.appendChild(eventCard);
             });
         }
-                // function setActiveLink() {
-                //     // Get the current path
-                //     var currentPath = window.location.pathname;
-                                
-                //     // Get all anchor tags within the parent div
-                //     var links = document.querySelectorAll('#parentDiv .nav-link');
-            
-                //     // Remove 'active' class from all anchor tags and set to active if href matches current path
-                //     links.forEach(function(link) {
-                //         if (link.href.endsWith(currentPath)) {
-                //             link.classList.add('active');
-                //         } else {
-                //             link.classList.remove('active');
-                //         }
-                //     });
-                // }
-                // document.addEventListener('DOMContentLoaded', setActiveLink);
-            
-            
-            
-
         window.onload = initialize;
 
     </script>
