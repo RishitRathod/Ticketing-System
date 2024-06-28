@@ -181,22 +181,28 @@
             }
 
             const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
 
             eventsTable.innerHTML = '';
 
             events.forEach((event) => {
                 const eventStartDate = new Date(event.StartDate);
                 const eventEndDate = new Date(event.EndDate);
+                const eventStartMonth = eventStartDate.getMonth();
+                const eventStartYear = eventStartDate.getFullYear();
+                const eventEndMonth = eventEndDate.getMonth();
+                const eventEndYear = eventEndDate.getFullYear();
+
                 let status = '';
 
-                if (eventStartDate <= currentDate && eventEndDate >= currentDate) {
+                if ((eventStartDate <= currentDate && eventEndDate >= currentDate) && (eventStartMonth == currentMonth && eventStartYear == currentYear)) {
                     status = 'Ongoing';
-                } else if (eventStartDate > currentDate) {
+                } else if ((eventStartDate > currentDate) && (eventStartMonth >= currentMonth && eventStartYear >= currentYear)) {
                     status = 'Upcoming';
-                } else if (eventEndDate < currentDate) {
+                } else if ((eventEndDate < currentDate) || (eventEndMonth < currentMonth || eventEndYear < currentYear)) {
                     status = 'Past';
                 }
-
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${event.EventName}</td>
