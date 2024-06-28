@@ -40,27 +40,24 @@
         .btn-22, .btn-22 *, .btn-22 :after, .btn-22 :before, .btn-22:after, .btn-22:before {
             border: 0 solid;
             box-sizing: border-box;
-            background: #000;
-
-
         }
         .btn-22 {
             color: white;
             -webkit-tap-highlight-color: transparent;
-            -webkit-appearance: button;
+            /* -webkit-appearance: button; */
             background-color: #3E00FF;
             background-image: none;
             color: #fff;
             cursor: pointer;
             font-family: ui-sans-serif, system-ui, -apple-system,
-             BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+              BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
               Arial, Noto Sans, sans-serif, Apple Color Emoji, 
               Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
             font-size: 100%;
             font-weight: 900;
             line-height: 1.5;
             margin: 0;
-            -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+            /* -webkit-mask-image: -webkit-radial-gradient(#000, #fff); */
             padding: 0;
             text-transform: uppercase;
         }
@@ -72,7 +69,7 @@
         }
         .btn-22 svg {
             display: block;
-            vertical-align: middle;
+            /* vertical-align: middle; */
         }
         .btn-22 [hidden] {
             display: none;
@@ -85,12 +82,12 @@
             position: relative;
         }
         .btn-22 span {
-            mix-blend-mode: lighten;
+            mix-blend-mode: hard-light;
         }
         .btn-22:before {
-            color: black;
+            color: black !important;
             aspect-ratio: 1;
-            background: #000;
+            background-color: #00000040 ;
             border-radius: 50%;
             content: "";
             left: -100%;
@@ -113,14 +110,14 @@
 
     <div id="eventsContainer">
         <h2 class="py-2">Events</h2>
-        <table id="eventsTable" class="table">
+        <table id="eventsTable" class="table table-responsive table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Event Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Status</th>
-                    <th>Details</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
