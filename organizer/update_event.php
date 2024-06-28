@@ -45,25 +45,25 @@ if ($action === 'update')
     $orgID = $_POST['orgid']; // Organization ID
     $eventID = $_POST['orgid']; // Event ID
     $dd = $_POST['dd'];
-   echo $dd;
-
-    if(isset($dd)){
-        $conn = new PDO("mysql:host=localhost;dbname=ticketing_system", "root", "");
-        // echo $dd;
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // $sql="UPDATE org_plans SET Amount_of_Days = Amount_of_Days + $dd WHERE OrgID = $orgID";
-        $sql = "UPDATE org_plans SET Amount_of_Days = Amount_of_Days + $dd WHERE OrgID = $orgID";
-        // echo $dd;
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
-            echo "success";
-        }else{
-            echo "failed";
+    $OrgID=$_POST['OrgID1'];
+    
+    
+        // Get Amount_of_Days from org_plans and add dd to Amount_of_Days and update it
+        try {
+            $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+           $sql = "UPDATE org_plans SET Amount_of_Days = Amount_of_Days + ? WHERE OrgID = ?";
+            $stmt = $conn->connection()->prepare($sql);
+            $stmt->execute([$dd, $OrgID]);
+        } catch (PDOException $e) {
+            $response['success'] = false;
+            $response['message'] = "An error occurred while updating the organization plan!";
+            echo json_encode($response);
+            exit();
+            
         }
-        
+    
 
-    }
+        
 
     $dataTable1 = [
         'EventName' => $eventName,
