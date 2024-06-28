@@ -1,34 +1,48 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Real-time QR Code Scanner</title>
+        <style>
+            .main-content{
+                display: block !important;
+            }
+        </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
     </head>
     <body>
-        <div id="reader" style="width: 500px;"></div>
-        <p id="qr-result">QR Code Result: None</p>
-
-        <div class="form-div container-fluid">
-            <form id="FetchDetails"  method="POST">
-                <input type="nunmber" name="TicketSalesID" id="TicketSalesID" placeholder="TicketSalesID">
-                <input type="hidden" name="action" id="action" value="UpdateEntryOrExitTimes">
-                <input type="button" value="Submit" onclick="dosubmit(event)">
-            </form>
-            <form style="display:none;" id="UpdateDatabase"  method="POST">
-                <span>Select the no of people that are Entering or Exiting the Event</span>
-                <input type="numbeer" name="amountPeopleEnterOrExit" placeholder="Enter no of person entring or exiting the Event" id="amountPeopleEnterOrExit">
-                <input type="radio" name="EntryOrExit" value="Entry" id="Entry">Entry
-                <input type="radio" name="EntryOrExit" value="Exit" id="Exit">Exit
-                <input type="hidden" name="action" id="action" value="GetTciektDetails">
-                <input type="number" name="quantity" id="quantity" value="">
-                <input type="button" value="Submit" onclick="UpdateTheEntryAndxitTimes(event)" >
-            </form>
-            
-
+        <div class="row">
+            <div id="reader" style="width: 420px;" class="col-5">
+                
+            </div>
+            <div class="col-6 ml-5">
+                <p id="qr-result">QR Code Result: None</p>
+                <form id="FetchDetails" class="fs-5 my-auto" method="POST">
+                    <input type="nunmber" class="form-control w-50 d-inline" name="TicketSalesID" id="TicketSalesID" placeholder="TicketSalesID">
+                    <input type="hidden" name="action" id="action" value="UpdateEntryOrExitTimes">
+                    <input type="button" value="Submit" class="btn btn-primary onclick="dosubmit(event)">
+                </form>
+                <form style="display:none;" id="UpdateDatabase" class="fs-5 my-auto" method="POST">
+                    <span class="fs-6">Select the no of people that are Entering or Exiting the Event</span>
+                    <input type="numbeer" name="amountPeopleEnterOrExit" placeholder="Enter no of person entring or exiting the Event" id="amountPeopleEnterOrExit">
+                    <div class="row m-2">
+                        <div class="col-6 justify-content-center my-2">
+                            <input type="radio" name="EntryOrExit" value="Entry" id="Entry"><span class="form-check-label">Entry</span>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" name="EntryOrExit" value="Exit" id="Exit">  <span class="form-check-label">Exit</span>      
+                        </div>
+                        <input type="button" class="d-block btn btn-primary" value="Submit" onclick="UpdateTheEntryAndxitTimes(event)" >
+                    </div>
+                    <input type="hidden" name="action" id="action" value="GetTciektDetails">
+                    <input type="number" name="quantity" id="quantity" value="" hidden>
+                </form>
+                <p class="fs-6" id="QuatityTag">Number of Tickets associated with this ticket:- <div id="Quatity"> </div> </p>
+            </div>
         </div>
-        <p id="QuatityTag">Number of Tickets associated with this ticket:- <div id="Quatity"> </div> </p>
+
 
         <script>
 
@@ -102,7 +116,7 @@
                         { facingMode: "environment" }, // camera settings
                         {
                             fps: 10, // frames per second
-                            qrbox: { width: 300, height: 300 } // QR code scanning box size
+                            qrbox: { width: 200, height: 200 } // QR code scanning box size
                         },
                         onScanSuccess,
                         onScanFailure

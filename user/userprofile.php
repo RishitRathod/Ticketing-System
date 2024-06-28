@@ -34,7 +34,7 @@
             margin: 20px auto;  
             padding: 20px;
             /* background-color: #f9f9f9; */
-            background: linear-gradient(to right, #bfbeff7e, #fffec075,#c6c0ff75);
+            background: linear-gradient(to right, #2004ff50, #2002fc75);
             box-shadow:0 4px 6px 0 rgba(0, 0, 0, 0.5) ;
         }
         .main-content:hover{
@@ -96,6 +96,9 @@
                 margin-bottom: -5px;
             }
         }
+        .vd{
+            box-shadow: 0px 0px 10px #4739e3 !important;
+        }
 
 
     </style>
@@ -137,8 +140,8 @@
                             <img src="../img/user.png" id="pfp" alt="Your Profile Photo" class="shadow-lg p-2 bg-body-tertiary position-relative rounded-circle">
                             <button type="button" class="changeP rounded-5 mt-2" id="changeP" data-toggle="modal" data-target="#uploadNew"><i class="fa fa-pencil text-light"></i></button>      
                             <div class="row justMove justify-content-center mt-3">
-                                <button type="button" id="edit" name="edit" class="col-auto m-2 btn btn-outline-primary" onclick="editProfile()">Edit</button>
-                                <button type="submit" id="submit" name="submit" class="col-auto m-2 btn btn-outline-warning" onclick="updateprofile()" hidden>Submit</button>
+                                <button type="button" id="edit" name="edit" class="col-auto m-2 btn btn-outline-light vd" onclick="editProfile()">Edit</button>
+                                <button type="submit" id="submit" name="submit" class="col-auto m-2 btn btn-outline-warning vd" onclick="updateprofile()" hidden>Submit</button>
                             </div>                   
                         </div>
                         
