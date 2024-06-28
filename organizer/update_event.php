@@ -185,7 +185,6 @@ if ($action === 'update')
             }
         }
     }
-    echo $dd;
     // Final response
     if (!isset($response['message'])) {
         $response['message'] = "Event updated successfully";

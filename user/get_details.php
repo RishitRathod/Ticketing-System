@@ -143,9 +143,21 @@
                     <li><span class="card-text"><b>${ticket.TicketType}</b>, <strong>Quantity:</strong> ${ticket.Quantity}</li><li><strong>Discount:</strong> ${ticket.Discount}%</span>, <strong>Availability:</strong> ${ticket.Availability}</span></li> 
                 `).join('');
 
-                const timeSlotsList = event.TimeSlots.map(slot => `
-                    <li><span class="card-text"><strong>From:</strong>${slot.StartTime} - <strong>To:</strong>${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span></li>
-                `).join('');
+                const uniqueTimeSlots = [];
+const timeSlotSet = new Set();
+
+event.TimeSlots.forEach(slot => {
+    const slotIdentifier = `${slot.StartTime}-${slot.EndTime}`;
+    if (!timeSlotSet.has(slotIdentifier)) {
+        timeSlotSet.add(slotIdentifier);
+        uniqueTimeSlots.push(slot);
+    }
+});
+
+const timeSlotsList = uniqueTimeSlots.map(slot => `
+    <li><span class="card-text"><strong>From:</strong> ${slot.StartTime} - <strong>To:</strong> ${slot.EndTime}, <strong>Availability:</strong> ${slot.Availability}</span></li>
+`).join('');
+
 
                 
                 const priceSlot = event.Tickets.map(slot => `
