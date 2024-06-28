@@ -178,8 +178,8 @@ if ($action === 'update')
                             }
                         }
                     } else {
-                        $response['success'] = false;
-                        $response['message'] = "No event poster provided";
+                        // $response['success'] = false;
+                        // $response['message'] = "No event poster provided";
                     }
                 }
             }
@@ -187,6 +187,7 @@ if ($action === 'update')
     }
     // Final response
     if (!isset($response['message'])) {
+        $response['success'] = true;
         $response['message'] = "Event updated successfully";
     }
     echo json_encode($response);
