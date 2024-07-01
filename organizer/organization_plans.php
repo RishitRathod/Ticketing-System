@@ -452,8 +452,8 @@
             })
             .DataTable({
                 aLengthMenu: [
-        [25, 50, 100, 200, -1],
-        [25, 50, 100, 200, "All"]
+        [10, 25, 50, 100, -1],
+        [10, 25, 50, 100,"All"]
     ],
                     "pagingType": "full_numbers", // Example of a custom option
                     "columnDefs": [
