@@ -142,10 +142,9 @@
 
         eventCard.innerHTML = `
             <div class="event-card">
-                <div class="row no-gutters">
+                <div class="row">
                     <div class="col-md-6 d-block">
-                        <strong class="ml-3 text-light">Event Photos</strong>
-                        <div class="posters d-flex g-0 overflow-auto">
+                        <div class="posters d-flex overflow-auto">
                             ${posterItems}
                         </div>
                         <div class="text-center">
