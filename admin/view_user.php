@@ -233,7 +233,7 @@ let UserID ;
                 <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:200px !important; width:400px !important;" alt="User Photo">' : 'No photo available'}</div>
+                        <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:200px !important; width:200px !important;  border:5px solid;   box-shadow:0 0 20px; border-radius:100px;   " alt="User Photo">' : 'No photo available'}</div>
                     </div>
                     <div class="col">
                     <h5 class="card-title">User Information</h5>

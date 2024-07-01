@@ -67,6 +67,20 @@ include 'navhead.php';
             z-index: 999;
             animation: spin 0.5s linear infinite;
         }
+        .tagName{
+            padding: 0.5vmax;
+            background-color: #00023c;
+            color:aliceblue; 
+        }
+        .tagDetails{
+            padding: 0.5vmax;
+            background-color: #e0dee3;
+            width: max-content;
+            min-width: 200px;
+        }
+        #ut{
+            opacity: 0;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -80,9 +94,9 @@ include 'navhead.php';
     <input type="text" id="eventID" name="eventID" required>
     <button type="submit">Load Data</button>
 </form> -->
-<div id="logT">
+<div id="logT" class="overflow-auto">
     <fieldset><legend>Attendees</legend>
-    <table id="userEventTable" class="display table table-striped table-bordered ">
+    <table id="userEventTable" class="display table table-striped table-bordered table-responsive">
         <thead>
             <tr>
                 <th>UserID</th>
@@ -97,6 +111,9 @@ include 'navhead.php';
         </tbody>
     </table>
     </fieldset>
+    <div id="user-info" style="display:none; position:fixed; top:30%; left: 30%; right:25%; z-index:999;">
+    
+    </div>
 </div>
 
 <script>
@@ -135,7 +152,7 @@ async function fetchAttendanceByEvent() {
                 <td>${row.Username}</td>
                 <td>${entryTime}</td>
                 <td>${exitTime}</td>
-                <td><button class="btn btn-primary btn-sm" onclick="viewDetails(${row.UserID})">View Details</button></td>
+                <td><button class="btn btn-primary btn-sm" onclick="displayUserData(${row.UserID})">View Details</button></td>
             `;
             userEventTable.appendChild(tr);
         });
@@ -185,6 +202,38 @@ function viewDetails(userID) {
     alert('View details for user: ' + userID);
 }
     
+function displayUserData(user) {
+        const userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.style.display = "flex";
+        UserID=user;
+        userInfoContainer.innerHTML = `
+            <div class="card" >
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:100px !important; width:100px !important;  border:5px solid;   box-shadow:0 0 20px; border-radius:100px;   " alt="User Photo">' : 'No photo available'}</div>
+                    </div>
+                    <div class="col">
+                    <h5 class="card-title">User Information</h5>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
+                    </div>
+                    <div class="col">
+                    <h5 class="card-title text-light">.     </h5>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
+                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
+                    </div>
+                </div>
+                </div>
+                <div class="card-footer align-items-end"> <button class="btn btn-danger"onclick="hideData()">Close</button></div>
+            </div>
+        `;
+    }
+function hideData(){
+    const abc = document.getElementById('user-info');
+    abc.style.display = "none";
+
+}
 </script>
 
 </body>
@@ -192,8 +241,8 @@ function viewDetails(userID) {
 
 
 
-<!-- <?php 
-//include 'footer.php';
+ <?php 
+    include 'footer.php';
  ?>
-</body>
-</html> -->
+<!-- </body>
+</html>  -->
