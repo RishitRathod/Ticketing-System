@@ -127,7 +127,7 @@
                 <div class="card-body p-3"> 
                     <div class="row">
                         <div class="col-6">
-                            <div class="fs-3 event-title mx-0 mb-1 px-2 m-0" style="">${event.EventName} <div class="card-title fs-5 p-0 m-0">${event.EventType}</div></div>
+                            <div class="fs-3 event-title mx-0 mb-1 p-2 px-3 m-0"><strong>${event.EventName}</strong> <div class="card-title fs-5 p-0 m-0">${event.EventType}</div></div>
                             <div class="row mx-0 justify-content-between">
                                 <div class="col-6 m-0 tagD mx-auto p-0"> <b class="tagN">From</b> ${new Date(event.StartDate).toLocaleDateString('en-GB')}</div>
                                 <div class="col-6 m-0 tagD mx-auto p-0"> <b class="tagN">To  </b> ${new Date(event.EndDate).toLocaleDateString('en-GB')}</div>
