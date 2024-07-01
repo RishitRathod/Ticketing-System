@@ -180,7 +180,7 @@ function isUserLoggedIn() {
                             </a>
                         </li> -->
                         <li class="nav-item py-2">
-                            <a href="./organization_members.php" class="nav-link text-white"> 
+                            <a href="./organization_logdata.php" class="nav-link text-white"> 
                                 <i class="fs-5 fa fa-users"></i> <span class="fs-5 ms-3 d-none d-sm-inline">Members</span>
                             </a>
                         </li>
