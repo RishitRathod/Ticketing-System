@@ -196,11 +196,11 @@
 
                 let status = '';
 
-                if ((eventStartDate <= currentDate && eventEndDate >= currentDate) && (eventStartMonth == currentMonth && eventStartYear == currentYear)) {
+                if ((eventStartDate <= currentDate && eventEndDate >= currentDate) && ((eventStartMonth == currentMonth) && (eventStartYear == currentYear))) {
                     status = 'Ongoing';
-                } else if ((eventStartDate > currentDate) && (eventStartMonth >= currentMonth && eventStartYear >= currentYear)) {
+                } else if ((eventStartDate > currentDate) && ((eventStartMonth >= currentMonth) && (eventStartYear >= currentYear))) {
                     status = 'Upcoming';
-                } else if ((eventEndDate < currentDate) || (eventEndMonth < currentMonth || eventEndYear < currentYear)) {
+                } else if ((eventEndDate < currentDate) || ((eventEndMonth < currentMonth) || (eventEndYear < currentYear))) {
                     status = 'Past';
                 }
                 const row = document.createElement('tr');
