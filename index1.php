@@ -296,6 +296,16 @@ class DB
         return $Organizations->AttendanceByEvent($EventID);
     }
 
+    static function Reapply($OrgID){
+        $host = DB_HOST;
+        $user = DB_USER;
+        $pass = DB_PASS;
+        $dbname = DB_NAME;
+        $db = new dbConnection($host, $user,$pass, $dbname);
+        $Organizations= new Organizations($db->connection());
+        return $Organizations->Reapply($OrgID);
+    }
+
     static function FetchUserDetails($UserID){
         $host   = DB_HOST;
         $user   = DB_USER;

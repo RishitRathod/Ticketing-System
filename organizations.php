@@ -438,7 +438,25 @@ public function GetOrgAnnualPlanDetail($OrgID){
         return ["error"=> "Faild to fetch details". $e->getMessage()];
     }
 }
+
+public function Reapply($OrgID){
+    try
+    {   
+        $sql="UPDATE organizations SET Status = 'Pending' WHERE OrgID = :OrgID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":OrgID", $OrgID, PDO::PARAM_INT);
+            if($stmt->execute()){
+                return true; }
+            else{
+                return ["error"=> "". $stmt->errorInfo()[2] ];
+                
+            }
     
+        } catch (PDOException $e) {
+            return ["error" => "Select failed: " . $e->getMessage()];
+        }
+
+    }
 
 }
 // $conn = new dbConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);

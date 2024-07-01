@@ -304,6 +304,7 @@
                             <button type="button" id="edit" name="edit" class="col-4 m-auto mt-3 btn btn-primary" onclick="editProfile()">Edit</button>
                             <button type="button" id="cancel" name="cancel" class="col-4 m-auto mt-3 btn btn-warning" onclick="cancelUpdate()" hidden>Cancel</button>
                             <button type="submit" id="submit" name="submit" class="col-4 m-auto mt-3 btn btn-success" onclick="updateprofile()" hidden>Submit</button>
+                            <button type="submit" id="reapply" name="reapply" class="col-4 m-auto mt-3 btn btn-warning" onclick="reapply(event)">Reapply</button>
                         </div>
                     </form>  
      
@@ -437,6 +438,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', async function() {
+
         document.getElementById('displayLocationdiv').style.display = 'block';
         document.getElementById('selectLocaitonDiv').style.display = 'none';
             userData = await getUser();
@@ -445,6 +447,7 @@
             const data = userData.data[0];
             console.log(data);
             showDiv(data.OrganizationStatus);
+            checkSatatus();
             
             if (data || data.length > 0) {
                 //console.log("in the if statement");
@@ -563,6 +566,7 @@
 
     function showDiv(status) {
       if (status === "Pending") {
+
         document.getElementById('pending').style.display = 'block';
       } else if (status === "Rejected") {
         document.getElementById('rejected').style.display = 'block';
@@ -571,6 +575,35 @@
       }
     }
 
+    function checkSatatus() {
+        if (status === "pending" || status === "Rejected") {
+            document.getElementById('reapply').removeAttribute('hidden');
+            return true; 
+        }
+        document.getElementById('reapply').setAttribute('hidden', 'true');
+        return false;
+
+    }
+
+
+    function reapply(event) {
+        event.preventDefault();
+        if(checkSatatus()) {
+            const data = {
+                OrgID: document.getElementById('OrgID').value,
+                action: "Reapply"
+            };
+            fetch('../fetchOrgs.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+
+        }
+
+    }
 
 
     

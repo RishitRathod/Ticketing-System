@@ -138,7 +138,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
                 break;
 
-
+            case 'Reapply':
+                $OrgID = $input['OrgID'];
+                $response = DB::Reapply($OrgID);
+                if($response){
+                    echo json_encode(['status' => 'success', 'message' => 'Data fetched successfully', 'data' => $response]);
+                }else{
+                    echo json_encode(['status' => 'error', 'message' => 'No data found']);
+                }
+                break;
     
         }
         
