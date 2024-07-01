@@ -367,7 +367,7 @@
               //  console.log(await UserID);
               
                 
-                // const books = await FetchallTheBookemarkedEvents(UserID);
+                const books = await FetchallTheBookemarkedEvents(UserID);
                 eventsArray.forEach(event => {
                     if (displayedEventIDs.has(event.EventID)) return;
 
@@ -390,8 +390,8 @@
                     const  eventName = event.EventName ? event.EventName : 'Event name not available';
                     const venueAddress = event.VenueAddress ? event.VenueAddress : 'Venue address not available';
 
-                    // const isBookmarked = books.find(b => b.EventID === event.EventID && b.StatusBit === 1);
-                    // const bookmarkClass = isBookmarked ? 'fa fa-bookmark' : 'fa fa-plus';
+                    const isBookmarked = books.find(b => b.EventID === event.EventID && b.StatusBit === 1);
+                    const bookmarkClass = isBookmarked ? 'fa fa-bookmark' : 'fa fa-plus';
 
                     eventDiv.innerHTML = `
                         <div class="card d-grid h-100">

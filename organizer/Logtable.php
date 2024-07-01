@@ -81,6 +81,12 @@ include 'navhead.php';
         #ut{
             opacity: 0;
         }
+        @media (min-width:600px) {
+            .user-info{
+                font-size: 90%;
+                left:0 !important;
+            }
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -96,7 +102,7 @@ include 'navhead.php';
 </form> -->
 <div id="logT" class="overflow-auto">
     <fieldset><legend>Attendees</legend>
-    <table id="userEventTable" class="display table table-striped table-bordered table-responsive">
+    <table id="userEventTable" class="display table table-striped table-bordered table-responsive-md">
         <thead>
             <tr>
                 <th>UserID</th>
@@ -111,7 +117,7 @@ include 'navhead.php';
         </tbody>
     </table>
     </fieldset>
-    <div id="user-info" style="display:none; position:fixed; top:30%; left: 30%; right:25%; z-index:999;">
+    <div id="user-info" style="display:none; position:fixed;  top: 100px     ;">
     
     </div>
 </div>
@@ -152,7 +158,7 @@ async function fetchAttendanceByEvent() {
                 <td>${row.Username}</td>
                 <td>${entryTime}</td>
                 <td>${exitTime}</td>
-                <td><button class="btn btn-primary btn-sm" onclick="displayUserData(${row.UserID})">View Details</button></td>
+                <td><button type="submit" class="btn btn-primary btn-sm" onclick="getUserData(${row.UserID})">View Details</button></td>
             `;
             userEventTable.appendChild(tr);
         });
@@ -201,31 +207,51 @@ function viewDetails(userID) {
     // Implement the logic to view details for the specified userID
     alert('View details for user: ' + userID);
 }
-    
+async function getUserData(id){
+        fetch('../fetchUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserID: id,
+                action: 'FetchUserDetails'
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.error){
+                alert(data.error);
+            } else {
+                console.log(data.data); 
+                displayUserData(data.data);
+            }
+        })
+    }
 function displayUserData(user) {
         const userInfoContainer = document.getElementById('user-info');
         userInfoContainer.style.display = "flex";
-        UserID=user;
+        UserID=user.UserID;
         userInfoContainer.innerHTML = `
-            <div class="card" >
+            <div class="card">
                 <div class="card-body">
+                    <h4 class="card-title" align="center">User Information</h4>
                 <div class="row">
-                    <div class="col">
-                        <div class="card-text"><strong>User Photo:</strong> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:100px !important; width:100px !important;  border:5px solid;   box-shadow:0 0 20px; border-radius:100px;   " alt="User Photo">' : 'No photo available'}</div>
+                <div class="d-flex flex-row" style=""height:20vmin !important; width:20vmin !important;">
+                    <div class="my-auto">
+                        <div class="card-text"> ${user.UserPhoto ? '<img src="' + user.UserPhoto + '" style="height:20vmin !important; width:20vmin !important;  border:5px solid;   box-shadow:0 0 20px; border-radius:100px;   " alt="User Photo">' : 'No photo available'}</div>
                     </div>
-                    <div class="col">
-                    <h5 class="card-title">User Information</h5>
-                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
-                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
-                    </div>
-                    <div class="col">
-                    <h5 class="card-title text-light">.     </h5>
-                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
-                        <div class="card-text tagDetails m-2 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
+                    <div class="d-flex flex-column" >
+                        <div class="card-text tagDetails m-1 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">UserID</strong> ${user.UserID}</div>
+                        <div class="card-text tagDetails m-1 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Username</strong> ${user.Username}</div>
+                        <div class="card-text tagDetails m-1 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Email</strong> ${user.Email}</div>
+                        <div class="card-text tagDetails m-1 rounded-3"><strong class="tagName py-1 my-1 mr-4 rounded-3">Phone Number</strong> ${user.userphonenumber}</div>
                     </div>
                 </div>
                 </div>
-                <div class="card-footer align-items-end"> <button class="btn btn-danger"onclick="hideData()">Close</button></div>
+                </div>
+                <div class="position-absolute end-0"> <button class="btn btn-danger"onclick="hideData()"><i class="fa fa-close"></i></button></div>
             </div>
         `;
     }
